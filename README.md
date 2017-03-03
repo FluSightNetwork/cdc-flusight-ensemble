@@ -1,7 +1,7 @@
 # Guidelines for a CDC FluSight ensemble (2017-2018)
 
 ## Overview of CDC FluSight
-Starting in 20XX, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight), soliciting weekly forecasts of specific influenza season metrics from teams across the world during the influenza season. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org) during the season and are evaluated for accuracy after the season is over. 
+Starting in 20XX, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight), soliciting weekly forecasts of specific influenza season metrics from teams across the world during the influenza season. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
 
 ## Ensemble prediction for 2017-2018 season
 Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement an ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
