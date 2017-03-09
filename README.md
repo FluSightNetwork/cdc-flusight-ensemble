@@ -1,24 +1,30 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 # Guidelines for a CDC FluSight ensemble (2017-2018)
 
 ## Overview of CDC FluSight
-Starting in 20XX, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight), soliciting weekly forecasts of specific influenza season metrics from teams across the world during the influenza season. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
+Starting in 20XX, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts of specific influenza season metrics from teams across the world. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
 
 ## Ensemble prediction for 2017-2018 season
 Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement an ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
 
 ## Overall Timeline
-April 1 2017: ensemble framework announced and disseminated
-July 1 2017: out-of-sample forecasts due to CDC
-October 2017: first real-time forecasts due to CDC
-April 2018: last real-time forecasts due to CDC
-Summer 2018: report/manuscript drafted summarizing the effort
+
+ - April 1 2017: ensemble framework announced and disseminated
+ - July 1 2017: out-of-sample forecasts due to CDC
+ - October XX 2017: first real-time forecasts due to CDC
+ - April XX 2018: last real-time forecasts due to CDC
+ - Summer 2018: report/manuscript drafted summarizing the effort
 
 ## Implementation details
 
 ### Eligibility
 All are welcome to participate in this collaborative challenge, including individuals or teams that have not participated in previous CDC forecasting challenges.
 
-### Submission contents
+### Submission: metadata file
 Each team will be required to submit a metadata file that includes
 
  - team name
@@ -29,11 +35,10 @@ Each team will be required to submit a metadata file that includes
  
 Additionally, each team will submit a set of out-of-sample forecasts, as described below, for ensemble training purposes.
  
-### Submission unit: a CDC forecast file
+### Submission: out-of-sample forecast files
 The CDC challenge for 2016-2017 required that all forecast submissions follow a particular format. This is described in detail elsewhere, but will be summarized here. A submission file represents the forecasts made for a particular epidemic week (EW) of a season. The file contains binned predictive distributions for seven specific targets (onset week, peak week, peak height, and weighted influenza-like-illness in each of the subsequent four weeks) across the 10 HHS regions of the US plus the national level.
 
-### Out-of-sample forecast files
-To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons [this is strict, but without some requirement of several seasons of training, how will we know how good the models are?] several months in advance of 2017-2018 competition [time TBD, but maybe June/July 2017?] . A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the name of the team making the submission (e.g. John Doe University). 
+To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons [this is strict, but without some requirement of several seasons of training, how will we know how good the models are?] by July 1 2017. A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the name of the team making the submission (e.g. John Doe University). 
 
 Teams will be trusted to have created their submitted forecasts in an  out-of-sample fashion, i.e. fitting or training the model on data that was only available after the time for which forecast was made would be not allowed. Due to feasibility this will not be checked, so teams will be asked to provide, in a methodological write-up, a description of how they ensured out-of-sample forecasts were made. 
 
@@ -51,6 +56,8 @@ Ensemble models to be considered will include:
 
  - A simple average of all models.
  - A weighted average with different weights for each model and metric, estimated by the degenerate EM algorithm.
+ - A weighted average with weights that vary by season-week or other features of the data or predictions themselves.
 
 ### Research use
 
+[Add something here about fair use for submissions that were provided with different licenses.]
