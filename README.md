@@ -6,51 +6,62 @@ output:
 # Guidelines for a CDC FluSight ensemble (2017-2018)
 
 ## Overview of CDC FluSight
-Starting in 20XX, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts of specific influenza season metrics from teams across the world. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
+Starting in the 2013-2014 influenza season, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
 
 ## Ensemble prediction for 2017-2018 season
-Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement an ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
+Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. In the 2016-2017 influenza season, the CDC created a simple weighted average ensemble of the submissios to the challenge. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement more sophisticated ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
 
 ## Overall Timeline
 
  - April 1 2017: ensemble framework announced and disseminated
- - July 1 2017: out-of-sample forecasts due to CDC
+ - July 1 2017: historical out-of-sample forecasts due to ensemble organizers
  - October XX 2017: first real-time forecasts due to CDC
  - April XX 2018: last real-time forecasts due to CDC
  - Summer 2018: report/manuscript drafted summarizing the effort
+
+## Parties involved
+
+Ensemble organizers: a group of challenge participants and CDC officials who oversee the implementation of the ensemble challenge. Anyone is welcome to join this group, and must commit to a once-weekly conference call starting in June 2017. Please register your interest by [[emailing XXX]].
+
+Ensemble participants: anyone who submits forecasts for the July 2017 deadline. As detailed below, anyone is welcome to participate in the challenge.
 
 ## Implementation details
 
 ### Eligibility
 All are welcome to participate in this collaborative challenge, including individuals or teams that have not participated in previous CDC forecasting challenges.
 
-### Submission: metadata file
-Each team will be required to submit a metadata file that includes
+### Submissions
+
+Submission will include a metadata file describing the model and out-of-sample forecasts for ensemble training purposes as described below. Templates for the submission materials are available at [[XXX]].
+
+ 1. Metadata file
+ 
+This will include
 
  - team name
+ - team abbreviation for submission files
  - team members
  - License for forecast use (CDC only, participants only, public)
  - brief description of data sources
  - methodological description, including the method used to ensure OOS predictions are made according to the ensemble rules.
  
-Additionally, each team will submit a set of out-of-sample forecasts, as described below, for ensemble training purposes.
- 
-### Submission: out-of-sample forecast files
+ 2.The "common development-set": out-of-sample forecast files
 The CDC challenge for 2016-2017 required that all forecast submissions follow a particular format. This is described in detail elsewhere, but will be summarized here. A submission file represents the forecasts made for a particular epidemic week (EW) of a season. The file contains binned predictive distributions for seven specific targets (onset week, peak week, peak height, and weighted influenza-like-illness in each of the subsequent four weeks) across the 10 HHS regions of the US plus the national level.
 
-To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons [this is strict, but without some requirement of several seasons of training, how will we know how good the models are?] by July 1 2017. A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the name of the team making the submission (e.g. John Doe University). 
+To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons by July 1 2017. If a team cannot, for any reason, provide the full set of out-of-sample forecasts, they may or may not be included in the final ensemble depending on the flexiblity of the chosen methods and how many teams submit fewer than the requested 7 seasons.  
 
-Teams will be trusted to have created their submitted forecasts in an  out-of-sample fashion, i.e. fitting or training the model on data that was only available after the time for which forecast was made would be not allowed. Due to feasibility this will not be checked, so teams will be asked to provide, in a methodological write-up, a description of how they ensured out-of-sample forecasts were made. 
+A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the name of the team making the submission (e.g. John Doe University). Neither of these names are pre-defined, but they must be consistent for all submissions by the team and specified in the metadata file. It should not include special characters or match the name of another team.
+
+Teams will be trusted to have created their submitted forecasts in an  out-of-sample fashion, i.e. fitting or training the model on data that was only available after the time for which forecast was made would not be allowed. This is practically infeasible to check, so teams will be asked to provide, in a methodological write-up, a description of how they ensured out-of-sample forecasts were made. 
 
 There are several requirements for the ensemble forecast submissions:
  
- 1. For a submitted forecast made using data available for YYYY-WW, the forecast may only use data available on or before YYYY-WW. [There may be a more subtle point that we need to make here. I.e. specify for each YYYY-WW that we are asking for OOS forecasts for, an associated date on which that ILI data is published. This date should then be used as the cutoff for external data.]
- 2. Every set of submitted forecasts for a particular season should be based on a model fit to previous seasons. Teams would not be allowed to use "leave-one-season-out" type of methodology for creating out of sample predictions.
- 3. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.
+ 1. For a submitted forecast made using data available for YYYY-WW, the forecast may only use data available on or before YYYY-WW. This includes being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 available in week 2014-05 may be different than what is available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
+ 2. Note that the condition above is stronger than “leave-one-season-out”.  Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
+ 3. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.  Changes can of course be made to a site’s standalone forecasting submission, but the site’s contribution to the ensemble must remain essentially the same as that used to produce the OOS forecasts.
 
-
-### CDC-run ensemble
-The CDC, upon receiving the forecast submissions, will conduct a small study to choose between a small number of pre-specified ensemble models. The study will involve choosing optimal parameters to create an ensemble forecast for previous seasons using the out-of-sample training submissions.
+### Collaborative ensemble
+The ensemble organizers, upon receiving the forecast submissions in July 2017, will conduct a small cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one or more optimal ensemble specification(s) for previous seasons using the out-of-sample common dev-set submissions.
 
 Ensemble models to be considered will include:
 
@@ -58,6 +69,7 @@ Ensemble models to be considered will include:
  - A weighted average with different weights for each model and metric, estimated by the degenerate EM algorithm.
  - A weighted average with weights that vary by season-week or other features of the data or predictions themselves.
 
-### Research use
+### Licensed use of submissions
 
+For teams who choose the "participants_only" or "public" license for their submissions, their submissions will be available to the designated group for use in related research projects. Teams who make their forecasts available should not expect to receive authorship in publications that use their forecast files, although the ensemble organizers request that a citation or other formal acknowledgment be provided when one party uses a team's forecasts.
 [Add something here about fair use for submissions that were provided with different licenses.]
