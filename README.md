@@ -32,7 +32,7 @@ All are welcome to participate in this collaborative challenge, including indivi
 
 ### Submissions
 
-Submission will include a metadata file describing the model and out-of-sample forecasts for ensemble training purposes as described below. Templates for the submission materials are available at [[XXX]].
+Submission will include a metadata file describing the model and out-of-sample forecasts for ensemble training purposes as described below. Templates for the submission materials are available [on GitHub](https://github.com/reichlab/cdc-flusight-ensemble/tree/master/templates).
 
  1. Metadata file
  
@@ -45,7 +45,9 @@ This will include
  - brief description of data sources
  - methodological description, including the method used to ensure OOS predictions are made according to the ensemble rules.
  
- 2.The "common development-set": out-of-sample forecast files
+ 
+ 2. The "common development-set": out-of-sample forecast files
+ 
 The CDC challenge for 2016-2017 required that all forecast submissions follow a particular format. This is described in detail elsewhere, but will be summarized here. A submission file represents the forecasts made for a particular epidemic week (EW) of a season. The file contains binned predictive distributions for seven specific targets (onset week, peak week, peak height, and weighted influenza-like-illness in each of the subsequent four weeks) across the 10 HHS regions of the US plus the national level.
 
 To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons by July 1 2017. If a team cannot, for any reason, provide the full set of out-of-sample forecasts, they may or may not be included in the final ensemble depending on the flexiblity of the chosen methods and how many teams submit fewer than the requested 7 seasons.  
