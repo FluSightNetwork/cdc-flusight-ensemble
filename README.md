@@ -21,9 +21,12 @@ Seen as one of the most powerful and flexible prediction approaches available, e
 
 ## Parties involved
 
-Ensemble organizers: a group of challenge participants and CDC officials who oversee the implementation of the ensemble challenge. Anyone is welcome to join this group, and must commit to a once-weekly conference call starting in June 2017. Please register your interest by [[emailing XXX]].
+Ensemble organizers: a group of challenge participants and CDC officials who oversee the implementation of the ensemble challenge. Anyone is welcome to join this group, and must commit to a once-weekly conference call starting in June 2017.
 
 Ensemble participants: anyone who submits forecasts for the July 2017 deadline. As detailed below, anyone is welcome to participate in the challenge.
+
+Any interested parties are welcome to join the [FluSightNetwork email list](https://groups.google.com/d/forum/flusightnework
+).
 
 ## Implementation details
 
@@ -56,11 +59,13 @@ A team's OOS forecasts should consist of a folder containing a set of forecast f
 
 Teams will be trusted to have created their submitted forecasts in an  out-of-sample fashion, i.e. fitting or training the model on data that was only available after the time for which forecast was made would not be allowed. This is practically infeasible to check, so teams will be asked to provide, in a methodological write-up, a description of how they ensured out-of-sample forecasts were made. 
 
-There are several requirements for the ensemble forecast submissions:
+#### Requirements for ensemble forecast submissions
  
- 1. For a submitted forecast made using data available for YYYY-WW, the forecast may only use data available on or before YYYY-WW. This includes being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 available in week 2014-05 may be different than what is available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
- 2. Note that the condition above is stronger than “leave-one-season-out”.  Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
- 3. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.  Changes can of course be made to a site’s standalone forecasting submission, but the site’s contribution to the ensemble must remain essentially the same as that used to produce the OOS forecasts.
+ A. For a submitted forecast made using data available for YYYY-WW, the forecast may only use data available on or before YYYY-WW. This includes being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 available in week 2014-05 may be different than what is available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
+ 
+ B. Note that the condition above is stronger than “leave-one-season-out”.  Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
+ 
+ C. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.  Changes can of course be made to a site’s standalone forecasting submission, but the site’s contribution to the ensemble must remain essentially the same as that used to produce the OOS forecasts.
 
 ### Collaborative ensemble
 The ensemble organizers, upon receiving the forecast submissions in July 2017, will conduct a small cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one or more optimal ensemble specification(s) for previous seasons using the out-of-sample common dev-set submissions.
