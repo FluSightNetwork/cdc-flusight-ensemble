@@ -9,7 +9,7 @@ output:
 Starting in the 2013-2014 influenza season, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
 
 ## Ensemble prediction for 2017-2018 season
-Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. In the 2016-2017 influenza season, the CDC created a simple weighted average ensemble of the submissios to the challenge. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement more sophisticated ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
+Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. Beginning in the 2015-2016 influenza season, the CDC created a simple weighted average ensemble of the submissios to the challenge. In the upcoming 2017-2018 influenza season, the CDC intends to create and implement more sophisticated ensemble model based on some or all of the submissions to the CDC 2017-2018 FluSight challenge. This document outlines a proposed framework for a collaborative implementation of an ensemble during this time.
 
 ## Overall Timeline
 
@@ -43,7 +43,7 @@ This will include
 
  - team name
  - team abbreviation for submission files
- - team members
+ - team members (with point of contact specified)
  - License for forecast use (CDC only, participants only, public)
  - brief description of data sources
  - methodological description, including the method used to ensure OOS predictions are made according to the ensemble rules.
@@ -55,13 +55,13 @@ The CDC challenge for 2016-2017 required that all forecast submissions follow a 
 
 To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons by July 1 2017. If a team cannot, for any reason, provide the full set of out-of-sample forecasts, they may or may not be included in the final ensemble depending on the flexiblity of the chosen methods and how many teams submit fewer than the requested 7 seasons.  
 
-A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the name of the team making the submission (e.g. John Doe University). Neither of these names are pre-defined, but they must be consistent for all submissions by the team and specified in the metadata file. It should not include special characters or match the name of another team.
+A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the abbreviated name of the team making the submission (e.g. John Doe University). Neither of these names are pre-defined, but they must be consistent for all submissions by the team and specified in the metadata file. It should not include special characters or match the name of another team.
 
 Teams will be trusted to have created their submitted forecasts in an  out-of-sample fashion, i.e. fitting or training the model on data that was only available after the time for which forecast was made would not be allowed. This is practically infeasible to check, so teams will be asked to provide, in a methodological write-up, a description of how they ensured out-of-sample forecasts were made. 
 
 #### Requirements for ensemble forecast submissions
  
- A. For a submitted forecast made using data available for YYYY-WW, the forecast may only use data available on or before YYYY-WW. This includes being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 available in week 2014-05 may be different than what is available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
+ A. For a submitted forecast made using data available as of YYYY-WW, the forecast may only use data _available on or before_ YYYY-WW. This requires being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 that was available in week 2014-05 may be different than the data for the same week that was available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
  
  B. Note that the condition above is stronger than “leave-one-season-out”.  Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
  
