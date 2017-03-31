@@ -44,7 +44,7 @@ This will include
  - team name
  - team abbreviation for submission files
  - team members (with point of contact specified)
- - License for forecast use (CDC only, participants only, public)
+ - anonymity preference (one of either "anonymous" or "named")
  - brief description of data sources
  - methodological description, including the method used to ensure OOS predictions are made according to the ensemble rules.
  
@@ -53,7 +53,7 @@ This will include
  
 The CDC challenge for 2016-2017 required that all forecast submissions follow a particular format. This is described in detail elsewhere, but will be summarized here. A submission file represents the forecasts made for a particular epidemic week (EW) of a season. The file contains binned predictive distributions for seven specific targets (onset week, peak week, peak height, and weighted influenza-like-illness in each of the subsequent four weeks) across the 10 HHS regions of the US plus the national level.
 
-To be included in the ensemble forecast for the 2017-2018 season, each team must provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons by July 1 2017. If a team cannot, for any reason, provide the full set of out-of-sample forecasts, they may or may not be included in the final ensemble depending on the flexiblity of the chosen methods and how many teams submit fewer than the requested 7 seasons.  
+To be included in the ensemble forecast for the 2017-2018 season, each team is asked to provide out-of-sample forecasts for the 2010/2011 - 2016/2017 seasons by July 1 2017. If a team cannot, for any reason (e.g. an exogenous data source was not available prior to 2015), provide the full set of out-of-sample forecasts, they may provide as few as the most recent 3 seasons of out-of-sample forecasts.
 
 A team's OOS forecasts should consist of a folder containing a set of forecast files. Each forecast file must represent a single submission file, as would be submitted to the CDC challenge. Every filename should adopt the following standard naming convention: a forecast submission using week 43 surveillance data from 2016 submitted by John Doe University should be named “EW43-2016-JDU.csv” where EW43-2016 is the latest week and year of ILINet data used in the forecast, and JDU is the abbreviated name of the team making the submission (e.g. John Doe University). Neither of these names are pre-defined, but they must be consistent for all submissions by the team and specified in the metadata file. It should not include special characters or match the name of another team.
 
