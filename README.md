@@ -13,7 +13,7 @@ Seen as one of the most powerful and flexible prediction approaches available, e
 
 ## Overall Timeline
 
- - April 1 2017: ensemble framework announced and disseminated
+ - April 15 2017: ensemble framework announced and disseminated
  - July 1 2017: historical out-of-sample forecasts due to ensemble organizers
  - October XX 2017: first real-time forecasts due to CDC
  - April XX 2018: last real-time forecasts due to CDC
