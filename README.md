@@ -61,9 +61,12 @@ Teams will be trusted to have created their submitted forecasts in an  out-of-sa
 
 #### Requirements for ensemble forecast submissions
  
- A. For a submitted forecast made using data available as of YYYY-WW, the forecast may only use data _available on or before_ YYYY-WW. This requires being cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 that was available in week 2014-05 may be different than the data for the same week that was available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used.
+ A. Timing of forecasts and use of available data. Participants must be cognizant of any "backfill" issues with data available in realtime. For example, the wILI data for week 2014-04 that was available in week 2014-05 may be different than the data for 2014-04 that was available in week 2014-10. Other data sources may have similar issues with incomplete, partially reported, or backfilled data. For the OOS forecasts, care should be taken to ensure that for forecasts made for YYYY-WW, only data available at the time forecasts would have been made in real time is used. Specifically:
+
+   - Retrospective component forecasts labeled week N are "due" (i.e. may only use data through) Monday 11:59pm of week N+2.
+   - Prospective (2017/2018) component forecasts labeled week N are also due Monday 11:59pm of week N+2.
  
- B. Note that the condition above is stronger than “leave-one-season-out”.  Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
+ B. Note that the condition above for creating out-of-sample forecasts is stronger than “leave-one-season-out”. Specifically, it is not allowed to use "leave-one-season-out" type of methodology for creating the out of sample predictions.
  
  C. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.  Changes can of course be made to a site’s standalone forecasting submission, but the site’s contribution to the ensemble must remain essentially the same as that used to produce the OOS forecasts.
 
@@ -78,5 +81,5 @@ Ensemble models to be considered will include:
 
 ### Licensed use of submissions
 
-For teams who choose the "participants_only" or "public" license for their submissions, their submissions will be available to the designated group for use in related research projects. Teams who make their forecasts available should not expect to receive authorship in publications that use their forecast files, although the ensemble organizers request that a citation or other formal acknowledgment be provided when one party uses a team's forecasts.
-[Add something here about fair use for submissions that were provided with different licenses.]
+Upon registration for the challenge, teams will choose to make their predictions either anonymously or with attribution. All forecasts will be made publicly available under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/). 
+Teams who participate should not expect to receive authorship in publications that use their forecast files, although the ensemble organizers request that a citation or other formal acknowledgment be provided when anyone uses a team's forecasts.
