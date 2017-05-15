@@ -27,7 +27,7 @@ Ensemble organizers: a group of challenge participants and CDC officials who ove
 
 Ensemble participants: anyone who submits forecasts for the July or October 2017 deadline. As detailed below, anyone is welcome to participate in the challenge.
 
-Any interested parties are welcome to join the [FluSightNetwork email list](https://groups.google.com/d/forum/flusightnework
+Any interested parties are welcome to join the [FluSightNetwork email list](https://groups.google.com/d/forum/flusightnetwork
 ).
 
 ## Implementation details
