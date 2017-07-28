@@ -6,9 +6,6 @@ library(MMWRweek)
 library(cdcFlu20172018)
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 
-## submissions_save_path <- "~/Documents/research/epi/flu/cdc-flusight-ensemble/"
-submissions_save_path <- "~/Documents/research-versioned/cdc-flusight-ensemble/"
-
 year_week_combos <- expand.grid(
     year = as.character(2010:2017),
     week = sprintf("%02d", c(1:19, 43:52)),
@@ -25,15 +22,15 @@ year_week_combos <- expand.grid(
     ) %>%
     arrange(epiweek)
 
-all_methods <- c("ReichLab_kde", 
+all_methods <- c("CUBMA",
+                 "ReichLab_kde", 
                  "ReichLab_kcde",
                  "ReichLab_sarima_seasonal_difference_TRUE",
                  "ReichLab_sarima_seasonal_difference_FALSE")
 
 for(ind in seq_len(nrow(year_week_combos))) {
     for(method in all_methods) {
-        res_file <- file.path(submissions_save_path,
-                              method,
+        res_file <- file.path(method,
                               paste0(
                                   "EW", year_week_combos$week[ind],
                                   "-", year_week_combos$year[ind],
@@ -298,8 +295,7 @@ make_predictions_plots_individual_weeks <- function(
 
 for(ind in seq_len(nrow(year_week_combos))) {
     res_files <- sapply(all_methods, function(method) {
-        file.path(submissions_save_path,
-                  method,
+        file.path(method,
                   paste0(
                       "EW", year_week_combos$week[ind],
                       "-", year_week_combos$year[ind],
@@ -351,8 +347,7 @@ for(ind in seq_len(nrow(year_week_combos))) {
     make_predictions_plots(
         preds_save_files = res_files,
         plots_save_file = paste0(
-            submissions_save_path,
-            "/plots/",
+            "plots/",
             year_week_combos$epiweek[ind],
             "-plots.pdf"),
         data = data
@@ -366,8 +361,7 @@ for(ind in seq_len(nrow(year_week_combos))) {
 
 for(ind in seq_len(nrow(year_week_combos))) {
     res_files <- sapply(all_methods, function(method) {
-        file.path(submissions_save_path,
-                  method,
+        file.path(method,
                   paste0(
                       "EW", year_week_combos$week[ind],
                       "-", year_week_combos$year[ind],
@@ -419,8 +413,7 @@ for(ind in seq_len(nrow(year_week_combos))) {
     make_predictions_plots_individual_weeks(
         preds_save_files = res_files,
         plots_save_file = paste0(
-            submissions_save_path,
-            "/plots/",
+            "plots/",
             year_week_combos$epiweek[ind],
             "-plots-ph1-4.pdf"),
         data = data
