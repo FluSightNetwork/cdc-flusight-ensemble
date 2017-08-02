@@ -22,11 +22,14 @@ year_week_combos <- expand.grid(
     ) %>%
     arrange(epiweek)
 
-all_methods <- c("CUBMA",
-                 "ReichLab_kde", 
-                 "ReichLab_kcde",
-                 "ReichLab_sarima_seasonal_difference_TRUE",
-                 "ReichLab_sarima_seasonal_difference_FALSE")
+all_methods <- c(
+    "CUBMA",
+    "CUEAKFC"
+    "ReichLab_kde", 
+    "ReichLab_kcde",
+    "ReichLab_sarima_seasonal_difference_TRUE",
+    "ReichLab_sarima_seasonal_difference_FALSE"
+    )
 
 for(ind in seq_len(nrow(year_week_combos))) {
     for(method in all_methods) {
@@ -37,12 +40,13 @@ for(ind in seq_len(nrow(year_week_combos))) {
                                   "-", method,
                                   ".csv"))
         
-        file_valid <- tryCatch(
-            FluSight::verify_entry_file(res_file),
-            warning = function(w) {stop("error")})
-        cat(paste0(method, " ", year_week_combos$epiweek[ind], ": "))
-        cat(file_valid)
+        cat(paste0(method, " ", year_week_combos$epiweek[ind]))
         cat("\n")
+        tryCatch(
+            FluSight::verify_entry_file(res_file),
+            error = function(e) {print(e); stop("error")},
+            warning = function(w) {print(w)}
+        )
     }
 }
 
