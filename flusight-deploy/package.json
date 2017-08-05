@@ -1,0 +1,12 @@
+{
+  "name": "flusight-deploy",
+  "version": "1.0.0",
+  "description": "Deploy script for flusight",
+  "scripts": {
+    "parse-data": "node ./parse-data.js"
+  },
+  "author": "Abhinav Tushar",
+  "dependencies": {
+    "js-yaml": "^3.9.1"
+  }
+}

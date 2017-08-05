@@ -18,7 +18,8 @@ git checkout gh-pages || git checkout --orphan gh-pages
 # All scripts are run (mostly) from this path as root
 cd ./flusight-deploy
 # Parse data model data files to flusight format
-pipenv run python ./setup_data.py
+npm install
+npm run parse-data
 
 # Download flusight master
 wget "https://github.com/reichlab/flusight/archive/master.zip"
