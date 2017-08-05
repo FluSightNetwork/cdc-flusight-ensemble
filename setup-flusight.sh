@@ -30,10 +30,23 @@ rm -rf ./flusight-master/data ./flusight-master/config.yaml
 cp -r ./data ./config.yaml ./flusight-master
 
 # Change branding and metadata of website
-pipenv run python ./chop_flusight_metadata.py
+cd ./flusight-master
+
+# Clean footer
+sed -i '/.modal#dis/,/footer.modal-card/d' ./src/components/Foot.vue
+sed -ni '/and dis/{s/.*//;x;d;};x;p;${x;p;}' ./src/components/Foot.vue
+sed -i '/let showModa/,/})$/d' ./src/components/Foot.vue
+
+# Clean navbar
+sed -i '/a($/,/logo")$/d' ./src/components/Navbar.vue
+sed -i '/href="branding.aboutUrl"/,/span Source/d' ./src/components/Navbar.vue
+
+# Change text above map
+# CDC FluSight Network Collaborative Ensemble
+sed -i 's/Real-time <b>Influenza Forecasts<\/b>/CDC FluSight Network/' ./src/components/Panels.vue
+sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panels.vue
 
 # Build the site
-cd ./flusight-master
 npm install
 npm run parse
 npm run test
