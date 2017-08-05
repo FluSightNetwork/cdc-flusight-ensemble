@@ -1,0 +1,14 @@
+# Items used for branding
+branding:
+  title: "FluSight Network"
+  parent: ""
+  description: "CDC FluSight Network Collaborative Ensemble"
+  imageUrl: ""
+  aboutUrl: ""
+  appUrl: "http://flusightnetwork.github.io/cdc-flusight-ensemble"
+  sourceUrl: ""
+  parentUrl: "#"
+
+# Items required by backend script for generating data.json
+scripts:
+  baselineUrl: "https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv"
