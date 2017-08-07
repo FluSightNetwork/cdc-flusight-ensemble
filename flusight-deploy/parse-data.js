@@ -47,15 +47,15 @@ const ensureMetadata = (filePath, data) => {
   }
 }
 
-const getModelIdentifier = (rootMetadata) => {
+const getModelIdentifier = (modelDirName) => {
   let modelIdMap = {
     'ReichLab_sarima_seasonal_difference_FALSE': 'ReichLab-SARIMA1',
     'ReichLab_sarima_seasonal_difference_TRUE': 'ReichLab-SARIMA2'
   }
-  if (rootMetadata.team_name_abbr in modelIdMap) {
-    return modelIdMap[rootMetadata.team_name_abbr]
+  if (modelDirName in modelIdMap) {
+    return modelIdMap[modelDirName]
   } else {
-    return rootMetadata.team_name_abbr
+    return modelDirName
   }
 }
 
@@ -85,7 +85,7 @@ modelDirs.forEach(md => {
   // Read metadata and parse to usable form
   let rootMetadata = readModelMetadata(path.join(rootDir, md))
   let flusightMetadata = parseMetadata(rootMetadata, path.join(rootDir, md))
-  let modelId = getModelIdentifier(rootMetadata)
+  let modelId = getModelIdentifier(md)
 
   getCSVs(path.join(rootDir, md)).forEach(csvFile => {
     let info = parseCSVInfo(path.basename(csvFile))
