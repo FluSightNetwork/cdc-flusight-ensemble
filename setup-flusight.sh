@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$TRAVIS_BRANCH" != "master"]; then
+if [ "$TRAVIS_BRANCH" != "master" ]; then
     echo "Not master, skipping."
     exit 0
 fi
