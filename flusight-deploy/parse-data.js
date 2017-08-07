@@ -1,6 +1,7 @@
 const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
+const rimraf = require('rimraf')
 
 const getModelDirs = (rootPath) => {
   return fs.readdirSync(rootPath)
@@ -100,3 +101,6 @@ modelDirs.forEach(md => {
     ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)
   })
 })
+
+// Remove future? data
+rimraf.sync('./data/2017-2018')
