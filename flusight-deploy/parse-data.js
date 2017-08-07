@@ -14,18 +14,30 @@ const getModelDirs = (rootPath) => {
     .filter(item => item !== 'templates')
 }
 
+const getModelMetaFile = (modelDir) => {
+  return fs.readdirSync(modelDir).filter(subItem => subItem.startsWith('metadata'))[0]
+}
+
 const readModelMetadata = (modelDir) => {
   // Read any file matching metadata* as yaml
-  let metaFile = fs.readdirSync(modelDir).filter(subItem => subItem.startsWith('metadata'))[0]
+  let metaFile = getModelMetaFile(modelDir)
   return yaml.safeLoad(fs.readFileSync(path.join(modelDir, metaFile), 'utf8'))
 }
 
-const parseMetadata = (rootMetadata) => {
+const parseMetadata = (rootMetadata, modelDir) => {
   // Return a flusight compatible metadata object
+  let desc = rootMetadata.methods
+  let descMaxLen = 150
+  if (desc.length > descMaxLen) {
+    desc = desc.slice(0, descMaxLen) + '...'
+  }
+  let metaFile = getModelMetaFile(modelDir)
+  let repoUrl = 'https://github.com/FluSightNetwork/cdc-flusight-ensemble'
+  let metaPath = repoUrl + '/blob/master/' + path.join(path.basename(modelDir), metaFile)
   return {
     name: rootMetadata.team_name,
-    description: rootMetadata.methods,
-    url: '#'
+    description: desc,
+    url: metaPath
   }
 }
 
@@ -65,7 +77,7 @@ let modelDirs = getModelDirs(rootDir)
 modelDirs.forEach(md => {
   // Read metadata and parse to usable form
   let rootMetadata = readModelMetadata(path.join(rootDir, md))
-  let flusightMetadata = parseMetadata(rootMetadata)
+  let flusightMetadata = parseMetadata(rootMetadata, path.join(rootDir, md))
   let modelId = getModelIdentifier(rootMetadata)
 
   getCSVs(path.join(rootDir, md)).forEach(csvFile => {
