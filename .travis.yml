@@ -7,6 +7,6 @@ cache: yarn
 
 env:
   global:
-  - ENCRYPTION_LABEL: "TODO"
+  - ENCRYPTION_LABEL: "ae5ecd417952"
 
 script: bash ./setup-flusight.sh
