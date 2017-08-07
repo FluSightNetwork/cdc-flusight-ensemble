@@ -24,7 +24,7 @@ year_week_combos <- expand.grid(
 
 all_methods <- c(
     "CUBMA",
-    "CUEAKFC"
+    "CUEAKFC",
     "ReichLab_kde", 
     "ReichLab_kcde",
     "ReichLab_sarima_seasonal_difference_TRUE",
