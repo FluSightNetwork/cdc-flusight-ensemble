@@ -57,6 +57,8 @@ cp -r ./dist/* ../../
 cd .. # at ./flusight-deploy
 rm -rf ./flusight-master
 cd .. # at repo root
+# Remove csvs
+find . -name "*.csv" -type f -delete
 
 git config user.name "CI auto deploy"
 git config user.email "abhinav.tushar.vs@gmail.com"
