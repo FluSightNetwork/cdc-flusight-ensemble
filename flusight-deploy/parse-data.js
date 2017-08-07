@@ -1,7 +1,6 @@
 const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
-const md5 = require('js-md5')
 
 const getModelDirs = (rootPath) => {
   return fs.readdirSync(rootPath)
@@ -48,8 +47,15 @@ const ensureMetadata = (filePath, data) => {
 }
 
 const getModelIdentifier = (rootMetadata) => {
-  // return rootMetadata.team_name.split(' ').map(name => name[0]).join('')
-  return md5(rootMetadata.methods)
+  let modelIdMap = {
+    'ReichLab_sarima_seasonal_difference_FALSE': 'ReichLab-SARIMA1',
+    'ReichLab_sarima_seasonal_difference_TRUE': 'ReichLab-SARIMA2'
+  }
+  if (rootMetadata.team_name_abbr in modelIdMap) {
+    return modelIdMap[rootMetadata.team_name_abbr]
+  } else {
+    return rootMetadata.team_name_abbr
+  }
 }
 
 const getCSVs = (modelDir) => {
