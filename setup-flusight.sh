@@ -40,6 +40,7 @@ sed -i '/let showModa/,/})$/d' ./src/components/Foot.vue
 
 # Clean navbar
 sed -i '/a($/,/logo")$/d' ./src/components/Navbar.vue
+sed -i '/padding-left/,/border-left-width/d' ./src/components/Navbar.vue
 sed -i '/href="branding.aboutUrl"/,/span Source/d' ./src/components/Navbar.vue
 
 # Change text above map
