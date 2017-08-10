@@ -9,4 +9,4 @@ env:
   global:
   - ENCRYPTION_LABEL: "ae5ecd417952"
 
-script: bash ./setup-flusight.sh
+script: bash ./travis-main.sh
