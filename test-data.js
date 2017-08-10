@@ -17,30 +17,27 @@ const whitelisted_directories = [
 ]
 
 describe('metadata.txt', function () {
-  it('should be present', function (done) {
-    let modelDirs = fs.readdirSync('./').filter(function (item) {
-      return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-    })
+  let modelDirs = fs.readdirSync('./').filter(function (item) {
+    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
+  })
 
-    modelDirs.forEach(modelDir => {
-      try {
-        fs.readFileSync(path.join(modelDir, 'metadata.txt'))
-      } catch (e) {
-        done(e)
-      }
+  modelDirs.forEach(function (modelDir) {
+    it('should be present for ' + modelDir, function () {
+      fs.existsSync(path.join(modelDir, 'metadata.txt')).should.be.true
     })
   })
 
-  it('should be yaml readable', function (done) {
-    let metadataFiles = fs.readdirSync('./').filter(function (item) {
-      return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-    }).map(function (modelDir) {
-      return path.join(modelDir, 'metadata.txt')
-    })
+  let metadataFiles = fs.readdirSync('./').filter(function (item) {
+    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
+  }).map(function (modelDir) {
+    return path.join(modelDir, 'metadata.txt')
+  })
 
-    metadataFiles.forEach(function (metaFile) {
+  metadataFiles.forEach(function (metaFile) {
+    it(metaFile + ' should be yaml readable', function (done) {
       try {
         yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
+        done()
       } catch (e) {
         done(e)
       }
