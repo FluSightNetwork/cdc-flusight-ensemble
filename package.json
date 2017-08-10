@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Scripts for cdc-flusight-ensemble data repo",
   "scripts": {
-    "test-data": "mocha ./test-data.js"
+    "test": "mocha ./test-data.js"
   },
   "author": "Abhinav Tushar",
   "dependencies": {
