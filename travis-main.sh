@@ -2,8 +2,12 @@
 
 set -e
 
+# Test data
+npm install
+npm run test-data
+
 if [ "$TRAVIS_BRANCH" != "master" ]; then
-    echo "Not master, skipping."
+    echo "Not on master. Not doing anything else."
     exit 0
 fi
 
@@ -15,12 +19,12 @@ SHA=`git rev-parse --verify HEAD`
 # Run deployment steps
 git checkout gh-pages || git checkout --orphan gh-pages
 
-
 # All scripts are run from this path as root
 cd ./flusight-deploy
 bash ./build-flusight.sh
 rm -rf ./flusight-master
 cd .. # at repo root
+
 # Remove csvs
 find . -name "*.csv" -type f -delete
 
