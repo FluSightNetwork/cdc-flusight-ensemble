@@ -4,7 +4,7 @@ set -e
 
 # Test data
 npm install
-npm run test-data
+npm run test
 
 if [ "$TRAVIS_BRANCH" != "master" ]; then
     echo "Not on master. Not doing anything else."
