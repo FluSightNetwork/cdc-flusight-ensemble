@@ -3,7 +3,9 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 library(MMWRweek)
-library(cdcFlu20172018)
+library(cdcFlu20172018) ## devtools::install_github("reichlab/2017-2018-cdc-flu-contest")
+## library(epiforecast) ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
+devtools::load_all("~/files/epiforecast-R/epiforecast")
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 
 year_week_combos <- expand.grid(
@@ -41,6 +43,7 @@ all_methods <- c(
 )
 
 for(ind in seq_len(nrow(year_week_combos))) {
+    print(year_week_combos$epiweek[ind])
     for(method in all_methods) {
         res_file <- file.path(method,
                               paste0(
@@ -48,14 +51,53 @@ for(ind in seq_len(nrow(year_week_combos))) {
                                   "-", year_week_combos$year[ind],
                                   "-", method,
                                   ".csv"))
-        
         cat(paste0(method, " ", year_week_combos$epiweek[ind]))
         cat("\n")
-        tryCatch(
-            FluSight::verify_entry_file(res_file),
+        tryCatch({
+            FluSight::verify_entry_file(res_file)
+                res_df =
+                    read.csv(res_file, check.names=FALSE, stringsAsFactors=FALSE) %>%
+                    stats::setNames(., tolower(names(.)))
+                check_onset_point_pred_df =
+                    data.frame(location=c("US National", paste0("HHS Region ",1:10)),
+                               target="Season onset", type="Point", unit="week",
+                               bin_start_incl=NA_character_, bin_end_notincl=NA_character_,
+                               stringsAsFactors=FALSE)
+                missing_onset_point_pred_df = dplyr::anti_join(check_onset_point_pred_df, res_df,
+                                                               names(check_onset_point_pred_df))
+                if (nrow(missing_onset_point_pred_df) != 0) {
+                    warning(paste0("Missing Season onset Point predictions for the following Locations: ",
+                                   paste(missing_onset_point_pred_df$location, collapse=", "),
+                                   "."))
+                }
+                if (year_week_combos$epiweek[ind] %>% dplyr::between(201431L, 201530L)) {
+                    check_week_53_df =
+                        data.frame(location=rep(c("US National", paste0("HHS Region ",1:10)),each=2L),
+                                   target=rep(c("Season onset", "Season peak week"), 11L),
+                                   type="Bin", unit="week",
+                                   bin_start_incl="53.0", bin_end_notincl="54.0",
+                                   stringsAsFactors=FALSE)
+                    missing_week_53_df = dplyr::anti_join(check_week_53_df, res_df,
+                                                          names(check_week_53_df))
+                    if (nrow(missing_week_53_df ) != 0) {
+                        warning(paste0("Missing week 53 bin(s) for Season onset or Season peak week."))
+                    }
+                }
+            },
             error = function(e) {print(e); stop("error")},
-            warning = function(w) {print(w)}
-        )
+            warning = function(w) {
+                if (any(grepl("Missing point predictions detected in .* Season onset.", w))) {
+                    ## These could be missing rows or predictions of no onset ("none"
+                    ## or NA). Ignore this warning and check for missing point
+                    ## predictions separately.
+                } else if (any(grepl("These extra bins for Season onset are ignored: 53.0", w)) &&
+                           year_week_combos$epiweek[ind] %>% dplyr::between(201431L, 201530L)) {
+                    ## For the 2014/2015 season, there should be week 53 bins. Ignore
+                    ## this warning and check for missing week 53 bins separately.
+                } else {
+                    print(w)
+                }
+            })
     }
 }
 
