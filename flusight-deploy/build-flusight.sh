@@ -1,4 +1,5 @@
 # Build flusight
+set -e
 
 # Parse data model data files to flusight format
 npm install
