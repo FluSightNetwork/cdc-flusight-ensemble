@@ -11,7 +11,8 @@ rm ./master.zip
 
 # Replace already present data and config
 rm -rf ./flusight-master/data ./flusight-master/config.yaml
-cp -r ./data ./config.yaml ./flusight-master
+mv ./config.yaml ./flusight-master
+mv ./data ./flusight-master
 
 # Change branding and metadata of website
 cd ./flusight-master
