@@ -43,4 +43,27 @@ describe('metadata.txt', function () {
       }
     })
   })
+
+  it('Team-model abbreviations should be unique', function (done) {
+    let abbreviations = metadataFiles.map(function (metaFile) {
+      let meta = yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
+      return meta.team_name + '-' + meta.model_abbr
+    })
+
+    // Count number of times the names are present
+    let counts = abbreviations.reduce(function (acc, y) {
+      if (acc[y]) {
+        acc[y] += 1
+      } else {
+        acc[y] = 1
+      }
+      return acc
+    }, {})
+
+    for (let name in counts) {
+      if (counts[name] > 1) {
+        done(new Error(`Non unique model abbreviation found for ${name}`))
+      }
+    }
+  })
 })
