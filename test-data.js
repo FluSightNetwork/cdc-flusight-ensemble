@@ -4,6 +4,9 @@ const chai = require('chai')
 const path = require('path')
 const fs = require('fs')
 const yaml = require('js-yaml')
+const Papa = require('papaparse')
+const mmwr = require('mmwr-week')
+const moment = require('moment')
 
 chai.should()
 
@@ -16,6 +19,7 @@ const whitelisted_directories = [
   'node_modules'
 ]
 
+// Metadata tests
 describe('metadata.txt', function () {
   let modelDirs = fs.readdirSync('./').filter(function (item) {
     return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
@@ -89,3 +93,32 @@ describe('metadata.txt', function () {
     })
   })
 })
+
+// CSV tests
+describe('CSV', function () {
+  let modelDirs = fs.readdirSync('./').filter(function (item) {
+    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
+  })
+
+  let csvFiles = modelDirs.map(function (modelDir) {
+    return fs.readdirSync(modelDir).filter(function (item) {
+      return item.endsWith('csv')
+    }).map(csv => path.join(modelDir, csv))
+  }).reduce(function (acc, item) {
+    return acc.concat(item)
+  }, [])
+
+
+  let currentMoment = moment()
+  describe('should have valid week number', function () {
+    csvFiles.forEach(function (csvFile) {
+      it(csvFile, function () {
+        let splits = path.basename(csvFile).split('-')
+        let week = parseInt(splits[0].slice(2))
+        let year = parseInt(splits[1])
+        let mdate = new mmwr.MMWRDate(year, week)
+        currentMoment.isAfter(mdate.toMomentDate()).should.be.true
+      })
+    })
+  })
+
