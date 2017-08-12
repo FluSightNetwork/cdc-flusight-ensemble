@@ -66,4 +66,18 @@ describe('metadata.txt', function () {
       }
     }
   })
+
+  metadataFiles.forEach(function (metaFile) {
+    it(metaFile + ' should have team_name within 10 chars', function () {
+      let meta = yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
+      meta.team_name.length.should.be.below(11)
+    })
+  })
+
+  metadataFiles.forEach(function (metaFile) {
+    it(metaFile + ' should have team_name within 15 chars', function () {
+      let meta = yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
+      meta.model_abbr.length.should.be.below(16)
+    })
+  })
 })
