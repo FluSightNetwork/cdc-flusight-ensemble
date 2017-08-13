@@ -73,6 +73,7 @@ describe('metadata.txt', function () {
         done(new Error(`Non unique model abbreviation found for ${name}`))
       }
     }
+    done()
   })
 
   describe('should have team_name withing 10 chars', function () {
