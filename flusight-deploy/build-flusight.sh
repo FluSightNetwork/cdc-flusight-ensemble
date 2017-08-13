@@ -35,6 +35,7 @@ sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panel
 
 # Build the site
 npm install
+npm run get-actual
 npm run parse
 npm run test
 npm run build
