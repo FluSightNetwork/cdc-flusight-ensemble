@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "$TRAVIS_COMMIT_MESSAGE" == "autogenerate scores.csv" ]; then
+    echo "This is an auto commit from travis. Not doing anything."
+    exit 0
+fi
+
 # Test data
 npm install
 npm run test
