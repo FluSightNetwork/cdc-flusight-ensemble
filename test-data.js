@@ -13,6 +13,7 @@ chai.should()
 const whitelisted_directories = [
   '.git',
   'plots',
+  'scores',
   'scripts',
   'templates',
   'flusight-deploy',
