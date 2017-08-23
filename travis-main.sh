@@ -37,7 +37,7 @@ cd .. # in repo root now
 # Push generated scores to master
 git add ./scores.csv
 git commit -m "Auto generated scores.csv: ${SHA}"
-git push $SSH_REPO master
+git push $SSH_REPO HEAD:master
 
 # Go back and build flusight
 git checkout gh-pages || git checkout --orphan gh-pages
