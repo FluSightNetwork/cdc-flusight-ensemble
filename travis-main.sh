@@ -41,7 +41,7 @@ cd .. # in repo root now
 
 # Push generated scores to master
 git add ./scores.csv
-git commit -m "autogenerate scores.csv"
+git diff-index --quiet HEAD || git commit -m "autogenerate scores.csv"
 git push $SSH_REPO HEAD:master
 
 # Go back and build flusight
