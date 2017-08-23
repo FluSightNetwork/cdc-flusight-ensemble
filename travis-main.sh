@@ -48,7 +48,7 @@ git push $SSH_REPO HEAD:master
 git checkout gh-pages || git checkout --orphan gh-pages
 cd ./flusight-deploy
 bash ./2-build-flusight.sh
-cd .. # in repo root
+cd .. # in repo root now
 
 # Remove csvs
 find . -name "*.csv" -type f -delete
