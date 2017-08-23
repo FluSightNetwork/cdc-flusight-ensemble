@@ -1,21 +1,12 @@
+#!/usr/bin/env bash
+
 # Build flusight
 set -e
 
-# Parse data model data files to flusight format
-npm install
-npm run parse-data
-
-# Download flusight master
-wget "https://github.com/reichlab/flusight/archive/master.zip"
-unzip ./master.zip
-rm ./master.zip
-
-# Replace already present data and config
-rm -rf ./flusight-master/data ./flusight-master/config.yaml
-mv ./config.yaml ./flusight-master
-mv ./data ./flusight-master
-
 # Change branding and metadata of website
+rm -rf ./flusight-master/config.yaml
+mv ./config.yaml ./flusight-master
+
 cd ./flusight-master
 
 # Clean footer
@@ -34,10 +25,7 @@ sed -i 's/Real-time <b>Influenza Forecasts<\/b>/CDC FluSight Network/' ./src/com
 sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panels.vue
 
 # Build the site
-npm install
-npm run get-actual
-npm run parse
-npm run test
 npm run build
 cp -r ./dist/* ../../ # Copy to repo root
-cd .. # at ./flusight-deploy
+cd .. # in ./flusight-deploy
+rm -rf ./flusight-master
