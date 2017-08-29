@@ -1,7 +1,23 @@
-library(jsonlite)
+library(ggplot2)
 library(dplyr)
+library(plotly)
 
-tt <- jsonlite::fromJSON("scores/2010-2011.json")
+scores <- read.csv("scores.csv")
 
+## one-week ahead
+(p <- ggplot(filter(scores, score=="log")) +
+    geom_line(aes(x=as.numeric(season), y=oneWk, color=model)) +
+    facet_wrap(~region))
+ggplotly(p)
 
-ttt <- do.call(rbind, tt[[2:length(tt)]])
+## two-week ahead
+(p <- ggplot(filter(scores, score=="log")) +
+        geom_line(aes(x=as.numeric(season), y=twoWk, color=model)) +
+        facet_wrap(~region))
+ggplotly(p)
+
+## two-week ahead
+(p <- ggplot(filter(scores, score=="mae")) +
+        geom_line(aes(x=as.numeric(season), y=twoWk, color=model)) +
+        facet_wrap(~region))
+ggplotly(p)

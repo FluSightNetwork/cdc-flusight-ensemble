@@ -72,6 +72,9 @@ Teams will be trusted to have created their submitted forecasts in an  out-of-sa
  
  C. The modeling framework must remain consistent over the course of the subsequent prospective forecasting effort in the 2017-2018 season.  Changes can of course be made to a site’s standalone forecasting submission, but the site’s contribution to the ensemble must remain essentially the same as that used to produce the OOS forecasts. Small modifications or bug-fixes to submitted models may be made without notification, however major changes to the model should be accompanied by resubmission of the out-of-sample prediction files for re-training of the model.
 
+ D. For each season, files should be submitted for EW40 of the first calendar year of the season through EW20 of the follwing calendar year. For seasons that contain an EW53, a separate file labeled EW53 should be submitted. Additionally, for the peak week and onset week targets, a bin for EW53 should be included in all submission files for the seasons that have an EW53.
+
+
 ### Collaborative ensemble
 The ensemble organizers, upon receiving the forecast submissions in July 2017, will conduct a small, structured cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one or more optimal ensemble specification(s) for previous seasons using the out-of-sample common dev-set submissions.
 
