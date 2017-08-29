@@ -50,7 +50,7 @@ cd ./flusight-deploy
 bash ./2-build-flusight.sh
 cd .. # in repo root now
 
-# Remove csvs
+# Remove CSVs
 find . -name "*.csv" -type f -delete
 
 git add .
