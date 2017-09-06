@@ -4,8 +4,8 @@ library(tidyr)
 library(lubridate)
 library(MMWRweek)
 library(cdcFlu20172018) ## devtools::install_github("reichlab/2017-2018-cdc-flu-contest")
-## library(epiforecast) ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
-devtools::load_all("~/files/epiforecast-R/epiforecast")
+library(epiforecast) ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
+## devtools::load_all("~/files/epiforecast-R/epiforecast")
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 
 year_week_combos <- expand.grid(
@@ -25,21 +25,21 @@ year_week_combos <- expand.grid(
     arrange(epiweek)
 
 all_methods <- c(
-  "CUBMA",
-  "CUEAKFC",
-  "ReichLab_kde",
-  "ReichLab_kcde",
-  "ReichLab_sarima_seasonal_difference_TRUE",
-  "ReichLab_sarima_seasonal_difference_FALSE",
-  "Delphi_BasisRegression_PackageDefaults",
-  "Delphi_DeltaDensity_PackageDefaults",
-  "Delphi_EmpiricalBayes_PackageDefaults",
-  "Delphi_EmpiricalBayes_Cond4",
-  "Delphi_EmpiricalFutures_PackageDefaults",
-  "Delphi_EmpiricalTrajectories_PackageDefaults",
-  "Delphi_MarkovianDeltaDensity_PackageDefaults",
-  "Delphi_Stat_FewerComponentsNoBackcastNoNowcast",
-  "Delphi_Uniform"
+  #"CUBMA",
+  #"CUEAKFC",
+  "ReichLab_kde"#,
+  #"ReichLab_kcde",
+  #"ReichLab_sarima_seasonal_difference_TRUE",
+  #"ReichLab_sarima_seasonal_difference_FALSE",
+  #"Delphi_BasisRegression_PackageDefaults",
+  #"Delphi_DeltaDensity_PackageDefaults",
+  #"Delphi_EmpiricalBayes_PackageDefaults",
+  #"Delphi_EmpiricalBayes_Cond4",
+  #"Delphi_EmpiricalFutures_PackageDefaults",
+  #"Delphi_EmpiricalTrajectories_PackageDefaults",
+  #"Delphi_MarkovianDeltaDensity_PackageDefaults",
+  #"Delphi_Stat_FewerComponentsNoBackcastNoNowcast",
+  #"Delphi_Uniform"
 )
 
 for(ind in seq_len(nrow(year_week_combos))) {
