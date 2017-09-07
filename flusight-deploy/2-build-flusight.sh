@@ -25,7 +25,7 @@ sed -i 's/Real-time <b>Influenza Forecasts<\/b>/CDC FluSight Network/' ./src/com
 sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panels.vue
 
 # Build the site
-npm run build
+yarn run build
 cp -r ./dist/* ../../ # Copy to repo root
 cd .. # in ./flusight-deploy
 rm -rf ./flusight-master

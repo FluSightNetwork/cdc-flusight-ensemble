@@ -5,6 +5,6 @@ set -e
 
 # in flusight-deploy now
 cd ./flusight-master
-npm run get-scores
+yarn run get-scores
 yes | cp ./scripts/assets/scores.csv ../../ # Copy to repo root
 cd .. # in flusight-deploy now
