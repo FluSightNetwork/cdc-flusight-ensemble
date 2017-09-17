@@ -77,24 +77,35 @@ Specific guidelines for using data with revisions:
  D. For each season, files should be submitted for EW40 of the first calendar year of the season through EW20 of the follwing calendar year. For seasons that contain an EW53, a separate file labeled EW53 should be submitted. Additionally, for the peak week and onset week targets, a bin for EW53 should be included in all submission files for the seasons that have an EW53.
 
 
-### Collaborative ensemble
-The ensemble organizers, upon receiving the forecast submissions in July 2017, will conduct a small, structured cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one ensemble specification, chosen based on cross-validated performance in previous seasons, to submit to the CDC for the 2017/2018 forecasting challenge.
+## Building the collaborative ensemble
+The ensemble organizers, upon receiving the forecast submissions in July 2017, will conduct a small, structured cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one ensemble specification, chosen based on cross-validated performance in previous seasons, to submit to the CDC for the 2017/2018 forecasting challenge. This ensemble will be chosen prior to the first submission on November 6, 2017. It will remain constant throughout the entire season. No new component models will be added to the ensemble during the course of the season.
 
-#### Model specifications
+### Model specifications considered for submission to CDC
 
-Ensemble models will use the method of stacking probabilistic distributions to create the collaborative ensemble. Let the number of component models be represented by $M$. The following weighting frameworks will be evaluated (number of weight parameters to be estimated is in parentheses):
+Ensemble models will use the method of stacking probabilistic distributions to create the collaborative ensemble, as described for example by [Ray and Reich (2017)](https://arxiv.org/abs/1703.10936). Let the number of component models be represented by $M$. The following weighting parameterizations will be evaluated (number of weight parameters to be estimated is in parentheses):
 
  - Equal weights for all models (0).
- - Weights estimated per model ($M$). 
- - Weights estimated per model and target-type ($2M$, one set of weights for seasonal targets, another for weekly incidence).
- - Weights estimated per model and target ($7M$).
+ - Weights estimated per model (_M_). 
+ - Weights estimated per model and target-type (_2M_, one set of weights for seasonal targets, another for weekly incidence).
+ - Weights estimated per model and target (_7M_).
+ 
+If time permits additional exploration, we may additionally explore weights by model, target-type, and region (_22M_), with a possible constraint of only including the top 5 models in the ensemble.
 
-#### Ensemble validation and comparison
+### Ensemble validation and comparison for CDC submission
 
-We will have seven years of data available for training and testing to choose a "best" ensemble specification. We will use leave-one-season-out cross-validation in all of the seven seasons on all four ensemble specifications. Since we are only going to be looking at a very slim and simple list of ensemble specifications (nothing more than model/target combos), the risk of overfitting is smaller than it might be had we chosen some of the more heavily parameterized models. Therefore, we will not use separate testing and training phases for the ensemble model. 
+We will have seven years of data available for training and testing to choose a "best" ensemble specification. We will use leave-one-season-out cross-validation in all of the seven seasons on all four ensemble specifications. Since we are only going to be looking at a very slim and simple list of ensemble specifications (nothing more than model/target combos), the risk of overfitting is smaller than it might be had we chosen some of the more heavily parameterized models. Therefore, we will not use separate testing and training phases for the ensemble model. The model with the highest average log-score across all regions, seasons, and targets will be selected as the ensemble specification to be submitted to the CDC.
+
 <!--If up to two models perform significantly worse during this time (using permutation test framework described below) then they will be discarded before the testing phase. Therefore, no fewer than two models will be carried forward into the testing phase. -->
 
-We will use permutation tests to make pairwise comparisons of the performance of the four ensemble methods listed above. This will involve six separate hypothesis tests. Due to the low number of training seasons available, we will have limited power to detect true differences between models. For this reason, we will use a slightly anti-conservative Type-I error threshold of 0.10, with a Bonferroni correction with a factor of 6. We will choose the simplest model that cannot be shown to be worse than any other model, using a permutation test p-value threshold of 0.017. 
+### Pre-specified analyses of ensemble performance
+
+#### Retrospective (seven years of training data)
+
+While the decision about which model to submit to the CDC will be made solely on the basis of the highest average log score, additional analyses will be implemented to understand better the uncertainty in our assessment of the "best" model. We will use permutation tests to make pairwise comparisons of the performance of the ensemble methods listed above. This will involve multiple separate hypothesis tests. Due to the low number of training seasons available, we will have limited power to detect true differences between models. We will evaluate differences between models, using a slightly anti-conservative Type-I error threshold of 0.10, with an additional Bonferroni correction depending on the exact number of tests performed.
+
+#### Prospective (2017-2018 season)
+
+At the end of the 2017-2018 season, we will compare the region-specific performance (log-score) of each component model as well as the chosen ensemble. Since will only represent the performance of a single season, we will not make a formal statistical evaluation of these scores.
 
 ### Licensed use of submissions
 
