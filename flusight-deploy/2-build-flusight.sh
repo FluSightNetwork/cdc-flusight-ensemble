@@ -18,10 +18,12 @@ sed -i '/let showModa/,/})$/d' ./src/components/Foot.vue
 sed -i '/a($/,/logo")$/d' ./src/components/Navbar.vue
 sed -i '/padding-left/,/border-left-width/d' ./src/components/Navbar.vue
 sed -i '/href="branding.aboutUrl"/,/span Source/d' ./src/components/Navbar.vue
+sed -i 's/span.brand.title-text {{ branding.title }}/a.brand.title-text(v-bind:href="branding.parentUrl") {{ branding.title }}/'\
+    ./src/components/Navbar.vue
 
 # Change text above map
 # CDC FluSight Network Collaborative Ensemble
-sed -i 's/Real-time <b>Influenza Forecasts<\/b>/CDC FluSight Network/' ./src/components/Panels.vue
+sed -i 's/| Real-time <b>Influenza Forecasts<\/b>/a(v-bind:href="branding.parentUrl") CDC FluSight Network/' ./src/components/Panels.vue
 sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panels.vue
 
 # Change max heap size
