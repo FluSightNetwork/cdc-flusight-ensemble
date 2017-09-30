@@ -211,7 +211,7 @@ describe('Ground truth file', function () {
     return fs.readdirSync(modelDir).filter(function (item) {
       return item.endsWith('csv')
     }).map(csv => {
-      let [week, year, _] = csv.split('-')
+      let [week, year, ] = csv.split('-')
       return [year, parseInt(week.slice(2)) + '']
     })
   }).reduce(function (acc, pairs) {
