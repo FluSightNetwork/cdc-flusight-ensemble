@@ -137,7 +137,7 @@ const getBinProbabilities = (csvDataSubset, binStarts) => {
 let header = [
   'Model',
   'Year',
-  'Calendar Week',
+  'Epiweek',
   'Location',
   'Target',
   'Score'
