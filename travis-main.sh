@@ -7,7 +7,7 @@ if [ "$TRAVIS_COMMIT_MESSAGE" == "autogenerate scores.csv" ]; then
     exit 0
 fi
 
-echo "Running tests"
+echo "> Running tests"
 # Test data
 yarn
 yarn run test
@@ -34,24 +34,21 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
-echo "Downloading flusight and calculating scores"
-# All scripts are run from this path as root
-cd ./flusight-deploy
-bash ./0-init-flusight.sh
-bash ./1-save-scores.sh
-cd .. # in repo root now
+# Generate ./scores/scores.csv
+yarn run generate-scores
 
-echo "Pushing scores.csv"
+echo "> Pushing scores.csv"
 # Push generated scores to master
-git add ./scores.csv
-git diff-index --quiet HEAD || git commit -m "autogenerate scores.csv"
+git add ./scores/scores.csv
+git diff-index --quiet HEAD || git commit -m "autogenerate ./scores/scores.csv"
 git push $SSH_REPO HEAD:master
 
-echo "Building flusight"
+echo "> Building visualizer"
 # Go back and build flusight
 git checkout gh-pages || git checkout --orphan gh-pages
 cd ./flusight-deploy
-bash ./2-build-flusight.sh
+bash ./0-init-flusight.sh
+bash ./1-build-flusight.sh
 cd .. # in repo root now
 
 # Remove CSVs
@@ -60,7 +57,7 @@ find . -name "*.csv" -type f -delete
 git add .
 git commit -m "Auto deploy to GitHub Pages: ${SHA}"
 
-echo "Pushing to gh-pages"
+echo "> Pushing visualizer to gh-pages"
 # Push to gh-pages
 git push $SSH_REPO gh-pages --force
 ssh-agent -k
