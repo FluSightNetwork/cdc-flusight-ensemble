@@ -9,7 +9,7 @@ const path = require('path')
 const yaml = require('js-yaml')
 
 const truthFile = './scores/target-multivals.csv'
-const outputFile = './scores.csv'
+const outputFile = './scores/scores.csv'
 
 const whitelisted_directories = [
   '.git',
