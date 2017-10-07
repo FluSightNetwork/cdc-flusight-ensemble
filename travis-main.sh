@@ -8,6 +8,7 @@ if [ "$TRAVIS_COMMIT_MESSAGE" == "autogenerate ./scores/scores.csv" ]; then
 fi
 
 echo "> Running tests"
+
 # Test data
 yarn
 yarn run test
