@@ -2,14 +2,16 @@ const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
 
-const getModelDirs = (rootPath) => {
-  return fs.readdirSync(rootPath)
-    .filter(item => fs.lstatSync(path.join(rootPath, item)).isDirectory())
-    .filter(item => {
-      // Check if the directory has a metadata.txt
-      return fs.existsSync(path.join(rootPath, item, 'metadata.txt'))
-    })
-    .filter(item => item !== 'templates')
+
+/**
+ * Return model directories
+ */
+const getModelDirs = rootDir => {
+  // NOTE: We only consider these two directories for visualizations
+  return ['component-models', 'real-time-ensemble-models'].reduce(function (acc, subDir) {
+    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
+  }, [])
+    .filter(function (it) { return fs.statSync(it).isDirectory() })
 }
 
 const readModelMetadata = (modelDir) => {
@@ -61,16 +63,15 @@ const parseCSVInfo = (fileName) => {
 }
 
 // Main entry point
-let rootDir = '../'
-let modelDirs = getModelDirs(rootDir)
+let modelDirs = getModelDirs('../model-forecasts')
 
-modelDirs.forEach(md => {
+modelDirs.forEach(modelDir => {
   // Read metadata and parse to usable form
-  let rootMetadata = readModelMetadata(path.join(rootDir, md))
-  let flusightMetadata = parseMetadata(rootMetadata, path.join(rootDir, md))
+  let rootMetadata = readModelMetadata(modelDir)
+  let flusightMetadata = parseMetadata(rootMetadata, modelDir)
   let modelId = getModelIdentifier(rootMetadata)
 
-  getCSVs(path.join(rootDir, md)).forEach(csvFile => {
+  getCSVs(modelDir).forEach(csvFile => {
     let info = parseCSVInfo(path.basename(csvFile))
 
     // CSV target path
@@ -78,7 +79,7 @@ modelDirs.forEach(md => {
     fs.ensureDirSync(csvTargetDir)
 
     // Copy csv
-    fs.copySync(path.join(rootDir, md, csvFile), path.join(csvTargetDir, info.name))
+    fs.copySync(path.join(modelDir, csvFile), path.join(csvTargetDir, info.name))
 
     // Write metadata
     ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)
