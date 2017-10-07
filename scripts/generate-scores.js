@@ -67,9 +67,9 @@ const getModelId = modelDir => {
  */
 const getCsvTime = csvFile => {
   let baseName = path.basename(csvFile)
-  let [week, year, ] = baseName.split('-')
+  let [epiweek, year, ] = baseName.split('-')
   return {
-    week: parseInt(week.slice(2)) + '',
+    epiweek: parseInt(epiweek.slice(2)) + '',
     year: year
   }
 }
@@ -97,10 +97,10 @@ const getTrueData = truthFile => {
       .slice(1)
       .filter(d => !(d.length === 1 && d[0] === ''))
 
-  // Year,, Calendar Week, ,Season, Model Week, Location, Target, Valid Bin_start_incl
+  // Year, Calendar Week, Season, Model Week, Location, Target, Valid Bin_start_incl
   return d3.nest()
     .key(d => d[0]) // year
-    .key(d => d[1]) // week
+    .key(d => d[1]) // epiweek
     .key(d => d[4]) // region
     .key(d => d[5]) // target
     .object(data)
@@ -138,6 +138,8 @@ let header = [
   'Model',
   'Year',
   'Epiweek',
+  'Season',
+  'Model Week',
   'Location',
   'Target',
   'Score'
@@ -153,19 +155,23 @@ getModelDirs('./').forEach(modelDir => {
   console.log(`     Model provides ${csvs.length} CSVs`)
 
   csvs.forEach(csvFile => {
-    let {year, week} = getCsvTime(csvFile)
+    let {year, epiweek} = getCsvTime(csvFile)
     let csvData = getCsvData(csvFile)
     regions.forEach(region => {
       targets.forEach(target => {
-        let trueTargets = trueData[year][week][region][target]
+        let trueTargets = trueData[year][epiweek][region][target]
         let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
+        let season = trueTargets[0][2]
+        let modelWeek = trueTargets[0][3]
         let modelProbabilities = csvData[region][target]
         try {
           let binProbs = getBinProbabilities(modelProbabilities, trueBinStarts)
           let score = binProbs.map(Math.log).reduce((a, b) => a + b, 0)
-          outputLines.push(`${modelId}, ${year}, ${week}, ${region}, ${target}, ${score === -Infinity ? 'NaN' : score}`)
+          outputLines.push(
+            `${modelId}, ${year}, ${epiweek}, ${season}, ${modelWeek}, ${region}, ${target}, ${score === -Infinity ? 'NaN' : score}`
+          )
         } catch (e) {
-          console.log(` # Some error in ${modelId} ${year}-${week} for ${region}, ${target}`)
+          console.log(` # Some error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
           process.exit(1)
         }
       })
