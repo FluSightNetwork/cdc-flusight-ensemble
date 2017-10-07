@@ -40,21 +40,19 @@ const unique = a => {
   }, [])
 }
 
-const whitelisted_directories = [
-  '.git',
-  'plots',
-  'scores',
-  'scripts',
-  'templates',
-  'flusight-deploy',
-  'node_modules'
-]
+/**
+ * Return model directories
+ */
+const getModelDirs = rootDir => {
+  return ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models'].reduce(function (acc, subDir) {
+    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
+  }, [])
+    .filter(function (it) { return fs.statSync(it).isDirectory() })
+}
 
 // Metadata tests
 describe('metadata.txt', function () {
-  let modelDirs = fs.readdirSync('./').filter(function (item) {
-    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-  })
+  let modelDirs = getModelDirs('./model-forecasts')
 
   describe('should be present', function () {
     modelDirs.forEach(function (modelDir) {
@@ -64,9 +62,7 @@ describe('metadata.txt', function () {
     })
   })
 
-  let metadataFiles = fs.readdirSync('./').filter(function (item) {
-    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-  }).map(function (modelDir) {
+  let metadataFiles = modelDirs.map(function (modelDir) {
     return path.join(modelDir, 'metadata.txt')
   })
 
@@ -128,9 +124,7 @@ describe('metadata.txt', function () {
 
 // CSV tests
 describe('CSV', function () {
-  let modelDirs = fs.readdirSync('./').filter(function (item) {
-    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-  })
+  let modelDirs = getModelDirs('./model-forecasts')
 
   let csvFiles = modelDirs.map(function (modelDir) {
     return fs.readdirSync(modelDir).filter(function (item) {
@@ -203,9 +197,7 @@ describe('Ground truth file', function () {
     '4 wk ahead'
   ]
 
-  let modelDirs = fs.readdirSync('./').filter(function (item) {
-    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-  })
+  let modelDirs = getModelDirs('./model-forecasts')
 
   let yearWeekPairs = modelDirs.map(function (modelDir) {
     return fs.readdirSync(modelDir).filter(function (item) {
