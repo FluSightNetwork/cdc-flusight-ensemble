@@ -138,7 +138,7 @@ let header = [
   'Score'
 ]
 
-let outputLines = [header.join(', ')]
+let outputLines = [header.join(',')]
 let trueData = getTrueData(truthFile)
 
 getModelDirs('./model-forecasts').forEach(modelDir => {
@@ -161,7 +161,7 @@ getModelDirs('./model-forecasts').forEach(modelDir => {
           let binProbs = getBinProbabilities(modelProbabilities, trueBinStarts)
           let score = binProbs.map(Math.log).reduce((a, b) => a + b, 0)
           outputLines.push(
-            `${modelId}, ${year}, ${epiweek}, ${season}, ${modelWeek}, ${region}, ${target}, ${score === -Infinity ? 'NaN' : score}`
+            `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score === -Infinity ? 'NaN' : score}`
           )
         } catch (e) {
           console.log(` # Some error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
