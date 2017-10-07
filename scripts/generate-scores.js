@@ -11,16 +11,6 @@ const yaml = require('js-yaml')
 const truthFile = './scores/target-multivals.csv'
 const outputFile = './scores/scores.csv'
 
-const whitelisted_directories = [
-  '.git',
-  'plots',
-  'scores',
-  'scripts',
-  'templates',
-  'flusight-deploy',
-  'node_modules'
-]
-
 const regions = [
   'US National',
   'HHS Region 1',
@@ -49,10 +39,13 @@ const targets = [
  * Return model directories
  */
 const getModelDirs = rootDir => {
-  return fs.readdirSync(rootDir).filter(item => {
-    return (fs.statSync(item).isDirectory() && whitelisted_directories.indexOf(item) === -1)
-  })
+  // NOTE: For scores, we only consider these two directories
+  return ['component-models', 'cv-ensemble-models'].reduce(function (acc, subDir) {
+    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
+  }, [])
+    .filter(function (it) { return fs.statSync(it).isDirectory() })
 }
+
 
 /**
  * Return model id from modelDir
@@ -148,7 +141,7 @@ let header = [
 let outputLines = [header.join(', ')]
 let trueData = getTrueData(truthFile)
 
-getModelDirs('./').forEach(modelDir => {
+getModelDirs('./model-forecasts').forEach(modelDir => {
   let modelId = getModelId(modelDir)
   console.log(` > Parsing model ${modelDir}`)
   let csvs = getModelCsvs(modelDir)
