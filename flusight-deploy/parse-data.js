@@ -26,7 +26,7 @@ const parseMetadata = (rootMetadata, modelDir) => {
     desc = desc.slice(0, descMaxLen) + '...'
   }
   let repoUrl = 'https://github.com/FluSightNetwork/cdc-flusight-ensemble'
-  let metaPath = repoUrl + '/blob/master/' + path.join(path.basename(modelDir), 'metadata.txt')
+  let metaPath = repoUrl + '/blob/master/' + path.join(modelDir.slice(3), 'metadata.txt')
   return {
     name: rootMetadata.team_name + ' - ' + rootMetadata.model_name,
     description: desc,
