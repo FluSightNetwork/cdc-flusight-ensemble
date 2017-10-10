@@ -3,6 +3,7 @@
 ## devtools::install_github("jarad/FluSight")
 library(FluSight) 
 library(dplyr)
+library(doMC)
 
 source("scripts/stack_forecasts.R")
 
@@ -19,8 +20,11 @@ dir.create(file.path("model-forecasts", "cv-ensemble-models", stacked_name),
 ### verify that weights data_frame has weights for all models?
 #####
 
+seasons <- unique(stacking_weights$season)
+registerDoMC()
 ## loop through each season and each season-week to make stacked forecasts
-for(loso_season in unique(stacking_weights$season)) {
+foreach(i=1:length(seasons)) %dopar% {
+    loso_season =  seasons[i]
     wt_subset <- filter(stacking_weights, season==loso_season) %>%
         select(-season)
     
@@ -29,7 +33,7 @@ for(loso_season in unique(stacking_weights$season)) {
     first_year_season_weeks <- if(first_year==2014) {43:53} else {43:52}
     week_names <- c(
         paste0("EW", first_year_season_weeks, "-", first_year),
-        paste0("EW", 1:20, "-", as.numeric(first_year)+1)
+        paste0("EW", formatC(1:20, width=2, flag=0), "-", as.numeric(first_year)+1)
     )
 
     for(week in week_names) {
