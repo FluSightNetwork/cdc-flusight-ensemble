@@ -80,6 +80,9 @@ stack_forecasts <- function(files, stacking_weights) {
     slim_entries <- lapply(entries, function(x) x[!(names(x) %in% unneeded_columns)])
     ensemble_entry <- Reduce(left_join, slim_entries) %>% 
         as_data_frame %>%
-        mutate(value = rowSums(.[grep("weighted_value", names(.))], na.rm = TRUE))
+        mutate(value = rowSums(.[grep("weighted_value", names(.))], na.rm = TRUE)) %>%
+        select(-contains("_value")) %>%
+        select(-contains("_weight")) %>%
+        select(-c(forecast_week))
     return(ensemble_entry)
 }
