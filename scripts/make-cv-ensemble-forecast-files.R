@@ -10,9 +10,10 @@ source("scripts/stack_forecasts.R")
 model_names <- system("ls model-forecasts/component-models", intern=TRUE)
 
 ## get weights data.frame
-stacking_weights <- read.csv("scores/example-weights.csv")
-stacked_name <- "test_ensemble"
-dir.create(file.path("model-forecasts", "cv-ensemble-models", stacked_name), showWarnings = FALSE)
+stacking_weights <- read.csv("weights/equal-weights.csv")
+stacked_name <- "equal-weights"
+dir.create(file.path("model-forecasts", "cv-ensemble-models", stacked_name), 
+    showWarnings = FALSE)
 
 #####
 ### verify that weights data_frame has weights for all models?
