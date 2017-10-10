@@ -10,7 +10,7 @@ source("scripts/stack_forecasts.R")
 model_names <- system("ls model-forecasts/component-models", intern=TRUE)
 
 ## get weights data.frame
-stacking_weights <- read.csv("weights/equal-weights.csv")
+stacking_weights <- read.csv("weights/equal-weights.csv", stringsAsFactors=FALSE)
 stacked_name <- "equal-weights"
 dir.create(file.path("model-forecasts", "cv-ensemble-models", stacked_name), 
     showWarnings = FALSE)
