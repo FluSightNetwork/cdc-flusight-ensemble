@@ -23,6 +23,7 @@ weighting.scheme.partial.indexer.lists = list(
 ## Read in & tweak scores.csv
 component.score.df = read.csv("../scores/scores.csv", check.names=FALSE, stringsAsFactors=FALSE) %>>%
   tibble::as_tibble() %>>%
+  dplyr::filter(!grepl('FSNetwork', Model)) %>>% ## drop ensemble models!
   dplyr::mutate(Score = dplyr::if_else(is.nan(Score), -Inf, Score)) %>>%
   dplyr::mutate(Metric = "some log score") %>>%
   {.}
