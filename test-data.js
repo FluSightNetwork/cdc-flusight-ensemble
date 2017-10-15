@@ -9,50 +9,18 @@ const mmwr = require('mmwr-week')
 const moment = require('moment')
 const d3 = require('d3')
 const aequal = require('array-equal')
+const models = require('./scripts/modules/models')
+const meta = require('./scripts/modules/meta')
+const util = require('./scripts/modules/util')
 
 chai.should()
 
-/**
- * Check if a is subset of b
- */
-const isSubset = (a, b) => {
-  if (a.length <= b.length) {
-    for(let i = 0; i < a.length; i++) {
-      if (b.indexOf(a[i]) === -1) {
-        return false
-      }
-    }
-    return true
-  } else {
-    return false
-  }
-}
-
-/**
- * Return unique of array
- */
-const unique = a => {
-  return a.reduce(function (acc, it) {
-    if (acc.indexOf(it) === -1) {
-      acc.push(it)
-    }
-    return acc
-  }, [])
-}
-
-/**
- * Return model directories
- */
-const getModelDirs = rootDir => {
-  return ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models'].reduce(function (acc, subDir) {
-    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
-  }, [])
-    .filter(function (it) { return fs.statSync(it).isDirectory() })
-}
-
 // Metadata tests
 describe('metadata.txt', function () {
-  let modelDirs = getModelDirs('./model-forecasts')
+  let modelDirs = models.getModelDirs(
+    './model-forecasts',
+    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+  )
 
   describe('should be present', function () {
     modelDirs.forEach(function (modelDir) {
@@ -124,7 +92,10 @@ describe('metadata.txt', function () {
 
 // CSV tests
 describe('CSV', function () {
-  let modelDirs = getModelDirs('./model-forecasts')
+  let modelDirs = models.getModelDirs(
+    './model-forecasts',
+    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+  )
 
   let csvFiles = modelDirs.map(function (modelDir) {
     return fs.readdirSync(modelDir).filter(function (item) {
@@ -133,7 +104,6 @@ describe('CSV', function () {
   }).reduce(function (acc, item) {
     return acc.concat(item)
   }, [])
-
 
   let currentMoment = moment()
   describe('should have valid week number', function () {
@@ -173,31 +143,11 @@ describe('Ground truth file', function () {
   // For each one, see if the entries in trueData have
   // 1. All regions
   // 2. All targets (at least one value for each)
-  const regions = [
-    'US National',
-    'HHS Region 1',
-    'HHS Region 2',
-    'HHS Region 3',
-    'HHS Region 4',
-    'HHS Region 5',
-    'HHS Region 6',
-    'HHS Region 7',
-    'HHS Region 8',
-    'HHS Region 9',
-    'HHS Region 10'
-  ]
 
-  const targets = [
-    'Season onset',
-    'Season peak week',
-    'Season peak percentage',
-    '1 wk ahead',
-    '2 wk ahead',
-    '3 wk ahead',
-    '4 wk ahead'
-  ]
-
-  let modelDirs = getModelDirs('./model-forecasts')
+  let modelDirs = models.getModelDirs(
+    './model-forecasts',
+    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+  )
 
   let yearWeekPairs = modelDirs.map(function (modelDir) {
     return fs.readdirSync(modelDir).filter(function (item) {
@@ -223,7 +173,7 @@ describe('Ground truth file', function () {
   it('All years should be present in truth file', function () {
     let fileYears = Object.entries(yearWeekPairs).map(e => e[0]).sort()
     let scoreYears = entries.map(e => e.key).sort()
-    isSubset(fileYears, scoreYears).should.be.true
+    util.isSubset(fileYears, scoreYears).should.be.true
   })
 
   // Check for weeks in each year
@@ -234,7 +184,7 @@ describe('Ground truth file', function () {
       let fileWeeks = yearWeekPairs[y]
       let scoreWeeks = entries[scoreYears.indexOf(y)].values.map(d => d.key)
       it(`All weeks for year ${y} should be present in truth file`, function () {
-        isSubset(fileWeeks, scoreWeeks).should.be.true
+        util.isSubset(fileWeeks, scoreWeeks).should.be.true
       })
     })
   })
@@ -249,13 +199,13 @@ describe('Ground truth file', function () {
         let weekEntry = yearEntry.values[scoreWeeks.indexOf(w)]
         let scoreRegions = weekEntry.values.map(d => d.key)
         it(`All regions for year ${y} and week ${w} should be present`, function () {
-          aequal(scoreRegions, regions).should.be.true
+          aequal(scoreRegions, meta.regions).should.be.true
         })
         scoreRegions.forEach(r => {
           let regionEntry = weekEntry.values[scoreRegions.indexOf(r)]
           let scoreTargets = regionEntry.values.map(d => d.key)
           it(`All targets for year ${y}, week ${w} and region ${r} should be present`, function () {
-            aequal(unique(scoreTargets), targets).should.be.true
+            aequal(util.unique(scoreTargets), meta.targets).should.be.true
           })
         })
       })
