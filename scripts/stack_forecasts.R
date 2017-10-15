@@ -48,7 +48,7 @@ stack_forecasts <- function(files, stacking_weights) {
             weight_sums <- stacking_weights %>% 
                 summarize(sum_weight=sum(weight)) %>% .$sum_weight
     }
-    if(!isTRUE(all.equal(weight_sums, 1)))
+    if(!isTRUE(all.equal(weight_sums, rep(1, length(weight_sums)))))
         stop("weights don't sum to 1.")
         
     ## check that files are entries
@@ -78,7 +78,9 @@ stack_forecasts <- function(files, stacking_weights) {
     ## drop unneeded columns
     unneeded_columns <- c("component_model_id", "value", "weight")
     slim_entries <- lapply(entries, function(x) x[!(names(x) %in% unneeded_columns)])
-    ensemble_entry <- Reduce(left_join, slim_entries) %>% 
+    ensemble_entry <- Reduce(
+        f = left_join, 
+        x = slim_entries) %>% 
         as_data_frame %>%
         mutate(value = rowSums(.[grep("weighted_value", names(.))], na.rm = TRUE)) %>%
         select(-contains("_value")) %>%
