@@ -1,0 +1,66 @@
+---
+title: "Model Score Analysis"
+author: "Nicholas G Reich"
+date: "10/15/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(readr)
+library(ggplot2)
+theme_set(theme_minimal())
+```
+
+```{r}
+scores <- read_csv("../scores/scores.csv")
+
+scores_adj <- scores %>%
+    mutate(score_adj = ifelse(is.nan(Score), -10, Score))
+
+scores_by_season <- scores_adj %>%
+    group_by(Model, Season) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)
+        ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+
+scores_by_model <- scores_adj %>%
+    group_by(Model) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+```
+
+```{r}
+ggplot(scores_by_season, 
+    aes(x=Season, fill=avg_score, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(avg_score, 1))) +
+    scale_fill_gradient2(midpoint = -6) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average model scores by season")
+
+ggplot(scores_by_season, 
+    aes(x=Season, fill=min_score, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(min_score, 1))) +
+    scale_fill_gradient2(midpoint = median(scores_by_season$min_score)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Minimum model scores by season")
+```
+
+```{r}
+ggplot(scores_by_model, 
+    aes(x=1, fill=avg_score, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(avg_score, 1))) +
+    scale_fill_gradient2(midpoint = -6) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Model scores by season")
+```
