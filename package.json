@@ -4,7 +4,8 @@
   "description": "Scripts for cdc-flusight-ensemble data repo",
   "scripts": {
     "test": "mocha ./test-data.js -R spec",
-    "generate-scores": "node ./scripts/generate-scores.js"
+    "generate-scores": "node ./scripts/generate-scores.js",
+    "generate-id-mappings": "node ./scripts/generate-id-mappings.js"
   },
   "author": "Abhinav Tushar",
   "dependencies": {
