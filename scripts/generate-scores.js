@@ -5,67 +5,11 @@
 const d3 = require('d3')
 const Papa = require('papaparse')
 const fs = require('fs')
-const path = require('path')
-const yaml = require('js-yaml')
+const meta = require('./modules/meta')
+const models = require('./modules/models')
 
 const truthFile = './scores/target-multivals.csv'
 const outputFile = './scores/scores.csv'
-
-const regions = [
-  'US National',
-  'HHS Region 1',
-  'HHS Region 2',
-  'HHS Region 3',
-  'HHS Region 4',
-  'HHS Region 5',
-  'HHS Region 6',
-  'HHS Region 7',
-  'HHS Region 8',
-  'HHS Region 9',
-  'HHS Region 10'
-]
-
-const targets = [
-  'Season onset',
-  'Season peak week',
-  'Season peak percentage',
-  '1 wk ahead',
-  '2 wk ahead',
-  '3 wk ahead',
-  '4 wk ahead'
-]
-
-/**
- * Return model directories
- */
-const getModelDirs = rootDir => {
-  // NOTE: For scores, we only consider these two directories
-  return ['component-models', 'cv-ensemble-models'].reduce(function (acc, subDir) {
-    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
-  }, [])
-    .filter(function (it) { return fs.statSync(it).isDirectory() })
-}
-
-
-/**
- * Return model id from modelDir
- */
-const getModelId = modelDir => {
-  let config = yaml.load(fs.readFileSync(path.join(modelDir, 'metadata.txt'), 'utf8'))
-  return `${config.team_name}-${config.model_abbr}`
-}
-
-/**
- * Return timing information about the csv
- */
-const getCsvTime = csvFile => {
-  let baseName = path.basename(csvFile)
-  let [epiweek, year, ] = baseName.split('-')
-  return {
-    epiweek: parseInt(epiweek.slice(2)) + '',
-    year: year
-  }
-}
 
 /**
  * Return csv data nested using d3.nest
@@ -97,12 +41,6 @@ const getTrueData = truthFile => {
     .key(d => d[4]) // region
     .key(d => d[5]) // target
     .object(data)
-}
-
-const getModelCsvs = modelDir => {
-  return fs.readdirSync(modelDir)
-    .filter(item => item.endsWith('csv'))
-    .map(fileName => path.join(modelDir, fileName))
 }
 
 /**
@@ -141,17 +79,21 @@ let header = [
 let outputLines = [header.join(',')]
 let trueData = getTrueData(truthFile)
 
-getModelDirs('./model-forecasts').forEach(modelDir => {
-  let modelId = getModelId(modelDir)
+// NOTE: For scores, we only consider these two directories
+models.getModelDirs(
+  './model-forecasts',
+  ['component-models', 'cv-ensemble-models']
+).forEach(modelDir => {
+  let modelId = models.getModelId(modelDir)
   console.log(` > Parsing model ${modelDir}`)
-  let csvs = getModelCsvs(modelDir)
+  let csvs = models.getModelCsvs(modelDir)
   console.log(`     Model provides ${csvs.length} CSVs`)
 
   csvs.forEach(csvFile => {
-    let {year, epiweek} = getCsvTime(csvFile)
+    let {year, epiweek} = models.getCsvTime(csvFile)
     let csvData = getCsvData(csvFile)
-    regions.forEach(region => {
-      targets.forEach(target => {
+    meta.regions.forEach(region => {
+      meta.targets.forEach(target => {
         let trueTargets = trueData[year][epiweek][region][target]
         let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
         let season = trueTargets[0][2]
