@@ -1,5 +1,7 @@
 library("pipeR")
-library("epiforecast")
+library("epiforecast") 
+## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
+
 
 ## Set up parallel:
 options(mc.cores=parallel::detectCores()-1L)
@@ -206,5 +208,5 @@ for (weighting.scheme.i in seq_along(weighting.scheme.partial.indexer.lists)) {
   }
   ## print weight df and write to csv file:
   print(combined.weight.df)
-  write.csv(combined.weight.df, file.path("..","weights",paste0(weighting.scheme.name,"-weights.csv")))
+  write.csv(combined.weight.df, file.path("..","weights",paste0(weighting.scheme.name,"-weights.csv")), row.names = FALSE, quote=FALSE)
 }

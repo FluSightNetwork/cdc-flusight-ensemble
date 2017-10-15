@@ -1,841 +1,841 @@
-"","component_model_id","season","target","weight"
-"1","CU-BMA","2010/2011","1 wk ahead",1.58912667243465e-06
-"2","CU-EAKFC","2010/2011","1 wk ahead",0.00191888712650601
-"3","Delphi-BasisRegression","2010/2011","1 wk ahead",5.17774967280857e-172
-"4","Delphi-DeltaDensity1","2010/2011","1 wk ahead",0.458809179949547
-"5","Delphi-DeltaDensity2","2010/2011","1 wk ahead",0.0912166436239506
-"6","Delphi-EmpiricalBayes1","2010/2011","1 wk ahead",0.0883913911418852
-"7","Delphi-EmpiricalBayes2","2010/2011","1 wk ahead",0.0105140734514772
-"8","Delphi-EmpiricalFuture","2010/2011","1 wk ahead",5.31509946899592e-73
-"9","Delphi-EmpiricalTraj","2010/2011","1 wk ahead",5.31509946899592e-73
-"10","Delphi-Stat","2010/2011","1 wk ahead",3.9557373774534e-06
-"11","Delphi-Uniform","2010/2011","1 wk ahead",1.64974760097456e-205
-"12","ReichLab-KCDE","2010/2011","1 wk ahead",0.183846596037143
-"13","ReichLab-KDE","2010/2011","1 wk ahead",1.42381328658772e-52
-"14","ReichLab-SARIMA1","2010/2011","1 wk ahead",0.0603314366630315
-"15","ReichLab-SARIMA2","2010/2011","1 wk ahead",0.104966247142409
-"16","CU-BMA","2011/2012","1 wk ahead",2.40196146882997e-09
-"17","CU-EAKFC","2011/2012","1 wk ahead",0.0112408240646784
-"18","Delphi-BasisRegression","2011/2012","1 wk ahead",2.2108212344312e-289
-"19","Delphi-DeltaDensity1","2011/2012","1 wk ahead",0.441013868316431
-"20","Delphi-DeltaDensity2","2011/2012","1 wk ahead",0.0904402187819819
-"21","Delphi-EmpiricalBayes1","2011/2012","1 wk ahead",0.115214797278956
-"22","Delphi-EmpiricalBayes2","2011/2012","1 wk ahead",0.0133999130858848
-"23","Delphi-EmpiricalFuture","2011/2012","1 wk ahead",1.87614833253486e-123
-"24","Delphi-EmpiricalTraj","2011/2012","1 wk ahead",1.87614833253486e-123
-"25","Delphi-Stat","2011/2012","1 wk ahead",6.41453174260933e-09
-"26","Delphi-Uniform","2011/2012","1 wk ahead",0
-"27","ReichLab-KCDE","2011/2012","1 wk ahead",0.206645293587358
-"28","ReichLab-KDE","2011/2012","1 wk ahead",1.10585342579765e-86
-"29","ReichLab-SARIMA1","2011/2012","1 wk ahead",0.000441392394961914
-"30","ReichLab-SARIMA2","2011/2012","1 wk ahead",0.121603683673255
-"31","CU-BMA","2012/2013","1 wk ahead",3.1600569039697e-14
-"32","CU-EAKFC","2012/2013","1 wk ahead",0.0280761267270916
-"33","Delphi-BasisRegression","2012/2013","1 wk ahead",0
-"34","Delphi-DeltaDensity1","2012/2013","1 wk ahead",0.44573654840319
-"35","Delphi-DeltaDensity2","2012/2013","1 wk ahead",0.114191362678568
-"36","Delphi-EmpiricalBayes1","2012/2013","1 wk ahead",0.123456119818351
-"37","Delphi-EmpiricalBayes2","2012/2013","1 wk ahead",0.0241206363108892
-"38","Delphi-EmpiricalFuture","2012/2013","1 wk ahead",2.74259265286037e-165
-"39","Delphi-EmpiricalTraj","2012/2013","1 wk ahead",2.74259265286037e-165
-"40","Delphi-Stat","2012/2013","1 wk ahead",7.51363493157850e-12
-"41","Delphi-Uniform","2012/2013","1 wk ahead",0
-"42","ReichLab-KCDE","2012/2013","1 wk ahead",0.124828758424355
-"43","ReichLab-KDE","2012/2013","1 wk ahead",3.67004173733178e-112
-"44","ReichLab-SARIMA1","2012/2013","1 wk ahead",0.00639228111475625
-"45","ReichLab-SARIMA2","2012/2013","1 wk ahead",0.133198166515255
-"46","CU-BMA","2013/2014","1 wk ahead",5.68891302303984e-05
-"47","CU-EAKFC","2013/2014","1 wk ahead",0.00717401623344521
-"48","Delphi-BasisRegression","2013/2014","1 wk ahead",2.27465896489291e-317
-"49","Delphi-DeltaDensity1","2013/2014","1 wk ahead",0.412345046103417
-"50","Delphi-DeltaDensity2","2013/2014","1 wk ahead",0.118531269325125
-"51","Delphi-EmpiricalBayes1","2013/2014","1 wk ahead",0.126952161938397
-"52","Delphi-EmpiricalBayes2","2013/2014","1 wk ahead",0.0135460543570668
-"53","Delphi-EmpiricalFuture","2013/2014","1 wk ahead",9.29645348494469e-140
-"54","Delphi-EmpiricalTraj","2013/2014","1 wk ahead",9.29645348494469e-140
-"55","Delphi-Stat","2013/2014","1 wk ahead",1.42107976153631e-10
-"56","Delphi-Uniform","2013/2014","1 wk ahead",0
-"57","ReichLab-KCDE","2013/2014","1 wk ahead",0.190569328704892
-"58","ReichLab-KDE","2013/2014","1 wk ahead",9.13836702181112e-93
-"59","ReichLab-SARIMA1","2013/2014","1 wk ahead",0.000524312922671211
-"60","ReichLab-SARIMA2","2013/2014","1 wk ahead",0.130300921142647
-"61","CU-BMA","2014/2015","1 wk ahead",8.99812442558087e-08
-"62","CU-EAKFC","2014/2015","1 wk ahead",0.0291058912339484
-"63","Delphi-BasisRegression","2014/2015","1 wk ahead",0
-"64","Delphi-DeltaDensity1","2014/2015","1 wk ahead",0.44977692226373
-"65","Delphi-DeltaDensity2","2014/2015","1 wk ahead",0.0766151468991302
-"66","Delphi-EmpiricalBayes1","2014/2015","1 wk ahead",0.104207179975964
-"67","Delphi-EmpiricalBayes2","2014/2015","1 wk ahead",0.0171241945622951
-"68","Delphi-EmpiricalFuture","2014/2015","1 wk ahead",4.91387289565678e-153
-"69","Delphi-EmpiricalTraj","2014/2015","1 wk ahead",4.91387289565678e-153
-"70","Delphi-Stat","2014/2015","1 wk ahead",7.75810714203116e-12
-"71","Delphi-Uniform","2014/2015","1 wk ahead",0
-"72","ReichLab-KCDE","2014/2015","1 wk ahead",0.174640872411196
-"73","ReichLab-KDE","2014/2015","1 wk ahead",2.96101694376259e-97
-"74","ReichLab-SARIMA1","2014/2015","1 wk ahead",0.00993029862625695
-"75","ReichLab-SARIMA2","2014/2015","1 wk ahead",0.138599404038477
-"76","CU-BMA","2015/2016","1 wk ahead",4.33786252953029e-11
-"77","CU-EAKFC","2015/2016","1 wk ahead",0.0175390778443049
-"78","Delphi-BasisRegression","2015/2016","1 wk ahead",5.38535401265313e-229
-"79","Delphi-DeltaDensity1","2015/2016","1 wk ahead",0.413230557144216
-"80","Delphi-DeltaDensity2","2015/2016","1 wk ahead",0.0956743574445758
-"81","Delphi-EmpiricalBayes1","2015/2016","1 wk ahead",0.121670073746821
-"82","Delphi-EmpiricalBayes2","2015/2016","1 wk ahead",0.0147796987735025
-"83","Delphi-EmpiricalFuture","2015/2016","1 wk ahead",1.72529277620799e-105
-"84","Delphi-EmpiricalTraj","2015/2016","1 wk ahead",1.72529277620799e-105
-"85","Delphi-Stat","2015/2016","1 wk ahead",2.84596902229672e-08
-"86","Delphi-Uniform","2015/2016","1 wk ahead",8.04475751349585e-274
-"87","ReichLab-KCDE","2015/2016","1 wk ahead",0.178313952505028
-"88","ReichLab-KDE","2015/2016","1 wk ahead",2.22498352665062e-72
-"89","ReichLab-SARIMA1","2015/2016","1 wk ahead",0.00014962614901978
-"90","ReichLab-SARIMA2","2015/2016","1 wk ahead",0.158642627889464
-"91","CU-BMA","2016/2017","1 wk ahead",1.42167411805926e-13
-"92","CU-EAKFC","2016/2017","1 wk ahead",0.0203376934112139
-"93","Delphi-BasisRegression","2016/2017","1 wk ahead",4.68560563285605e-301
-"94","Delphi-DeltaDensity1","2016/2017","1 wk ahead",0.437361218165393
-"95","Delphi-DeltaDensity2","2016/2017","1 wk ahead",0.0909806368266909
-"96","Delphi-EmpiricalBayes1","2016/2017","1 wk ahead",0.115515574145259
-"97","Delphi-EmpiricalBayes2","2016/2017","1 wk ahead",0.0115970689770514
-"98","Delphi-EmpiricalFuture","2016/2017","1 wk ahead",1.09757647655752e-129
-"99","Delphi-EmpiricalTraj","2016/2017","1 wk ahead",1.09757647655752e-129
-"100","Delphi-Stat","2016/2017","1 wk ahead",2.85516583060293e-10
-"101","Delphi-Uniform","2016/2017","1 wk ahead",0
-"102","ReichLab-KCDE","2016/2017","1 wk ahead",0.181562080126441
-"103","ReichLab-KDE","2016/2017","1 wk ahead",2.24500258798025e-83
-"104","ReichLab-SARIMA1","2016/2017","1 wk ahead",0.000442609891128244
-"105","ReichLab-SARIMA2","2016/2017","1 wk ahead",0.142203118171164
-"106","CU-BMA","2010/2011","2 wk ahead",1.37627291937704e-06
-"107","CU-EAKFC","2010/2011","2 wk ahead",0.000105414006664937
-"108","Delphi-BasisRegression","2010/2011","2 wk ahead",2.71795192403264e-129
-"109","Delphi-DeltaDensity1","2010/2011","2 wk ahead",0.592239366499602
-"110","Delphi-DeltaDensity2","2010/2011","2 wk ahead",0.0970853988095288
-"111","Delphi-EmpiricalBayes1","2010/2011","2 wk ahead",0.0765781509568793
-"112","Delphi-EmpiricalBayes2","2010/2011","2 wk ahead",5.10230323025081e-09
-"113","Delphi-EmpiricalFuture","2010/2011","2 wk ahead",3.05814515983053e-51
-"114","Delphi-EmpiricalTraj","2010/2011","2 wk ahead",3.05814515983053e-51
-"115","Delphi-Stat","2010/2011","2 wk ahead",1.17627741442521e-05
-"116","Delphi-Uniform","2010/2011","2 wk ahead",9.32099725271598e-156
-"117","ReichLab-KCDE","2010/2011","2 wk ahead",0.12146683269342
-"118","ReichLab-KDE","2010/2011","2 wk ahead",6.31246927930941e-37
-"119","ReichLab-SARIMA1","2010/2011","2 wk ahead",1.18820288770607e-06
-"120","ReichLab-SARIMA2","2010/2011","2 wk ahead",0.112510504681651
-"121","CU-BMA","2011/2012","2 wk ahead",1.80262428684032e-05
-"122","CU-EAKFC","2011/2012","2 wk ahead",0.000132371499310997
-"123","Delphi-BasisRegression","2011/2012","2 wk ahead",6.20303420729682e-132
-"124","Delphi-DeltaDensity1","2011/2012","2 wk ahead",0.579104414296699
-"125","Delphi-DeltaDensity2","2011/2012","2 wk ahead",0.100640791433907
-"126","Delphi-EmpiricalBayes1","2011/2012","2 wk ahead",0.0914774060045629
-"127","Delphi-EmpiricalBayes2","2011/2012","2 wk ahead",0.0101740253567204
-"128","Delphi-EmpiricalFuture","2011/2012","2 wk ahead",1.25411378283141e-52
-"129","Delphi-EmpiricalTraj","2011/2012","2 wk ahead",1.25411378283141e-52
-"130","Delphi-Stat","2011/2012","2 wk ahead",1.78870064105523e-05
-"131","Delphi-Uniform","2011/2012","2 wk ahead",5.34787899443998e-160
-"132","ReichLab-KCDE","2011/2012","2 wk ahead",0.130113787987565
-"133","ReichLab-KDE","2011/2012","2 wk ahead",2.04315591200653e-37
-"134","ReichLab-SARIMA1","2011/2012","2 wk ahead",7.76132682669317e-11
-"135","ReichLab-SARIMA2","2011/2012","2 wk ahead",0.0883212900943422
-"136","CU-BMA","2012/2013","2 wk ahead",1.33548635614101e-06
-"137","CU-EAKFC","2012/2013","2 wk ahead",0.0069236964869352
-"138","Delphi-BasisRegression","2012/2013","2 wk ahead",1.94877513135867e-128
-"139","Delphi-DeltaDensity1","2012/2013","2 wk ahead",0.514182700785681
-"140","Delphi-DeltaDensity2","2012/2013","2 wk ahead",0.174889648586693
-"141","Delphi-EmpiricalBayes1","2012/2013","2 wk ahead",0.100936985725277
-"142","Delphi-EmpiricalBayes2","2012/2013","2 wk ahead",0.0136045751723738
-"143","Delphi-EmpiricalFuture","2012/2013","2 wk ahead",1.46932145825449e-51
-"144","Delphi-EmpiricalTraj","2012/2013","2 wk ahead",1.46932145825449e-51
-"145","Delphi-Stat","2012/2013","2 wk ahead",2.30843904654162e-05
-"146","Delphi-Uniform","2012/2013","2 wk ahead",9.91623106530107e-156
-"147","ReichLab-KCDE","2012/2013","2 wk ahead",0.0967245632474102
-"148","ReichLab-KDE","2012/2013","2 wk ahead",2.86050445812676e-34
-"149","ReichLab-SARIMA1","2012/2013","2 wk ahead",1.70040403752612e-06
-"150","ReichLab-SARIMA2","2012/2013","2 wk ahead",0.092711709714771
-"151","CU-BMA","2013/2014","2 wk ahead",0.00033290352037967
-"152","CU-EAKFC","2013/2014","2 wk ahead",2.24158412736162e-05
-"153","Delphi-BasisRegression","2013/2014","2 wk ahead",1.94536838435098e-141
-"154","Delphi-DeltaDensity1","2013/2014","2 wk ahead",0.542887401589929
-"155","Delphi-DeltaDensity2","2013/2014","2 wk ahead",0.145184693451107
-"156","Delphi-EmpiricalBayes1","2013/2014","2 wk ahead",0.0870439491206865
-"157","Delphi-EmpiricalBayes2","2013/2014","2 wk ahead",0.00669604141207951
-"158","Delphi-EmpiricalFuture","2013/2014","2 wk ahead",3.47913607823277e-59
-"159","Delphi-EmpiricalTraj","2013/2014","2 wk ahead",3.47913607823277e-59
-"160","Delphi-Stat","2013/2014","2 wk ahead",2.15830465775124e-06
-"161","Delphi-Uniform","2013/2014","2 wk ahead",5.19596960557887e-171
-"162","ReichLab-KCDE","2013/2014","2 wk ahead",0.132323885444021
-"163","ReichLab-KDE","2013/2014","2 wk ahead",1.68847612158773e-39
-"164","ReichLab-SARIMA1","2013/2014","2 wk ahead",7.20769805798381e-09
-"165","ReichLab-SARIMA2","2013/2014","2 wk ahead",0.0855065441081668
-"166","CU-BMA","2014/2015","2 wk ahead",0.000182348254608996
-"167","CU-EAKFC","2014/2015","2 wk ahead",0.0197598397078235
-"168","Delphi-BasisRegression","2014/2015","2 wk ahead",6.97040886268083e-142
-"169","Delphi-DeltaDensity1","2014/2015","2 wk ahead",0.589835389090392
-"170","Delphi-DeltaDensity2","2014/2015","2 wk ahead",0.117673376848978
-"171","Delphi-EmpiricalBayes1","2014/2015","2 wk ahead",0.072061465896674
-"172","Delphi-EmpiricalBayes2","2014/2015","2 wk ahead",0.00669752689751221
-"173","Delphi-EmpiricalFuture","2014/2015","2 wk ahead",1.05135957640205e-56
-"174","Delphi-EmpiricalTraj","2014/2015","2 wk ahead",1.05135957640205e-56
-"175","Delphi-Stat","2014/2015","2 wk ahead",2.40488062351508e-06
-"176","Delphi-Uniform","2014/2015","2 wk ahead",5.47453047918799e-173
-"177","ReichLab-KCDE","2014/2015","2 wk ahead",0.104130971668468
-"178","ReichLab-KDE","2014/2015","2 wk ahead",6.63758203419712e-35
-"179","ReichLab-SARIMA1","2014/2015","2 wk ahead",5.50319903621312e-06
-"180","ReichLab-SARIMA2","2014/2015","2 wk ahead",0.0896511735558834
-"181","CU-BMA","2015/2016","2 wk ahead",1.09276179287625e-07
-"182","CU-EAKFC","2015/2016","2 wk ahead",0.0127119102178225
-"183","Delphi-BasisRegression","2015/2016","2 wk ahead",5.89267010255454e-112
-"184","Delphi-DeltaDensity1","2015/2016","2 wk ahead",0.52631133372796
-"185","Delphi-DeltaDensity2","2015/2016","2 wk ahead",0.116753031877825
-"186","Delphi-EmpiricalBayes1","2015/2016","2 wk ahead",0.100593004275724
-"187","Delphi-EmpiricalBayes2","2015/2016","2 wk ahead",0.00528400168064282
-"188","Delphi-EmpiricalFuture","2015/2016","2 wk ahead",1.60086036362211e-48
-"189","Delphi-EmpiricalTraj","2015/2016","2 wk ahead",1.60086036362211e-48
-"190","Delphi-Stat","2015/2016","2 wk ahead",2.615817576096e-05
-"191","Delphi-Uniform","2015/2016","2 wk ahead",3.07775968603375e-135
-"192","ReichLab-KCDE","2015/2016","2 wk ahead",0.114563390371358
-"193","ReichLab-KDE","2015/2016","2 wk ahead",4.42785230208181e-33
-"194","ReichLab-SARIMA1","2015/2016","2 wk ahead",3.07868907610451e-08
-"195","ReichLab-SARIMA2","2015/2016","2 wk ahead",0.123757029609836
-"196","CU-BMA","2016/2017","2 wk ahead",2.26343720921517e-05
-"197","CU-EAKFC","2016/2017","2 wk ahead",0.0122746843957788
-"198","Delphi-BasisRegression","2016/2017","2 wk ahead",5.70398161788928e-118
-"199","Delphi-DeltaDensity1","2016/2017","2 wk ahead",0.608809632971561
-"200","Delphi-DeltaDensity2","2016/2017","2 wk ahead",0.07889268674086
-"201","Delphi-EmpiricalBayes1","2016/2017","2 wk ahead",0.0842422966605923
-"202","Delphi-EmpiricalBayes2","2016/2017","2 wk ahead",0.00750796899449832
-"203","Delphi-EmpiricalFuture","2016/2017","2 wk ahead",1.36885112260596e-47
-"204","Delphi-EmpiricalTraj","2016/2017","2 wk ahead",1.36885112260596e-47
-"205","Delphi-Stat","2016/2017","2 wk ahead",1.49438505607679e-05
-"206","Delphi-Uniform","2016/2017","2 wk ahead",3.6734564062551e-143
-"207","ReichLab-KCDE","2016/2017","2 wk ahead",0.0958240126990246
-"208","ReichLab-KDE","2016/2017","2 wk ahead",7.83949647957958e-31
-"209","ReichLab-SARIMA1","2016/2017","2 wk ahead",1.73557062818597e-07
-"210","ReichLab-SARIMA2","2016/2017","2 wk ahead",0.112410965757969
-"211","CU-BMA","2010/2011","3 wk ahead",0.000122642063271018
-"212","CU-EAKFC","2010/2011","3 wk ahead",0.00146178673264993
-"213","Delphi-BasisRegression","2010/2011","3 wk ahead",3.0324187029949e-126
-"214","Delphi-DeltaDensity1","2010/2011","3 wk ahead",0.655658634262838
-"215","Delphi-DeltaDensity2","2010/2011","3 wk ahead",0.0936619965991449
-"216","Delphi-EmpiricalBayes1","2010/2011","3 wk ahead",0.0457768376158105
-"217","Delphi-EmpiricalBayes2","2010/2011","3 wk ahead",1.44212800087332e-11
-"218","Delphi-EmpiricalFuture","2010/2011","3 wk ahead",1.31658861334292e-49
-"219","Delphi-EmpiricalTraj","2010/2011","3 wk ahead",1.31658861334292e-49
-"220","Delphi-Stat","2010/2011","3 wk ahead",7.8620094783399e-06
-"221","Delphi-Uniform","2010/2011","3 wk ahead",1.14849713888523e-152
-"222","ReichLab-KCDE","2010/2011","3 wk ahead",0.114837830935299
-"223","ReichLab-KDE","2010/2011","3 wk ahead",1.9389117439993e-33
-"224","ReichLab-SARIMA1","2010/2011","3 wk ahead",8.27997989464551e-11
-"225","ReichLab-SARIMA2","2010/2011","3 wk ahead",0.0884724096842874
-"226","CU-BMA","2011/2012","3 wk ahead",0.00594258422576636
-"227","CU-EAKFC","2011/2012","3 wk ahead",1.52596414311226e-07
-"228","Delphi-BasisRegression","2011/2012","3 wk ahead",1.8838369945416e-112
-"229","Delphi-DeltaDensity1","2011/2012","3 wk ahead",0.671907614659701
-"230","Delphi-DeltaDensity2","2011/2012","3 wk ahead",0.0896184721411597
-"231","Delphi-EmpiricalBayes1","2011/2012","3 wk ahead",0.0461656343367704
-"232","Delphi-EmpiricalBayes2","2011/2012","3 wk ahead",0.0118515192199676
-"233","Delphi-EmpiricalFuture","2011/2012","3 wk ahead",5.01495522217523e-45
-"234","Delphi-EmpiricalTraj","2011/2012","3 wk ahead",5.01495522217523e-45
-"235","Delphi-Stat","2011/2012","3 wk ahead",4.52203652362133e-05
-"236","Delphi-Uniform","2011/2012","3 wk ahead",6.59778477238088e-137
-"237","ReichLab-KCDE","2011/2012","3 wk ahead",0.109392642227991
-"238","ReichLab-KDE","2011/2012","3 wk ahead",3.72899579227633e-30
-"239","ReichLab-SARIMA1","2011/2012","3 wk ahead",2.95826489901936e-15
-"240","ReichLab-SARIMA2","2011/2012","3 wk ahead",0.0650761602269899
-"241","CU-BMA","2012/2013","3 wk ahead",7.84369330859777e-06
-"242","CU-EAKFC","2012/2013","3 wk ahead",0.000261397148664212
-"243","Delphi-BasisRegression","2012/2013","3 wk ahead",4.410564597033e-135
-"244","Delphi-DeltaDensity1","2012/2013","3 wk ahead",0.588812447066596
-"245","Delphi-DeltaDensity2","2012/2013","3 wk ahead",0.178927114264249
-"246","Delphi-EmpiricalBayes1","2012/2013","3 wk ahead",0.0501684503137908
-"247","Delphi-EmpiricalBayes2","2012/2013","3 wk ahead",0.0138560862013446
-"248","Delphi-EmpiricalFuture","2012/2013","3 wk ahead",7.14218010320289e-53
-"249","Delphi-EmpiricalTraj","2012/2013","3 wk ahead",7.14218010320289e-53
-"250","Delphi-Stat","2012/2013","3 wk ahead",8.29836125950631e-06
-"251","Delphi-Uniform","2012/2013","3 wk ahead",1.71865314839723e-164
-"252","ReichLab-KCDE","2012/2013","3 wk ahead",0.102384407307163
-"253","ReichLab-KDE","2012/2013","3 wk ahead",1.46731806678774e-32
-"254","ReichLab-SARIMA1","2012/2013","3 wk ahead",9.36482482113183e-12
-"255","ReichLab-SARIMA2","2012/2013","3 wk ahead",0.0655739556342593
-"256","CU-BMA","2013/2014","3 wk ahead",0.00954051850196754
-"257","CU-EAKFC","2013/2014","3 wk ahead",5.60840411711654e-05
-"258","Delphi-BasisRegression","2013/2014","3 wk ahead",5.83090637495305e-112
-"259","Delphi-DeltaDensity1","2013/2014","3 wk ahead",0.628095193362291
-"260","Delphi-DeltaDensity2","2013/2014","3 wk ahead",0.147313646045823
-"261","Delphi-EmpiricalBayes1","2013/2014","3 wk ahead",0.0414731276523344
-"262","Delphi-EmpiricalBayes2","2013/2014","3 wk ahead",0.00816889139573347
-"263","Delphi-EmpiricalFuture","2013/2014","3 wk ahead",2.51246551780118e-47
-"264","Delphi-EmpiricalTraj","2013/2014","3 wk ahead",2.51246551780118e-47
-"265","Delphi-Stat","2013/2014","3 wk ahead",2.02575383965022e-05
-"266","Delphi-Uniform","2013/2014","3 wk ahead",3.32343356644092e-135
-"267","ReichLab-KCDE","2013/2014","3 wk ahead",0.114426886804429
-"268","ReichLab-KDE","2013/2014","3 wk ahead",1.62574570828643e-30
-"269","ReichLab-SARIMA1","2013/2014","3 wk ahead",1.41415764417369e-12
-"270","ReichLab-SARIMA2","2013/2014","3 wk ahead",0.050905394656439
-"271","CU-BMA","2014/2015","3 wk ahead",0.0086924987461486
-"272","CU-EAKFC","2014/2015","3 wk ahead",0.0150947364663297
-"273","Delphi-BasisRegression","2014/2015","3 wk ahead",2.36522079021855e-106
-"274","Delphi-DeltaDensity1","2014/2015","3 wk ahead",0.666157114031571
-"275","Delphi-DeltaDensity2","2014/2015","3 wk ahead",0.122608401092431
-"276","Delphi-EmpiricalBayes1","2014/2015","3 wk ahead",0.0434477834357872
-"277","Delphi-EmpiricalBayes2","2014/2015","3 wk ahead",0.00746820295465944
-"278","Delphi-EmpiricalFuture","2014/2015","3 wk ahead",5.4074678286356e-43
-"279","Delphi-EmpiricalTraj","2014/2015","3 wk ahead",5.4074678286356e-43
-"280","Delphi-Stat","2014/2015","3 wk ahead",2.83941296922067e-05
-"281","Delphi-Uniform","2014/2015","3 wk ahead",2.92656967152746e-130
-"282","ReichLab-KCDE","2014/2015","3 wk ahead",0.0984246723954658
-"283","ReichLab-KDE","2014/2015","3 wk ahead",1.51059037572742e-24
-"284","ReichLab-SARIMA1","2014/2015","3 wk ahead",5.68535277923585e-08
-"285","ReichLab-SARIMA2","2014/2015","3 wk ahead",0.0380781398943881
-"286","CU-BMA","2015/2016","3 wk ahead",0.000762820820526797
-"287","CU-EAKFC","2015/2016","3 wk ahead",0.00603365599697541
-"288","Delphi-BasisRegression","2015/2016","3 wk ahead",9.12276202000022e-115
-"289","Delphi-DeltaDensity1","2015/2016","3 wk ahead",0.615832469778979
-"290","Delphi-DeltaDensity2","2015/2016","3 wk ahead",0.114786389460683
-"291","Delphi-EmpiricalBayes1","2015/2016","3 wk ahead",0.0573719748627657
-"292","Delphi-EmpiricalBayes2","2015/2016","3 wk ahead",0.00453401609634855
-"293","Delphi-EmpiricalFuture","2015/2016","3 wk ahead",2.56819729486931e-49
-"294","Delphi-EmpiricalTraj","2015/2016","3 wk ahead",2.56819729486931e-49
-"295","Delphi-Stat","2015/2016","3 wk ahead",1.20320234397035e-05
-"296","Delphi-Uniform","2015/2016","3 wk ahead",4.01552867249291e-139
-"297","ReichLab-KCDE","2015/2016","3 wk ahead",0.0914461089888653
-"298","ReichLab-KDE","2015/2016","3 wk ahead",2.3330569936461e-31
-"299","ReichLab-SARIMA1","2015/2016","3 wk ahead",1.06967910785688e-13
-"300","ReichLab-SARIMA2","2015/2016","3 wk ahead",0.10922053197131
-"301","CU-BMA","2016/2017","3 wk ahead",0.000363953731220678
-"302","CU-EAKFC","2016/2017","3 wk ahead",0.0100997697710761
-"303","Delphi-BasisRegression","2016/2017","3 wk ahead",3.60082172905221e-119
-"304","Delphi-DeltaDensity1","2016/2017","3 wk ahead",0.692550733435912
-"305","Delphi-DeltaDensity2","2016/2017","3 wk ahead",0.0573302445778285
-"306","Delphi-EmpiricalBayes1","2016/2017","3 wk ahead",0.061009692322877
-"307","Delphi-EmpiricalBayes2","2016/2017","3 wk ahead",0.00935307848750799
-"308","Delphi-EmpiricalFuture","2016/2017","3 wk ahead",6.37540214173928e-48
-"309","Delphi-EmpiricalTraj","2016/2017","3 wk ahead",6.37540214173928e-48
-"310","Delphi-Stat","2016/2017","3 wk ahead",9.85355990365244e-06
-"311","Delphi-Uniform","2016/2017","3 wk ahead",6.30118168517523e-145
-"312","ReichLab-KCDE","2016/2017","3 wk ahead",0.088829864357966
-"313","ReichLab-KDE","2016/2017","3 wk ahead",4.4248056699665e-29
-"314","ReichLab-SARIMA1","2016/2017","3 wk ahead",5.93433477715165e-12
-"315","ReichLab-SARIMA2","2016/2017","3 wk ahead",0.080452809749774
-"316","CU-BMA","2010/2011","4 wk ahead",3.93799000714881e-12
-"317","CU-EAKFC","2010/2011","4 wk ahead",2.29312366778207e-05
-"318","Delphi-BasisRegression","2010/2011","4 wk ahead",4.72706970992716e-118
-"319","Delphi-DeltaDensity1","2010/2011","4 wk ahead",0.679746344900812
-"320","Delphi-DeltaDensity2","2010/2011","4 wk ahead",0.0784639130367998
-"321","Delphi-EmpiricalBayes1","2010/2011","4 wk ahead",0.0302195532544736
-"322","Delphi-EmpiricalBayes2","2010/2011","4 wk ahead",1.68137669406396e-05
-"323","Delphi-EmpiricalFuture","2010/2011","4 wk ahead",2.57163776277374e-42
-"324","Delphi-EmpiricalTraj","2010/2011","4 wk ahead",2.57163776277374e-42
-"325","Delphi-Stat","2010/2011","4 wk ahead",2.98504070231402e-05
-"326","Delphi-Uniform","2010/2011","4 wk ahead",1.29407112229296e-143
-"327","ReichLab-KCDE","2010/2011","4 wk ahead",0.110399457527029
-"328","ReichLab-KDE","2010/2011","4 wk ahead",1.52168652892466e-25
-"329","ReichLab-SARIMA1","2010/2011","4 wk ahead",8.22990617412026e-14
-"330","ReichLab-SARIMA2","2010/2011","4 wk ahead",0.101101135866224
-"331","CU-BMA","2011/2012","4 wk ahead",9.3145565668067e-09
-"332","CU-EAKFC","2011/2012","4 wk ahead",1.6417462327914e-12
-"333","Delphi-BasisRegression","2011/2012","4 wk ahead",9.50772587339974e-117
-"334","Delphi-DeltaDensity1","2011/2012","4 wk ahead",0.687546866114771
-"335","Delphi-DeltaDensity2","2011/2012","4 wk ahead",0.0521383051430538
-"336","Delphi-EmpiricalBayes1","2011/2012","4 wk ahead",0.0358355372527457
-"337","Delphi-EmpiricalBayes2","2011/2012","4 wk ahead",0.0149613682851226
-"338","Delphi-EmpiricalFuture","2011/2012","4 wk ahead",5.22676391489342e-42
-"339","Delphi-EmpiricalTraj","2011/2012","4 wk ahead",5.22676391489342e-42
-"340","Delphi-Stat","2011/2012","4 wk ahead",6.56224563421039e-05
-"341","Delphi-Uniform","2011/2012","4 wk ahead",2.77361343904504e-143
-"342","ReichLab-KCDE","2011/2012","4 wk ahead",0.144245046706074
-"343","ReichLab-KDE","2011/2012","4 wk ahead",9.59332242072399e-25
-"344","ReichLab-SARIMA1","2011/2012","4 wk ahead",1.97894954062786e-21
-"345","ReichLab-SARIMA2","2011/2012","4 wk ahead",0.065207244725692
-"346","CU-BMA","2012/2013","4 wk ahead",1.39558621957099e-08
-"347","CU-EAKFC","2012/2013","4 wk ahead",1.37034091080426e-07
-"348","Delphi-BasisRegression","2012/2013","4 wk ahead",3.56640308619977e-122
-"349","Delphi-DeltaDensity1","2012/2013","4 wk ahead",0.619535879423005
-"350","Delphi-DeltaDensity2","2012/2013","4 wk ahead",0.153402860591244
-"351","Delphi-EmpiricalBayes1","2012/2013","4 wk ahead",0.0455257829277146
-"352","Delphi-EmpiricalBayes2","2012/2013","4 wk ahead",0.0119526353849599
-"353","Delphi-EmpiricalFuture","2012/2013","4 wk ahead",2.49703479985755e-44
-"354","Delphi-EmpiricalTraj","2012/2013","4 wk ahead",2.49703479985755e-44
-"355","Delphi-Stat","2012/2013","4 wk ahead",3.92328789204424e-05
-"356","Delphi-Uniform","2012/2013","4 wk ahead",1.0738904459621e-149
-"357","ReichLab-KCDE","2012/2013","4 wk ahead",0.0822202268651849
-"358","ReichLab-KDE","2012/2013","4 wk ahead",2.89498842291801e-24
-"359","ReichLab-SARIMA1","2012/2013","4 wk ahead",1.00474419260709e-13
-"360","ReichLab-SARIMA2","2012/2013","4 wk ahead",0.0873232309389171
-"361","CU-BMA","2013/2014","4 wk ahead",1.99391184446533e-06
-"362","CU-EAKFC","2013/2014","4 wk ahead",1.70251968489789e-06
-"363","Delphi-BasisRegression","2013/2014","4 wk ahead",1.44213257711272e-108
-"364","Delphi-DeltaDensity1","2013/2014","4 wk ahead",0.638216507996175
-"365","Delphi-DeltaDensity2","2013/2014","4 wk ahead",0.125280947452946
-"366","Delphi-EmpiricalBayes1","2013/2014","4 wk ahead",0.0357057822004998
-"367","Delphi-EmpiricalBayes2","2013/2014","4 wk ahead",0.0082013925592687
-"368","Delphi-EmpiricalFuture","2013/2014","4 wk ahead",1.05412319489075e-41
-"369","Delphi-EmpiricalTraj","2013/2014","4 wk ahead",1.05412319489075e-41
-"370","Delphi-Stat","2013/2014","4 wk ahead",4.00465692351148e-05
-"371","Delphi-Uniform","2013/2014","4 wk ahead",5.01453473224762e-132
-"372","ReichLab-KCDE","2013/2014","4 wk ahead",0.137762635949736
-"373","ReichLab-KDE","2013/2014","4 wk ahead",2.84323984702119e-23
-"374","ReichLab-SARIMA1","2013/2014","4 wk ahead",6.04724050561989e-16
-"375","ReichLab-SARIMA2","2013/2014","4 wk ahead",0.0547889908406099
-"376","CU-BMA","2014/2015","4 wk ahead",3.4902137819702e-07
-"377","CU-EAKFC","2014/2015","4 wk ahead",0.00165123216973471
-"378","Delphi-BasisRegression","2014/2015","4 wk ahead",1.44043136196905e-114
-"379","Delphi-DeltaDensity1","2014/2015","4 wk ahead",0.701397982371849
-"380","Delphi-DeltaDensity2","2014/2015","4 wk ahead",0.0932946279891278
-"381","Delphi-EmpiricalBayes1","2014/2015","4 wk ahead",0.0271700683657813
-"382","Delphi-EmpiricalBayes2","2014/2015","4 wk ahead",0.00149269240542073
-"383","Delphi-EmpiricalFuture","2014/2015","4 wk ahead",1.05712409068874e-42
-"384","Delphi-EmpiricalTraj","2014/2015","4 wk ahead",1.05712409068874e-42
-"385","Delphi-Stat","2014/2015","4 wk ahead",2.03432496047076e-05
-"386","Delphi-Uniform","2014/2015","4 wk ahead",9.99361511448779e-141
-"387","ReichLab-KCDE","2014/2015","4 wk ahead",0.11755416200204
-"388","ReichLab-KDE","2014/2015","4 wk ahead",2.89776474839888e-21
-"389","ReichLab-SARIMA1","2014/2015","4 wk ahead",2.18846264684017e-11
-"390","ReichLab-SARIMA2","2014/2015","4 wk ahead",0.057418542403179
-"391","CU-BMA","2015/2016","4 wk ahead",2.83884171231794e-09
-"392","CU-EAKFC","2015/2016","4 wk ahead",3.65938404161229e-05
-"393","Delphi-BasisRegression","2015/2016","4 wk ahead",4.75317955203171e-108
-"394","Delphi-DeltaDensity1","2015/2016","4 wk ahead",0.635071452140056
-"395","Delphi-DeltaDensity2","2015/2016","4 wk ahead",0.0890161732355801
-"396","Delphi-EmpiricalBayes1","2015/2016","4 wk ahead",0.0391884137129807
-"397","Delphi-EmpiricalBayes2","2015/2016","4 wk ahead",0.00479338347660516
-"398","Delphi-EmpiricalFuture","2015/2016","4 wk ahead",1.57711586129114e-42
-"399","Delphi-EmpiricalTraj","2015/2016","4 wk ahead",1.57711586129114e-42
-"400","Delphi-Stat","2015/2016","4 wk ahead",2.70096485979494e-05
-"401","Delphi-Uniform","2015/2016","4 wk ahead",1.20317231376454e-131
-"402","ReichLab-KCDE","2015/2016","4 wk ahead",0.111432345140199
-"403","ReichLab-KDE","2015/2016","4 wk ahead",3.91236464652499e-24
-"404","ReichLab-SARIMA1","2015/2016","4 wk ahead",1.70863487908999e-17
-"405","ReichLab-SARIMA2","2015/2016","4 wk ahead",0.120434625966723
-"406","CU-BMA","2016/2017","4 wk ahead",9.01530491388318e-09
-"407","CU-EAKFC","2016/2017","4 wk ahead",2.19051697094765e-06
-"408","Delphi-BasisRegression","2016/2017","4 wk ahead",2.62267531186393e-117
-"409","Delphi-DeltaDensity1","2016/2017","4 wk ahead",0.734482512994727
-"410","Delphi-DeltaDensity2","2016/2017","4 wk ahead",0.0148856269482585
-"411","Delphi-EmpiricalBayes1","2016/2017","4 wk ahead",0.0542298703258323
-"412","Delphi-EmpiricalBayes2","2016/2017","4 wk ahead",6.84338904245924e-05
-"413","Delphi-EmpiricalFuture","2016/2017","4 wk ahead",5.55732412272706e-44
-"414","Delphi-EmpiricalTraj","2016/2017","4 wk ahead",5.55732412272706e-44
-"415","Delphi-Stat","2016/2017","4 wk ahead",1.56143747827519e-05
-"416","Delphi-Uniform","2016/2017","4 wk ahead",1.68040099641876e-143
-"417","ReichLab-KCDE","2016/2017","4 wk ahead",0.104410817549914
-"418","ReichLab-KDE","2016/2017","4 wk ahead",4.60857946339453e-23
-"419","ReichLab-SARIMA1","2016/2017","4 wk ahead",8.33697856534325e-16
-"420","ReichLab-SARIMA2","2016/2017","4 wk ahead",0.0919049243837847
-"421","CU-BMA","2010/2011","Season onset",0.00149877736939064
-"422","CU-EAKFC","2010/2011","Season onset",0.00156457927725679
-"423","Delphi-BasisRegression","2010/2011","Season onset",9.00944211975194e-49
-"424","Delphi-DeltaDensity1","2010/2011","Season onset",3.49644201337324e-05
-"425","Delphi-DeltaDensity2","2010/2011","Season onset",2.837287022547e-17
-"426","Delphi-EmpiricalBayes1","2010/2011","Season onset",4.01654704181316e-05
-"427","Delphi-EmpiricalBayes2","2010/2011","Season onset",0.0485737887252423
-"428","Delphi-EmpiricalFuture","2010/2011","Season onset",0.20399086111442
-"429","Delphi-EmpiricalTraj","2010/2011","Season onset",2.25838160350148e-06
-"430","Delphi-Stat","2010/2011","Season onset",8.81672112032618e-06
-"431","Delphi-Uniform","2010/2011","Season onset",6.07156616994586e-46
-"432","ReichLab-KCDE","2010/2011","Season onset",0.40109587649445
-"433","ReichLab-KDE","2010/2011","Season onset",0.123688862901795
-"434","ReichLab-SARIMA1","2010/2011","Season onset",2.13134972135764e-18
-"435","ReichLab-SARIMA2","2010/2011","Season onset",0.21950104912417
-"436","CU-BMA","2011/2012","Season onset",0.0205200131054273
-"437","CU-EAKFC","2011/2012","Season onset",0.0126197723062217
-"438","Delphi-BasisRegression","2011/2012","Season onset",3.24582547878145e-69
-"439","Delphi-DeltaDensity1","2011/2012","Season onset",0.0082737259884346
-"440","Delphi-DeltaDensity2","2011/2012","Season onset",2.61941957084642e-10
-"441","Delphi-EmpiricalBayes1","2011/2012","Season onset",0.013190189362246
-"442","Delphi-EmpiricalBayes2","2011/2012","Season onset",0.0167301292491082
-"443","Delphi-EmpiricalFuture","2011/2012","Season onset",0.212203278159877
-"444","Delphi-EmpiricalTraj","2011/2012","Season onset",2.49519256822708e-48
-"445","Delphi-Stat","2011/2012","Season onset",0.00157083578137814
-"446","Delphi-Uniform","2011/2012","Season onset",7.73242333563373e-80
-"447","ReichLab-KCDE","2011/2012","Season onset",0.327665632559254
-"448","ReichLab-KDE","2011/2012","Season onset",1.8968859653784e-11
-"449","ReichLab-SARIMA1","2011/2012","Season onset",5.2161764098376e-27
-"450","ReichLab-SARIMA2","2011/2012","Season onset",0.387226423207142
-"451","CU-BMA","2012/2013","Season onset",0.0125090167431147
-"452","CU-EAKFC","2012/2013","Season onset",1.08980995338537e-10
-"453","Delphi-BasisRegression","2012/2013","Season onset",1.1662392127913e-40
-"454","Delphi-DeltaDensity1","2012/2013","Season onset",0.00289104402383445
-"455","Delphi-DeltaDensity2","2012/2013","Season onset",8.02707349869715e-09
-"456","Delphi-EmpiricalBayes1","2012/2013","Season onset",0.00488499734357563
-"457","Delphi-EmpiricalBayes2","2012/2013","Season onset",0.0536781746183806
-"458","Delphi-EmpiricalFuture","2012/2013","Season onset",0.129636146764692
-"459","Delphi-EmpiricalTraj","2012/2013","Season onset",1.03881758893301e-07
-"460","Delphi-Stat","2012/2013","Season onset",0.00670579556687178
-"461","Delphi-Uniform","2012/2013","Season onset",4.43533375667096e-38
-"462","ReichLab-KCDE","2012/2013","Season onset",0.360029907284362
-"463","ReichLab-KDE","2012/2013","Season onset",0.17712192977715
-"464","ReichLab-SARIMA1","2012/2013","Season onset",7.34520215385352e-17
-"465","ReichLab-SARIMA2","2012/2013","Season onset",0.252542875860204
-"466","CU-BMA","2013/2014","Season onset",0.010438422909946
-"467","CU-EAKFC","2013/2014","Season onset",0.00316761246808691
-"468","Delphi-BasisRegression","2013/2014","Season onset",2.84864135720701e-51
-"469","Delphi-DeltaDensity1","2013/2014","Season onset",3.03547941312803e-05
-"470","Delphi-DeltaDensity2","2013/2014","Season onset",3.57048263990691e-15
-"471","Delphi-EmpiricalBayes1","2013/2014","Season onset",0.000174882993193418
-"472","Delphi-EmpiricalBayes2","2013/2014","Season onset",0.0415586981772711
-"473","Delphi-EmpiricalFuture","2013/2014","Season onset",0.165403344231207
-"474","Delphi-EmpiricalTraj","2013/2014","Season onset",2.70090573422177e-09
-"475","Delphi-Stat","2013/2014","Season onset",6.09049321222348e-06
-"476","Delphi-Uniform","2013/2014","Season onset",1.54741156872075e-47
-"477","ReichLab-KCDE","2013/2014","Season onset",0.42106065927524
-"478","ReichLab-KDE","2013/2014","Season onset",0.159598462152483
-"479","ReichLab-SARIMA1","2013/2014","Season onset",3.03154241678216e-20
-"480","ReichLab-SARIMA2","2013/2014","Season onset",0.19856146980432
-"481","CU-BMA","2014/2015","Season onset",0.0127718311878544
-"482","CU-EAKFC","2014/2015","Season onset",0.00361744137709826
-"483","Delphi-BasisRegression","2014/2015","Season onset",5.60196912600902e-48
-"484","Delphi-DeltaDensity1","2014/2015","Season onset",0.00140691382973893
-"485","Delphi-DeltaDensity2","2014/2015","Season onset",6.53942429755993e-14
-"486","Delphi-EmpiricalBayes1","2014/2015","Season onset",0.000128832870868181
-"487","Delphi-EmpiricalBayes2","2014/2015","Season onset",0.0277674492303521
-"488","Delphi-EmpiricalFuture","2014/2015","Season onset",0.157743902192152
-"489","Delphi-EmpiricalTraj","2014/2015","Season onset",3.78903865726246e-09
-"490","Delphi-Stat","2014/2015","Season onset",9.29626988636499e-06
-"491","Delphi-Uniform","2014/2015","Season onset",2.13043744975112e-44
-"492","ReichLab-KCDE","2014/2015","Season onset",0.425080265810658
-"493","ReichLab-KDE","2014/2015","Season onset",0.164426409057807
-"494","ReichLab-SARIMA1","2014/2015","Season onset",4.43272073857372e-18
-"495","ReichLab-SARIMA2","2014/2015","Season onset",0.20704765438448
-"496","CU-BMA","2015/2016","Season onset",2.72224004677708e-07
-"497","CU-EAKFC","2015/2016","Season onset",0.00816548935473949
-"498","Delphi-BasisRegression","2015/2016","Season onset",4.5609159055639e-62
-"499","Delphi-DeltaDensity1","2015/2016","Season onset",9.47038427670009e-06
-"500","Delphi-DeltaDensity2","2015/2016","Season onset",2.97740147963773e-16
-"501","Delphi-EmpiricalBayes1","2015/2016","Season onset",0.000137112930438898
-"502","Delphi-EmpiricalBayes2","2015/2016","Season onset",0.0504020790140447
-"503","Delphi-EmpiricalFuture","2015/2016","Season onset",0.163986613643277
-"504","Delphi-EmpiricalTraj","2015/2016","Season onset",1.07952609481152e-05
-"505","Delphi-Stat","2015/2016","Season onset",8.48924898565145e-06
-"506","Delphi-Uniform","2015/2016","Season onset",5.22403403830528e-56
-"507","ReichLab-KCDE","2015/2016","Season onset",0.383149898392019
-"508","ReichLab-KDE","2015/2016","Season onset",0.116954249564852
-"509","ReichLab-SARIMA1","2015/2016","Season onset",7.42917565052532e-26
-"510","ReichLab-SARIMA2","2015/2016","Season onset",0.277175529982413
-"511","CU-BMA","2016/2017","Season onset",0.00704174239556264
-"512","CU-EAKFC","2016/2017","Season onset",0.00598398944689874
-"513","Delphi-BasisRegression","2016/2017","Season onset",1.67194349596397e-39
-"514","Delphi-DeltaDensity1","2016/2017","Season onset",3.8584713133255e-05
-"515","Delphi-DeltaDensity2","2016/2017","Season onset",2.90446583609682e-14
-"516","Delphi-EmpiricalBayes1","2016/2017","Season onset",9.01979508652566e-07
-"517","Delphi-EmpiricalBayes2","2016/2017","Season onset",0.0516999007735639
-"518","Delphi-EmpiricalFuture","2016/2017","Season onset",0.155242909316797
-"519","Delphi-EmpiricalTraj","2016/2017","Season onset",4.75326015986053e-06
-"520","Delphi-Stat","2016/2017","Season onset",1.38540974520441e-05
-"521","Delphi-Uniform","2016/2017","Season onset",7.90084077342535e-37
-"522","ReichLab-KCDE","2016/2017","Season onset",0.396557747817679
-"523","ReichLab-KDE","2016/2017","Season onset",0.161101030447688
-"524","ReichLab-SARIMA1","2016/2017","Season onset",3.9238359187736e-16
-"525","ReichLab-SARIMA2","2016/2017","Season onset",0.222314585751528
-"526","CU-BMA","2010/2011","Season peak percentage",0.00329941080778337
-"527","CU-EAKFC","2010/2011","Season peak percentage",0.0319352326079618
-"528","Delphi-BasisRegression","2010/2011","Season peak percentage",2.3725583896913e-86
-"529","Delphi-DeltaDensity1","2010/2011","Season peak percentage",0.125872422887619
-"530","Delphi-DeltaDensity2","2010/2011","Season peak percentage",0.175786865619771
-"531","Delphi-EmpiricalBayes1","2010/2011","Season peak percentage",2.12441543332047e-09
-"532","Delphi-EmpiricalBayes2","2010/2011","Season peak percentage",3.04861390629529e-18
-"533","Delphi-EmpiricalFuture","2010/2011","Season peak percentage",0.179536789901604
-"534","Delphi-EmpiricalTraj","2010/2011","Season peak percentage",8.39577595885359e-58
-"535","Delphi-Stat","2010/2011","Season peak percentage",8.03069853796536e-06
-"536","Delphi-Uniform","2010/2011","Season peak percentage",4.92986922170456e-103
-"537","ReichLab-KCDE","2010/2011","Season peak percentage",0.228835890823213
-"538","ReichLab-KDE","2010/2011","Season peak percentage",1.70388884218485e-49
-"539","ReichLab-SARIMA1","2010/2011","Season peak percentage",0.159557667263792
-"540","ReichLab-SARIMA2","2010/2011","Season peak percentage",0.0951676872653016
-"541","CU-BMA","2011/2012","Season peak percentage",0.0350095521202599
-"542","CU-EAKFC","2011/2012","Season peak percentage",0.01458605127512
-"543","Delphi-BasisRegression","2011/2012","Season peak percentage",9.2959091037775e-181
-"544","Delphi-DeltaDensity1","2011/2012","Season peak percentage",0.244820280147458
-"545","Delphi-DeltaDensity2","2011/2012","Season peak percentage",0.00746966005218472
-"546","Delphi-EmpiricalBayes1","2011/2012","Season peak percentage",1.43043004200293e-06
-"547","Delphi-EmpiricalBayes2","2011/2012","Season peak percentage",3.7990420132354e-13
-"548","Delphi-EmpiricalFuture","2011/2012","Season peak percentage",0.194879782546056
-"549","Delphi-EmpiricalTraj","2011/2012","Season peak percentage",1.59834094755616e-113
-"550","Delphi-Stat","2011/2012","Season peak percentage",0.000610485100989583
-"551","Delphi-Uniform","2011/2012","Season peak percentage",1.60762005886828e-210
-"552","ReichLab-KCDE","2011/2012","Season peak percentage",0.271595184779866
-"553","ReichLab-KDE","2011/2012","Season peak percentage",1.99925536535835e-81
-"554","ReichLab-SARIMA1","2011/2012","Season peak percentage",1.90716757349383e-15
-"555","ReichLab-SARIMA2","2011/2012","Season peak percentage",0.231027573547642
-"556","CU-BMA","2012/2013","Season peak percentage",0.0459433736882193
-"557","CU-EAKFC","2012/2013","Season peak percentage",0.00742435182512643
-"558","Delphi-BasisRegression","2012/2013","Season peak percentage",5.50626511041965e-82
-"559","Delphi-DeltaDensity1","2012/2013","Season peak percentage",0.225322906328186
-"560","Delphi-DeltaDensity2","2012/2013","Season peak percentage",0.0730184883468869
-"561","Delphi-EmpiricalBayes1","2012/2013","Season peak percentage",3.04065892203951e-05
-"562","Delphi-EmpiricalBayes2","2012/2013","Season peak percentage",2.14934192330043e-20
-"563","Delphi-EmpiricalFuture","2012/2013","Season peak percentage",0.176376272000114
-"564","Delphi-EmpiricalTraj","2012/2013","Season peak percentage",4.34550870643714e-55
-"565","Delphi-Stat","2012/2013","Season peak percentage",2.61126028434138e-05
-"566","Delphi-Uniform","2012/2013","Season peak percentage",7.65794739451222e-100
-"567","ReichLab-KCDE","2012/2013","Season peak percentage",0.113867402800673
-"568","ReichLab-KDE","2012/2013","Season peak percentage",3.69338530742235e-45
-"569","ReichLab-SARIMA1","2012/2013","Season peak percentage",0.208547950038063
-"570","ReichLab-SARIMA2","2012/2013","Season peak percentage",0.149442735780668
-"571","CU-BMA","2013/2014","Season peak percentage",0.0588082308258088
-"572","CU-EAKFC","2013/2014","Season peak percentage",0.0205860615216602
-"573","Delphi-BasisRegression","2013/2014","Season peak percentage",1.46079826378269e-102
-"574","Delphi-DeltaDensity1","2013/2014","Season peak percentage",0.110544386082526
-"575","Delphi-DeltaDensity2","2013/2014","Season peak percentage",0.144100468875736
-"576","Delphi-EmpiricalBayes1","2013/2014","Season peak percentage",0.00319928901233121
-"577","Delphi-EmpiricalBayes2","2013/2014","Season peak percentage",1.38651409441097e-22
-"578","Delphi-EmpiricalFuture","2013/2014","Season peak percentage",0.183042781691268
-"579","Delphi-EmpiricalTraj","2013/2014","Season peak percentage",7.44609377478164e-69
-"580","Delphi-Stat","2013/2014","Season peak percentage",9.95580793513841e-05
-"581","Delphi-Uniform","2013/2014","Season peak percentage",4.46320157254839e-124
-"582","ReichLab-KCDE","2013/2014","Season peak percentage",0.164799805534713
-"583","ReichLab-KDE","2013/2014","Season peak percentage",3.14142153468365e-57
-"584","ReichLab-SARIMA1","2013/2014","Season peak percentage",0.140807889253139
-"585","ReichLab-SARIMA2","2013/2014","Season peak percentage",0.174011529123466
-"586","CU-BMA","2014/2015","Season peak percentage",0.0276286117890325
-"587","CU-EAKFC","2014/2015","Season peak percentage",0.0188334319112226
-"588","Delphi-BasisRegression","2014/2015","Season peak percentage",7.93765071058026e-110
-"589","Delphi-DeltaDensity1","2014/2015","Season peak percentage",0.259261730742424
-"590","Delphi-DeltaDensity2","2014/2015","Season peak percentage",0.046859684750445
-"591","Delphi-EmpiricalBayes1","2014/2015","Season peak percentage",0.000988875271640834
-"592","Delphi-EmpiricalBayes2","2014/2015","Season peak percentage",5.3172333039527e-22
-"593","Delphi-EmpiricalFuture","2014/2015","Season peak percentage",0.169460693671783
-"594","Delphi-EmpiricalTraj","2014/2015","Season peak percentage",1.83858153563525e-73
-"595","Delphi-Stat","2014/2015","Season peak percentage",8.24484439524342e-07
-"596","Delphi-Uniform","2014/2015","Season peak percentage",2.35387281915292e-134
-"597","ReichLab-KCDE","2014/2015","Season peak percentage",0.160718294584671
-"598","ReichLab-KDE","2014/2015","Season peak percentage",3.13135126022417e-59
-"599","ReichLab-SARIMA1","2014/2015","Season peak percentage",0.274525497475906
-"600","ReichLab-SARIMA2","2014/2015","Season peak percentage",0.0417223553184359
-"601","CU-BMA","2015/2016","Season peak percentage",0.0401050567055414
-"602","CU-EAKFC","2015/2016","Season peak percentage",0.0433128389565081
-"603","Delphi-BasisRegression","2015/2016","Season peak percentage",2.40801056853556e-149
-"604","Delphi-DeltaDensity1","2015/2016","Season peak percentage",0.0982431097923049
-"605","Delphi-DeltaDensity2","2015/2016","Season peak percentage",0.171179726996649
-"606","Delphi-EmpiricalBayes1","2015/2016","Season peak percentage",0.00102454127206684
-"607","Delphi-EmpiricalBayes2","2015/2016","Season peak percentage",4.01080731111677e-30
-"608","Delphi-EmpiricalFuture","2015/2016","Season peak percentage",0.164743465508179
-"609","Delphi-EmpiricalTraj","2015/2016","Season peak percentage",4.76505325231364e-107
-"610","Delphi-Stat","2015/2016","Season peak percentage",9.84427543793577e-05
-"611","Delphi-Uniform","2015/2016","Season peak percentage",1.97482507297624e-177
-"612","ReichLab-KCDE","2015/2016","Season peak percentage",0.113936715255266
-"613","ReichLab-KDE","2015/2016","Season peak percentage",7.9380260125704e-94
-"614","ReichLab-SARIMA1","2015/2016","Season peak percentage",0.0153763548782971
-"615","ReichLab-SARIMA2","2015/2016","Season peak percentage",0.351979747880808
-"616","CU-BMA","2016/2017","Season peak percentage",0.0348819675897326
-"617","CU-EAKFC","2016/2017","Season peak percentage",0.0219140542202327
-"618","Delphi-BasisRegression","2016/2017","Season peak percentage",1.55644023818003e-88
-"619","Delphi-DeltaDensity1","2016/2017","Season peak percentage",0.168814730681503
-"620","Delphi-DeltaDensity2","2016/2017","Season peak percentage",0.095703911753915
-"621","Delphi-EmpiricalBayes1","2016/2017","Season peak percentage",0.00515835346024911
-"622","Delphi-EmpiricalBayes2","2016/2017","Season peak percentage",2.36321904657422e-18
-"623","Delphi-EmpiricalFuture","2016/2017","Season peak percentage",0.171791544902662
-"624","Delphi-EmpiricalTraj","2016/2017","Season peak percentage",4.01353287210381e-61
-"625","Delphi-Stat","2016/2017","Season peak percentage",3.61483062817009e-05
-"626","Delphi-Uniform","2016/2017","Season peak percentage",1.34798603215327e-107
-"627","ReichLab-KCDE","2016/2017","Season peak percentage",0.241101940793226
-"628","ReichLab-KDE","2016/2017","Season peak percentage",6.11832222561358e-50
-"629","ReichLab-SARIMA1","2016/2017","Season peak percentage",0.181940976540986
-"630","ReichLab-SARIMA2","2016/2017","Season peak percentage",0.0786563717512116
-"631","CU-BMA","2010/2011","Season peak week",0.0571881522266034
-"632","CU-EAKFC","2010/2011","Season peak week",0.0192545664188439
-"633","Delphi-BasisRegression","2010/2011","Season peak week",1.47030120554539e-35
-"634","Delphi-DeltaDensity1","2010/2011","Season peak week",1.41881814428066e-08
-"635","Delphi-DeltaDensity2","2010/2011","Season peak week",0.015544446756635
-"636","Delphi-EmpiricalBayes1","2010/2011","Season peak week",1.40220540176728e-05
-"637","Delphi-EmpiricalBayes2","2010/2011","Season peak week",1.36069584884466e-13
-"638","Delphi-EmpiricalFuture","2010/2011","Season peak week",0.0700226844154769
-"639","Delphi-EmpiricalTraj","2010/2011","Season peak week",6.94182392202637e-25
-"640","Delphi-Stat","2010/2011","Season peak week",0.0182141107327642
-"641","Delphi-Uniform","2010/2011","Season peak week",1.21829647248641e-39
-"642","ReichLab-KCDE","2010/2011","Season peak week",0.263269788121222
-"643","ReichLab-KDE","2010/2011","Season peak week",2.00720969363953e-09
-"644","ReichLab-SARIMA1","2010/2011","Season peak week",1.6729368464348e-09
-"645","ReichLab-SARIMA2","2010/2011","Season peak week",0.556492211405973
-"646","CU-BMA","2011/2012","Season peak week",0.0797804098078982
-"647","CU-EAKFC","2011/2012","Season peak week",0.0146246467023122
-"648","Delphi-BasisRegression","2011/2012","Season peak week",2.46630147060077e-74
-"649","Delphi-DeltaDensity1","2011/2012","Season peak week",4.9657053165339e-05
-"650","Delphi-DeltaDensity2","2011/2012","Season peak week",0.0311797209714917
-"651","Delphi-EmpiricalBayes1","2011/2012","Season peak week",2.44751293514397e-09
-"652","Delphi-EmpiricalBayes2","2011/2012","Season peak week",4.60292404323224e-17
-"653","Delphi-EmpiricalFuture","2011/2012","Season peak week",0.056666705632675
-"654","Delphi-EmpiricalTraj","2011/2012","Season peak week",5.38405683624783e-62
-"655","Delphi-Stat","2011/2012","Season peak week",0.0203139482990939
-"656","Delphi-Uniform","2011/2012","Season peak week",5.68674517205044e-83
-"657","ReichLab-KCDE","2011/2012","Season peak week",0.281054919216887
-"658","ReichLab-KDE","2011/2012","Season peak week",7.41756206213255e-19
-"659","ReichLab-SARIMA1","2011/2012","Season peak week",3.25283851545699e-16
-"660","ReichLab-SARIMA2","2011/2012","Season peak week",0.516329989868964
-"661","CU-BMA","2012/2013","Season peak week",0.0583028078763274
-"662","CU-EAKFC","2012/2013","Season peak week",0.0196695693064093
-"663","Delphi-BasisRegression","2012/2013","Season peak week",7.54075083769325e-78
-"664","Delphi-DeltaDensity1","2012/2013","Season peak week",4.33532753773577e-15
-"665","Delphi-DeltaDensity2","2012/2013","Season peak week",0.0479226791234388
-"666","Delphi-EmpiricalBayes1","2012/2013","Season peak week",1.53194889370781e-12
-"667","Delphi-EmpiricalBayes2","2012/2013","Season peak week",4.36644707015956e-28
-"668","Delphi-EmpiricalFuture","2012/2013","Season peak week",0.0891355472063437
-"669","Delphi-EmpiricalTraj","2012/2013","Season peak week",3.24769326236034e-52
-"670","Delphi-Stat","2012/2013","Season peak week",0.00369384255877125
-"671","Delphi-Uniform","2012/2013","Season peak week",4.14641200028478e-88
-"672","ReichLab-KCDE","2012/2013","Season peak week",0.191240584063619
-"673","ReichLab-KDE","2012/2013","Season peak week",0.000102091015994751
-"674","ReichLab-SARIMA1","2012/2013","Season peak week",4.75321030840354e-27
-"675","ReichLab-SARIMA2","2012/2013","Season peak week",0.58993287884756
-"676","CU-BMA","2013/2014","Season peak week",0.0697306290044135
-"677","CU-EAKFC","2013/2014","Season peak week",0.0197362565093528
-"678","Delphi-BasisRegression","2013/2014","Season peak week",2.99498385586884e-77
-"679","Delphi-DeltaDensity1","2013/2014","Season peak week",4.04629601820334e-15
-"680","Delphi-DeltaDensity2","2013/2014","Season peak week",0.0539742593376438
-"681","Delphi-EmpiricalBayes1","2013/2014","Season peak week",4.09996787688032e-07
-"682","Delphi-EmpiricalBayes2","2013/2014","Season peak week",1.57033534168502e-15
-"683","Delphi-EmpiricalFuture","2013/2014","Season peak week",0.0631650195007606
-"684","Delphi-EmpiricalTraj","2013/2014","Season peak week",1.59106723454581e-49
-"685","Delphi-Stat","2013/2014","Season peak week",0.000487329407626587
-"686","Delphi-Uniform","2013/2014","Season peak week",1.36897010406101e-86
-"687","ReichLab-KCDE","2013/2014","Season peak week",0.266713467034989
-"688","ReichLab-KDE","2013/2014","Season peak week",0.00510778378290551
-"689","ReichLab-SARIMA1","2013/2014","Season peak week",2.81872964641683e-25
-"690","ReichLab-SARIMA2","2013/2014","Season peak week",0.521084845425515
-"691","CU-BMA","2014/2015","Season peak week",0.0876646426141128
-"692","CU-EAKFC","2014/2015","Season peak week",0.0236192081853336
-"693","Delphi-BasisRegression","2014/2015","Season peak week",3.79850921898253e-33
-"694","Delphi-DeltaDensity1","2014/2015","Season peak week",1.14245241635988e-10
-"695","Delphi-DeltaDensity2","2014/2015","Season peak week",0.0153913863147731
-"696","Delphi-EmpiricalBayes1","2014/2015","Season peak week",6.18765917714978e-12
-"697","Delphi-EmpiricalBayes2","2014/2015","Season peak week",8.63714306502848e-18
-"698","Delphi-EmpiricalFuture","2014/2015","Season peak week",0.0713769192680389
-"699","Delphi-EmpiricalTraj","2014/2015","Season peak week",4.10424858424993e-23
-"700","Delphi-Stat","2014/2015","Season peak week",1.09971392194707e-05
-"701","Delphi-Uniform","2014/2015","Season peak week",7.67053781969968e-38
-"702","ReichLab-KCDE","2014/2015","Season peak week",0.317311040775164
-"703","ReichLab-KDE","2014/2015","Season peak week",0.007716155689203
-"704","ReichLab-SARIMA1","2014/2015","Season peak week",1.06037218845174e-09
-"705","ReichLab-SARIMA2","2014/2015","Season peak week",0.47690964883335
-"706","CU-BMA","2015/2016","Season peak week",0.0756032283986163
-"707","CU-EAKFC","2015/2016","Season peak week",0.0172092592063377
-"708","Delphi-BasisRegression","2015/2016","Season peak week",3.27639405857667e-72
-"709","Delphi-DeltaDensity1","2015/2016","Season peak week",1.63851389091493e-20
-"710","Delphi-DeltaDensity2","2015/2016","Season peak week",0.0463259097744707
-"711","Delphi-EmpiricalBayes1","2015/2016","Season peak week",0.000260687489489568
-"712","Delphi-EmpiricalBayes2","2015/2016","Season peak week",2.44405785962322e-11
-"713","Delphi-EmpiricalFuture","2015/2016","Season peak week",0.0712122010526305
-"714","Delphi-EmpiricalTraj","2015/2016","Season peak week",1.48492818831683e-49
-"715","Delphi-Stat","2015/2016","Season peak week",7.71578844485236e-05
-"716","Delphi-Uniform","2015/2016","Season peak week",7.21880814861239e-81
-"717","ReichLab-KCDE","2015/2016","Season peak week",0.0714739905759328
-"718","ReichLab-KDE","2015/2016","Season peak week",7.70714017567369e-06
-"719","ReichLab-SARIMA1","2015/2016","Season peak week",3.49863464302775e-24
-"720","ReichLab-SARIMA2","2015/2016","Season peak week",0.717829858453458
-"721","CU-BMA","2016/2017","Season peak week",0.020787181304734
-"722","CU-EAKFC","2016/2017","Season peak week",0.0228336383136368
-"723","Delphi-BasisRegression","2016/2017","Season peak week",4.72663283541918e-54
-"724","Delphi-DeltaDensity1","2016/2017","Season peak week",7.92033941368102e-09
-"725","Delphi-DeltaDensity2","2016/2017","Season peak week",5.18658219668287e-06
-"726","Delphi-EmpiricalBayes1","2016/2017","Season peak week",3.63155750126073e-06
-"727","Delphi-EmpiricalBayes2","2016/2017","Season peak week",9.37116489742488e-13
-"728","Delphi-EmpiricalFuture","2016/2017","Season peak week",0.0862479267433622
-"729","Delphi-EmpiricalTraj","2016/2017","Season peak week",1.33996970811177e-36
-"730","Delphi-Stat","2016/2017","Season peak week",0.0373775911786746
-"731","Delphi-Uniform","2016/2017","Season peak week",5.21273654180797e-61
-"732","ReichLab-KCDE","2016/2017","Season peak week",0.210378816810027
-"733","ReichLab-KDE","2016/2017","Season peak week",0.00014338696364727
-"734","ReichLab-SARIMA1","2016/2017","Season peak week",2.47242309904521e-17
-"735","ReichLab-SARIMA2","2016/2017","Season peak week",0.622222632624943
-"736","CU-BMA","2017/2018","1 wk ahead",1.5425017698654e-11
-"737","CU-EAKFC","2017/2018","1 wk ahead",0.016701998856079
-"738","Delphi-BasisRegression","2017/2018","1 wk ahead",0
-"739","Delphi-DeltaDensity1","2017/2018","1 wk ahead",0.438766231144959
-"740","Delphi-DeltaDensity2","2017/2018","1 wk ahead",0.0964421024046502
-"741","Delphi-EmpiricalBayes1","2017/2018","1 wk ahead",0.113312633869354
-"742","Delphi-EmpiricalBayes2","2017/2018","1 wk ahead",0.0148563989622745
-"743","Delphi-EmpiricalFuture","2017/2018","1 wk ahead",1.09971658031371e-157
-"744","Delphi-EmpiricalTraj","2017/2018","1 wk ahead",1.09971658031371e-157
-"745","Delphi-Stat","2017/2018","1 wk ahead",9.53880573866779e-12
-"746","Delphi-Uniform","2017/2018","1 wk ahead",0
-"747","ReichLab-KCDE","2017/2018","1 wk ahead",0.179720996729144
-"748","ReichLab-KDE","2017/2018","1 wk ahead",2.80729609505224e-106
-"749","ReichLab-SARIMA1","2017/2018","1 wk ahead",0.00124964215971651
-"750","ReichLab-SARIMA2","2017/2018","1 wk ahead",0.138949995848858
-"751","CU-BMA","2017/2018","2 wk ahead",1.24247901513392e-05
-"752","CU-EAKFC","2017/2018","2 wk ahead",0.00549408317358775
-"753","Delphi-BasisRegression","2017/2018","2 wk ahead",2.62703224140228e-120
-"754","Delphi-DeltaDensity1","2017/2018","2 wk ahead",0.567236910985372
-"755","Delphi-DeltaDensity2","2017/2018","2 wk ahead",0.117228715940287
-"756","Delphi-EmpiricalBayes1","2017/2018","2 wk ahead",0.087472516603629
-"757","Delphi-EmpiricalBayes2","2017/2018","2 wk ahead",0.0063261419819993
-"758","Delphi-EmpiricalFuture","2017/2018","2 wk ahead",5.24873895739814e-49
-"759","Delphi-EmpiricalTraj","2017/2018","2 wk ahead",5.24873895739814e-49
-"760","Delphi-Stat","2017/2018","2 wk ahead",2.02737951702086e-05
-"761","Delphi-Uniform","2017/2018","2 wk ahead",1.01362886822131e-145
-"762","ReichLab-KCDE","2017/2018","2 wk ahead",0.114704493401233
-"763","ReichLab-KDE","2017/2018","2 wk ahead",5.41885926273808e-33
-"764","ReichLab-SARIMA1","2017/2018","2 wk ahead",2.49702571302115e-07
-"765","ReichLab-SARIMA2","2017/2018","2 wk ahead",0.101504189625998
-"766","CU-BMA","2017/2018","3 wk ahead",0.00203880347774617
-"767","CU-EAKFC","2017/2018","3 wk ahead",0.00210645484040516
-"768","Delphi-BasisRegression","2017/2018","3 wk ahead",6.00654920744575e-116
-"769","Delphi-DeltaDensity1","2017/2018","3 wk ahead",0.648633248041982
-"770","Delphi-DeltaDensity2","2017/2018","3 wk ahead",0.113596996597811
-"771","Delphi-EmpiricalBayes1","2017/2018","3 wk ahead",0.04941394844636
-"772","Delphi-EmpiricalBayes2","2017/2018","3 wk ahead",0.00611147226798663
-"773","Delphi-EmpiricalFuture","2017/2018","3 wk ahead",4.85537450475125e-47
-"774","Delphi-EmpiricalTraj","2017/2018","3 wk ahead",4.85537450475125e-47
-"775","Delphi-Stat","2017/2018","3 wk ahead",1.84774775232988e-05
-"776","Delphi-Uniform","2017/2018","3 wk ahead",7.47323854851611e-141
-"777","ReichLab-KCDE","2017/2018","3 wk ahead",0.104527283810287
-"778","ReichLab-KDE","2017/2018","3 wk ahead",1.21024173981413e-29
-"779","ReichLab-SARIMA1","2017/2018","3 wk ahead",8.31470455259524e-12
-"780","ReichLab-SARIMA2","2017/2018","3 wk ahead",0.0735533150315848
-"781","CU-BMA","2017/2018","4 wk ahead",1.46815451252189e-08
-"782","CU-EAKFC","2017/2018","4 wk ahead",3.10199112962866e-06
-"783","Delphi-BasisRegression","2017/2018","4 wk ahead",1.8030661722655e-111
-"784","Delphi-DeltaDensity1","2017/2018","4 wk ahead",0.672938240969528
-"785","Delphi-DeltaDensity2","2017/2018","4 wk ahead",0.0853515103324941
-"786","Delphi-EmpiricalBayes1","2017/2018","4 wk ahead",0.0379229750029323
-"787","Delphi-EmpiricalBayes2","2017/2018","4 wk ahead",0.00485938417843201
-"788","Delphi-EmpiricalFuture","2017/2018","4 wk ahead",1.39593468306822e-41
-"789","Delphi-EmpiricalTraj","2017/2018","4 wk ahead",1.39593468306822e-41
-"790","Delphi-Stat","2017/2018","4 wk ahead",4.05539599168299e-05
-"791","Delphi-Uniform","2017/2018","4 wk ahead",3.56896717512314e-136
-"792","ReichLab-KCDE","2017/2018","4 wk ahead",0.117710616139073
-"793","ReichLab-KDE","2017/2018","4 wk ahead",4.51672947095319e-23
-"794","ReichLab-SARIMA1","2017/2018","4 wk ahead",3.99399141816068e-15
-"795","ReichLab-SARIMA2","2017/2018","4 wk ahead",0.0811736027449447
-"796","CU-BMA","2017/2018","Season onset",0.00829778568710831
-"797","CU-EAKFC","2017/2018","Season onset",0.00359961074937958
-"798","Delphi-BasisRegression","2017/2018","Season onset",4.86505922733232e-61
-"799","Delphi-DeltaDensity1","2017/2018","Season onset",0.000192422637546751
-"800","Delphi-DeltaDensity2","2017/2018","Season onset",1.45958639814681e-15
-"801","Delphi-EmpiricalBayes1","2017/2018","Season onset",0.000169598220180121
-"802","Delphi-EmpiricalBayes2","2017/2018","Season onset",0.0447402600039297
-"803","Delphi-EmpiricalFuture","2017/2018","Season onset",0.175187516249071
-"804","Delphi-EmpiricalTraj","2017/2018","Season onset",1.77027506420341e-11
-"805","Delphi-Stat","2017/2018","Season onset",3.53262760520061e-05
-"806","Delphi-Uniform","2017/2018","Season onset",2.55184761335912e-57
-"807","ReichLab-KCDE","2017/2018","Season onset",0.3957053376
-"808","ReichLab-KDE","2017/2018","Season onset",0.125344373330656
-"809","ReichLab-SARIMA1","2017/2018","Season onset",7.37751692276387e-24
-"810","ReichLab-SARIMA2","2017/2018","Season onset",0.246727769228372
-"811","CU-BMA","2017/2018","Season peak percentage",0.0345288701001716
-"812","CU-EAKFC","2017/2018","Season peak percentage",0.0224708316217734
-"813","Delphi-BasisRegression","2017/2018","Season peak percentage",5.62938261978509e-99
-"814","Delphi-DeltaDensity1","2017/2018","Season peak percentage",0.175647344047042
-"815","Delphi-DeltaDensity2","2017/2018","Season peak percentage",0.104007058350168
-"816","Delphi-EmpiricalBayes1","2017/2018","Season peak percentage",0.000167963778946578
-"817","Delphi-EmpiricalBayes2","2017/2018","Season peak percentage",8.00924701126735e-20
-"818","Delphi-EmpiricalFuture","2017/2018","Season peak percentage",0.177219476588407
-"819","Delphi-EmpiricalTraj","2017/2018","Season peak percentage",8.50557734050748e-67
-"820","Delphi-Stat","2017/2018","Season peak percentage",4.11203356282274e-05
-"821","Delphi-Uniform","2017/2018","Season peak percentage",3.98460252800244e-119
-"822","ReichLab-KCDE","2017/2018","Season peak percentage",0.194070884940527
-"823","ReichLab-KDE","2017/2018","Season peak percentage",6.49131169643624e-55
-"824","ReichLab-SARIMA1","2017/2018","Season peak percentage",0.118201951505499
-"825","ReichLab-SARIMA2","2017/2018","Season peak percentage",0.173644498731836
-"826","CU-BMA","2017/2018","Season peak week",0.0646432529643113
-"827","CU-EAKFC","2017/2018","Season peak week",0.0195740732225595
-"828","Delphi-BasisRegression","2017/2018","Season peak week",2.42931397080144e-50
-"829","Delphi-DeltaDensity1","2017/2018","Season peak week",1.23942977335667e-09
-"830","Delphi-DeltaDensity2","2017/2018","Season peak week",0.0328629593797264
-"831","Delphi-EmpiricalBayes1","2017/2018","Season peak week",4.98459608442382e-07
-"832","Delphi-EmpiricalBayes2","2017/2018","Season peak week",1.53898008143703e-14
-"833","Delphi-EmpiricalFuture","2017/2018","Season peak week",0.074308155479416
-"834","Delphi-EmpiricalTraj","2017/2018","Season peak week",2.15938350577939e-35
-"835","Delphi-Stat","2017/2018","Season peak week",0.0082730934979296
-"836","Delphi-Uniform","2017/2018","Season peak week",1.36688128957431e-56
-"837","ReichLab-KCDE","2017/2018","Season peak week",0.233816972084208
-"838","ReichLab-KDE","2017/2018","Season peak week",2.65678702567313e-06
-"839","ReichLab-SARIMA1","2017/2018","Season peak week",3.27967042894194e-15
-"840","ReichLab-SARIMA2","2017/2018","Season peak week",0.566518336885767
+component_model_id,season,target,weight
+CU-BMA,2010/2011,1 wk ahead,1.58912667243465e-06
+CU-EAKFC,2010/2011,1 wk ahead,0.00191888712650601
+Delphi-BasisRegression,2010/2011,1 wk ahead,5.17774967280857e-172
+Delphi-DeltaDensity1,2010/2011,1 wk ahead,0.458809179949547
+Delphi-DeltaDensity2,2010/2011,1 wk ahead,0.0912166436239506
+Delphi-EmpiricalBayes1,2010/2011,1 wk ahead,0.0883913911418852
+Delphi-EmpiricalBayes2,2010/2011,1 wk ahead,0.0105140734514772
+Delphi-EmpiricalFuture,2010/2011,1 wk ahead,5.31509946899591e-73
+Delphi-EmpiricalTraj,2010/2011,1 wk ahead,5.31509946899591e-73
+Delphi-Stat,2010/2011,1 wk ahead,3.9557373774534e-06
+Delphi-Uniform,2010/2011,1 wk ahead,1.64974760097455e-205
+ReichLab-KCDE,2010/2011,1 wk ahead,0.183846596037143
+ReichLab-KDE,2010/2011,1 wk ahead,1.42381328658771e-52
+ReichLab-SARIMA1,2010/2011,1 wk ahead,0.0603314366630315
+ReichLab-SARIMA2,2010/2011,1 wk ahead,0.104966247142409
+CU-BMA,2011/2012,1 wk ahead,2.40196146882998e-09
+CU-EAKFC,2011/2012,1 wk ahead,0.0112408240646784
+Delphi-BasisRegression,2011/2012,1 wk ahead,2.21082123443121e-289
+Delphi-DeltaDensity1,2011/2012,1 wk ahead,0.441013868316431
+Delphi-DeltaDensity2,2011/2012,1 wk ahead,0.0904402187819819
+Delphi-EmpiricalBayes1,2011/2012,1 wk ahead,0.115214797278956
+Delphi-EmpiricalBayes2,2011/2012,1 wk ahead,0.0133999130858848
+Delphi-EmpiricalFuture,2011/2012,1 wk ahead,1.87614833253486e-123
+Delphi-EmpiricalTraj,2011/2012,1 wk ahead,1.87614833253486e-123
+Delphi-Stat,2011/2012,1 wk ahead,6.41453174260932e-09
+Delphi-Uniform,2011/2012,1 wk ahead,0
+ReichLab-KCDE,2011/2012,1 wk ahead,0.206645293587358
+ReichLab-KDE,2011/2012,1 wk ahead,1.10585342579765e-86
+ReichLab-SARIMA1,2011/2012,1 wk ahead,0.000441392394961914
+ReichLab-SARIMA2,2011/2012,1 wk ahead,0.121603683673255
+CU-BMA,2012/2013,1 wk ahead,3.1600569039697e-14
+CU-EAKFC,2012/2013,1 wk ahead,0.0280761267270916
+Delphi-BasisRegression,2012/2013,1 wk ahead,0
+Delphi-DeltaDensity1,2012/2013,1 wk ahead,0.44573654840319
+Delphi-DeltaDensity2,2012/2013,1 wk ahead,0.114191362678568
+Delphi-EmpiricalBayes1,2012/2013,1 wk ahead,0.123456119818351
+Delphi-EmpiricalBayes2,2012/2013,1 wk ahead,0.0241206363108892
+Delphi-EmpiricalFuture,2012/2013,1 wk ahead,2.74259265286036e-165
+Delphi-EmpiricalTraj,2012/2013,1 wk ahead,2.74259265286036e-165
+Delphi-Stat,2012/2013,1 wk ahead,7.5136349315785e-12
+Delphi-Uniform,2012/2013,1 wk ahead,0
+ReichLab-KCDE,2012/2013,1 wk ahead,0.124828758424355
+ReichLab-KDE,2012/2013,1 wk ahead,3.67004173733178e-112
+ReichLab-SARIMA1,2012/2013,1 wk ahead,0.00639228111475625
+ReichLab-SARIMA2,2012/2013,1 wk ahead,0.133198166515255
+CU-BMA,2013/2014,1 wk ahead,5.68891302303985e-05
+CU-EAKFC,2013/2014,1 wk ahead,0.00717401623344521
+Delphi-BasisRegression,2013/2014,1 wk ahead,2.27465896489291e-317
+Delphi-DeltaDensity1,2013/2014,1 wk ahead,0.412345046103417
+Delphi-DeltaDensity2,2013/2014,1 wk ahead,0.118531269325125
+Delphi-EmpiricalBayes1,2013/2014,1 wk ahead,0.126952161938397
+Delphi-EmpiricalBayes2,2013/2014,1 wk ahead,0.0135460543570668
+Delphi-EmpiricalFuture,2013/2014,1 wk ahead,9.29645348494469e-140
+Delphi-EmpiricalTraj,2013/2014,1 wk ahead,9.29645348494469e-140
+Delphi-Stat,2013/2014,1 wk ahead,1.42107976153631e-10
+Delphi-Uniform,2013/2014,1 wk ahead,0
+ReichLab-KCDE,2013/2014,1 wk ahead,0.190569328704892
+ReichLab-KDE,2013/2014,1 wk ahead,9.13836702181114e-93
+ReichLab-SARIMA1,2013/2014,1 wk ahead,0.000524312922671211
+ReichLab-SARIMA2,2013/2014,1 wk ahead,0.130300921142647
+CU-BMA,2014/2015,1 wk ahead,8.99812442558087e-08
+CU-EAKFC,2014/2015,1 wk ahead,0.0291058912339484
+Delphi-BasisRegression,2014/2015,1 wk ahead,0
+Delphi-DeltaDensity1,2014/2015,1 wk ahead,0.44977692226373
+Delphi-DeltaDensity2,2014/2015,1 wk ahead,0.0766151468991302
+Delphi-EmpiricalBayes1,2014/2015,1 wk ahead,0.104207179975964
+Delphi-EmpiricalBayes2,2014/2015,1 wk ahead,0.0171241945622951
+Delphi-EmpiricalFuture,2014/2015,1 wk ahead,4.91387289565677e-153
+Delphi-EmpiricalTraj,2014/2015,1 wk ahead,4.91387289565677e-153
+Delphi-Stat,2014/2015,1 wk ahead,7.75810714203118e-12
+Delphi-Uniform,2014/2015,1 wk ahead,0
+ReichLab-KCDE,2014/2015,1 wk ahead,0.174640872411196
+ReichLab-KDE,2014/2015,1 wk ahead,2.96101694376259e-97
+ReichLab-SARIMA1,2014/2015,1 wk ahead,0.00993029862625695
+ReichLab-SARIMA2,2014/2015,1 wk ahead,0.138599404038477
+CU-BMA,2015/2016,1 wk ahead,4.33786252953028e-11
+CU-EAKFC,2015/2016,1 wk ahead,0.0175390778443049
+Delphi-BasisRegression,2015/2016,1 wk ahead,5.38535401265312e-229
+Delphi-DeltaDensity1,2015/2016,1 wk ahead,0.413230557144216
+Delphi-DeltaDensity2,2015/2016,1 wk ahead,0.0956743574445758
+Delphi-EmpiricalBayes1,2015/2016,1 wk ahead,0.121670073746821
+Delphi-EmpiricalBayes2,2015/2016,1 wk ahead,0.0147796987735025
+Delphi-EmpiricalFuture,2015/2016,1 wk ahead,1.72529277620799e-105
+Delphi-EmpiricalTraj,2015/2016,1 wk ahead,1.72529277620799e-105
+Delphi-Stat,2015/2016,1 wk ahead,2.84596902229672e-08
+Delphi-Uniform,2015/2016,1 wk ahead,8.04475751349581e-274
+ReichLab-KCDE,2015/2016,1 wk ahead,0.178313952505028
+ReichLab-KDE,2015/2016,1 wk ahead,2.22498352665062e-72
+ReichLab-SARIMA1,2015/2016,1 wk ahead,0.00014962614901978
+ReichLab-SARIMA2,2015/2016,1 wk ahead,0.158642627889464
+CU-BMA,2016/2017,1 wk ahead,1.42167411805926e-13
+CU-EAKFC,2016/2017,1 wk ahead,0.0203376934112139
+Delphi-BasisRegression,2016/2017,1 wk ahead,4.68560563285605e-301
+Delphi-DeltaDensity1,2016/2017,1 wk ahead,0.437361218165393
+Delphi-DeltaDensity2,2016/2017,1 wk ahead,0.0909806368266909
+Delphi-EmpiricalBayes1,2016/2017,1 wk ahead,0.115515574145259
+Delphi-EmpiricalBayes2,2016/2017,1 wk ahead,0.0115970689770514
+Delphi-EmpiricalFuture,2016/2017,1 wk ahead,1.09757647655752e-129
+Delphi-EmpiricalTraj,2016/2017,1 wk ahead,1.09757647655752e-129
+Delphi-Stat,2016/2017,1 wk ahead,2.85516583060293e-10
+Delphi-Uniform,2016/2017,1 wk ahead,0
+ReichLab-KCDE,2016/2017,1 wk ahead,0.181562080126441
+ReichLab-KDE,2016/2017,1 wk ahead,2.24500258798025e-83
+ReichLab-SARIMA1,2016/2017,1 wk ahead,0.000442609891128244
+ReichLab-SARIMA2,2016/2017,1 wk ahead,0.142203118171164
+CU-BMA,2010/2011,2 wk ahead,1.37627291937704e-06
+CU-EAKFC,2010/2011,2 wk ahead,0.000105414006664936
+Delphi-BasisRegression,2010/2011,2 wk ahead,2.71795192403264e-129
+Delphi-DeltaDensity1,2010/2011,2 wk ahead,0.592239366499602
+Delphi-DeltaDensity2,2010/2011,2 wk ahead,0.0970853988095288
+Delphi-EmpiricalBayes1,2010/2011,2 wk ahead,0.0765781509568793
+Delphi-EmpiricalBayes2,2010/2011,2 wk ahead,5.10230323025081e-09
+Delphi-EmpiricalFuture,2010/2011,2 wk ahead,3.05814515983054e-51
+Delphi-EmpiricalTraj,2010/2011,2 wk ahead,3.05814515983054e-51
+Delphi-Stat,2010/2011,2 wk ahead,1.17627741442521e-05
+Delphi-Uniform,2010/2011,2 wk ahead,9.32099725271595e-156
+ReichLab-KCDE,2010/2011,2 wk ahead,0.12146683269342
+ReichLab-KDE,2010/2011,2 wk ahead,6.31246927930941e-37
+ReichLab-SARIMA1,2010/2011,2 wk ahead,1.18820288770607e-06
+ReichLab-SARIMA2,2010/2011,2 wk ahead,0.112510504681651
+CU-BMA,2011/2012,2 wk ahead,1.80262428684032e-05
+CU-EAKFC,2011/2012,2 wk ahead,0.000132371499310997
+Delphi-BasisRegression,2011/2012,2 wk ahead,6.20303420729682e-132
+Delphi-DeltaDensity1,2011/2012,2 wk ahead,0.579104414296699
+Delphi-DeltaDensity2,2011/2012,2 wk ahead,0.100640791433907
+Delphi-EmpiricalBayes1,2011/2012,2 wk ahead,0.0914774060045629
+Delphi-EmpiricalBayes2,2011/2012,2 wk ahead,0.0101740253567204
+Delphi-EmpiricalFuture,2011/2012,2 wk ahead,1.25411378283141e-52
+Delphi-EmpiricalTraj,2011/2012,2 wk ahead,1.25411378283141e-52
+Delphi-Stat,2011/2012,2 wk ahead,1.78870064105523e-05
+Delphi-Uniform,2011/2012,2 wk ahead,5.34787899443997e-160
+ReichLab-KCDE,2011/2012,2 wk ahead,0.130113787987565
+ReichLab-KDE,2011/2012,2 wk ahead,2.04315591200653e-37
+ReichLab-SARIMA1,2011/2012,2 wk ahead,7.76132682669318e-11
+ReichLab-SARIMA2,2011/2012,2 wk ahead,0.0883212900943423
+CU-BMA,2012/2013,2 wk ahead,1.33548635614101e-06
+CU-EAKFC,2012/2013,2 wk ahead,0.0069236964869352
+Delphi-BasisRegression,2012/2013,2 wk ahead,1.94877513135867e-128
+Delphi-DeltaDensity1,2012/2013,2 wk ahead,0.514182700785681
+Delphi-DeltaDensity2,2012/2013,2 wk ahead,0.174889648586693
+Delphi-EmpiricalBayes1,2012/2013,2 wk ahead,0.100936985725277
+Delphi-EmpiricalBayes2,2012/2013,2 wk ahead,0.0136045751723738
+Delphi-EmpiricalFuture,2012/2013,2 wk ahead,1.46932145825449e-51
+Delphi-EmpiricalTraj,2012/2013,2 wk ahead,1.46932145825449e-51
+Delphi-Stat,2012/2013,2 wk ahead,2.30843904654162e-05
+Delphi-Uniform,2012/2013,2 wk ahead,9.91623106530105e-156
+ReichLab-KCDE,2012/2013,2 wk ahead,0.0967245632474102
+ReichLab-KDE,2012/2013,2 wk ahead,2.86050445812676e-34
+ReichLab-SARIMA1,2012/2013,2 wk ahead,1.70040403752612e-06
+ReichLab-SARIMA2,2012/2013,2 wk ahead,0.092711709714771
+CU-BMA,2013/2014,2 wk ahead,0.00033290352037967
+CU-EAKFC,2013/2014,2 wk ahead,2.24158412736162e-05
+Delphi-BasisRegression,2013/2014,2 wk ahead,1.94536838435098e-141
+Delphi-DeltaDensity1,2013/2014,2 wk ahead,0.542887401589929
+Delphi-DeltaDensity2,2013/2014,2 wk ahead,0.145184693451107
+Delphi-EmpiricalBayes1,2013/2014,2 wk ahead,0.0870439491206865
+Delphi-EmpiricalBayes2,2013/2014,2 wk ahead,0.00669604141207951
+Delphi-EmpiricalFuture,2013/2014,2 wk ahead,3.47913607823277e-59
+Delphi-EmpiricalTraj,2013/2014,2 wk ahead,3.47913607823277e-59
+Delphi-Stat,2013/2014,2 wk ahead,2.15830465775124e-06
+Delphi-Uniform,2013/2014,2 wk ahead,5.19596960557886e-171
+ReichLab-KCDE,2013/2014,2 wk ahead,0.132323885444021
+ReichLab-KDE,2013/2014,2 wk ahead,1.68847612158773e-39
+ReichLab-SARIMA1,2013/2014,2 wk ahead,7.20769805798381e-09
+ReichLab-SARIMA2,2013/2014,2 wk ahead,0.0855065441081668
+CU-BMA,2014/2015,2 wk ahead,0.000182348254608996
+CU-EAKFC,2014/2015,2 wk ahead,0.0197598397078235
+Delphi-BasisRegression,2014/2015,2 wk ahead,6.97040886268083e-142
+Delphi-DeltaDensity1,2014/2015,2 wk ahead,0.589835389090392
+Delphi-DeltaDensity2,2014/2015,2 wk ahead,0.117673376848978
+Delphi-EmpiricalBayes1,2014/2015,2 wk ahead,0.072061465896674
+Delphi-EmpiricalBayes2,2014/2015,2 wk ahead,0.00669752689751221
+Delphi-EmpiricalFuture,2014/2015,2 wk ahead,1.05135957640205e-56
+Delphi-EmpiricalTraj,2014/2015,2 wk ahead,1.05135957640205e-56
+Delphi-Stat,2014/2015,2 wk ahead,2.40488062351508e-06
+Delphi-Uniform,2014/2015,2 wk ahead,5.47453047918797e-173
+ReichLab-KCDE,2014/2015,2 wk ahead,0.104130971668468
+ReichLab-KDE,2014/2015,2 wk ahead,6.63758203419712e-35
+ReichLab-SARIMA1,2014/2015,2 wk ahead,5.50319903621312e-06
+ReichLab-SARIMA2,2014/2015,2 wk ahead,0.0896511735558834
+CU-BMA,2015/2016,2 wk ahead,1.09276179287625e-07
+CU-EAKFC,2015/2016,2 wk ahead,0.0127119102178225
+Delphi-BasisRegression,2015/2016,2 wk ahead,5.89267010255454e-112
+Delphi-DeltaDensity1,2015/2016,2 wk ahead,0.52631133372796
+Delphi-DeltaDensity2,2015/2016,2 wk ahead,0.116753031877825
+Delphi-EmpiricalBayes1,2015/2016,2 wk ahead,0.100593004275724
+Delphi-EmpiricalBayes2,2015/2016,2 wk ahead,0.00528400168064282
+Delphi-EmpiricalFuture,2015/2016,2 wk ahead,1.6008603636221e-48
+Delphi-EmpiricalTraj,2015/2016,2 wk ahead,1.6008603636221e-48
+Delphi-Stat,2015/2016,2 wk ahead,2.615817576096e-05
+Delphi-Uniform,2015/2016,2 wk ahead,3.07775968603374e-135
+ReichLab-KCDE,2015/2016,2 wk ahead,0.114563390371358
+ReichLab-KDE,2015/2016,2 wk ahead,4.42785230208181e-33
+ReichLab-SARIMA1,2015/2016,2 wk ahead,3.07868907610451e-08
+ReichLab-SARIMA2,2015/2016,2 wk ahead,0.123757029609836
+CU-BMA,2016/2017,2 wk ahead,2.26343720921517e-05
+CU-EAKFC,2016/2017,2 wk ahead,0.0122746843957788
+Delphi-BasisRegression,2016/2017,2 wk ahead,5.70398161788928e-118
+Delphi-DeltaDensity1,2016/2017,2 wk ahead,0.608809632971561
+Delphi-DeltaDensity2,2016/2017,2 wk ahead,0.07889268674086
+Delphi-EmpiricalBayes1,2016/2017,2 wk ahead,0.0842422966605923
+Delphi-EmpiricalBayes2,2016/2017,2 wk ahead,0.00750796899449832
+Delphi-EmpiricalFuture,2016/2017,2 wk ahead,1.36885112260596e-47
+Delphi-EmpiricalTraj,2016/2017,2 wk ahead,1.36885112260596e-47
+Delphi-Stat,2016/2017,2 wk ahead,1.49438505607679e-05
+Delphi-Uniform,2016/2017,2 wk ahead,3.67345640625509e-143
+ReichLab-KCDE,2016/2017,2 wk ahead,0.0958240126990246
+ReichLab-KDE,2016/2017,2 wk ahead,7.83949647957958e-31
+ReichLab-SARIMA1,2016/2017,2 wk ahead,1.73557062818597e-07
+ReichLab-SARIMA2,2016/2017,2 wk ahead,0.112410965757969
+CU-BMA,2010/2011,3 wk ahead,0.000122642063271018
+CU-EAKFC,2010/2011,3 wk ahead,0.00146178673264993
+Delphi-BasisRegression,2010/2011,3 wk ahead,3.0324187029949e-126
+Delphi-DeltaDensity1,2010/2011,3 wk ahead,0.655658634262838
+Delphi-DeltaDensity2,2010/2011,3 wk ahead,0.0936619965991449
+Delphi-EmpiricalBayes1,2010/2011,3 wk ahead,0.0457768376158105
+Delphi-EmpiricalBayes2,2010/2011,3 wk ahead,1.44212800087332e-11
+Delphi-EmpiricalFuture,2010/2011,3 wk ahead,1.31658861334292e-49
+Delphi-EmpiricalTraj,2010/2011,3 wk ahead,1.31658861334292e-49
+Delphi-Stat,2010/2011,3 wk ahead,7.8620094783399e-06
+Delphi-Uniform,2010/2011,3 wk ahead,1.14849713888523e-152
+ReichLab-KCDE,2010/2011,3 wk ahead,0.114837830935299
+ReichLab-KDE,2010/2011,3 wk ahead,1.9389117439993e-33
+ReichLab-SARIMA1,2010/2011,3 wk ahead,8.27997989464551e-11
+ReichLab-SARIMA2,2010/2011,3 wk ahead,0.0884724096842874
+CU-BMA,2011/2012,3 wk ahead,0.00594258422576636
+CU-EAKFC,2011/2012,3 wk ahead,1.52596414311226e-07
+Delphi-BasisRegression,2011/2012,3 wk ahead,1.8838369945416e-112
+Delphi-DeltaDensity1,2011/2012,3 wk ahead,0.671907614659701
+Delphi-DeltaDensity2,2011/2012,3 wk ahead,0.0896184721411597
+Delphi-EmpiricalBayes1,2011/2012,3 wk ahead,0.0461656343367704
+Delphi-EmpiricalBayes2,2011/2012,3 wk ahead,0.0118515192199676
+Delphi-EmpiricalFuture,2011/2012,3 wk ahead,5.01495522217523e-45
+Delphi-EmpiricalTraj,2011/2012,3 wk ahead,5.01495522217523e-45
+Delphi-Stat,2011/2012,3 wk ahead,4.52203652362134e-05
+Delphi-Uniform,2011/2012,3 wk ahead,6.59778477238086e-137
+ReichLab-KCDE,2011/2012,3 wk ahead,0.109392642227991
+ReichLab-KDE,2011/2012,3 wk ahead,3.72899579227633e-30
+ReichLab-SARIMA1,2011/2012,3 wk ahead,2.95826489901936e-15
+ReichLab-SARIMA2,2011/2012,3 wk ahead,0.0650761602269899
+CU-BMA,2012/2013,3 wk ahead,7.84369330859778e-06
+CU-EAKFC,2012/2013,3 wk ahead,0.000261397148664212
+Delphi-BasisRegression,2012/2013,3 wk ahead,4.41056459703301e-135
+Delphi-DeltaDensity1,2012/2013,3 wk ahead,0.588812447066596
+Delphi-DeltaDensity2,2012/2013,3 wk ahead,0.178927114264249
+Delphi-EmpiricalBayes1,2012/2013,3 wk ahead,0.0501684503137908
+Delphi-EmpiricalBayes2,2012/2013,3 wk ahead,0.0138560862013446
+Delphi-EmpiricalFuture,2012/2013,3 wk ahead,7.14218010320288e-53
+Delphi-EmpiricalTraj,2012/2013,3 wk ahead,7.14218010320288e-53
+Delphi-Stat,2012/2013,3 wk ahead,8.2983612595063e-06
+Delphi-Uniform,2012/2013,3 wk ahead,1.71865314839723e-164
+ReichLab-KCDE,2012/2013,3 wk ahead,0.102384407307163
+ReichLab-KDE,2012/2013,3 wk ahead,1.46731806678774e-32
+ReichLab-SARIMA1,2012/2013,3 wk ahead,9.36482482113183e-12
+ReichLab-SARIMA2,2012/2013,3 wk ahead,0.0655739556342593
+CU-BMA,2013/2014,3 wk ahead,0.00954051850196754
+CU-EAKFC,2013/2014,3 wk ahead,5.60840411711654e-05
+Delphi-BasisRegression,2013/2014,3 wk ahead,5.83090637495306e-112
+Delphi-DeltaDensity1,2013/2014,3 wk ahead,0.628095193362291
+Delphi-DeltaDensity2,2013/2014,3 wk ahead,0.147313646045823
+Delphi-EmpiricalBayes1,2013/2014,3 wk ahead,0.0414731276523344
+Delphi-EmpiricalBayes2,2013/2014,3 wk ahead,0.00816889139573347
+Delphi-EmpiricalFuture,2013/2014,3 wk ahead,2.51246551780117e-47
+Delphi-EmpiricalTraj,2013/2014,3 wk ahead,2.51246551780117e-47
+Delphi-Stat,2013/2014,3 wk ahead,2.02575383965021e-05
+Delphi-Uniform,2013/2014,3 wk ahead,3.32343356644092e-135
+ReichLab-KCDE,2013/2014,3 wk ahead,0.114426886804429
+ReichLab-KDE,2013/2014,3 wk ahead,1.62574570828643e-30
+ReichLab-SARIMA1,2013/2014,3 wk ahead,1.41415764417369e-12
+ReichLab-SARIMA2,2013/2014,3 wk ahead,0.050905394656439
+CU-BMA,2014/2015,3 wk ahead,0.0086924987461486
+CU-EAKFC,2014/2015,3 wk ahead,0.0150947364663297
+Delphi-BasisRegression,2014/2015,3 wk ahead,2.36522079021856e-106
+Delphi-DeltaDensity1,2014/2015,3 wk ahead,0.666157114031571
+Delphi-DeltaDensity2,2014/2015,3 wk ahead,0.122608401092431
+Delphi-EmpiricalBayes1,2014/2015,3 wk ahead,0.0434477834357872
+Delphi-EmpiricalBayes2,2014/2015,3 wk ahead,0.00746820295465944
+Delphi-EmpiricalFuture,2014/2015,3 wk ahead,5.40746782863561e-43
+Delphi-EmpiricalTraj,2014/2015,3 wk ahead,5.40746782863561e-43
+Delphi-Stat,2014/2015,3 wk ahead,2.83941296922067e-05
+Delphi-Uniform,2014/2015,3 wk ahead,2.92656967152746e-130
+ReichLab-KCDE,2014/2015,3 wk ahead,0.0984246723954658
+ReichLab-KDE,2014/2015,3 wk ahead,1.51059037572742e-24
+ReichLab-SARIMA1,2014/2015,3 wk ahead,5.68535277923585e-08
+ReichLab-SARIMA2,2014/2015,3 wk ahead,0.0380781398943881
+CU-BMA,2015/2016,3 wk ahead,0.000762820820526797
+CU-EAKFC,2015/2016,3 wk ahead,0.00603365599697541
+Delphi-BasisRegression,2015/2016,3 wk ahead,9.12276202000021e-115
+Delphi-DeltaDensity1,2015/2016,3 wk ahead,0.615832469778979
+Delphi-DeltaDensity2,2015/2016,3 wk ahead,0.114786389460683
+Delphi-EmpiricalBayes1,2015/2016,3 wk ahead,0.0573719748627657
+Delphi-EmpiricalBayes2,2015/2016,3 wk ahead,0.00453401609634855
+Delphi-EmpiricalFuture,2015/2016,3 wk ahead,2.56819729486931e-49
+Delphi-EmpiricalTraj,2015/2016,3 wk ahead,2.56819729486931e-49
+Delphi-Stat,2015/2016,3 wk ahead,1.20320234397035e-05
+Delphi-Uniform,2015/2016,3 wk ahead,4.01552867249292e-139
+ReichLab-KCDE,2015/2016,3 wk ahead,0.0914461089888653
+ReichLab-KDE,2015/2016,3 wk ahead,2.33305699364611e-31
+ReichLab-SARIMA1,2015/2016,3 wk ahead,1.06967910785688e-13
+ReichLab-SARIMA2,2015/2016,3 wk ahead,0.10922053197131
+CU-BMA,2016/2017,3 wk ahead,0.000363953731220678
+CU-EAKFC,2016/2017,3 wk ahead,0.0100997697710761
+Delphi-BasisRegression,2016/2017,3 wk ahead,3.60082172905221e-119
+Delphi-DeltaDensity1,2016/2017,3 wk ahead,0.692550733435912
+Delphi-DeltaDensity2,2016/2017,3 wk ahead,0.0573302445778285
+Delphi-EmpiricalBayes1,2016/2017,3 wk ahead,0.061009692322877
+Delphi-EmpiricalBayes2,2016/2017,3 wk ahead,0.00935307848750799
+Delphi-EmpiricalFuture,2016/2017,3 wk ahead,6.37540214173928e-48
+Delphi-EmpiricalTraj,2016/2017,3 wk ahead,6.37540214173928e-48
+Delphi-Stat,2016/2017,3 wk ahead,9.85355990365244e-06
+Delphi-Uniform,2016/2017,3 wk ahead,6.30118168517523e-145
+ReichLab-KCDE,2016/2017,3 wk ahead,0.088829864357966
+ReichLab-KDE,2016/2017,3 wk ahead,4.4248056699665e-29
+ReichLab-SARIMA1,2016/2017,3 wk ahead,5.93433477715166e-12
+ReichLab-SARIMA2,2016/2017,3 wk ahead,0.080452809749774
+CU-BMA,2010/2011,4 wk ahead,3.93799000714881e-12
+CU-EAKFC,2010/2011,4 wk ahead,2.29312366778207e-05
+Delphi-BasisRegression,2010/2011,4 wk ahead,4.72706970992717e-118
+Delphi-DeltaDensity1,2010/2011,4 wk ahead,0.679746344900812
+Delphi-DeltaDensity2,2010/2011,4 wk ahead,0.0784639130367998
+Delphi-EmpiricalBayes1,2010/2011,4 wk ahead,0.0302195532544736
+Delphi-EmpiricalBayes2,2010/2011,4 wk ahead,1.68137669406396e-05
+Delphi-EmpiricalFuture,2010/2011,4 wk ahead,2.57163776277374e-42
+Delphi-EmpiricalTraj,2010/2011,4 wk ahead,2.57163776277374e-42
+Delphi-Stat,2010/2011,4 wk ahead,2.98504070231402e-05
+Delphi-Uniform,2010/2011,4 wk ahead,1.29407112229297e-143
+ReichLab-KCDE,2010/2011,4 wk ahead,0.110399457527029
+ReichLab-KDE,2010/2011,4 wk ahead,1.52168652892467e-25
+ReichLab-SARIMA1,2010/2011,4 wk ahead,8.22990617412026e-14
+ReichLab-SARIMA2,2010/2011,4 wk ahead,0.101101135866224
+CU-BMA,2011/2012,4 wk ahead,9.31455656680671e-09
+CU-EAKFC,2011/2012,4 wk ahead,1.6417462327914e-12
+Delphi-BasisRegression,2011/2012,4 wk ahead,9.50772587339974e-117
+Delphi-DeltaDensity1,2011/2012,4 wk ahead,0.687546866114771
+Delphi-DeltaDensity2,2011/2012,4 wk ahead,0.0521383051430538
+Delphi-EmpiricalBayes1,2011/2012,4 wk ahead,0.0358355372527457
+Delphi-EmpiricalBayes2,2011/2012,4 wk ahead,0.0149613682851226
+Delphi-EmpiricalFuture,2011/2012,4 wk ahead,5.22676391489343e-42
+Delphi-EmpiricalTraj,2011/2012,4 wk ahead,5.22676391489343e-42
+Delphi-Stat,2011/2012,4 wk ahead,6.56224563421038e-05
+Delphi-Uniform,2011/2012,4 wk ahead,2.77361343904504e-143
+ReichLab-KCDE,2011/2012,4 wk ahead,0.144245046706074
+ReichLab-KDE,2011/2012,4 wk ahead,9.593322420724e-25
+ReichLab-SARIMA1,2011/2012,4 wk ahead,1.97894954062786e-21
+ReichLab-SARIMA2,2011/2012,4 wk ahead,0.065207244725692
+CU-BMA,2012/2013,4 wk ahead,1.39558621957099e-08
+CU-EAKFC,2012/2013,4 wk ahead,1.37034091080425e-07
+Delphi-BasisRegression,2012/2013,4 wk ahead,3.56640308619977e-122
+Delphi-DeltaDensity1,2012/2013,4 wk ahead,0.619535879423005
+Delphi-DeltaDensity2,2012/2013,4 wk ahead,0.153402860591244
+Delphi-EmpiricalBayes1,2012/2013,4 wk ahead,0.0455257829277146
+Delphi-EmpiricalBayes2,2012/2013,4 wk ahead,0.0119526353849599
+Delphi-EmpiricalFuture,2012/2013,4 wk ahead,2.49703479985755e-44
+Delphi-EmpiricalTraj,2012/2013,4 wk ahead,2.49703479985755e-44
+Delphi-Stat,2012/2013,4 wk ahead,3.92328789204424e-05
+Delphi-Uniform,2012/2013,4 wk ahead,1.0738904459621e-149
+ReichLab-KCDE,2012/2013,4 wk ahead,0.0822202268651849
+ReichLab-KDE,2012/2013,4 wk ahead,2.89498842291801e-24
+ReichLab-SARIMA1,2012/2013,4 wk ahead,1.00474419260709e-13
+ReichLab-SARIMA2,2012/2013,4 wk ahead,0.0873232309389171
+CU-BMA,2013/2014,4 wk ahead,1.99391184446533e-06
+CU-EAKFC,2013/2014,4 wk ahead,1.70251968489789e-06
+Delphi-BasisRegression,2013/2014,4 wk ahead,1.44213257711271e-108
+Delphi-DeltaDensity1,2013/2014,4 wk ahead,0.638216507996174
+Delphi-DeltaDensity2,2013/2014,4 wk ahead,0.125280947452946
+Delphi-EmpiricalBayes1,2013/2014,4 wk ahead,0.0357057822004998
+Delphi-EmpiricalBayes2,2013/2014,4 wk ahead,0.0082013925592687
+Delphi-EmpiricalFuture,2013/2014,4 wk ahead,1.05412319489075e-41
+Delphi-EmpiricalTraj,2013/2014,4 wk ahead,1.05412319489075e-41
+Delphi-Stat,2013/2014,4 wk ahead,4.00465692351149e-05
+Delphi-Uniform,2013/2014,4 wk ahead,5.0145347322476e-132
+ReichLab-KCDE,2013/2014,4 wk ahead,0.137762635949736
+ReichLab-KDE,2013/2014,4 wk ahead,2.84323984702119e-23
+ReichLab-SARIMA1,2013/2014,4 wk ahead,6.0472405056199e-16
+ReichLab-SARIMA2,2013/2014,4 wk ahead,0.0547889908406099
+CU-BMA,2014/2015,4 wk ahead,3.4902137819702e-07
+CU-EAKFC,2014/2015,4 wk ahead,0.00165123216973471
+Delphi-BasisRegression,2014/2015,4 wk ahead,1.44043136196905e-114
+Delphi-DeltaDensity1,2014/2015,4 wk ahead,0.701397982371849
+Delphi-DeltaDensity2,2014/2015,4 wk ahead,0.0932946279891278
+Delphi-EmpiricalBayes1,2014/2015,4 wk ahead,0.0271700683657813
+Delphi-EmpiricalBayes2,2014/2015,4 wk ahead,0.00149269240542073
+Delphi-EmpiricalFuture,2014/2015,4 wk ahead,1.05712409068874e-42
+Delphi-EmpiricalTraj,2014/2015,4 wk ahead,1.05712409068874e-42
+Delphi-Stat,2014/2015,4 wk ahead,2.03432496047076e-05
+Delphi-Uniform,2014/2015,4 wk ahead,9.99361511448775e-141
+ReichLab-KCDE,2014/2015,4 wk ahead,0.11755416200204
+ReichLab-KDE,2014/2015,4 wk ahead,2.89776474839889e-21
+ReichLab-SARIMA1,2014/2015,4 wk ahead,2.18846264684017e-11
+ReichLab-SARIMA2,2014/2015,4 wk ahead,0.057418542403179
+CU-BMA,2015/2016,4 wk ahead,2.83884171231794e-09
+CU-EAKFC,2015/2016,4 wk ahead,3.65938404161229e-05
+Delphi-BasisRegression,2015/2016,4 wk ahead,4.75317955203171e-108
+Delphi-DeltaDensity1,2015/2016,4 wk ahead,0.635071452140056
+Delphi-DeltaDensity2,2015/2016,4 wk ahead,0.0890161732355801
+Delphi-EmpiricalBayes1,2015/2016,4 wk ahead,0.0391884137129807
+Delphi-EmpiricalBayes2,2015/2016,4 wk ahead,0.00479338347660516
+Delphi-EmpiricalFuture,2015/2016,4 wk ahead,1.57711586129114e-42
+Delphi-EmpiricalTraj,2015/2016,4 wk ahead,1.57711586129114e-42
+Delphi-Stat,2015/2016,4 wk ahead,2.70096485979494e-05
+Delphi-Uniform,2015/2016,4 wk ahead,1.20317231376454e-131
+ReichLab-KCDE,2015/2016,4 wk ahead,0.111432345140199
+ReichLab-KDE,2015/2016,4 wk ahead,3.91236464652499e-24
+ReichLab-SARIMA1,2015/2016,4 wk ahead,1.70863487908999e-17
+ReichLab-SARIMA2,2015/2016,4 wk ahead,0.120434625966723
+CU-BMA,2016/2017,4 wk ahead,9.01530491388319e-09
+CU-EAKFC,2016/2017,4 wk ahead,2.19051697094765e-06
+Delphi-BasisRegression,2016/2017,4 wk ahead,2.62267531186393e-117
+Delphi-DeltaDensity1,2016/2017,4 wk ahead,0.734482512994727
+Delphi-DeltaDensity2,2016/2017,4 wk ahead,0.0148856269482585
+Delphi-EmpiricalBayes1,2016/2017,4 wk ahead,0.0542298703258323
+Delphi-EmpiricalBayes2,2016/2017,4 wk ahead,6.84338904245924e-05
+Delphi-EmpiricalFuture,2016/2017,4 wk ahead,5.55732412272707e-44
+Delphi-EmpiricalTraj,2016/2017,4 wk ahead,5.55732412272707e-44
+Delphi-Stat,2016/2017,4 wk ahead,1.56143747827519e-05
+Delphi-Uniform,2016/2017,4 wk ahead,1.68040099641875e-143
+ReichLab-KCDE,2016/2017,4 wk ahead,0.104410817549914
+ReichLab-KDE,2016/2017,4 wk ahead,4.60857946339454e-23
+ReichLab-SARIMA1,2016/2017,4 wk ahead,8.33697856534325e-16
+ReichLab-SARIMA2,2016/2017,4 wk ahead,0.0919049243837847
+CU-BMA,2010/2011,Season onset,0.00149877736939064
+CU-EAKFC,2010/2011,Season onset,0.00156457927725679
+Delphi-BasisRegression,2010/2011,Season onset,9.00944211975194e-49
+Delphi-DeltaDensity1,2010/2011,Season onset,3.49644201337324e-05
+Delphi-DeltaDensity2,2010/2011,Season onset,2.837287022547e-17
+Delphi-EmpiricalBayes1,2010/2011,Season onset,4.01654704181316e-05
+Delphi-EmpiricalBayes2,2010/2011,Season onset,0.0485737887252423
+Delphi-EmpiricalFuture,2010/2011,Season onset,0.20399086111442
+Delphi-EmpiricalTraj,2010/2011,Season onset,2.25838160350148e-06
+Delphi-Stat,2010/2011,Season onset,8.81672112032617e-06
+Delphi-Uniform,2010/2011,Season onset,6.07156616994586e-46
+ReichLab-KCDE,2010/2011,Season onset,0.40109587649445
+ReichLab-KDE,2010/2011,Season onset,0.123688862901795
+ReichLab-SARIMA1,2010/2011,Season onset,2.13134972135764e-18
+ReichLab-SARIMA2,2010/2011,Season onset,0.21950104912417
+CU-BMA,2011/2012,Season onset,0.0205200131054273
+CU-EAKFC,2011/2012,Season onset,0.0126197723062217
+Delphi-BasisRegression,2011/2012,Season onset,3.24582547878145e-69
+Delphi-DeltaDensity1,2011/2012,Season onset,0.0082737259884346
+Delphi-DeltaDensity2,2011/2012,Season onset,2.61941957084642e-10
+Delphi-EmpiricalBayes1,2011/2012,Season onset,0.013190189362246
+Delphi-EmpiricalBayes2,2011/2012,Season onset,0.0167301292491082
+Delphi-EmpiricalFuture,2011/2012,Season onset,0.212203278159877
+Delphi-EmpiricalTraj,2011/2012,Season onset,2.49519256822708e-48
+Delphi-Stat,2011/2012,Season onset,0.00157083578137814
+Delphi-Uniform,2011/2012,Season onset,7.73242333563373e-80
+ReichLab-KCDE,2011/2012,Season onset,0.327665632559254
+ReichLab-KDE,2011/2012,Season onset,1.8968859653784e-11
+ReichLab-SARIMA1,2011/2012,Season onset,5.2161764098376e-27
+ReichLab-SARIMA2,2011/2012,Season onset,0.387226423207142
+CU-BMA,2012/2013,Season onset,0.0125090167431147
+CU-EAKFC,2012/2013,Season onset,1.08980995338537e-10
+Delphi-BasisRegression,2012/2013,Season onset,1.1662392127913e-40
+Delphi-DeltaDensity1,2012/2013,Season onset,0.00289104402383445
+Delphi-DeltaDensity2,2012/2013,Season onset,8.02707349869716e-09
+Delphi-EmpiricalBayes1,2012/2013,Season onset,0.00488499734357564
+Delphi-EmpiricalBayes2,2012/2013,Season onset,0.0536781746183806
+Delphi-EmpiricalFuture,2012/2013,Season onset,0.129636146764692
+Delphi-EmpiricalTraj,2012/2013,Season onset,1.03881758893301e-07
+Delphi-Stat,2012/2013,Season onset,0.00670579556687178
+Delphi-Uniform,2012/2013,Season onset,4.43533375667096e-38
+ReichLab-KCDE,2012/2013,Season onset,0.360029907284362
+ReichLab-KDE,2012/2013,Season onset,0.17712192977715
+ReichLab-SARIMA1,2012/2013,Season onset,7.34520215385351e-17
+ReichLab-SARIMA2,2012/2013,Season onset,0.252542875860204
+CU-BMA,2013/2014,Season onset,0.010438422909946
+CU-EAKFC,2013/2014,Season onset,0.00316761246808691
+Delphi-BasisRegression,2013/2014,Season onset,2.84864135720701e-51
+Delphi-DeltaDensity1,2013/2014,Season onset,3.03547941312804e-05
+Delphi-DeltaDensity2,2013/2014,Season onset,3.57048263990692e-15
+Delphi-EmpiricalBayes1,2013/2014,Season onset,0.000174882993193418
+Delphi-EmpiricalBayes2,2013/2014,Season onset,0.0415586981772711
+Delphi-EmpiricalFuture,2013/2014,Season onset,0.165403344231207
+Delphi-EmpiricalTraj,2013/2014,Season onset,2.70090573422177e-09
+Delphi-Stat,2013/2014,Season onset,6.09049321222348e-06
+Delphi-Uniform,2013/2014,Season onset,1.54741156872075e-47
+ReichLab-KCDE,2013/2014,Season onset,0.42106065927524
+ReichLab-KDE,2013/2014,Season onset,0.159598462152483
+ReichLab-SARIMA1,2013/2014,Season onset,3.03154241678216e-20
+ReichLab-SARIMA2,2013/2014,Season onset,0.19856146980432
+CU-BMA,2014/2015,Season onset,0.0127718311878544
+CU-EAKFC,2014/2015,Season onset,0.00361744137709826
+Delphi-BasisRegression,2014/2015,Season onset,5.60196912600902e-48
+Delphi-DeltaDensity1,2014/2015,Season onset,0.00140691382973893
+Delphi-DeltaDensity2,2014/2015,Season onset,6.53942429755993e-14
+Delphi-EmpiricalBayes1,2014/2015,Season onset,0.000128832870868181
+Delphi-EmpiricalBayes2,2014/2015,Season onset,0.0277674492303521
+Delphi-EmpiricalFuture,2014/2015,Season onset,0.157743902192152
+Delphi-EmpiricalTraj,2014/2015,Season onset,3.78903865726246e-09
+Delphi-Stat,2014/2015,Season onset,9.29626988636499e-06
+Delphi-Uniform,2014/2015,Season onset,2.13043744975112e-44
+ReichLab-KCDE,2014/2015,Season onset,0.425080265810658
+ReichLab-KDE,2014/2015,Season onset,0.164426409057807
+ReichLab-SARIMA1,2014/2015,Season onset,4.43272073857372e-18
+ReichLab-SARIMA2,2014/2015,Season onset,0.20704765438448
+CU-BMA,2015/2016,Season onset,2.72224004677708e-07
+CU-EAKFC,2015/2016,Season onset,0.00816548935473949
+Delphi-BasisRegression,2015/2016,Season onset,4.56091590556392e-62
+Delphi-DeltaDensity1,2015/2016,Season onset,9.4703842767001e-06
+Delphi-DeltaDensity2,2015/2016,Season onset,2.97740147963773e-16
+Delphi-EmpiricalBayes1,2015/2016,Season onset,0.000137112930438898
+Delphi-EmpiricalBayes2,2015/2016,Season onset,0.0504020790140447
+Delphi-EmpiricalFuture,2015/2016,Season onset,0.163986613643277
+Delphi-EmpiricalTraj,2015/2016,Season onset,1.07952609481152e-05
+Delphi-Stat,2015/2016,Season onset,8.48924898565145e-06
+Delphi-Uniform,2015/2016,Season onset,5.22403403830528e-56
+ReichLab-KCDE,2015/2016,Season onset,0.383149898392019
+ReichLab-KDE,2015/2016,Season onset,0.116954249564852
+ReichLab-SARIMA1,2015/2016,Season onset,7.42917565052532e-26
+ReichLab-SARIMA2,2015/2016,Season onset,0.277175529982413
+CU-BMA,2016/2017,Season onset,0.00704174239556264
+CU-EAKFC,2016/2017,Season onset,0.00598398944689874
+Delphi-BasisRegression,2016/2017,Season onset,1.67194349596397e-39
+Delphi-DeltaDensity1,2016/2017,Season onset,3.8584713133255e-05
+Delphi-DeltaDensity2,2016/2017,Season onset,2.90446583609682e-14
+Delphi-EmpiricalBayes1,2016/2017,Season onset,9.01979508652566e-07
+Delphi-EmpiricalBayes2,2016/2017,Season onset,0.0516999007735639
+Delphi-EmpiricalFuture,2016/2017,Season onset,0.155242909316797
+Delphi-EmpiricalTraj,2016/2017,Season onset,4.75326015986054e-06
+Delphi-Stat,2016/2017,Season onset,1.38540974520441e-05
+Delphi-Uniform,2016/2017,Season onset,7.90084077342535e-37
+ReichLab-KCDE,2016/2017,Season onset,0.396557747817679
+ReichLab-KDE,2016/2017,Season onset,0.161101030447688
+ReichLab-SARIMA1,2016/2017,Season onset,3.92383591877359e-16
+ReichLab-SARIMA2,2016/2017,Season onset,0.222314585751528
+CU-BMA,2010/2011,Season peak percentage,0.00329941080778337
+CU-EAKFC,2010/2011,Season peak percentage,0.0319352326079618
+Delphi-BasisRegression,2010/2011,Season peak percentage,2.3725583896913e-86
+Delphi-DeltaDensity1,2010/2011,Season peak percentage,0.125872422887619
+Delphi-DeltaDensity2,2010/2011,Season peak percentage,0.175786865619771
+Delphi-EmpiricalBayes1,2010/2011,Season peak percentage,2.12441543332047e-09
+Delphi-EmpiricalBayes2,2010/2011,Season peak percentage,3.04861390629529e-18
+Delphi-EmpiricalFuture,2010/2011,Season peak percentage,0.179536789901604
+Delphi-EmpiricalTraj,2010/2011,Season peak percentage,8.39577595885359e-58
+Delphi-Stat,2010/2011,Season peak percentage,8.03069853796536e-06
+Delphi-Uniform,2010/2011,Season peak percentage,4.92986922170456e-103
+ReichLab-KCDE,2010/2011,Season peak percentage,0.228835890823213
+ReichLab-KDE,2010/2011,Season peak percentage,1.70388884218485e-49
+ReichLab-SARIMA1,2010/2011,Season peak percentage,0.159557667263792
+ReichLab-SARIMA2,2010/2011,Season peak percentage,0.0951676872653016
+CU-BMA,2011/2012,Season peak percentage,0.0350095521202599
+CU-EAKFC,2011/2012,Season peak percentage,0.01458605127512
+Delphi-BasisRegression,2011/2012,Season peak percentage,9.29590910377748e-181
+Delphi-DeltaDensity1,2011/2012,Season peak percentage,0.244820280147458
+Delphi-DeltaDensity2,2011/2012,Season peak percentage,0.00746966005218472
+Delphi-EmpiricalBayes1,2011/2012,Season peak percentage,1.43043004200293e-06
+Delphi-EmpiricalBayes2,2011/2012,Season peak percentage,3.7990420132354e-13
+Delphi-EmpiricalFuture,2011/2012,Season peak percentage,0.194879782546056
+Delphi-EmpiricalTraj,2011/2012,Season peak percentage,1.59834094755616e-113
+Delphi-Stat,2011/2012,Season peak percentage,0.000610485100989582
+Delphi-Uniform,2011/2012,Season peak percentage,1.60762005886828e-210
+ReichLab-KCDE,2011/2012,Season peak percentage,0.271595184779866
+ReichLab-KDE,2011/2012,Season peak percentage,1.99925536535835e-81
+ReichLab-SARIMA1,2011/2012,Season peak percentage,1.90716757349383e-15
+ReichLab-SARIMA2,2011/2012,Season peak percentage,0.231027573547642
+CU-BMA,2012/2013,Season peak percentage,0.0459433736882193
+CU-EAKFC,2012/2013,Season peak percentage,0.00742435182512643
+Delphi-BasisRegression,2012/2013,Season peak percentage,5.50626511041965e-82
+Delphi-DeltaDensity1,2012/2013,Season peak percentage,0.225322906328186
+Delphi-DeltaDensity2,2012/2013,Season peak percentage,0.0730184883468869
+Delphi-EmpiricalBayes1,2012/2013,Season peak percentage,3.04065892203952e-05
+Delphi-EmpiricalBayes2,2012/2013,Season peak percentage,2.14934192330043e-20
+Delphi-EmpiricalFuture,2012/2013,Season peak percentage,0.176376272000114
+Delphi-EmpiricalTraj,2012/2013,Season peak percentage,4.34550870643714e-55
+Delphi-Stat,2012/2013,Season peak percentage,2.61126028434138e-05
+Delphi-Uniform,2012/2013,Season peak percentage,7.65794739451222e-100
+ReichLab-KCDE,2012/2013,Season peak percentage,0.113867402800673
+ReichLab-KDE,2012/2013,Season peak percentage,3.69338530742236e-45
+ReichLab-SARIMA1,2012/2013,Season peak percentage,0.208547950038063
+ReichLab-SARIMA2,2012/2013,Season peak percentage,0.149442735780668
+CU-BMA,2013/2014,Season peak percentage,0.0588082308258088
+CU-EAKFC,2013/2014,Season peak percentage,0.0205860615216602
+Delphi-BasisRegression,2013/2014,Season peak percentage,1.46079826378269e-102
+Delphi-DeltaDensity1,2013/2014,Season peak percentage,0.110544386082526
+Delphi-DeltaDensity2,2013/2014,Season peak percentage,0.144100468875736
+Delphi-EmpiricalBayes1,2013/2014,Season peak percentage,0.00319928901233121
+Delphi-EmpiricalBayes2,2013/2014,Season peak percentage,1.38651409441097e-22
+Delphi-EmpiricalFuture,2013/2014,Season peak percentage,0.183042781691268
+Delphi-EmpiricalTraj,2013/2014,Season peak percentage,7.44609377478164e-69
+Delphi-Stat,2013/2014,Season peak percentage,9.95580793513841e-05
+Delphi-Uniform,2013/2014,Season peak percentage,4.46320157254839e-124
+ReichLab-KCDE,2013/2014,Season peak percentage,0.164799805534713
+ReichLab-KDE,2013/2014,Season peak percentage,3.14142153468365e-57
+ReichLab-SARIMA1,2013/2014,Season peak percentage,0.140807889253139
+ReichLab-SARIMA2,2013/2014,Season peak percentage,0.174011529123466
+CU-BMA,2014/2015,Season peak percentage,0.0276286117890325
+CU-EAKFC,2014/2015,Season peak percentage,0.0188334319112226
+Delphi-BasisRegression,2014/2015,Season peak percentage,7.93765071058026e-110
+Delphi-DeltaDensity1,2014/2015,Season peak percentage,0.259261730742424
+Delphi-DeltaDensity2,2014/2015,Season peak percentage,0.046859684750445
+Delphi-EmpiricalBayes1,2014/2015,Season peak percentage,0.000988875271640834
+Delphi-EmpiricalBayes2,2014/2015,Season peak percentage,5.3172333039527e-22
+Delphi-EmpiricalFuture,2014/2015,Season peak percentage,0.169460693671783
+Delphi-EmpiricalTraj,2014/2015,Season peak percentage,1.83858153563524e-73
+Delphi-Stat,2014/2015,Season peak percentage,8.24484439524342e-07
+Delphi-Uniform,2014/2015,Season peak percentage,2.35387281915292e-134
+ReichLab-KCDE,2014/2015,Season peak percentage,0.160718294584671
+ReichLab-KDE,2014/2015,Season peak percentage,3.13135126022417e-59
+ReichLab-SARIMA1,2014/2015,Season peak percentage,0.274525497475906
+ReichLab-SARIMA2,2014/2015,Season peak percentage,0.0417223553184359
+CU-BMA,2015/2016,Season peak percentage,0.0401050567055414
+CU-EAKFC,2015/2016,Season peak percentage,0.0433128389565081
+Delphi-BasisRegression,2015/2016,Season peak percentage,2.40801056853556e-149
+Delphi-DeltaDensity1,2015/2016,Season peak percentage,0.0982431097923049
+Delphi-DeltaDensity2,2015/2016,Season peak percentage,0.171179726996649
+Delphi-EmpiricalBayes1,2015/2016,Season peak percentage,0.00102454127206684
+Delphi-EmpiricalBayes2,2015/2016,Season peak percentage,4.01080731111677e-30
+Delphi-EmpiricalFuture,2015/2016,Season peak percentage,0.164743465508179
+Delphi-EmpiricalTraj,2015/2016,Season peak percentage,4.76505325231362e-107
+Delphi-Stat,2015/2016,Season peak percentage,9.84427543793578e-05
+Delphi-Uniform,2015/2016,Season peak percentage,1.97482507297624e-177
+ReichLab-KCDE,2015/2016,Season peak percentage,0.113936715255266
+ReichLab-KDE,2015/2016,Season peak percentage,7.9380260125704e-94
+ReichLab-SARIMA1,2015/2016,Season peak percentage,0.0153763548782972
+ReichLab-SARIMA2,2015/2016,Season peak percentage,0.351979747880808
+CU-BMA,2016/2017,Season peak percentage,0.0348819675897326
+CU-EAKFC,2016/2017,Season peak percentage,0.0219140542202327
+Delphi-BasisRegression,2016/2017,Season peak percentage,1.55644023818003e-88
+Delphi-DeltaDensity1,2016/2017,Season peak percentage,0.168814730681503
+Delphi-DeltaDensity2,2016/2017,Season peak percentage,0.095703911753915
+Delphi-EmpiricalBayes1,2016/2017,Season peak percentage,0.00515835346024911
+Delphi-EmpiricalBayes2,2016/2017,Season peak percentage,2.36321904657422e-18
+Delphi-EmpiricalFuture,2016/2017,Season peak percentage,0.171791544902662
+Delphi-EmpiricalTraj,2016/2017,Season peak percentage,4.0135328721038e-61
+Delphi-Stat,2016/2017,Season peak percentage,3.61483062817009e-05
+Delphi-Uniform,2016/2017,Season peak percentage,1.34798603215327e-107
+ReichLab-KCDE,2016/2017,Season peak percentage,0.241101940793226
+ReichLab-KDE,2016/2017,Season peak percentage,6.11832222561358e-50
+ReichLab-SARIMA1,2016/2017,Season peak percentage,0.181940976540986
+ReichLab-SARIMA2,2016/2017,Season peak percentage,0.0786563717512116
+CU-BMA,2010/2011,Season peak week,0.0571881522266034
+CU-EAKFC,2010/2011,Season peak week,0.0192545664188439
+Delphi-BasisRegression,2010/2011,Season peak week,1.47030120554539e-35
+Delphi-DeltaDensity1,2010/2011,Season peak week,1.41881814428066e-08
+Delphi-DeltaDensity2,2010/2011,Season peak week,0.015544446756635
+Delphi-EmpiricalBayes1,2010/2011,Season peak week,1.40220540176728e-05
+Delphi-EmpiricalBayes2,2010/2011,Season peak week,1.36069584884466e-13
+Delphi-EmpiricalFuture,2010/2011,Season peak week,0.0700226844154769
+Delphi-EmpiricalTraj,2010/2011,Season peak week,6.94182392202637e-25
+Delphi-Stat,2010/2011,Season peak week,0.0182141107327642
+Delphi-Uniform,2010/2011,Season peak week,1.21829647248642e-39
+ReichLab-KCDE,2010/2011,Season peak week,0.263269788121222
+ReichLab-KDE,2010/2011,Season peak week,2.00720969363953e-09
+ReichLab-SARIMA1,2010/2011,Season peak week,1.6729368464348e-09
+ReichLab-SARIMA2,2010/2011,Season peak week,0.556492211405973
+CU-BMA,2011/2012,Season peak week,0.0797804098078982
+CU-EAKFC,2011/2012,Season peak week,0.0146246467023122
+Delphi-BasisRegression,2011/2012,Season peak week,2.46630147060077e-74
+Delphi-DeltaDensity1,2011/2012,Season peak week,4.9657053165339e-05
+Delphi-DeltaDensity2,2011/2012,Season peak week,0.0311797209714917
+Delphi-EmpiricalBayes1,2011/2012,Season peak week,2.44751293514397e-09
+Delphi-EmpiricalBayes2,2011/2012,Season peak week,4.60292404323224e-17
+Delphi-EmpiricalFuture,2011/2012,Season peak week,0.056666705632675
+Delphi-EmpiricalTraj,2011/2012,Season peak week,5.38405683624783e-62
+Delphi-Stat,2011/2012,Season peak week,0.0203139482990939
+Delphi-Uniform,2011/2012,Season peak week,5.68674517205044e-83
+ReichLab-KCDE,2011/2012,Season peak week,0.281054919216887
+ReichLab-KDE,2011/2012,Season peak week,7.41756206213254e-19
+ReichLab-SARIMA1,2011/2012,Season peak week,3.25283851545699e-16
+ReichLab-SARIMA2,2011/2012,Season peak week,0.516329989868964
+CU-BMA,2012/2013,Season peak week,0.0583028078763274
+CU-EAKFC,2012/2013,Season peak week,0.0196695693064093
+Delphi-BasisRegression,2012/2013,Season peak week,7.54075083769323e-78
+Delphi-DeltaDensity1,2012/2013,Season peak week,4.33532753773577e-15
+Delphi-DeltaDensity2,2012/2013,Season peak week,0.0479226791234388
+Delphi-EmpiricalBayes1,2012/2013,Season peak week,1.53194889370781e-12
+Delphi-EmpiricalBayes2,2012/2013,Season peak week,4.36644707015956e-28
+Delphi-EmpiricalFuture,2012/2013,Season peak week,0.0891355472063437
+Delphi-EmpiricalTraj,2012/2013,Season peak week,3.24769326236034e-52
+Delphi-Stat,2012/2013,Season peak week,0.00369384255877125
+Delphi-Uniform,2012/2013,Season peak week,4.14641200028476e-88
+ReichLab-KCDE,2012/2013,Season peak week,0.191240584063619
+ReichLab-KDE,2012/2013,Season peak week,0.000102091015994751
+ReichLab-SARIMA1,2012/2013,Season peak week,4.75321030840354e-27
+ReichLab-SARIMA2,2012/2013,Season peak week,0.58993287884756
+CU-BMA,2013/2014,Season peak week,0.0697306290044135
+CU-EAKFC,2013/2014,Season peak week,0.0197362565093528
+Delphi-BasisRegression,2013/2014,Season peak week,2.99498385586884e-77
+Delphi-DeltaDensity1,2013/2014,Season peak week,4.04629601820335e-15
+Delphi-DeltaDensity2,2013/2014,Season peak week,0.0539742593376438
+Delphi-EmpiricalBayes1,2013/2014,Season peak week,4.09996787688032e-07
+Delphi-EmpiricalBayes2,2013/2014,Season peak week,1.57033534168502e-15
+Delphi-EmpiricalFuture,2013/2014,Season peak week,0.0631650195007606
+Delphi-EmpiricalTraj,2013/2014,Season peak week,1.59106723454581e-49
+Delphi-Stat,2013/2014,Season peak week,0.000487329407626587
+Delphi-Uniform,2013/2014,Season peak week,1.36897010406101e-86
+ReichLab-KCDE,2013/2014,Season peak week,0.266713467034989
+ReichLab-KDE,2013/2014,Season peak week,0.00510778378290551
+ReichLab-SARIMA1,2013/2014,Season peak week,2.81872964641683e-25
+ReichLab-SARIMA2,2013/2014,Season peak week,0.521084845425515
+CU-BMA,2014/2015,Season peak week,0.0876646426141128
+CU-EAKFC,2014/2015,Season peak week,0.0236192081853336
+Delphi-BasisRegression,2014/2015,Season peak week,3.79850921898253e-33
+Delphi-DeltaDensity1,2014/2015,Season peak week,1.14245241635988e-10
+Delphi-DeltaDensity2,2014/2015,Season peak week,0.0153913863147731
+Delphi-EmpiricalBayes1,2014/2015,Season peak week,6.18765917714979e-12
+Delphi-EmpiricalBayes2,2014/2015,Season peak week,8.63714306502848e-18
+Delphi-EmpiricalFuture,2014/2015,Season peak week,0.0713769192680389
+Delphi-EmpiricalTraj,2014/2015,Season peak week,4.10424858424993e-23
+Delphi-Stat,2014/2015,Season peak week,1.09971392194708e-05
+Delphi-Uniform,2014/2015,Season peak week,7.67053781969967e-38
+ReichLab-KCDE,2014/2015,Season peak week,0.317311040775164
+ReichLab-KDE,2014/2015,Season peak week,0.007716155689203
+ReichLab-SARIMA1,2014/2015,Season peak week,1.06037218845174e-09
+ReichLab-SARIMA2,2014/2015,Season peak week,0.47690964883335
+CU-BMA,2015/2016,Season peak week,0.0756032283986163
+CU-EAKFC,2015/2016,Season peak week,0.0172092592063377
+Delphi-BasisRegression,2015/2016,Season peak week,3.27639405857667e-72
+Delphi-DeltaDensity1,2015/2016,Season peak week,1.63851389091494e-20
+Delphi-DeltaDensity2,2015/2016,Season peak week,0.0463259097744707
+Delphi-EmpiricalBayes1,2015/2016,Season peak week,0.000260687489489568
+Delphi-EmpiricalBayes2,2015/2016,Season peak week,2.44405785962322e-11
+Delphi-EmpiricalFuture,2015/2016,Season peak week,0.0712122010526305
+Delphi-EmpiricalTraj,2015/2016,Season peak week,1.48492818831683e-49
+Delphi-Stat,2015/2016,Season peak week,7.71578844485236e-05
+Delphi-Uniform,2015/2016,Season peak week,7.21880814861239e-81
+ReichLab-KCDE,2015/2016,Season peak week,0.0714739905759328
+ReichLab-KDE,2015/2016,Season peak week,7.70714017567369e-06
+ReichLab-SARIMA1,2015/2016,Season peak week,3.49863464302775e-24
+ReichLab-SARIMA2,2015/2016,Season peak week,0.717829858453458
+CU-BMA,2016/2017,Season peak week,0.020787181304734
+CU-EAKFC,2016/2017,Season peak week,0.0228336383136368
+Delphi-BasisRegression,2016/2017,Season peak week,4.72663283541919e-54
+Delphi-DeltaDensity1,2016/2017,Season peak week,7.92033941368103e-09
+Delphi-DeltaDensity2,2016/2017,Season peak week,5.18658219668287e-06
+Delphi-EmpiricalBayes1,2016/2017,Season peak week,3.63155750126074e-06
+Delphi-EmpiricalBayes2,2016/2017,Season peak week,9.37116489742488e-13
+Delphi-EmpiricalFuture,2016/2017,Season peak week,0.0862479267433622
+Delphi-EmpiricalTraj,2016/2017,Season peak week,1.33996970811177e-36
+Delphi-Stat,2016/2017,Season peak week,0.0373775911786746
+Delphi-Uniform,2016/2017,Season peak week,5.21273654180797e-61
+ReichLab-KCDE,2016/2017,Season peak week,0.210378816810027
+ReichLab-KDE,2016/2017,Season peak week,0.00014338696364727
+ReichLab-SARIMA1,2016/2017,Season peak week,2.47242309904521e-17
+ReichLab-SARIMA2,2016/2017,Season peak week,0.622222632624943
+CU-BMA,2017/2018,1 wk ahead,1.5425017698654e-11
+CU-EAKFC,2017/2018,1 wk ahead,0.016701998856079
+Delphi-BasisRegression,2017/2018,1 wk ahead,0
+Delphi-DeltaDensity1,2017/2018,1 wk ahead,0.438766231144959
+Delphi-DeltaDensity2,2017/2018,1 wk ahead,0.0964421024046502
+Delphi-EmpiricalBayes1,2017/2018,1 wk ahead,0.113312633869354
+Delphi-EmpiricalBayes2,2017/2018,1 wk ahead,0.0148563989622745
+Delphi-EmpiricalFuture,2017/2018,1 wk ahead,1.09971658031371e-157
+Delphi-EmpiricalTraj,2017/2018,1 wk ahead,1.09971658031371e-157
+Delphi-Stat,2017/2018,1 wk ahead,9.53880573866779e-12
+Delphi-Uniform,2017/2018,1 wk ahead,0
+ReichLab-KCDE,2017/2018,1 wk ahead,0.179720996729144
+ReichLab-KDE,2017/2018,1 wk ahead,2.80729609505224e-106
+ReichLab-SARIMA1,2017/2018,1 wk ahead,0.00124964215971651
+ReichLab-SARIMA2,2017/2018,1 wk ahead,0.138949995848858
+CU-BMA,2017/2018,2 wk ahead,1.24247901513392e-05
+CU-EAKFC,2017/2018,2 wk ahead,0.00549408317358775
+Delphi-BasisRegression,2017/2018,2 wk ahead,2.62703224140227e-120
+Delphi-DeltaDensity1,2017/2018,2 wk ahead,0.567236910985372
+Delphi-DeltaDensity2,2017/2018,2 wk ahead,0.117228715940287
+Delphi-EmpiricalBayes1,2017/2018,2 wk ahead,0.087472516603629
+Delphi-EmpiricalBayes2,2017/2018,2 wk ahead,0.0063261419819993
+Delphi-EmpiricalFuture,2017/2018,2 wk ahead,5.24873895739812e-49
+Delphi-EmpiricalTraj,2017/2018,2 wk ahead,5.24873895739812e-49
+Delphi-Stat,2017/2018,2 wk ahead,2.02737951702086e-05
+Delphi-Uniform,2017/2018,2 wk ahead,1.01362886822131e-145
+ReichLab-KCDE,2017/2018,2 wk ahead,0.114704493401234
+ReichLab-KDE,2017/2018,2 wk ahead,5.41885926273807e-33
+ReichLab-SARIMA1,2017/2018,2 wk ahead,2.49702571302115e-07
+ReichLab-SARIMA2,2017/2018,2 wk ahead,0.101504189625998
+CU-BMA,2017/2018,3 wk ahead,0.00203880347774617
+CU-EAKFC,2017/2018,3 wk ahead,0.00210645484040516
+Delphi-BasisRegression,2017/2018,3 wk ahead,6.00654920744575e-116
+Delphi-DeltaDensity1,2017/2018,3 wk ahead,0.648633248041982
+Delphi-DeltaDensity2,2017/2018,3 wk ahead,0.113596996597811
+Delphi-EmpiricalBayes1,2017/2018,3 wk ahead,0.04941394844636
+Delphi-EmpiricalBayes2,2017/2018,3 wk ahead,0.00611147226798662
+Delphi-EmpiricalFuture,2017/2018,3 wk ahead,4.85537450475126e-47
+Delphi-EmpiricalTraj,2017/2018,3 wk ahead,4.85537450475126e-47
+Delphi-Stat,2017/2018,3 wk ahead,1.84774775232988e-05
+Delphi-Uniform,2017/2018,3 wk ahead,7.47323854851611e-141
+ReichLab-KCDE,2017/2018,3 wk ahead,0.104527283810287
+ReichLab-KDE,2017/2018,3 wk ahead,1.21024173981413e-29
+ReichLab-SARIMA1,2017/2018,3 wk ahead,8.31470455259524e-12
+ReichLab-SARIMA2,2017/2018,3 wk ahead,0.0735533150315848
+CU-BMA,2017/2018,4 wk ahead,1.4681545125219e-08
+CU-EAKFC,2017/2018,4 wk ahead,3.10199112962866e-06
+Delphi-BasisRegression,2017/2018,4 wk ahead,1.80306617226549e-111
+Delphi-DeltaDensity1,2017/2018,4 wk ahead,0.672938240969528
+Delphi-DeltaDensity2,2017/2018,4 wk ahead,0.0853515103324941
+Delphi-EmpiricalBayes1,2017/2018,4 wk ahead,0.0379229750029323
+Delphi-EmpiricalBayes2,2017/2018,4 wk ahead,0.00485938417843201
+Delphi-EmpiricalFuture,2017/2018,4 wk ahead,1.39593468306822e-41
+Delphi-EmpiricalTraj,2017/2018,4 wk ahead,1.39593468306822e-41
+Delphi-Stat,2017/2018,4 wk ahead,4.05539599168299e-05
+Delphi-Uniform,2017/2018,4 wk ahead,3.56896717512314e-136
+ReichLab-KCDE,2017/2018,4 wk ahead,0.117710616139073
+ReichLab-KDE,2017/2018,4 wk ahead,4.51672947095319e-23
+ReichLab-SARIMA1,2017/2018,4 wk ahead,3.99399141816068e-15
+ReichLab-SARIMA2,2017/2018,4 wk ahead,0.0811736027449447
+CU-BMA,2017/2018,Season onset,0.00829778568710831
+CU-EAKFC,2017/2018,Season onset,0.00359961074937958
+Delphi-BasisRegression,2017/2018,Season onset,4.86505922733233e-61
+Delphi-DeltaDensity1,2017/2018,Season onset,0.000192422637546751
+Delphi-DeltaDensity2,2017/2018,Season onset,1.45958639814681e-15
+Delphi-EmpiricalBayes1,2017/2018,Season onset,0.000169598220180121
+Delphi-EmpiricalBayes2,2017/2018,Season onset,0.0447402600039297
+Delphi-EmpiricalFuture,2017/2018,Season onset,0.175187516249071
+Delphi-EmpiricalTraj,2017/2018,Season onset,1.77027506420341e-11
+Delphi-Stat,2017/2018,Season onset,3.53262760520061e-05
+Delphi-Uniform,2017/2018,Season onset,2.55184761335912e-57
+ReichLab-KCDE,2017/2018,Season onset,0.3957053376
+ReichLab-KDE,2017/2018,Season onset,0.125344373330656
+ReichLab-SARIMA1,2017/2018,Season onset,7.37751692276387e-24
+ReichLab-SARIMA2,2017/2018,Season onset,0.246727769228372
+CU-BMA,2017/2018,Season peak percentage,0.0345288701001716
+CU-EAKFC,2017/2018,Season peak percentage,0.0224708316217734
+Delphi-BasisRegression,2017/2018,Season peak percentage,5.62938261978509e-99
+Delphi-DeltaDensity1,2017/2018,Season peak percentage,0.175647344047042
+Delphi-DeltaDensity2,2017/2018,Season peak percentage,0.104007058350168
+Delphi-EmpiricalBayes1,2017/2018,Season peak percentage,0.000167963778946578
+Delphi-EmpiricalBayes2,2017/2018,Season peak percentage,8.00924701126733e-20
+Delphi-EmpiricalFuture,2017/2018,Season peak percentage,0.177219476588407
+Delphi-EmpiricalTraj,2017/2018,Season peak percentage,8.50557734050749e-67
+Delphi-Stat,2017/2018,Season peak percentage,4.11203356282274e-05
+Delphi-Uniform,2017/2018,Season peak percentage,3.98460252800244e-119
+ReichLab-KCDE,2017/2018,Season peak percentage,0.194070884940527
+ReichLab-KDE,2017/2018,Season peak percentage,6.49131169643624e-55
+ReichLab-SARIMA1,2017/2018,Season peak percentage,0.118201951505499
+ReichLab-SARIMA2,2017/2018,Season peak percentage,0.173644498731836
+CU-BMA,2017/2018,Season peak week,0.0646432529643113
+CU-EAKFC,2017/2018,Season peak week,0.0195740732225595
+Delphi-BasisRegression,2017/2018,Season peak week,2.42931397080144e-50
+Delphi-DeltaDensity1,2017/2018,Season peak week,1.23942977335668e-09
+Delphi-DeltaDensity2,2017/2018,Season peak week,0.0328629593797264
+Delphi-EmpiricalBayes1,2017/2018,Season peak week,4.98459608442382e-07
+Delphi-EmpiricalBayes2,2017/2018,Season peak week,1.53898008143703e-14
+Delphi-EmpiricalFuture,2017/2018,Season peak week,0.074308155479416
+Delphi-EmpiricalTraj,2017/2018,Season peak week,2.15938350577939e-35
+Delphi-Stat,2017/2018,Season peak week,0.0082730934979296
+Delphi-Uniform,2017/2018,Season peak week,1.36688128957431e-56
+ReichLab-KCDE,2017/2018,Season peak week,0.233816972084208
+ReichLab-KDE,2017/2018,Season peak week,2.65678702567313e-06
+ReichLab-SARIMA1,2017/2018,Season peak week,3.27967042894195e-15
+ReichLab-SARIMA2,2017/2018,Season peak week,0.566518336885766

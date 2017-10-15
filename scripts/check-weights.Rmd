@@ -1,0 +1,141 @@
+---
+title: "Weight descriptions for collaborative ensembles"
+author: "Nicholas G Reich"
+date: "10/14/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+## weight checking and visualization
+library(ggplot2)
+library(directlabels)
+library(dplyr)
+
+theme_set(theme_minimal())
+```
+
+## Constant weights
+
+```{r}
+constant_weights <- read.csv("../weights/constant-weights.csv") %>%
+    mutate(component_model_id = reorder(component_model_id, weight))
+ggplot(constant_weights, aes(x=as.numeric(season), y=weight, color=component_model_id)) + 
+    geom_line() + 
+    geom_dl(aes(label = component_model_id), method="last.points", cex=.8) +
+    scale_x_continuous(
+        limits=c(1, 10), breaks=1:7,
+        labels = paste0(2010:2016, "/", 2011:2017),
+        name=NULL) + 
+    scale_colour_discrete(guide = 'none') +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Constant model weights for each left-out season")
+
+ggplot(constant_weights, aes(x=season, fill=weight, y=component_model_id)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight, 2))) +
+    scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Constant model weights by season")
+```
+
+```{r}
+constant_weights %>%
+    group_by(season) %>%
+    summarize(total_weights = sum(weight))
+```
+
+## Target-type weights
+
+```{r}
+target_type_weights <- read.csv("../weights/target-type-based-weights.csv") %>%
+    filter(target == "1 wk ahead" | target=="Season onset") %>%
+    mutate(component_model_id = reorder(component_model_id, weight))
+
+ggplot(target_type_weights, aes(x=as.numeric(season), y=weight, color=component_model_id)) + 
+    geom_line() + 
+    geom_dl(aes(label = component_model_id), method="last.points", cex=.8) +
+    scale_x_continuous(
+        limits=c(1, 10), breaks=1:7,
+        labels = paste0(2010:2016, "/", 2011:2017),
+        name=NULL) + 
+    scale_colour_discrete(guide = 'none') +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    facet_grid(target~.) +
+    ggtitle("Target-type model weights for each left-out season")
+
+avg_target_type_weights <- target_type_weights %>% 
+    group_by(target, component_model_id) %>% 
+    summarize(weight = mean(weight)) %>% ungroup()
+    
+ggplot(avg_target_type_weights, aes(x=target, fill=weight, y=component_model_id)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight, 2))) +
+    scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average LOSO model weights by target")
+
+
+target_type_weights %>%
+    group_by(season, target) %>%
+    summarize(total_weights = sum(weight))
+```
+
+## Target-specific weights
+
+```{r}
+target_weights <- read.csv("../weights/target-based-weights.csv")
+avg_target_weights <- target_weights %>% 
+    group_by(target, component_model_id) %>% 
+    summarize(weight = mean(weight)) %>% ungroup() %>%
+    mutate(component_model_id = reorder(component_model_id, weight))
+ggplot(avg_target_weights, aes(x=target, fill=weight, y=component_model_id)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight, 2))) +
+    scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average LOSO model weights by target")
+```
+
+
+Do all weights sum to 1 within a season and target?
+```{r echo=TRUE}
+tot_target_weights <- target_weights %>%
+    group_by(season, target) %>%
+    summarize(total_weights = sum(weight)) 
+all.equal(
+    tot_target_weights$total_weights, 
+    rep(1, nrow(tot_target_weights))
+    )
+```
+
+
+
+## Target and region weights
+
+```{r, fig.height=10, fig.width=10}
+target_region_weights <- read.csv("../weights/target-and-region-based-weights.csv")
+avg_target_region_weights <- target_region_weights %>% 
+    group_by(target, location, component_model_id) %>% 
+    summarize(weight = mean(weight)) %>% ungroup() %>%
+    mutate(component_model_id = reorder(component_model_id, weight),
+        weight_text = ifelse(weight<0.005, NA, weight))
+ggplot(avg_target_region_weights, 
+    aes(x=target, fill=weight, y=component_model_id)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight_text, 2)), size=2) +
+    scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    facet_wrap("location") + 
+    ggtitle("Average LOSO model weights by target and region")
+```
+
+Do all weights sum to 1 within a season and target?
+```{r echo=TRUE}
+tot_target_region_weights <- target_region_weights %>%
+    group_by(season, target, location) %>%
+    summarize(total_weights = sum(weight))
+all.equal(
+    tot_target_region_weights$total_weights, 
+    rep(1, nrow(tot_target_region_weights))
+    )
