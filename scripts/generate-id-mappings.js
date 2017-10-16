@@ -8,10 +8,9 @@ const path = require('path')
 const fs = require('fs')
 const mmwr = require('mmwr-week')
 
+// NOTE: We only generate mappings for component models as others are not used
 const modelParents = [
-  'component-models',
-  'cv-ensemble-models',
-  'real-time-ensemble-models'
+  'component-models'
 ]
 
 /**
@@ -76,6 +75,7 @@ modelParents.forEach(parentDir => {
   seasons.forEach(season => {
     // Filter models
     let filteredModelDirs = modelDirs.filter(md => isModelComplete(md, season))
+    console.log(`Skipping ${modelDirs.length - filteredModelDirs.length} models for season ${season}, parent dir ${parentDir}`)
     let pairs = filteredModelDirs.map(getModelIdPair)
     pairs.forEach(pair => {
       lines.push(`${season},${pair[0]},${pair[1]}`)
