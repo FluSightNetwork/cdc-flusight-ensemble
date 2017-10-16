@@ -1,27 +1,21 @@
 const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
-const rimraf = require('rimraf')
 
-const getModelDirs = (rootPath) => {
-  return fs.readdirSync(rootPath)
-    .filter(item => fs.lstatSync(path.join(rootPath, item)).isDirectory())
-    .filter(item => {
-      // Check if the directory has a metadata* type file
-      let subItems = fs.readdirSync(path.join(rootPath, item)).filter(subItem => subItem.startsWith('metadata'))
-      return subItems.length > 0
-    })
-    .filter(item => item !== 'templates')
-}
 
-const getModelMetaFile = (modelDir) => {
-  return fs.readdirSync(modelDir).filter(subItem => subItem.startsWith('metadata'))[0]
+/**
+ * Return model directories
+ */
+const getModelDirs = rootDir => {
+  // NOTE: We only consider these two directories for visualizations
+  return ['component-models', 'real-time-ensemble-models'].reduce(function (acc, subDir) {
+    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
+  }, [])
+    .filter(function (it) { return fs.statSync(it).isDirectory() })
 }
 
 const readModelMetadata = (modelDir) => {
-  // Read any file matching metadata* as yaml
-  let metaFile = getModelMetaFile(modelDir)
-  return yaml.safeLoad(fs.readFileSync(path.join(modelDir, metaFile), 'utf8'))
+  return yaml.safeLoad(fs.readFileSync(path.join(modelDir, 'metadata.txt'), 'utf8'))
 }
 
 const parseMetadata = (rootMetadata, modelDir) => {
@@ -31,11 +25,10 @@ const parseMetadata = (rootMetadata, modelDir) => {
   if (desc.length > descMaxLen) {
     desc = desc.slice(0, descMaxLen) + '...'
   }
-  let metaFile = getModelMetaFile(modelDir)
   let repoUrl = 'https://github.com/FluSightNetwork/cdc-flusight-ensemble'
-  let metaPath = repoUrl + '/blob/master/' + path.join(path.basename(modelDir), metaFile)
+  let metaPath = repoUrl + '/blob/master/' + path.join(modelDir.slice(3), 'metadata.txt')
   return {
-    name: rootMetadata.team_name,
+    name: rootMetadata.team_name + ' - ' + rootMetadata.model_name,
     description: desc,
     url: metaPath
   }
@@ -47,16 +40,8 @@ const ensureMetadata = (filePath, data) => {
   }
 }
 
-const getModelIdentifier = (modelDirName) => {
-  let modelIdMap = {
-    'ReichLab_sarima_seasonal_difference_FALSE': 'ReichLab-SARIMA1',
-    'ReichLab_sarima_seasonal_difference_TRUE': 'ReichLab-SARIMA2'
-  }
-  if (modelDirName in modelIdMap) {
-    return modelIdMap[modelDirName]
-  } else {
-    return modelDirName
-  }
+const getModelIdentifier = (rootMetadata) => {
+  return rootMetadata.team_name + '-' + rootMetadata.model_abbr
 }
 
 const getCSVs = (modelDir) => {
@@ -78,16 +63,15 @@ const parseCSVInfo = (fileName) => {
 }
 
 // Main entry point
-let rootDir = '../'
-let modelDirs = getModelDirs(rootDir)
+let modelDirs = getModelDirs('../model-forecasts')
 
-modelDirs.forEach(md => {
+modelDirs.forEach(modelDir => {
   // Read metadata and parse to usable form
-  let rootMetadata = readModelMetadata(path.join(rootDir, md))
-  let flusightMetadata = parseMetadata(rootMetadata, path.join(rootDir, md))
-  let modelId = getModelIdentifier(md)
+  let rootMetadata = readModelMetadata(modelDir)
+  let flusightMetadata = parseMetadata(rootMetadata, modelDir)
+  let modelId = getModelIdentifier(rootMetadata)
 
-  getCSVs(path.join(rootDir, md)).forEach(csvFile => {
+  getCSVs(modelDir).forEach(csvFile => {
     let info = parseCSVInfo(path.basename(csvFile))
 
     // CSV target path
@@ -95,12 +79,9 @@ modelDirs.forEach(md => {
     fs.ensureDirSync(csvTargetDir)
 
     // Copy csv
-    fs.copySync(path.join(rootDir, md, csvFile), path.join(csvTargetDir, info.name))
+    fs.copySync(path.join(modelDir, csvFile), path.join(csvTargetDir, info.name))
 
     // Write metadata
     ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)
   })
 })
-
-// Remove future? data
-rimraf.sync('./data/2017-2018')

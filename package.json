@@ -1,0 +1,22 @@
+{
+  "name": "cdc-flusight-ensemble",
+  "version": "1.0.0",
+  "description": "Scripts for cdc-flusight-ensemble data repo",
+  "scripts": {
+    "test": "mocha ./test-data.js -R spec",
+    "generate-scores": "node ./scripts/generate-scores.js",
+    "generate-id-mappings": "node ./scripts/generate-id-mappings.js"
+  },
+  "author": "Abhinav Tushar",
+  "dependencies": {
+    "array-equal": "^1.0.0",
+    "chai": "^4.1.1",
+    "d3": "^4.10.2",
+    "js-yaml": "^3.9.1",
+    "mmwr-week": "^1.1.0",
+    "mocha": "^3.5.0",
+    "moment": "^2.18.1",
+    "papaparse": "^4.3.5",
+    "progress": "^2.0.0"
+  }
+}

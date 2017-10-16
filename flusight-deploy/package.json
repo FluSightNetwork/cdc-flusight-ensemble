@@ -7,8 +7,9 @@
   },
   "author": "Abhinav Tushar",
   "dependencies": {
+    "d3-collection": "^1.0.4",
     "fs-extra": "^4.0.1",
     "js-yaml": "^3.9.1",
-    "rimraf": "^2.6.1"
+    "papaparse": "^4.3.6"
   }
 }

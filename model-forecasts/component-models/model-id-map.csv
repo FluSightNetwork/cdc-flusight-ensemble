@@ -1,0 +1,16 @@
+model-id,model-dir,complete
+CU-BMA,CUBMA,false
+CU-EAKFC,CUEAKFC,false
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,true
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,true
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,true
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,true
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,true
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,true
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,true
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,true
+Delphi-Uniform,Delphi_Uniform,true
+ReichLab-KCDE,ReichLab_kcde,true
+ReichLab-KDE,ReichLab_kde,true
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,true
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,true
