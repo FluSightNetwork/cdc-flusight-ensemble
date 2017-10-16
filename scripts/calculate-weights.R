@@ -2,6 +2,8 @@ library("pipeR")
 library("epiforecast") 
 ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
 
+## make equal weights file separately
+source("make-equal-weights.R")
 
 ## Set up parallel:
 options(mc.cores=parallel::detectCores()-1L)
