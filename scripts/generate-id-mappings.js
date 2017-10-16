@@ -70,18 +70,33 @@ modelParents.forEach(parentDir => {
   let modelDirs = models.getModelDirs(rootPath, [parentDir])
   let seasons = getSeasons(modelDirs)
 
-  let header = 'season,model-id,model-dir'
-  let lines = []
+  let headerSeasonal = 'season,model-id,model-dir'
+  let linesSeasonal = []
   seasons.forEach(season => {
     // Filter models
     let filteredModelDirs = modelDirs.filter(md => isModelComplete(md, season))
-    console.log(`Skipping ${modelDirs.length - filteredModelDirs.length} models for season ${season}, parent dir ${parentDir}`)
+    console.log(`Skipping ${modelDirs.length - filteredModelDirs.length} models for season ${season} in ${parentDir}`)
+
     let pairs = filteredModelDirs.map(getModelIdPair)
     pairs.forEach(pair => {
-      lines.push(`${season},${pair[0]},${pair[1]}`)
+      linesSeasonal.push(`${season},${pair[0]},${pair[1]}`)
     })
   })
 
-  let outputFile = path.join(rootPath, parentDir, 'complete-modelids\.csv')
-  writeCSV(header, lines, outputFile)
+  // Write seasonal mapping file
+  let seasonalMappingFile = path.join(rootPath, parentDir, 'complete-modelids\.csv')
+  writeCSV(headerSeasonal, linesSeasonal, seasonalMappingFile)
+
+  // Create non-seasonal mapping file
+  let headerGlobal = 'model-id,model-dir,complete'
+  let linesGlobal = []
+  modelDirs.forEach(md => {
+    // Check if the model is complete for all seasons
+    let isGloballyComplete = seasons.map(s => isModelComplete(md, s)).every(c => c === true)
+    let pair = getModelIdPair(md)
+    linesGlobal.push(`${pair[0]},${pair[1]},${isGloballyComplete}`)
+  })
+
+  let globalMappingFile = path.join(rootPath, parentDir, 'model-id-map.csv')
+  writeCSV(headerGlobal, linesGlobal, globalMappingFile)
 })
