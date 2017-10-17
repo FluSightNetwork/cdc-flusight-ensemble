@@ -1,4 +1,7 @@
 season,model-id,model-dir
+2010/2011,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2010/2011,CU-EAKFC_SIRS,CU_EAKFC_SIRS
+2010/2011,CU-RHF_SEIRS,CU_RHF_SEIRS
 2010/2011,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2010/2011,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2010/2011,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
@@ -12,6 +15,11 @@ season,model-id,model-dir
 2010/2011,ReichLab-KDE,ReichLab_kde
 2010/2011,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2010/2011,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2011/2012,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2011/2012,CU-EAKFC_SIRS,CU_EAKFC_SIRS
+2011/2012,CU-EKF_SIRS,CU_EKF_SIRS
+2011/2012,CU-RHF_SEIRS,CU_RHF_SEIRS
+2011/2012,CU-RHF_SIRS,CU_RHF_SIRS
 2011/2012,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2011/2012,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2011/2012,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
@@ -25,6 +33,8 @@ season,model-id,model-dir
 2011/2012,ReichLab-KDE,ReichLab_kde
 2011/2012,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2011/2012,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2012/2013,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2012/2013,CU-EKF_SIRS,CU_EKF_SIRS
 2012/2013,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2012/2013,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2012/2013,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
@@ -38,6 +48,11 @@ season,model-id,model-dir
 2012/2013,ReichLab-KDE,ReichLab_kde
 2012/2013,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2012/2013,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2013/2014,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2013/2014,CU-EAKFC_SIRS,CU_EAKFC_SIRS
+2013/2014,CU-EKF_SIRS,CU_EKF_SIRS
+2013/2014,CU-RHF_SEIRS,CU_RHF_SEIRS
+2013/2014,CU-RHF_SIRS,CU_RHF_SIRS
 2013/2014,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2013/2014,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2013/2014,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
@@ -51,6 +66,10 @@ season,model-id,model-dir
 2013/2014,ReichLab-KDE,ReichLab_kde
 2013/2014,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2013/2014,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2014/2015,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2014/2015,CU-EKF_SIRS,CU_EKF_SIRS
+2014/2015,CU-RHF_SEIRS,CU_RHF_SEIRS
+2014/2015,CU-RHF_SIRS,CU_RHF_SIRS
 2014/2015,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2014/2015,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2014/2015,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
@@ -64,6 +83,11 @@ season,model-id,model-dir
 2014/2015,ReichLab-KDE,ReichLab_kde
 2014/2015,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2014/2015,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2015/2016,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
+2015/2016,CU-EAKFC_SIRS,CU_EAKFC_SIRS
+2015/2016,CU-EKF_SIRS,CU_EKF_SIRS
+2015/2016,CU-RHF_SEIRS,CU_RHF_SEIRS
+2015/2016,CU-RHF_SIRS,CU_RHF_SIRS
 2015/2016,Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults
 2015/2016,Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults
 2015/2016,Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4
