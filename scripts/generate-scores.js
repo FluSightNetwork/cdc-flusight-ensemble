@@ -108,7 +108,6 @@ models.getModelDirs(
         } catch (e) {
           console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
           console.log(e)
-          process.exit(1)
         }
       })
     })
