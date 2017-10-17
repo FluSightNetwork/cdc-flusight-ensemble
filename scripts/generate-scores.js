@@ -106,8 +106,8 @@ models.getModelDirs(
             `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score === -Infinity ? 'NaN' : score}`
           )
         } catch (e) {
-          console.log(` # Some error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
-          process.exit(1)
+          console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+          console.log(e)
         }
       })
     })
