@@ -64,6 +64,9 @@ const parseCSVInfo = (fileName) => {
 
 // Main entry point
 let modelDirs = getModelDirs('../model-forecasts')
+// Load csv blacklist
+let blacklistFile = '../csv-blacklist.yaml'
+let blacklist = yaml.safeLoad(fs.readFileSync(blacklistFile, 'utf8')).map(fn => '../' + fn)
 
 modelDirs.forEach(modelDir => {
   // Read metadata and parse to usable form
@@ -71,17 +74,19 @@ modelDirs.forEach(modelDir => {
   let flusightMetadata = parseMetadata(rootMetadata, modelDir)
   let modelId = getModelIdentifier(rootMetadata)
 
-  getCSVs(modelDir).forEach(csvFile => {
-    let info = parseCSVInfo(path.basename(csvFile))
+  getCSVs(modelDir)
+    .filter(csvFile => blacklist.indexOf(path.join(modelDir, csvFile)) === -1)
+    .forEach(csvFile => {
+      let info = parseCSVInfo(path.basename(csvFile))
 
-    // CSV target path
-    let csvTargetDir = path.join('./data', info.season, modelId)
-    fs.ensureDirSync(csvTargetDir)
+      // CSV target path
+      let csvTargetDir = path.join('./data', info.season, modelId)
+      fs.ensureDirSync(csvTargetDir)
 
-    // Copy csv
-    fs.copySync(path.join(modelDir, csvFile), path.join(csvTargetDir, info.name))
+      // Copy csv
+      fs.copySync(path.join(modelDir, csvFile), path.join(csvTargetDir, info.name))
 
-    // Write metadata
-    ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)
-  })
+      // Write metadata
+      ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)
+    })
 })
