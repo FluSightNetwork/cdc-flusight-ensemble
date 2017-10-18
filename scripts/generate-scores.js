@@ -7,9 +7,12 @@ const Papa = require('papaparse')
 const fs = require('fs')
 const meta = require('./modules/meta')
 const models = require('./modules/models')
+const util = require('./modules/util')
 
 const truthFile = './scores/target-multivals.csv'
 const outputFile = './scores/scores.csv'
+const errorBlacklistFile = './csv-blacklist.yaml'
+const errorLogFile = './csv-error.log'
 
 /**
  * Return csv data nested using d3.nest
@@ -60,6 +63,13 @@ const getBinProbabilities = (csvDataSubset, binStarts) => {
   })
 }
 
+const writeLines = (lines, fileName) => {
+  fs.writeFile(fileName, lines.join('\n'), err => {
+    if (err) { throw err }
+    console.log(` > ${fileName} written`)
+  })
+}
+
 // E N T R Y  P O I N T
 // For each model, for each csv (year, week), for each region, get the 7 targets
 // and find log scores, append those to the output file.
@@ -77,6 +87,8 @@ let header = [
 ]
 
 let outputLines = [header.join(',')]
+let errorLogLines = []
+let errorBlacklistLines = []
 let trueData = getTrueData(truthFile)
 
 // NOTE: For scores, we only consider these two directories
@@ -91,32 +103,47 @@ models.getModelDirs(
 
   csvs.forEach(csvFile => {
     let {year, epiweek} = models.getCsvTime(csvFile)
-    let csvData = getCsvData(csvFile)
-    meta.regions.forEach(region => {
-      meta.targets.forEach(target => {
-        let trueTargets = trueData[year][epiweek][region][target]
-        let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
-        let season = trueTargets[0][2]
-        let modelWeek = trueTargets[0][3]
-        let modelProbabilities = csvData[region][target]
-        try {
-          let binProbs = getBinProbabilities(modelProbabilities, trueBinStarts)
-          let score = binProbs.map(Math.log).reduce((a, b) => a + b, 0)
-          outputLines.push(
-            `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score === -Infinity ? 'NaN' : score}`
-          )
-        } catch (e) {
-          console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
-          console.log(e)
-        }
+    try {
+      let csvData = getCsvData(csvFile)
+      meta.regions.forEach(region => {
+        meta.targets.forEach(target => {
+          let trueTargets = trueData[year][epiweek][region][target]
+          let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
+          let season = trueTargets[0][2]
+          let modelWeek = trueTargets[0][3]
+          let modelProbabilities = csvData[region][target]
+          try {
+            let binProbs = getBinProbabilities(modelProbabilities, trueBinStarts)
+            let score = binProbs.map(Math.log).reduce((a, b) => a + b, 0)
+            outputLines.push(
+              `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score === -Infinity ? 'NaN' : score}`
+            )
+          } catch (e) {
+            errorLogLines.push(`Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            errorLogLines.push(e.name)
+            errorLogLines.push(e.message)
+            errorLogLines.push('')
+            errorBlacklistLines.push(`- ${csvFile}`)
+            console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            console.log(e)
+          }
+        })
       })
-    })
+    } catch (e) {
+      errorLogLines.push(`Error in ${csvFile}`)
+      errorLogLines.push(e.name)
+      errorLogLines.push(e.message)
+      errorLogLines.push('')
+      errorBlacklistLines.push(`- ${csvFile}`)
+      console.log(` # Error in ${csvFile}`)
+      console.log(e)
+    }
   })
 })
 
-fs.writeFile(outputFile, outputLines.join('\n'), err => {
-  if (err) {
-    throw err
-  }
-  console.log(' > Output written')
-})
+// The main scores.csv
+writeLines(outputLines, outputFile)
+
+// Error logs
+writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+writeLines(errorLogLines, errorLogFile)
