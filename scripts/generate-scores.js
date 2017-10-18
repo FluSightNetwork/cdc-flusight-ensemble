@@ -63,13 +63,6 @@ const getBinProbabilities = (csvDataSubset, binStarts) => {
   })
 }
 
-const writeLines = (lines, fileName) => {
-  fs.writeFile(fileName, lines.join('\n'), err => {
-    if (err) { throw err }
-    console.log(` > ${fileName} written`)
-  })
-}
-
 // E N T R Y  P O I N T
 // For each model, for each csv (year, week), for each region, get the 7 targets
 // and find log scores, append those to the output file.
@@ -142,8 +135,8 @@ models.getModelDirs(
 })
 
 // The main scores.csv
-writeLines(outputLines, outputFile)
+util.writeLines(outputLines, outputFile)
 
 // Error logs
-writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
-writeLines(errorLogLines, errorLogFile)
+util.writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+util.writeLines(errorLogLines, errorLogFile)

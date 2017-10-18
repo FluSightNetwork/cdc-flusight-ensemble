@@ -1,25 +1,12 @@
 const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
+const models = require('../scripts/modules/models')
+const util = require('../scripts/modules/util')
 
-
-/**
- * Return model directories
- */
-const getModelDirs = rootDir => {
-  // NOTE: We only consider these two directories for visualizations
-  return ['component-models', 'real-time-ensemble-models'].reduce(function (acc, subDir) {
-    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
-  }, [])
-    .filter(function (it) { return fs.statSync(it).isDirectory() })
-}
-
-const readModelMetadata = (modelDir) => {
-  return yaml.safeLoad(fs.readFileSync(path.join(modelDir, 'metadata.txt'), 'utf8'))
-}
-
-const parseMetadata = (rootMetadata, modelDir) => {
+const parseMetadata = (modelDir) => {
   // Return a flusight compatible metadata object
+  let rootMetadata = models.getModelMetadata(modelDir)
   let desc = rootMetadata.methods
   let descMaxLen = 150
   if (desc.length > descMaxLen) {
@@ -40,14 +27,6 @@ const ensureMetadata = (filePath, data) => {
   }
 }
 
-const getModelIdentifier = (rootMetadata) => {
-  return rootMetadata.team_name + '-' + rootMetadata.model_abbr
-}
-
-const getCSVs = (modelDir) => {
-  return fs.readdirSync(modelDir).filter(file => file.endsWith('.csv'))
-}
-
 const parseCSVInfo = (fileName) => {
   // Return season and formatted name for the csv
   let splits = fileName.split('-')
@@ -63,19 +42,22 @@ const parseCSVInfo = (fileName) => {
 }
 
 // Main entry point
-let modelDirs = getModelDirs('../model-forecasts')
+let modelDirs = models.getModelDirs(
+  '../model-forecasts',
+  ['component-models', 'real-time-ensemble-models']
+)
+
 // Load csv blacklist
 let blacklistFile = '../csv-blacklist.yaml'
 let blacklist = yaml.safeLoad(fs.readFileSync(blacklistFile, 'utf8')).map(fn => '../' + fn)
 
 modelDirs.forEach(modelDir => {
   // Read metadata and parse to usable form
-  let rootMetadata = readModelMetadata(modelDir)
-  let flusightMetadata = parseMetadata(rootMetadata, modelDir)
-  let modelId = getModelIdentifier(rootMetadata)
+  let flusightMetadata = parseMetadata(modelDir)
+  let modelId = models.getModelId(modelDir)
 
-  getCSVs(modelDir)
-    .filter(csvFile => blacklist.indexOf(path.join(modelDir, csvFile)) === -1)
+  models.getModelCsvs(modelDir)
+    .filter(csvFile => blacklist.indexOf(csvFile) === -1)
     .forEach(csvFile => {
       let info = parseCSVInfo(path.basename(csvFile))
 
@@ -84,7 +66,7 @@ modelDirs.forEach(modelDir => {
       fs.ensureDirSync(csvTargetDir)
 
       // Copy csv
-      fs.copySync(path.join(modelDir, csvFile), path.join(csvTargetDir, info.name))
+      fs.copySync(csvFile, path.join(csvTargetDir, info.name))
 
       // Write metadata
       ensureMetadata(path.join(csvTargetDir, 'meta.yml'), flusightMetadata)

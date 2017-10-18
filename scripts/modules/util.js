@@ -2,6 +2,9 @@
  * Some utilities
  */
 
+const fs = require('fs')
+const yaml = require('js-yaml')
+
 /**
  * Check if a is subset of b
  */
@@ -30,5 +33,18 @@ const unique = a => {
   }, [])
 }
 
+const writeLines = (lines, fileName) => {
+  fs.writeFile(fileName, lines.join('\n'), err => {
+    if (err) { throw err }
+    console.log(` > ${fileName} written`)
+  })
+}
+
+const readYamlFile = fileName => {
+  return yaml.safeLoad(fs.readFileSync(fileName, 'utf8'))
+}
+
 module.exports.isSubset = isSubset
 module.exports.unique = unique
+module.exports.writeLines = writeLines
+module.exports.readYamlFile = readYamlFile

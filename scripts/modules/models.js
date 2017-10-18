@@ -4,7 +4,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const yaml = require('js-yaml')
+const util = require('./util')
 
 /**
  * Return model directories
@@ -16,12 +16,16 @@ const getModelDirs = (rootDir, modelTypes) => {
     .filter(function (it) { return fs.statSync(it).isDirectory() })
 }
 
+const getModelMetadata = modelDir => {
+  return util.readYamlFile(path.join(modelDir, 'metadata.txt'))
+}
+
 /**
  * Return model id from modelDir
  */
 const getModelId = modelDir => {
-  let config = yaml.load(fs.readFileSync(path.join(modelDir, 'metadata.txt'), 'utf8'))
-  return `${config.team_name}-${config.model_abbr}`
+  let meta = getModelMetadata(modelDir)
+  return `${meta.team_name}-${meta.model_abbr}`
 }
 
 /**
@@ -43,6 +47,7 @@ const getModelCsvs = modelDir => {
 }
 
 module.exports.getModelDirs = getModelDirs
+module.exports.getModelMetadata = getModelMetadata
 module.exports.getModelId = getModelId
 module.exports.getCsvTime = getCsvTime
 module.exports.getModelCsvs = getModelCsvs
