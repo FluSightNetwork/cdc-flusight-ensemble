@@ -5,7 +5,6 @@
 const models = require('./modules/models')
 const util = require('./modules/util')
 const path = require('path')
-const fs = require('fs')
 const mmwr = require('mmwr-week')
 
 // NOTE: We only generate mappings for component models as others are not used
@@ -60,9 +59,7 @@ const getModelIdPair = modelDir => {
 }
 
 const writeCSV = (header, lines, filename) => {
-  fs.writeFile(filename, [header, ...lines].join('\n'), err => {
-    if (err) { throw err }
-  })
+  util.writeLines([header, ...lines], filename)
 }
 
 modelParents.forEach(parentDir => {
