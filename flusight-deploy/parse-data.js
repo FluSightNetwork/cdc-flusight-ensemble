@@ -49,7 +49,8 @@ let modelDirs = models.getModelDirs(
 
 // Load csv blacklist
 let blacklistFile = '../csv-blacklist.yaml'
-let blacklist = yaml.safeLoad(fs.readFileSync(blacklistFile, 'utf8')).map(fn => '../' + fn)
+let blacklist = yaml.safeLoad(fs.readFileSync(blacklistFile, 'utf8'))
+blacklist = blacklist ? blacklist.map(fn => '../' + fn) : []
 
 modelDirs.forEach(modelDir => {
   // Read metadata and parse to usable form
