@@ -38,7 +38,7 @@ for(j in 1:length(weight_files)){
     for(i in 1:length(seasons)){
         loso_season =  seasons[i]
         wt_subset <- filter(stacking_weights, season==loso_season) %>%
-            select(-season)
+            dplyr::select(-season)
         
         ## identify the "EWXX-YYYY" combos for files given season
         first_year <- substr(loso_season, 0, 4)
