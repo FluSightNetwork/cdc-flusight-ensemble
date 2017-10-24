@@ -32,9 +32,8 @@ for(j in 1:length(weight_files)){
     seasons <- unique(stacking_weights$season)
     if("2017/2018" %in% seasons)
         seasons <- seasons[-which(seasons=="2017/2018")]
-    ## registerDoMC()
+    registerDoMC()
     ## loop through each season and each season-week to make stacked forecasts
-    ## foreach(i=1:length(seasons)) %dopar% {
     for(i in 1:length(seasons)){
         loso_season =  seasons[i]
         wt_subset <- filter(stacking_weights, season==loso_season) %>%
@@ -48,7 +47,9 @@ for(j in 1:length(weight_files)){
             paste0("EW", formatC(1:20, width=2, flag=0), "-", as.numeric(first_year)+1)
         )
         
-        for(this_week in week_names) {
+        foreach(k=1:length(week_names)) %dopar% {
+        ## for(this_week in 1:length(week_names)) {
+            this_week <- week_names[k]
             message(paste(stacked_name, "::", this_week, "::", Sys.time()))
             ## stack models, save ensemble file
             files_to_stack <- paste0(
