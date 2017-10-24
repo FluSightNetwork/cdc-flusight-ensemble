@@ -47,6 +47,38 @@ const getTrueData = truthFile => {
 }
 
 /**
+ * Not exactly linspace
+ */
+const linspace = (start, end, gap) => {
+  let out = [start]
+  while (out[out.length - 1] !== end) {
+    out.push(out[out.length - 1] + gap)
+  }
+  return out
+}
+
+/**
+ * Return expanded set of binStarts for given bin value and target type
+ */
+const expandBinStarts = (binStarts, targetType, year) => {
+  if (targetType.endsWith('ahead') || targetType.endsWith('percentage')) {
+    // This is a percentage target
+    return binStarts.reduce((acc, binStart) => {
+      return acc.concat(
+        linspace(-0.5, 0.5, 0.1)
+          .map(diff => binStart + diff)
+          .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
+      )
+    }, [])
+  } else {
+    // This is a week target
+    return binStarts.reduce((acc, binStart) => {
+      return acc.concat(weekNeighbours(binStart, year))
+    }, [])
+  }
+}
+
+/**
  * Return probability assigned by model for given binStarts
  */
 const getBinProbabilities = (csvDataSubset, binStarts) => {
