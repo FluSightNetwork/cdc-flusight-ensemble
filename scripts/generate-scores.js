@@ -174,8 +174,12 @@ models.getModelDirs(
               console.log(expandedScore)
               process.exit(1)
             }
+            // Handle infinity scores
             score = score === -Infinity ? 'NaN' : score
             expandedScore = expandedScore === -Infinity ? 'NaN' : expandedScore
+            // Handle EPSILON
+            score = (-score < tolerance) && (score !== 'NaN') ? 0 : score
+            expandedScore = (-expandedScore < tolerance) && (expandedScore !== 'NaN') ? 0 : expandedScore
             outputLines.push(
               `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
             )
