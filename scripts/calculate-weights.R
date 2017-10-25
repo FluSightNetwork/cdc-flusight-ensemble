@@ -1,4 +1,5 @@
 library("pipeR")
+library("dplyr")
 library("epiforecast") 
 ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
 
@@ -30,12 +31,21 @@ component.score.df = read.csv("../scores/scores.csv", check.names=FALSE, strings
   dplyr::mutate(Metric = "some log score") %>>%
   {.}
 
+## Create data.frame of boundary weeks of scores to keep for each target/season
+source("create-scoring-period.R")
+all.target.bounds = create_scoring_period()
+
+## Remove scores that fall outside of evaluation period for a given target/season
+component.score.df.trim <- component.score.df %>%
+  dplyr::left_join(all.target.bounds, by = c("Season", "Target", "Location")) %>%
+  dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
 ## Perform some checks:
-if (any(is.na(component.score.df[["Score"]]))) {
+if (any(is.na(component.score.df.trim[["Score"]]))) {
   stop ("No NA's are allowed for the component")
 }
 multiple.entry.df =
-  component.score.df %>>%
+  component.score.df.trim %>>%
   dplyr::group_by(Season, `Model Week`, Location, Target, Metric, Model) %>>%
   dplyr::filter(n()!=1L) %>>%
   dplyr::mutate(`Entry Count`=n()) %>>%
@@ -47,7 +57,7 @@ if (nrow(multiple.entry.df) != 0L) {
 
 ## Cast to array, introducing NA's for missing entries in Cartesian product:
 component.score.array =
-  component.score.df %>>%
+  component.score.df.trim %>>%
   reshape2::acast(Season ~ `Model Week` ~ Location ~ Target ~ Metric ~ Model, value.var="Score") %>>%
   {names(dimnames(.)) <- c("Season", "Model Week", "Location", "Target", "Metric", "Model"); .}
 
