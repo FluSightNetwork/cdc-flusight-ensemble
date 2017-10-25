@@ -153,7 +153,6 @@ models.getModelDirs(
     try {
       let csvData = getCsvData(csvFile)
       meta.regions.forEach(region => {
-        let k = 0
         meta.targets.forEach(target => {
           let trueTargets = trueData[year][epiweek][region][target]
           let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
