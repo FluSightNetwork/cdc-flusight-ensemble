@@ -5,6 +5,9 @@ library("epiforecast")
 ## make equal weights file separately
 source("make-equal-weights.R")
 
+## set column to use for calculating weights
+SCORE_COL <- quo(`Multi bin score`)
+
 ## Set up parallel:
 options(mc.cores=parallel::detectCores()-1L)
 
@@ -26,12 +29,12 @@ weighting.scheme.partial.indexer.lists = list(
 component.score.df = read.csv("../scores/scores.csv", check.names=FALSE, stringsAsFactors=FALSE) %>>%
   tibble::as_tibble() %>>%
   dplyr::filter(!grepl('FSNetwork', Model)) %>>% ## drop ensemble models!
-  dplyr::mutate(Score = dplyr::if_else(is.nan(Score), -Inf, Score)) %>>%
+  dplyr::mutate(score_to_optimize = dplyr::if_else(is.nan(!!SCORE_COL), -Inf, !!SCORE_COL)) %>>%
   dplyr::mutate(Metric = "some log score") %>>%
   {.}
 
 ## Perform some checks:
-if (any(is.na(component.score.df[["Score"]]))) {
+if (any(is.na(component.score.df[["score_to_optimize"]]))) {
   stop ("No NA's are allowed for the component")
 }
 multiple.entry.df =
@@ -48,7 +51,7 @@ if (nrow(multiple.entry.df) != 0L) {
 ## Cast to array, introducing NA's for missing entries in Cartesian product:
 component.score.array =
   component.score.df %>>%
-  reshape2::acast(Season ~ `Model Week` ~ Location ~ Target ~ Metric ~ Model, value.var="Score") %>>%
+  reshape2::acast(Season ~ `Model Week` ~ Location ~ Target ~ Metric ~ Model, value.var="score_to_optimize") %>>%
   {names(dimnames(.)) <- c("Season", "Model Week", "Location", "Target", "Metric", "Model"); .}
 
 ## Replace NA's corresponding to incomplete sets of forecasts with -Inf's:
