@@ -1,6 +1,6 @@
 model-id,model-dir,complete
-CU-BMA,CUBMA,false
-CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,false
+CU-BMA,CUBMA,true
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,true
 CU-EAKFC_SIRS,CU_EAKFC_SIRS,true
 CU-EKF_SEIRS,CU_EKF_SEIRS,true
 CU-EKF_SIRS,CU_EKF_SIRS,true
@@ -15,6 +15,7 @@ Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,true
 Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,true
 Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,true
 Delphi-Uniform,Delphi_Uniform,true
+LANL-DBM,LANL_DBM,true
 ReichLab-KCDE,ReichLab_kcde,true
 ReichLab-KDE,ReichLab_kde,true
 ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,true
