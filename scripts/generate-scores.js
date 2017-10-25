@@ -165,6 +165,15 @@ models.getModelDirs(
             let expandedBinProbs = getBinProbabilities(modelProbabilities, expandedTrueBinStarts)
             let score = Math.log(binProbs.reduce((a, b) => a + b, 0))
             let expandedScore = Math.log(expandedBinProbs.reduce((a, b) => a + b, 0))
+            if (Math.log(expandedBinProbs.reduce((a, b) => a + b, 0)) > tolerance) {
+              console.log(trueBinStarts)
+              console.log(binProbs.reduce((a, b) => a + b, 0))
+              console.log(score)
+              console.log(expandedTrueBinStarts)
+              console.log(expandedBinProbs.reduce((a, b) => a + b, 0))
+              console.log(expandedScore)
+              process.exit(1)
+            }
             score = score === -Infinity ? 'NaN' : score
             expandedScore = expandedScore === -Infinity ? 'NaN' : expandedScore
             outputLines.push(
