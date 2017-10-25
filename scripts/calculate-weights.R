@@ -1,4 +1,5 @@
 library("pipeR")
+library("dplyr")
 library("epiforecast") 
 ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
 
