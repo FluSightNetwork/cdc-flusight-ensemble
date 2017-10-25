@@ -5,6 +5,7 @@
 const d3 = require('d3')
 const Papa = require('papaparse')
 const fs = require('fs')
+const mmwr = require('mmwr-week')
 const meta = require('./modules/meta')
 const models = require('./modules/models')
 const util = require('./modules/util')
@@ -58,6 +59,26 @@ const linspace = (start, end, gap) => {
 }
 
 /**
+ * Return a neighbouring region of 1 bin around a given week
+ */
+const weekNeighbours = (binStart, year) => {
+  let lastWeek = (new mmwr.MMWRDate(year, 1)).nWeeks
+
+  // Handle edge cases
+  if (binStart === 40) {
+    // We are at the beginning of the season
+    return [binStart, binStart + 1]
+  } else if (binStart === lastWeek) {
+    // We are the end of year (but somewhere in between for season)
+    // The next bin is 1
+    return [binStart - 1, binStart, 1]
+  } else {
+    // This is regular case
+    return [binStart - 1, binStart, binStart + 1]
+  }
+}
+
+/**
  * Return expanded set of binStarts for given bin value and target type
  */
 const expandBinStarts = (binStarts, targetType, year) => {
@@ -108,7 +129,8 @@ let header = [
   'Model Week',
   'Location',
   'Target',
-  'Score'
+  'Score',
+  'Multi bin score'
 ]
 
 let outputLines = [header.join(',')]
@@ -131,17 +153,23 @@ models.getModelDirs(
     try {
       let csvData = getCsvData(csvFile)
       meta.regions.forEach(region => {
+        let k = 0
         meta.targets.forEach(target => {
           let trueTargets = trueData[year][epiweek][region][target]
           let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
+          let expandedTrueBinStarts = expandBinStarts(trueBinStarts, target, year)
           let season = trueTargets[0][2]
           let modelWeek = trueTargets[0][3]
           let modelProbabilities = csvData[region][target]
           try {
             let binProbs = getBinProbabilities(modelProbabilities, trueBinStarts)
-            let score = binProbs.map(Math.log).reduce((a, b) => a + b, 0)
+            let expandedBinProbs = getBinProbabilities(modelProbabilities, expandedTrueBinStarts)
+            let score = Math.log(binProbs.reduce((a, b) => a + b, 0))
+            let expandedScore = Math.log(expandedBinProbs.reduce((a, b) => a + b, 0))
+            score = score === -Infinity ? 'NaN' : score
+            expandedScore = expandedScore === -Infinity ? 'NaN' : expandedScore
             outputLines.push(
-              `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score === -Infinity ? 'NaN' : score}`
+              `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
             )
           } catch (e) {
             errorLogLines.push(`Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
