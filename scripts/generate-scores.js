@@ -50,7 +50,7 @@ const getTrueData = truthFile => {
 /**
  * Not exactly linspace
  */
-const linspace = (start, end, gap) => {
+const arange = (start, end, gap) => {
   let out = [start]
   while (out[out.length - 1] !== end) {
     out.push(out[out.length - 1] + gap)
@@ -86,7 +86,7 @@ const expandBinStarts = (binStarts, targetType, year) => {
     // This is a percentage target
     return binStarts.reduce((acc, binStart) => {
       return acc.concat(
-        linspace(-0.5, 0.5, 0.1)
+        arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
           .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
       )
