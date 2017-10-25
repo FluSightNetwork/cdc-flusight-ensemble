@@ -20,6 +20,7 @@ env:
   - ENCRYPTION_LABEL: "ae5ecd417952"
 
 before_install:
-  - Rscript -e "install.packages('devtools', repos='http://cran.us.r-project.org')"
+  - sudo Rscript -e "install.packages('devtools', repos='http://cran.us.r-project.org')"
+  - sudo Rscript -e "devtools::install_github('jarad/FluSight')"
 
 script: bash ./travis-main.sh
