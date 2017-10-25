@@ -21,6 +21,7 @@ env:
 
 before_install:
   - sudo Rscript -e "install.packages('devtools', repos='http://cran.us.r-project.org')"
+  - sudo Rscript -e "devtools::install_github('hrbrmstr/cdcfluview')"
   - sudo Rscript -e "devtools::install_github('jarad/FluSight')"
 
 script: bash ./travis-main.sh
