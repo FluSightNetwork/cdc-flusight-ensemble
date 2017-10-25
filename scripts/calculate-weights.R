@@ -31,7 +31,8 @@ weighting.scheme.partial.indexer.lists = list(
 component.score.df = read.csv("../scores/scores.csv", check.names=FALSE, stringsAsFactors=FALSE) %>>%
   tibble::as_tibble() %>>%
   dplyr::filter(!grepl('FSNetwork', Model)) %>>% ## drop ensemble models!
-  dplyr::mutate(score_to_optimize = dplyr::if_else(is.nan(!!SCORE_COL), -Inf, !!SCORE_COL)) %>>%
+  dplyr::mutate(score_to_optimize = dplyr::if_else(is.nan(!!SCORE_COL), -10, !!SCORE_COL)) %>>%
+  dplyr::mutate(score_to_optimize = dplyr::if_else(score_to_optimize < -10 , -10, score_to_optimize)) %>>%
   dplyr::mutate(Metric = "some log score") %>>%
   {.}
 
@@ -65,19 +66,19 @@ component.score.array =
   reshape2::acast(Season ~ `Model Week` ~ Location ~ Target ~ Metric ~ Model, value.var="score_to_optimize") %>>%
   {names(dimnames(.)) <- c("Season", "Model Week", "Location", "Target", "Metric", "Model"); .}
 
-## Replace NA's corresponding to incomplete sets of forecasts with -Inf's:
+## Replace NA's corresponding to incomplete sets of forecasts with -10's:
 n.models = length(dimnames(component.score.array)[["Model"]])
 na.score.counts = apply(is.na(component.score.array), 1:5, sum)
 incomplete.forecast.set.flags = ! na.score.counts %in% c(0L, n.models)
 if (any(incomplete.forecast.set.flags)) {
-  warning("Some models have incomplete sets of forecasts; assigning them scores of -Inf for those weeks.")
+  warning("Some models have incomplete sets of forecasts; assigning them scores of -10 for those weeks.")
   incomplete.forecast.score.flags =
     rep(incomplete.forecast.set.flags, n.models) &
     is.na(component.score.array)
   dim(incomplete.forecast.score.flags) <- dim(component.score.array)
   dimnames(incomplete.forecast.score.flags) <- dimnames(component.score.array)
   print(apply(incomplete.forecast.score.flags, 6L, sum))
-  component.score.array[incomplete.forecast.score.flags] <- -Inf
+  component.score.array[incomplete.forecast.score.flags] <- -10
 }
 ## All NA's should now correspond to missing model week 73 scores for seasons
 ## the don't include a model week 73.
