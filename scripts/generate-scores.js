@@ -194,8 +194,8 @@ models.getModelDirs(
               process.exit(1)
             }
             // Handle infinity scores
-            score = score === -Infinity ? 'NaN' : score
-            expandedScore = expandedScore === -Infinity ? 'NaN' : expandedScore
+            score = score === -Infinity ? -999 : score
+            expandedScore = expandedScore === -Infinity ? -999 : expandedScore
             // Handle EPSILON
             score = (-score < tolerance) && (score !== 'NaN') ? 0 : score
             expandedScore = (-expandedScore < tolerance) && (expandedScore !== 'NaN') ? 0 : expandedScore
