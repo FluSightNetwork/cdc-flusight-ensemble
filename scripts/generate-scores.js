@@ -15,6 +15,9 @@ const outputFile = './scores/scores.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
+// Using somewhat larger tolerance than Number.EPSILON
+const tolerance = 0.0001
+
 /**
  * Return csv data nested using d3.nest
  */
@@ -67,11 +70,13 @@ const weekNeighbours = (binStart, year) => {
   // Handle edge cases
   if (binStart === 40) {
     // We are at the beginning of the season
-    return [binStart, binStart + 1]
+    return [binStart, 41]
   } else if (binStart === lastWeek) {
     // We are the end of year (but somewhere in between for season)
     // The next bin is 1
     return [binStart - 1, binStart, 1]
+  } else if (binStart === 1) {
+    return [(new mmwr.MMWRDate(year - 1, 1)).nWeeks, binStart, 2]
   } else {
     // This is regular case
     return [binStart - 1, binStart, binStart + 1]
@@ -84,18 +89,26 @@ const weekNeighbours = (binStart, year) => {
 const expandBinStarts = (binStarts, targetType, year) => {
   if (targetType.endsWith('ahead') || targetType.endsWith('percentage')) {
     // This is a percentage target
-    return binStarts.reduce((acc, binStart) => {
+    return util.unique(binStarts.reduce((acc, binStart) => {
       return acc.concat(
         arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
+          .map(bs => Math.round(bs * 10) / 10) // Round to get just one place decimal
           .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
       )
-    }, [])
+    }, []))
   } else {
     // This is a week target
-    return binStarts.reduce((acc, binStart) => {
-      return acc.concat(weekNeighbours(binStart, year))
-    }, [])
+    let uniqueBinStarts = util.unique(binStarts.reduce((acc, binStart) => {
+      return acc.concat(weekNeighbours(binStart, year).map(bs => Math.round(bs)))
+    }, []))
+
+    // If every one is NaN, then just return one NaN
+    if (uniqueBinStarts.every(isNaN)) {
+      return [NaN]
+    } else {
+      return uniqueBinStarts
+    }
   }
 }
 
@@ -104,13 +117,19 @@ const expandBinStarts = (binStarts, targetType, year) => {
  */
 const getBinProbabilities = (csvDataSubset, binStarts) => {
   return binStarts.map(bs => {
-    // Assuming we have a bin here
-    let filteredRows = csvDataSubset.filter(row => parseFloat(row[4]) === bs)
-    if (filteredRows.length === 0) {
-      // This is mostly due to week 53 issue, the truth file has week 53 allowed,
-      // while the models might not use a bin start using week 53.
-      // We jump to week 1 here
-      filteredRows = csvDataSubset.filter(row => parseFloat(row[4]) === 1.0)
+    // If bs is NaN, then we look for none bin. This is for onset case
+    let filteredRows
+    if (isNaN(bs)) {
+      filteredRows = csvDataSubset.filter(row => row[4] === 'none')
+    } else {
+      // Assuming we have a bin here
+      filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - bs) < tolerance)
+      if (filteredRows.length === 0) {
+        // This is mostly due to week 53 issue, the truth file has week 53 allowed,
+        // while the models might not use a bin start using week 53.
+        // We jump to week 1 here
+        filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - 1.0) < tolerance)
+      }
     }
     return parseFloat(filteredRows[0][6])
   })
