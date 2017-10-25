@@ -2,7 +2,9 @@
 title: "Model Score Analysis"
 author: "Nicholas G Reich"
 date: "10/15/2017"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -45,6 +47,15 @@ scores_by_model <- scores_adj %>%
         min_score = min(score_adj)) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
+
+scores_by_region <- scores_adj %>%
+    group_by(Model, Location) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+
 ```
 
 ```{r}
@@ -75,4 +86,14 @@ ggplot(scores_by_target,
     scale_fill_gradient2(midpoint = -6) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by target")
+```
+
+```{r}
+ggplot(scores_by_region, 
+    aes(x=Location, fill=avg_score, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(avg_score, 1))) +
+    scale_fill_gradient2(midpoint = -6) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average model scores by location")
 ```

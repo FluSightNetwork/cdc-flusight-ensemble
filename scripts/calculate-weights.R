@@ -1,6 +1,7 @@
 library("pipeR")
 library("dplyr")
 library("epiforecast") 
+library("cdcfluview")
 ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
 
 ## make equal weights file separately
