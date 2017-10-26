@@ -1,8 +1,9 @@
 ---
 title: "Weight descriptions for collaborative ensembles"
 author: "Nicholas G Reich"
-date: "10/14/2017"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
