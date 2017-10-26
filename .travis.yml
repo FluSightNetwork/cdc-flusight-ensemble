@@ -2,6 +2,15 @@ language: node_js
 sudo: required
 dist: trusty
 
+addons:
+  apt:
+    sources:
+      - sourceline: "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"
+    packages:
+      - libv8-3.14-dev
+      - r-base
+      - r-base-dev
+
 node_js:
   - 7
 
@@ -10,5 +19,10 @@ cache: yarn
 env:
   global:
   - ENCRYPTION_LABEL: "ae5ecd417952"
+
+before_install:
+  - sudo Rscript -e "install.packages('devtools', repos='http://cran.us.r-project.org')"
+  - sudo Rscript -e "devtools::install_github('hrbrmstr/cdcfluview')"
+  - sudo Rscript -e "devtools::install_github('jarad/FluSight')"
 
 script: bash ./travis-main.sh

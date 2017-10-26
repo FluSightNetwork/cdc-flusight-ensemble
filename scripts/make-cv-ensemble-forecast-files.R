@@ -4,6 +4,7 @@
 library(FluSight) 
 library(dplyr)
 library(doMC)
+registerDoMC(cores = 20)
 
 source("scripts/stack_forecasts.R")
 
@@ -32,7 +33,6 @@ for(j in 1:length(weight_files)){
     seasons <- unique(stacking_weights$season)
     if("2017/2018" %in% seasons)
         seasons <- seasons[-which(seasons=="2017/2018")]
-    registerDoMC()
     ## loop through each season and each season-week to make stacked forecasts
     for(i in 1:length(seasons)){
         loso_season =  seasons[i]

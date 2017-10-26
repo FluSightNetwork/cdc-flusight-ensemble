@@ -21,9 +21,27 @@ models <- read_csv("../model-forecasts/component-models/model-id-map.csv")
 complete_models <- c(models$`model-id`[models$complete=="true"], 
     paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
 
-scores_adj <- scores %>%
+## define column with scores of interest
+SCORE_COL <- quo(`Multi bin score`)
+
+## Create data.frame of boundary weeks of scores to keep for each target/season
+source("create-scoring-period.R")
+all_target_bounds = create_scoring_period()
+
+## Remove scores that fall outside of evaluation period for a given target/season
+scores_trimmed <- scores %>%
+  dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
+  dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
+
+scores_adj <- scores_trimmed %>%
     filter(Model %in% complete_models) %>%
-    mutate(score_adj = ifelse(is.nan(Score), -10, Score))
+    ## if NA, NaN or <-10, set score to -10
+    mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+                                      -10, 
+                                      !!SCORE_COL)) %>%
+    mutate(score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj))
+    
 
 scores_by_season <- scores_adj %>%
     group_by(Model, Season) %>%
@@ -56,44 +74,88 @@ scores_by_region <- scores_adj %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
 
+scores_by_target_season <- scores_adj %>%
+    group_by(Model, Target, Season) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+
+scores_by_target_season_region <- scores_adj %>%
+    group_by(Model, Target, Season, Location) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
 ```
 
 ```{r}
+midpt <- mean(filter(scores_by_season, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_season, 
     aes(x=Season, fill=avg_score, y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
-    geom_text(aes(label=round(avg_score, 1))) +
-    scale_fill_gradient2(midpoint = -6) +
+    geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by season")
 ```
 
 ```{r}
+midpt <- mean(filter(scores_by_model, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_model, 
     aes(x=1, fill=avg_score, y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
-    geom_text(aes(label=round(avg_score, 1))) +
-    scale_fill_gradient2(midpoint = -6) +
+    geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    ggtitle("Model scores by season")
+    ggtitle("Model scores across all seasons")
 ```
 
 ```{r}
+midpt <- mean(filter(scores_by_target, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_target, 
     aes(x=Target, fill=avg_score, y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
-    geom_text(aes(label=round(avg_score, 1))) +
-    scale_fill_gradient2(midpoint = -6) +
+    geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by target")
 ```
 
 ```{r}
+midpt <- mean(filter(scores_by_region, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_region, 
     aes(x=Location, fill=avg_score, y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
-    geom_text(aes(label=round(avg_score, 1))) +
-    scale_fill_gradient2(midpoint = -6) +
+    geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by location")
 ```
+
+```{r}
+midpt <- mean(filter(scores_by_target_season, Model=="ReichLab-KDE")$avg_score)
+ggplot(scores_by_target_season, 
+    aes(x=Season, fill=avg_score, y=Model)) +
+    facet_grid(.~Target) +
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    #geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average model scores by location")
+```
+
+```{r}
+midpt <- mean(filter(scores_by_target_season_region, Model=="ReichLab-KDE", Target=="Season onset")$avg_score)
+ggplot(filter(scores_by_target_season_region, Target=="Season onset"), 
+    aes(y=Season, fill=avg_score, x=reorder(Model, -avg_score))) +
+    facet_grid(Location~Target) +
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    #geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = -5) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average model scores by location-season-target")
+```
+
