@@ -1,0 +1,30 @@
+---
+title: 'Combining Mechanistic and Statistical Models to Forecat Influenza in the U.S.:
+  A Collaborative Ensemble from the FluSight Network'
+author: Nicholas G Reich, Logan Brooks, Abhinav Tushar, Teresa Yamana, Craig McGowan,
+  Evan Ray, Dave Osthus, Roni Rosenfeld
+date: "10/26/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+In the 2016/2017 influenza season, the CDC ran the 4thth annual FluSight competition and received XX submissions from XX teams. During the season, analysts at the CDC built an ensemble model that combined all of the submitted models by taking the "average" forecast for each influenza target. This model was one of the top performing models for the entire season.
+
+In March 2017 the FluSight Network was founded to create a collaborative network of influenza forecasters. This group worked throughout 2017 to create a set of guidelines and an experimental design that would enable submission of a publicly available, multi-team, real-time submission of an ensemble model with validated and performance-based weights for each model (i.e. not a simple average of models). 
+
+This document provides an executive summary of that effort, highlighting the results and documenting the chosen model that was designated for real-time submission during the 2017/2018 U.S. influenza season.
+
+Institution | No. of models | Team leaders
+----------- | ------------- | -------------
+UMass-Amherst | 3 | Nicholas Reich, Abhinav Tushar, Evan Ray
+Carnegie Mellon | XX | Logan Brooks, Roni Rosenfeld
+Columbia University | XX | Teresa Yamana, Jeff Shaman
+Los Alamos National Laboratories | 1 | Dave Osthus
+
+## Selected Ensemble Model for Real-time Submissions
+
+The model selected for real-time submissions is the model that performed 

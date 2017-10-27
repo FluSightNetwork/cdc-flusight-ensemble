@@ -51,22 +51,25 @@ const getTrueData = truthFile => {
 }
 
 /**
- * Not exactly linspace
+ * Return a season string for given time data
  */
-const arange = (start, end, gap) => {
-  let out = [start]
-  while (out[out.length - 1] !== end) {
-    out.push(out[out.length - 1] + gap)
-  }
-  return out
+const getSeason = (year, epiweek) => {
+  return (epiweek < 40) ? `${year-1}/${year}` : `${year}/${year+1}`
+}
+
+/**
+ * Tell the last week (52/53) for given time data
+ */
+const getLastWeek = (year, epiweek) => {
+  let seasonFirstYear = parseInt(getSeason(year, epiweek).split('/')[0])
+  return (new mmwr.MMWRDate(seasonFirstYear)).nWeeks
 }
 
 /**
  * Return a neighbouring region of 1 bin around a given week
  */
-const weekNeighbours = (binStart, year) => {
-  let lastWeek = (new mmwr.MMWRDate(year, 1)).nWeeks
-
+const weekNeighbours = (binStart, year, epiweek) => {
+  let lastWeek = getLastWeek(year, epiweek)
   // Handle edge cases
   if (binStart === 40) {
     // We are at the beginning of the season
@@ -76,7 +79,7 @@ const weekNeighbours = (binStart, year) => {
     // The next bin is 1
     return [binStart - 1, binStart, 1]
   } else if (binStart === 1) {
-    return [(new mmwr.MMWRDate(year - 1, 1)).nWeeks, binStart, 2]
+    return [lastWeek, binStart, 2]
   } else {
     // This is regular case
     return [binStart - 1, binStart, binStart + 1]
@@ -86,12 +89,12 @@ const weekNeighbours = (binStart, year) => {
 /**
  * Return expanded set of binStarts for given bin value and target type
  */
-const expandBinStarts = (binStarts, targetType, year) => {
+const expandBinStarts = (binStarts, targetType, year, epiweek) => {
   if (targetType.endsWith('ahead') || targetType.endsWith('percentage')) {
     // This is a percentage target
     return util.unique(binStarts.reduce((acc, binStart) => {
       return acc.concat(
-        arange(-0.5, 0.5, 0.1)
+        util.arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
           .map(bs => Math.round(bs * 10) / 10) // Round to get just one place decimal
           .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
@@ -100,7 +103,7 @@ const expandBinStarts = (binStarts, targetType, year) => {
   } else {
     // This is a week target
     let uniqueBinStarts = util.unique(binStarts.reduce((acc, binStart) => {
-      return acc.concat(weekNeighbours(binStart, year).map(bs => Math.round(bs)))
+      return acc.concat(weekNeighbours(binStart, year, epiweek).map(bs => Math.round(bs)))
     }, []))
 
     // If every one is NaN, then just return one NaN
@@ -156,6 +159,7 @@ let outputLines = [header.join(',')]
 let errorLogLines = []
 let errorBlacklistLines = []
 let trueData = getTrueData(truthFile)
+let csvData
 
 // NOTE: For scores, we only consider these two directories
 models.getModelDirs(
@@ -170,12 +174,12 @@ models.getModelDirs(
   csvs.forEach(csvFile => {
     let {year, epiweek} = models.getCsvTime(csvFile)
     try {
-      let csvData = getCsvData(csvFile)
+      csvData = getCsvData(csvFile)
       meta.regions.forEach(region => {
         meta.targets.forEach(target => {
           let trueTargets = trueData[year][epiweek][region][target]
           let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
-          let expandedTrueBinStarts = expandBinStarts(trueBinStarts, target, year)
+          let expandedTrueBinStarts = expandBinStarts(trueBinStarts, target, parseInt(year), parseInt(epiweek))
           let season = trueTargets[0][2]
           let modelWeek = trueTargets[0][3]
           let modelProbabilities = csvData[region][target]
