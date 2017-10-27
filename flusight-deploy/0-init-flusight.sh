@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Script to downlaod and setup flusight directory structure
+# Script to download and setup flusight directory structure
 set -e
 
 # Download flusight master
