@@ -159,6 +159,7 @@ let outputLines = [header.join(',')]
 let errorLogLines = []
 let errorBlacklistLines = []
 let trueData = getTrueData(truthFile)
+let csvData
 
 // NOTE: For scores, we only consider these two directories
 models.getModelDirs(
@@ -173,7 +174,7 @@ models.getModelDirs(
   csvs.forEach(csvFile => {
     let {year, epiweek} = models.getCsvTime(csvFile)
     try {
-      let csvData = getCsvData(csvFile)
+      csvData = getCsvData(csvFile)
       meta.regions.forEach(region => {
         meta.targets.forEach(target => {
           let trueTargets = trueData[year][epiweek][region][target]
