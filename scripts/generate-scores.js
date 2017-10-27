@@ -164,7 +164,7 @@ models.getModelDirs(
         meta.targets.forEach(target => {
           let trueTargets = trueData[year][epiweek][region][target]
           let trueBinStarts = trueTargets.map(tt => parseFloat(tt[6]))
-          let expandedTrueBinStarts = expandBinStarts(trueBinStarts, target, year)
+          let expandedTrueBinStarts = expandBinStarts(trueBinStarts, target, parseInt(year))
           let season = trueTargets[0][2]
           let modelWeek = trueTargets[0][3]
           let modelProbabilities = csvData[region][target]
