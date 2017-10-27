@@ -51,17 +51,6 @@ const getTrueData = truthFile => {
 }
 
 /**
- * Not exactly linspace
- */
-const arange = (start, end, gap) => {
-  let out = [start]
-  while (out[out.length - 1] !== end) {
-    out.push(out[out.length - 1] + gap)
-  }
-  return out
-}
-
-/**
  * Return a neighbouring region of 1 bin around a given week
  */
 const weekNeighbours = (binStart, year) => {
@@ -91,7 +80,7 @@ const expandBinStarts = (binStarts, targetType, year) => {
     // This is a percentage target
     return util.unique(binStarts.reduce((acc, binStart) => {
       return acc.concat(
-        arange(-0.5, 0.5, 0.1)
+        util.arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
           .map(bs => Math.round(bs * 10) / 10) // Round to get just one place decimal
           .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
