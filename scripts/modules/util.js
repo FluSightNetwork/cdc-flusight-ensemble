@@ -28,7 +28,7 @@ const unique = a => {
   let hasNaN = false
 
   let uniqueItems = a.reduce(function (acc, it) {
-    if (isNaN(it)) {
+    if (Object.is(NaN, it)) {
       hasNaN = true
     } else if (acc.indexOf(it) === -1) {
       acc.push(it)
