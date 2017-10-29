@@ -183,13 +183,14 @@ models.getModelDirs(
             let expandedBinProbs = getBinProbabilities(modelProbabilities, expandedTrueBinStarts)
             let score = Math.log(binProbs.reduce((a, b) => a + b, 0))
             let expandedScore = Math.log(expandedBinProbs.reduce((a, b) => a + b, 0))
-            if (Math.log(expandedBinProbs.reduce((a, b) => a + b, 0)) > tolerance) {
-              console.log(trueBinStarts)
-              console.log(binProbs.reduce((a, b) => a + b, 0))
-              console.log(score)
-              console.log(expandedTrueBinStarts)
-              console.log(expandedBinProbs.reduce((a, b) => a + b, 0))
-              console.log(expandedScore)
+
+            // Bail out if we get greater than 1 expanded probability
+            if (Math.log(expandedBinProbs.reduce((a, b) => a + b, 0)) > TOLERANCE) {
+              console.log(`Error in ${csvFile}, region ${region} and target ${target}`)
+              console.log(`Getting expanded probability higher than 1 for bin starts ${trueBinStarts}`)
+              console.log(`Bin probabilties sum: ${binProbs.reduce((a, b) => a + b, 0)}, score: ${score}`)
+              console.log(`Expanded bin starts ${expandedTrueBinStarts}`)
+              console.log(`Expanded probabilties sum: ${expandedBinProbs.reduce((a, b) => a + b, 0)}, score: ${expandedScore}`)
               process.exit(1)
             }
             // Handle infinity scores
@@ -202,12 +203,12 @@ models.getModelDirs(
               `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
             )
           } catch (e) {
-            errorLogLines.push(`Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            errorLogLines.push(`Error in ${csvFile} for ${region}, ${target}`)
             errorLogLines.push(e.name)
             errorLogLines.push(e.message)
             errorLogLines.push('')
             errorBlacklistLines.push(`- ${csvFile}`)
-            console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            console.log(`Error in ${csvFile} for ${region}, ${target}`)
             console.log(e)
           }
         })
@@ -218,7 +219,7 @@ models.getModelDirs(
       errorLogLines.push(e.message)
       errorLogLines.push('')
       errorBlacklistLines.push(`- ${csvFile}`)
-      console.log(` # Error in ${csvFile}`)
+      console.log(`Error in ${csvFile}`)
       console.log(e)
     }
   })
