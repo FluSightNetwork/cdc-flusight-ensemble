@@ -15,8 +15,7 @@ const outputFile = './scores/scores.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
-// Using somewhat larger tolerance than Number.EPSILON
-const tolerance = 0.0001
+const TOLERANCE = 0.00001
 
 /**
  * Return csv data nested using d3.nest
