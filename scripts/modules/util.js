@@ -69,10 +69,10 @@ const isClose = (a, b, tol = Number.EPSILON) => Math.abs(a - b) < tol
 /**
  * Clip number in a range
  */
-const clip = (x, lo, hi) => {
+const clip = (x, lo, hi, tol = Number.EPSILON) => {
   if (isNaN(x)) return x
-  x = x < (lo + Number.EPSILON) ? lo : x
-  x = x > (hi - Number.E) ? hi : x
+  x = x < (lo + tol) ? lo : x
+  x = x > (hi - tol) ? hi : x
   return x
 }
 

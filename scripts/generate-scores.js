@@ -15,7 +15,7 @@ const outputFile = './scores/scores.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
-const TOLERANCE = 0.00001
+const TOLERANCE = 0.0001
 
 /**
  * Return csv data nested using d3.nest
@@ -195,8 +195,8 @@ models.getModelDirs(
             }
 
             // Fix score ranges
-            score = util.clip(score, -999, 0)
-            expandedScore = util.clip(expandedScore, -999, 0)
+            score = util.clip(score, -999, 0, TOLERANCE)
+            expandedScore = util.clip(expandedScore, -999, 0, TOLERANCE)
 
             outputLines.push(
               `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
