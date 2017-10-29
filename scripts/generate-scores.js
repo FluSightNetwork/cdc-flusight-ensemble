@@ -99,7 +99,7 @@ const expandBinStarts = (binStarts, targetType, year, epiweek) => {
         util.arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
           .map(bs => Math.round(bs * 10) / 10) // Round to get just one place decimal
-          .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
+          .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON)) // We only need bins from 0.0 to 13.0
       )
     }, []))
   } else {
