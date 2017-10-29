@@ -121,12 +121,12 @@ const getBinProbabilities = (csvDataSubset, binStarts) => {
       filteredRows = csvDataSubset.filter(row => row[4] === 'none')
     } else {
       // Assuming we have a bin here
-      filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - bs) < tolerance)
+      filteredRows = csvDataSubset.filter(row => util.isClose(parseFloat(row[4]), bs))
       if (filteredRows.length === 0) {
         // This is mostly due to week 53 issue, the truth file has week 53 allowed,
         // while the models might not use a bin start using week 53.
         // We jump to week 1 here
-        filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - 1.0) < tolerance)
+        filteredRows = csvDataSubset.filter(row => util.isClose(parseFloat(row[4]), 1.0))
       }
     }
     return parseFloat(filteredRows[0][6])
