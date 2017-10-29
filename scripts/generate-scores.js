@@ -226,5 +226,9 @@ models.getModelDirs(
 util.writeLines(outputLines, outputFile)
 
 // Error logs
-util.writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+if (errorBlacklistLines.length === 0) {
+  util.writeLines(['[]'], errorBlacklistFile)
+} else {
+  util.writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+}
 util.writeLines(errorLogLines, errorLogFile)
