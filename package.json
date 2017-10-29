@@ -4,6 +4,7 @@
   "description": "Scripts for cdc-flusight-ensemble data repo",
   "scripts": {
     "test": "mocha ./test-data.js -R spec",
+    "format-metadata": "node ./scripts/wrap-metadata.js",
     "generate-scores": "node ./scripts/generate-scores.js",
     "generate-id-mappings": "node ./scripts/generate-id-mappings.js"
   },
