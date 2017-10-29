@@ -69,20 +69,23 @@ const getLastWeek = (year, epiweek) => {
  */
 const weekNeighbours = (binStart, year, epiweek) => {
   let lastWeek = getLastWeek(year, epiweek)
+  let neighbours = []
   // Handle edge cases
   if (binStart === 40) {
     // We are at the beginning of the season
-    return [binStart, 41]
+    neighbours = [binStart, 41]
   } else if (binStart === lastWeek) {
     // We are the end of year (but somewhere in between for season)
     // The next bin is 1
-    return [binStart - 1, binStart, 1]
+    neighbours = [binStart - 1, binStart, 1]
   } else if (binStart === 1) {
-    return [lastWeek, binStart, 2]
+    neighbours = [lastWeek, binStart, 2]
   } else {
     // This is regular case
-    return [binStart - 1, binStart, binStart + 1]
+    neighbours = [binStart - 1, binStart, binStart + 1]
   }
+
+  return neighbours.map(Math.round)
 }
 
 /**
@@ -102,7 +105,7 @@ const expandBinStarts = (binStarts, targetType, year, epiweek) => {
   } else {
     // This is a week target
     return util.unique(binStarts.reduce((acc, binStart) => {
-      return acc.concat(weekNeighbours(binStart, year, epiweek).map(bs => Math.round(bs)))
+      return acc.concat(weekNeighbours(binStart, year, epiweek))
     }, []))
   }
 }
