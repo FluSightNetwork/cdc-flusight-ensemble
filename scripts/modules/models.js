@@ -20,6 +20,10 @@ const getModelMetadata = modelDir => {
   return util.readYamlFile(path.join(modelDir, 'metadata.txt'))
 }
 
+const writeModelMetadata = (data, modelDir) => {
+  util.writeYamlFile(data, path.join(modelDir, 'metadata.txt'))
+}
+
 /**
  * Return model id from modelDir
  */
@@ -48,6 +52,7 @@ const getModelCsvs = modelDir => {
 
 module.exports.getModelDirs = getModelDirs
 module.exports.getModelMetadata = getModelMetadata
+module.exports.writeModelMetadata = writeModelMetadata
 module.exports.getModelId = getModelId
 module.exports.getCsvTime = getCsvTime
 module.exports.getModelCsvs = getModelCsvs

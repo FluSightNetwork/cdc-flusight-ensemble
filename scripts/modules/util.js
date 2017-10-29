@@ -44,6 +44,15 @@ const readYamlFile = fileName => {
   return yaml.safeLoad(fs.readFileSync(fileName, 'utf8'))
 }
 
+const writeYamlFile = (data, filename) => {
+  return fs.writeFileSync(filename, yaml.safeDump(data, {
+    styles: {
+      '!!bool': 'uppercase',
+      '!!null': 'uppercase'
+    }
+  }))
+}
+
 const arange = (start, end, gap) => {
   let len = 1 + ((end - start) / gap)
   return [...Array(len).keys()].map(i => start + gap * i)
@@ -55,5 +64,6 @@ module.exports.isSubset = isSubset
 module.exports.unique = unique
 module.exports.writeLines = writeLines
 module.exports.readYamlFile = readYamlFile
+module.exports.writeYamlFile = writeYamlFile
 module.exports.arange = arange
 module.exports.isClose = isClose
