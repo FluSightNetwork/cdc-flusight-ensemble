@@ -102,16 +102,9 @@ const expandBinStarts = (binStarts, targetType, year, epiweek) => {
     }, []))
   } else {
     // This is a week target
-    let uniqueBinStarts = util.unique(binStarts.reduce((acc, binStart) => {
+    return util.unique(binStarts.reduce((acc, binStart) => {
       return acc.concat(weekNeighbours(binStart, year, epiweek).map(bs => Math.round(bs)))
     }, []))
-
-    // If every one is NaN, then just return one NaN
-    if (uniqueBinStarts.every(isNaN)) {
-      return [NaN]
-    } else {
-      return uniqueBinStarts
-    }
   }
 }
 

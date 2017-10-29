@@ -25,12 +25,18 @@ const isSubset = (a, b) => {
  * Return unique of array
  */
 const unique = a => {
-  return a.reduce(function (acc, it) {
-    if (acc.indexOf(it) === -1) {
+  let hasNaN = false
+
+  let uniqueItems = a.reduce(function (acc, it) {
+    if (isNaN(it)) {
+      hasNaN = true
+    } else if (acc.indexOf(it) === -1) {
       acc.push(it)
     }
     return acc
   }, [])
+
+  return hasNaN ? [...uniqueItems, NaN] : uniqueItems
 }
 
 const writeLines = (lines, fileName) => {
