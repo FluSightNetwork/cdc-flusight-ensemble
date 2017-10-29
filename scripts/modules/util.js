@@ -66,6 +66,16 @@ const arange = (start, end, gap) => {
 
 const isClose = (a, b, tol = Number.EPSILON) => Math.abs(a - b) < tol
 
+/**
+ * Clip number in a range
+ */
+const clip = (x, lo, hi) => {
+  if (isNaN(x)) return x
+  x = x < (lo + Number.EPSILON) ? lo : x
+  x = x > (hi - Number.E) ? hi : x
+  return x
+}
+
 module.exports.isSubset = isSubset
 module.exports.unique = unique
 module.exports.writeLines = writeLines
@@ -73,3 +83,4 @@ module.exports.readYamlFile = readYamlFile
 module.exports.writeYamlFile = writeYamlFile
 module.exports.arange = arange
 module.exports.isClose = isClose
+module.exports.clip = clip

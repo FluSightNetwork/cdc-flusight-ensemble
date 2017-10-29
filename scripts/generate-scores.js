@@ -193,12 +193,11 @@ models.getModelDirs(
               console.log(`Expanded probabilties sum: ${expandedBinProbs.reduce((a, b) => a + b, 0)}, score: ${expandedScore}`)
               process.exit(1)
             }
-            // Handle infinity scores
-            score = score === -Infinity ? -999 : score
-            expandedScore = expandedScore === -Infinity ? -999 : expandedScore
-            // Handle EPSILON
-            score = (-score < tolerance) && (score !== 'NaN') ? 0 : score
-            expandedScore = (-expandedScore < tolerance) && (expandedScore !== 'NaN') ? 0 : expandedScore
+
+            // Fix score ranges
+            score = util.clip(score, -999, 0)
+            expandedScore = util.clip(expandedScore, -999, 0)
+
             outputLines.push(
               `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
             )
