@@ -705,8 +705,8 @@ HHS Region 1,Season peak week,Bin,week,1.0,2.0,0.0101255430366177
 HHS Region 1,Season peak week,Bin,week,2.0,3.0,0.011249328138835
 HHS Region 1,Season peak week,Bin,week,3.0,4.0,0.0127819552647894
 HHS Region 1,Season peak week,Bin,week,4.0,5.0,0.0145767647786831
-HHS Region 1,Season peak week,Bin,week,5.0,6.0,0.451123425900132
-HHS Region 1,Season peak week,Bin,week,6.0,7.0,0.259580515210759
+HHS Region 1,Season peak week,Bin,week,5.0,6.0,0.195755854471561
+HHS Region 1,Season peak week,Bin,week,6.0,7.0,0.515065181877425
 HHS Region 1,Season peak week,Bin,week,7.0,8.0,0.0155065723488117
 HHS Region 1,Season peak week,Bin,week,8.0,9.0,0.0136932781400706
 HHS Region 1,Season peak week,Bin,week,9.0,10.0,0.0117118634902271
@@ -714,13 +714,13 @@ HHS Region 1,Season peak week,Bin,week,10.0,11.0,0.00971975612949067
 HHS Region 1,Season peak week,Bin,week,11.0,12.0,0.00798940403955852
 HHS Region 1,Season peak week,Bin,week,12.0,13.0,0.00661736524545832
 HHS Region 1,Season peak week,Bin,week,13.0,14.0,0.00580509450366294
-HHS Region 1,Season peak week,Bin,week,14.0,15.0,0.0203172299854912
-HHS Region 1,Season peak week,Bin,week,15.0,16.0,0.01903157148406
-HHS Region 1,Season peak week,Bin,week,16.0,17.0,0.024566001993696
-HHS Region 1,Season peak week,Bin,week,17.0,18.0,0.0137560223451449
-HHS Region 1,Season peak week,Bin,week,18.0,19.0,0.00835903411352759
-HHS Region 1,Season peak week,Bin,week,19.0,20.0,0.00909940743533294
-HHS Region 1,Season peak week,Bin,week,20.0,21.0,0.00592348550320022
+HHS Region 1,Season peak week,Bin,week,14.0,15.0,0.015481753795015
+HHS Region 1,Season peak week,Bin,week,15.0,16.0,0.021658190531679
+HHS Region 1,Season peak week,Bin,week,16.0,17.0,0.0144701924698865
+HHS Region 1,Season peak week,Bin,week,17.0,18.0,0.0195366890118115
+HHS Region 1,Season peak week,Bin,week,18.0,19.0,0.013454605542099
+HHS Region 1,Season peak week,Bin,week,19.0,20.0,0.00762945505438056
+HHS Region 1,Season peak week,Bin,week,20.0,21.0,0.00870481883653355
 HHS Region 10,1 wk ahead,Bin,percent,0.0,0.1,0.0136892518205507
 HHS Region 10,1 wk ahead,Bin,percent,0.1,0.2,0.0198164313822696
 HHS Region 10,1 wk ahead,Bin,percent,0.2,0.3,0.042888502502747
@@ -1423,7 +1423,7 @@ HHS Region 10,Season peak week,Bin,week,49.0,50.0,0.00786843760155503
 HHS Region 10,Season peak week,Bin,week,50.0,51.0,0.00943337522572179
 HHS Region 10,Season peak week,Bin,week,51.0,52.0,0.0113775688685376
 HHS Region 10,Season peak week,Bin,week,52.0,53.0,0.00112033643451584
-HHS Region 10,Season peak week,Bin,week,1.0,2.0,0.294229163606744
+HHS Region 10,Season peak week,Bin,week,1.0,2.0,0.578658354082935
 HHS Region 10,Season peak week,Bin,week,2.0,3.0,0.0129290865869572
 HHS Region 10,Season peak week,Bin,week,3.0,4.0,0.0122151839462369
 HHS Region 10,Season peak week,Bin,week,4.0,5.0,0.0115949172183493
@@ -1437,12 +1437,12 @@ HHS Region 10,Season peak week,Bin,week,11.0,12.0,0.00791439648352268
 HHS Region 10,Season peak week,Bin,week,12.0,13.0,0.00755224457505011
 HHS Region 10,Season peak week,Bin,week,13.0,14.0,0.00701760424648067
 HHS Region 10,Season peak week,Bin,week,14.0,15.0,0.00637313206185748
-HHS Region 10,Season peak week,Bin,week,15.0,16.0,0.00595659831728654
-HHS Region 10,Season peak week,Bin,week,16.0,17.0,0.00568412456962093
-HHS Region 10,Season peak week,Bin,week,17.0,18.0,0.00726167349866071
-HHS Region 10,Season peak week,Bin,week,18.0,19.0,0.0064960452266113
-HHS Region 10,Season peak week,Bin,week,19.0,20.0,0.00406086130251078
-HHS Region 10,Season peak week,Bin,week,20.0,21.0,0.00354556148516667
+HHS Region 10,Season peak week,Bin,week,15.0,16.0,0.00582902688871511
+HHS Region 10,Season peak week,Bin,week,16.0,17.0,0.00561888647438283
+HHS Region 10,Season peak week,Bin,week,17.0,18.0,0.00722957826056547
+HHS Region 10,Season peak week,Bin,week,18.0,19.0,0.0062730452266113
+HHS Region 10,Season peak week,Bin,week,19.0,20.0,0.00422157558822506
+HHS Region 10,Season peak week,Bin,week,20.0,21.0,0.00354451386611905
 HHS Region 2,1 wk ahead,Bin,percent,0.0,0.1,0.00103675052547797
 HHS Region 2,1 wk ahead,Bin,percent,0.1,0.2,0.00119339471260188
 HHS Region 2,1 wk ahead,Bin,percent,0.2,0.3,0.00141391323579717
@@ -2156,15 +2156,15 @@ HHS Region 2,Season peak week,Bin,week,8.0,9.0,0.00987470744806463
 HHS Region 2,Season peak week,Bin,week,9.0,10.0,0.010051000873122
 HHS Region 2,Season peak week,Bin,week,10.0,11.0,0.0103104479063607
 HHS Region 2,Season peak week,Bin,week,11.0,12.0,0.0102631713902701
-HHS Region 2,Season peak week,Bin,week,12.0,13.0,0.379684045511502
-HHS Region 2,Season peak week,Bin,week,13.0,14.0,0.192527346079159
-HHS Region 2,Season peak week,Bin,week,14.0,15.0,0.0796521443123299
-HHS Region 2,Season peak week,Bin,week,15.0,16.0,0.0290354249346872
-HHS Region 2,Season peak week,Bin,week,16.0,17.0,0.0492583431473579
-HHS Region 2,Season peak week,Bin,week,17.0,18.0,0.0194987358638912
-HHS Region 2,Season peak week,Bin,week,18.0,19.0,0.0114208633669683
-HHS Region 2,Season peak week,Bin,week,19.0,20.0,0.0103151008346507
-HHS Region 2,Season peak week,Bin,week,20.0,21.0,0.0105406209165905
+HHS Region 2,Season peak week,Bin,week,12.0,13.0,0.18169928360674
+HHS Region 2,Season peak week,Bin,week,13.0,14.0,0.390603012745825
+HHS Region 2,Season peak week,Bin,week,14.0,15.0,0.038872382407568
+HHS Region 2,Season peak week,Bin,week,15.0,16.0,0.0648673773156396
+HHS Region 2,Season peak week,Bin,week,16.0,17.0,0.021312200290215
+HHS Region 2,Season peak week,Bin,week,17.0,18.0,0.0448610691972245
+HHS Region 2,Season peak week,Bin,week,18.0,19.0,0.018494768128873
+HHS Region 2,Season peak week,Bin,week,19.0,20.0,0.00994919607274599
+HHS Region 2,Season peak week,Bin,week,20.0,21.0,0.0112733352023048
 HHS Region 3,1 wk ahead,Bin,percent,0.0,0.1,0.00111834457073173
 HHS Region 3,1 wk ahead,Bin,percent,0.1,0.2,0.00107755947212978
 HHS Region 3,1 wk ahead,Bin,percent,0.2,0.3,0.00128530737741694
@@ -2867,7 +2867,7 @@ HHS Region 3,Season peak week,Bin,week,49.0,50.0,0.0101005896972367
 HHS Region 3,Season peak week,Bin,week,50.0,51.0,0.0143599547546867
 HHS Region 3,Season peak week,Bin,week,51.0,52.0,0.0203237567363997
 HHS Region 3,Season peak week,Bin,week,52.0,53.0,0.00216711965957623
-HHS Region 3,Season peak week,Bin,week,1.0,2.0,0.287502334624664
+HHS Region 3,Season peak week,Bin,week,1.0,2.0,0.565375048910379
 HHS Region 3,Season peak week,Bin,week,2.0,3.0,0.0207748776107275
 HHS Region 3,Season peak week,Bin,week,3.0,4.0,0.0153426408551147
 HHS Region 3,Season peak week,Bin,week,4.0,5.0,0.01507552350938
@@ -2880,13 +2880,13 @@ HHS Region 3,Season peak week,Bin,week,10.0,11.0,0.00797219155936273
 HHS Region 3,Season peak week,Bin,week,11.0,12.0,0.00778393076079434
 HHS Region 3,Season peak week,Bin,week,12.0,13.0,0.00799093169682853
 HHS Region 3,Season peak week,Bin,week,13.0,14.0,0.00875690555405821
-HHS Region 3,Season peak week,Bin,week,14.0,15.0,0.00998544343086371
-HHS Region 3,Season peak week,Bin,week,15.0,16.0,0.0102648501356508
-HHS Region 3,Season peak week,Bin,week,16.0,17.0,0.00956390673896878
-HHS Region 3,Season peak week,Bin,week,17.0,18.0,0.00822282893009641
-HHS Region 3,Season peak week,Bin,week,18.0,19.0,0.00660690204418948
-HHS Region 3,Season peak week,Bin,week,19.0,20.0,0.00617811722011841
-HHS Region 3,Season peak week,Bin,week,20.0,21.0,0.00648513103647579
+HHS Region 3,Season peak week,Bin,week,14.0,15.0,0.00934606247848276
+HHS Region 3,Season peak week,Bin,week,15.0,16.0,0.00997599299279363
+HHS Region 3,Season peak week,Bin,week,16.0,17.0,0.00896538292944498
+HHS Region 3,Season peak week,Bin,week,17.0,18.0,0.00794173369200117
+HHS Region 3,Season peak week,Bin,week,18.0,19.0,0.00702442585371328
+HHS Region 3,Season peak week,Bin,week,19.0,20.0,0.00618978388678508
+HHS Region 3,Season peak week,Bin,week,20.0,21.0,0.00654522627457103
 HHS Region 4,1 wk ahead,Bin,percent,0.0,0.1,0.00150158870451546
 HHS Region 4,1 wk ahead,Bin,percent,0.1,0.2,0.00270212187706762
 HHS Region 4,1 wk ahead,Bin,percent,0.2,0.3,0.0045471754319777
@@ -3588,7 +3588,7 @@ HHS Region 4,Season peak week,Bin,week,48.0,49.0,0.00814155598207167
 HHS Region 4,Season peak week,Bin,week,49.0,50.0,0.0107125458424212
 HHS Region 4,Season peak week,Bin,week,50.0,51.0,0.0136057210140744
 HHS Region 4,Season peak week,Bin,week,51.0,52.0,0.203812235291131
-HHS Region 4,Season peak week,Bin,week,52.0,53.0,0.522475962737366
+HHS Region 4,Season peak week,Bin,week,52.0,53.0,0.522634153213556
 HHS Region 4,Season peak week,Bin,week,1.0,2.0,0.0155484177120375
 HHS Region 4,Season peak week,Bin,week,2.0,3.0,0.013762837233844
 HHS Region 4,Season peak week,Bin,week,3.0,4.0,0.0122906043463064
@@ -3603,12 +3603,12 @@ HHS Region 4,Season peak week,Bin,week,11.0,12.0,0.00560972835473099
 HHS Region 4,Season peak week,Bin,week,12.0,13.0,0.00486653477177752
 HHS Region 4,Season peak week,Bin,week,13.0,14.0,0.00430546024157111
 HHS Region 4,Season peak week,Bin,week,14.0,15.0,0.0039390295957569
-HHS Region 4,Season peak week,Bin,week,15.0,16.0,0.00377041468834692
-HHS Region 4,Season peak week,Bin,week,16.0,17.0,0.00345325427782605
-HHS Region 4,Season peak week,Bin,week,17.0,18.0,0.00311778542420613
-HHS Region 4,Season peak week,Bin,week,18.0,19.0,0.00298920268864365
-HHS Region 4,Season peak week,Bin,week,19.0,20.0,0.00266710853458709
-HHS Region 4,Season peak week,Bin,week,20.0,21.0,0.00246344486843676
+HHS Region 4,Season peak week,Bin,week,15.0,16.0,0.00361179564072788
+HHS Region 4,Season peak week,Bin,week,16.0,17.0,0.00348587332544509
+HHS Region 4,Season peak week,Bin,week,17.0,18.0,0.00318088066230137
+HHS Region 4,Season peak week,Bin,week,18.0,19.0,0.0028610598315008
+HHS Region 4,Season peak week,Bin,week,19.0,20.0,0.00273134662982518
+HHS Region 4,Season peak week,Bin,week,20.0,21.0,0.00243215915415104
 HHS Region 5,1 wk ahead,Bin,percent,0.0,0.1,0.00137421507109415
 HHS Region 5,1 wk ahead,Bin,percent,0.1,0.2,0.00164990671591724
 HHS Region 5,1 wk ahead,Bin,percent,0.2,0.3,0.00205336144382223
@@ -4310,7 +4310,7 @@ HHS Region 5,Season peak week,Bin,week,48.0,49.0,0.00701181509519982
 HHS Region 5,Season peak week,Bin,week,49.0,50.0,0.00901215780603998
 HHS Region 5,Season peak week,Bin,week,50.0,51.0,0.0117691976186703
 HHS Region 5,Season peak week,Bin,week,51.0,52.0,0.196759240497223
-HHS Region 5,Season peak week,Bin,week,52.0,53.0,0.517993322821901
+HHS Region 5,Season peak week,Bin,week,52.0,53.0,0.518434370440948
 HHS Region 5,Season peak week,Bin,week,1.0,2.0,0.0132501287076365
 HHS Region 5,Season peak week,Bin,week,2.0,3.0,0.0107123071466465
 HHS Region 5,Season peak week,Bin,week,3.0,4.0,0.00930075825623815
@@ -4325,12 +4325,12 @@ HHS Region 5,Season peak week,Bin,week,11.0,12.0,0.00775744799714559
 HHS Region 5,Season peak week,Bin,week,12.0,13.0,0.00661251010380991
 HHS Region 5,Season peak week,Bin,week,13.0,14.0,0.00536258940526057
 HHS Region 5,Season peak week,Bin,week,14.0,15.0,0.00466187440007241
-HHS Region 5,Season peak week,Bin,week,15.0,16.0,0.00439516057311736
-HHS Region 5,Season peak week,Bin,week,16.0,17.0,0.00414228382900577
-HHS Region 5,Season peak week,Bin,week,17.0,18.0,0.00476609166598119
-HHS Region 5,Season peak week,Bin,week,18.0,19.0,0.004149008990252
-HHS Region 5,Season peak week,Bin,week,19.0,20.0,0.00326272270311207
-HHS Region 5,Season peak week,Bin,week,20.0,21.0,0.00324338263257552
+HHS Region 5,Season peak week,Bin,week,15.0,16.0,0.00426911295406975
+HHS Region 5,Season peak week,Bin,week,16.0,17.0,0.00414047430519625
+HHS Region 5,Season peak week,Bin,week,17.0,18.0,0.00390990118979071
+HHS Region 5,Season peak week,Bin,week,18.0,19.0,0.00469172327596629
+HHS Region 5,Season peak week,Bin,week,19.0,20.0,0.00348534175073112
+HHS Region 5,Season peak week,Bin,week,20.0,21.0,0.00302119215638505
 HHS Region 6,1 wk ahead,Bin,percent,0.0,0.1,0.00116265399358614
 HHS Region 6,1 wk ahead,Bin,percent,0.1,0.2,0.00136808072036271
 HHS Region 6,1 wk ahead,Bin,percent,0.2,0.3,0.00199847799129653
@@ -5046,13 +5046,13 @@ HHS Region 6,Season peak week,Bin,week,10.0,11.0,0.00727085754006281
 HHS Region 6,Season peak week,Bin,week,11.0,12.0,0.00646460423799455
 HHS Region 6,Season peak week,Bin,week,12.0,13.0,0.00576200944631703
 HHS Region 6,Season peak week,Bin,week,13.0,14.0,0.00502173698843903
-HHS Region 6,Season peak week,Bin,week,14.0,15.0,0.00456657604512848
-HHS Region 6,Season peak week,Bin,week,15.0,16.0,0.00423971961240513
-HHS Region 6,Season peak week,Bin,week,16.0,17.0,0.00410556728724993
-HHS Region 6,Season peak week,Bin,week,17.0,18.0,0.00378212576747145
-HHS Region 6,Season peak week,Bin,week,18.0,19.0,0.00344351972978013
-HHS Region 6,Season peak week,Bin,week,19.0,20.0,0.00327992109735511
-HHS Region 6,Season peak week,Bin,week,20.0,21.0,0.00292390653159331
+HHS Region 6,Season peak week,Bin,week,14.0,15.0,0.00447224271179514
+HHS Region 6,Season peak week,Bin,week,15.0,16.0,0.00417591008859561
+HHS Region 6,Season peak week,Bin,week,16.0,17.0,0.00407513871582136
+HHS Region 6,Season peak week,Bin,week,17.0,18.0,0.00387636386270954
+HHS Region 6,Season peak week,Bin,week,18.0,19.0,0.0034749483012087
+HHS Region 6,Season peak week,Bin,week,19.0,20.0,0.0033113972878313
+HHS Region 6,Season peak week,Bin,week,20.0,21.0,0.00295533510302188
 HHS Region 7,1 wk ahead,Bin,percent,0.0,0.1,0.00710555349546757
 HHS Region 7,1 wk ahead,Bin,percent,0.1,0.2,0.0119444820941452
 HHS Region 7,1 wk ahead,Bin,percent,0.2,0.3,0.0159150834798742
@@ -5754,7 +5754,7 @@ HHS Region 7,Season peak week,Bin,week,48.0,49.0,0.007591844428296
 HHS Region 7,Season peak week,Bin,week,49.0,50.0,0.00976293642236335
 HHS Region 7,Season peak week,Bin,week,50.0,51.0,0.0120113272363396
 HHS Region 7,Season peak week,Bin,week,51.0,52.0,0.195807512173994
-HHS Region 7,Season peak week,Bin,week,52.0,53.0,0.519839921449506
+HHS Region 7,Season peak week,Bin,week,52.0,53.0,0.519871397639982
 HHS Region 7,Season peak week,Bin,week,1.0,2.0,0.0130903602061541
 HHS Region 7,Season peak week,Bin,week,2.0,3.0,0.0116943966820629
 HHS Region 7,Season peak week,Bin,week,3.0,4.0,0.0109016299381256
@@ -5769,12 +5769,12 @@ HHS Region 7,Season peak week,Bin,week,11.0,12.0,0.00706228934285002
 HHS Region 7,Season peak week,Bin,week,12.0,13.0,0.0058911891740618
 HHS Region 7,Season peak week,Bin,week,13.0,14.0,0.00509284175479223
 HHS Region 7,Season peak week,Bin,week,14.0,15.0,0.00454705902305771
-HHS Region 7,Season peak week,Bin,week,15.0,16.0,0.00417462891628823
-HHS Region 7,Season peak week,Bin,week,16.0,17.0,0.00383230849686832
-HHS Region 7,Season peak week,Bin,week,17.0,18.0,0.00357804466627503
-HHS Region 7,Season peak week,Bin,week,18.0,19.0,0.0033964628782317
-HHS Region 7,Season peak week,Bin,week,19.0,20.0,0.0031984427963017
-HHS Region 7,Season peak week,Bin,week,20.0,21.0,0.00289859879768696
+HHS Region 7,Season peak week,Bin,week,15.0,16.0,0.00411139082105013
+HHS Region 7,Season peak week,Bin,week,16.0,17.0,0.00383254659210642
+HHS Region 7,Season peak week,Bin,week,17.0,18.0,0.00357690180913217
+HHS Region 7,Season peak week,Bin,week,18.0,19.0,0.00342927240204122
+HHS Region 7,Season peak week,Bin,week,19.0,20.0,0.00316663327249218
+HHS Region 7,Season peak week,Bin,week,20.0,21.0,0.00293026546435363
 HHS Region 8,1 wk ahead,Bin,percent,0.0,0.1,0.00461623779405514
 HHS Region 8,1 wk ahead,Bin,percent,0.1,0.2,0.00769852721655833
 HHS Region 8,1 wk ahead,Bin,percent,0.2,0.3,0.0129967037072924
@@ -6476,7 +6476,7 @@ HHS Region 8,Season peak week,Bin,week,48.0,49.0,0.00799066267829922
 HHS Region 8,Season peak week,Bin,week,49.0,50.0,0.0100688560857611
 HHS Region 8,Season peak week,Bin,week,50.0,51.0,0.0121099047808974
 HHS Region 8,Season peak week,Bin,week,51.0,52.0,0.203007825736895
-HHS Region 8,Season peak week,Bin,week,52.0,53.0,0.509013858733227
+HHS Region 8,Season peak week,Bin,week,52.0,53.0,0.509711906352275
 HHS Region 8,Season peak week,Bin,week,1.0,2.0,0.0134912167214206
 HHS Region 8,Season peak week,Bin,week,2.0,3.0,0.0123058899672432
 HHS Region 8,Season peak week,Bin,week,3.0,4.0,0.0108628478911559
@@ -6490,13 +6490,13 @@ HHS Region 8,Season peak week,Bin,week,10.0,11.0,0.007898016590256
 HHS Region 8,Season peak week,Bin,week,11.0,12.0,0.0070687459653445
 HHS Region 8,Season peak week,Bin,week,12.0,13.0,0.00642013729332182
 HHS Region 8,Season peak week,Bin,week,13.0,14.0,0.00573904135594734
-HHS Region 8,Season peak week,Bin,week,14.0,15.0,0.00527936921190893
-HHS Region 8,Season peak week,Bin,week,15.0,16.0,0.0053190952513501
-HHS Region 8,Season peak week,Bin,week,16.0,17.0,0.00551046025151614
-HHS Region 8,Season peak week,Bin,week,17.0,18.0,0.00540301774108795
-HHS Region 8,Season peak week,Bin,week,18.0,19.0,0.00591318721723063
-HHS Region 8,Season peak week,Bin,week,19.0,20.0,0.00557938374602952
-HHS Region 8,Season peak week,Bin,week,20.0,21.0,0.0051427597578551
+HHS Region 8,Season peak week,Bin,week,14.0,15.0,0.00518208349762322
+HHS Region 8,Season peak week,Bin,week,15.0,16.0,0.00509276191801677
+HHS Region 8,Season peak week,Bin,week,16.0,17.0,0.00528407929913519
+HHS Region 8,Season peak week,Bin,week,17.0,18.0,0.00534268440775462
+HHS Region 8,Season peak week,Bin,week,18.0,19.0,0.0052968538838973
+HHS Region 8,Season peak week,Bin,week,19.0,20.0,0.00567895517460095
+HHS Region 8,Season peak week,Bin,week,20.0,21.0,0.00557171213880748
 HHS Region 9,1 wk ahead,Bin,percent,0.0,0.1,0.00104779737486565
 HHS Region 9,1 wk ahead,Bin,percent,0.1,0.2,0.00122407836853229
 HHS Region 9,1 wk ahead,Bin,percent,0.2,0.3,0.00156371107606284
@@ -7201,8 +7201,8 @@ HHS Region 9,Season peak week,Bin,week,51.0,52.0,0.00967664612729434
 HHS Region 9,Season peak week,Bin,week,52.0,53.0,0.00541934827007391
 HHS Region 9,Season peak week,Bin,week,1.0,2.0,0.0178515863682342
 HHS Region 9,Season peak week,Bin,week,2.0,3.0,0.0138403510508126
-HHS Region 9,Season peak week,Bin,week,3.0,4.0,0.472299050999473
-HHS Region 9,Season peak week,Bin,week,4.0,5.0,0.294772433205989
+HHS Region 9,Season peak week,Bin,week,3.0,4.0,0.189010050999473
+HHS Region 9,Season peak week,Bin,week,4.0,5.0,0.578446528444084
 HHS Region 9,Season peak week,Bin,week,5.0,6.0,0.0138538739243045
 HHS Region 9,Season peak week,Bin,week,6.0,7.0,0.0125600474369115
 HHS Region 9,Season peak week,Bin,week,7.0,8.0,0.0111673068888585
@@ -7212,13 +7212,13 @@ HHS Region 9,Season peak week,Bin,week,10.0,11.0,0.00732350228772329
 HHS Region 9,Season peak week,Bin,week,11.0,12.0,0.00629470335326945
 HHS Region 9,Season peak week,Bin,week,12.0,13.0,0.00551582752698669
 HHS Region 9,Season peak week,Bin,week,13.0,14.0,0.00522225967312026
-HHS Region 9,Season peak week,Bin,week,14.0,15.0,0.00513483555962695
-HHS Region 9,Season peak week,Bin,week,15.0,16.0,0.00617168875231366
-HHS Region 9,Season peak week,Bin,week,16.0,17.0,0.00607118487561825
-HHS Region 9,Season peak week,Bin,week,17.0,18.0,0.00573229187505715
-HHS Region 9,Season peak week,Bin,week,18.0,19.0,0.00559101892240611
-HHS Region 9,Season peak week,Bin,week,19.0,20.0,0.00519565349104856
-HHS Region 9,Season peak week,Bin,week,20.0,21.0,0.00481534300150651
+HHS Region 9,Season peak week,Bin,week,14.0,15.0,0.00510250222629361
+HHS Region 9,Season peak week,Bin,week,15.0,16.0,0.00587530779993271
+HHS Region 9,Season peak week,Bin,week,16.0,17.0,0.00603937535180873
+HHS Region 9,Season peak week,Bin,week,17.0,18.0,0.00593281568458096
+HHS Region 9,Season peak week,Bin,week,18.0,19.0,0.00519378082716802
+HHS Region 9,Season peak week,Bin,week,19.0,20.0,0.0051655106339057
+HHS Region 9,Season peak week,Bin,week,20.0,21.0,0.00501762871579223
 US National,1 wk ahead,Bin,percent,0.0,0.1,0.000918910512939135
 US National,1 wk ahead,Bin,percent,0.1,0.2,0.00105962637154895
 US National,1 wk ahead,Bin,percent,0.2,0.3,0.00123330065795058
@@ -7920,7 +7920,7 @@ US National,Season peak week,Bin,week,48.0,49.0,0.00760788114937745
 US National,Season peak week,Bin,week,49.0,50.0,0.0100017073954047
 US National,Season peak week,Bin,week,50.0,51.0,0.0123629634889049
 US National,Season peak week,Bin,week,51.0,52.0,0.196239018511949
-US National,Season peak week,Bin,week,52.0,53.0,0.51688653289965
+US National,Season peak week,Bin,week,52.0,53.0,0.517260390042507
 US National,Season peak week,Bin,week,1.0,2.0,0.0140803806801414
 US National,Season peak week,Bin,week,2.0,3.0,0.0127328295865345
 US National,Season peak week,Bin,week,3.0,4.0,0.0116223123714522
@@ -7934,13 +7934,13 @@ US National,Season peak week,Bin,week,10.0,11.0,0.00777133462818414
 US National,Season peak week,Bin,week,11.0,12.0,0.00664234489312194
 US National,Season peak week,Bin,week,12.0,13.0,0.00575955149344189
 US National,Season peak week,Bin,week,13.0,14.0,0.00511005504368627
-US National,Season peak week,Bin,week,14.0,15.0,0.00455816857690733
-US National,Season peak week,Bin,week,15.0,16.0,0.0054145320032552
-US National,Season peak week,Bin,week,16.0,17.0,0.00506489375572434
-US National,Season peak week,Bin,week,17.0,18.0,0.00391118497511842
-US National,Season peak week,Bin,week,18.0,19.0,0.00331526230135869
-US National,Season peak week,Bin,week,19.0,20.0,0.00312012760419498
-US National,Season peak week,Bin,week,20.0,21.0,0.00274187661004603
+US National,Season peak week,Bin,week,14.0,15.0,0.00452664476738352
+US National,Season peak week,Bin,week,15.0,16.0,0.00397710343182663
+US National,Season peak week,Bin,week,16.0,17.0,0.0050352747081053
+US National,Season peak week,Bin,week,17.0,18.0,0.00471370878464223
+US National,Season peak week,Bin,week,18.0,19.0,0.00360354801564441
+US National,Season peak week,Bin,week,19.0,20.0,0.00305474665181403
+US National,Season peak week,Bin,week,20.0,21.0,0.00284120994337937
 HHS Region 1,1 wk ahead,Point,percent,NA,NA,1.52954613095238
 HHS Region 1,2 wk ahead,Point,percent,NA,NA,1.50962822467236
 HHS Region 1,3 wk ahead,Point,percent,NA,NA,1.42299036085022

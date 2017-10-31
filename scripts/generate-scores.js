@@ -15,8 +15,7 @@ const outputFile = './scores/scores.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
-// Using somewhat larger tolerance than Number.EPSILON
-const tolerance = 0.0001
+const TOLERANCE = 0.0001
 
 /**
  * Return csv data nested using d3.nest
@@ -70,20 +69,23 @@ const getLastWeek = (year, epiweek) => {
  */
 const weekNeighbours = (binStart, year, epiweek) => {
   let lastWeek = getLastWeek(year, epiweek)
+  let neighbours = []
   // Handle edge cases
   if (binStart === 40) {
     // We are at the beginning of the season
-    return [binStart, 41]
+    neighbours = [binStart, 41]
   } else if (binStart === lastWeek) {
     // We are the end of year (but somewhere in between for season)
     // The next bin is 1
-    return [binStart - 1, binStart, 1]
+    neighbours = [binStart - 1, binStart, 1]
   } else if (binStart === 1) {
-    return [lastWeek, binStart, 2]
+    neighbours = [lastWeek, binStart, 2]
   } else {
     // This is regular case
-    return [binStart - 1, binStart, binStart + 1]
+    neighbours = [binStart - 1, binStart, binStart + 1]
   }
+
+  return neighbours.map(Math.round)
 }
 
 /**
@@ -97,21 +99,14 @@ const expandBinStarts = (binStarts, targetType, year, epiweek) => {
         util.arange(-0.5, 0.5, 0.1)
           .map(diff => binStart + diff)
           .map(bs => Math.round(bs * 10) / 10) // Round to get just one place decimal
-          .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON))
+          .filter(bs => (bs >= 0.0 - Number.EPSILON) && (bs <= 13.0 + Number.EPSILON)) // We only need bins from 0.0 to 13.0
       )
     }, []))
   } else {
     // This is a week target
-    let uniqueBinStarts = util.unique(binStarts.reduce((acc, binStart) => {
-      return acc.concat(weekNeighbours(binStart, year, epiweek).map(bs => Math.round(bs)))
+    return util.unique(binStarts.reduce((acc, binStart) => {
+      return acc.concat(weekNeighbours(binStart, year, epiweek))
     }, []))
-
-    // If every one is NaN, then just return one NaN
-    if (uniqueBinStarts.every(isNaN)) {
-      return [NaN]
-    } else {
-      return uniqueBinStarts
-    }
   }
 }
 
@@ -126,12 +121,12 @@ const getBinProbabilities = (csvDataSubset, binStarts) => {
       filteredRows = csvDataSubset.filter(row => row[4] === 'none')
     } else {
       // Assuming we have a bin here
-      filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - bs) < tolerance)
+      filteredRows = csvDataSubset.filter(row => util.isClose(parseFloat(row[4]), bs))
       if (filteredRows.length === 0) {
         // This is mostly due to week 53 issue, the truth file has week 53 allowed,
         // while the models might not use a bin start using week 53.
         // We jump to week 1 here
-        filteredRows = csvDataSubset.filter(row => Math.abs(parseFloat(row[4]) - 1.0) < tolerance)
+        filteredRows = csvDataSubset.filter(row => util.isClose(parseFloat(row[4]), 1.0))
       }
     }
     return parseFloat(filteredRows[0][6])
@@ -188,31 +183,31 @@ models.getModelDirs(
             let expandedBinProbs = getBinProbabilities(modelProbabilities, expandedTrueBinStarts)
             let score = Math.log(binProbs.reduce((a, b) => a + b, 0))
             let expandedScore = Math.log(expandedBinProbs.reduce((a, b) => a + b, 0))
-            if (Math.log(expandedBinProbs.reduce((a, b) => a + b, 0)) > tolerance) {
-              console.log(trueBinStarts)
-              console.log(binProbs.reduce((a, b) => a + b, 0))
-              console.log(score)
-              console.log(expandedTrueBinStarts)
-              console.log(expandedBinProbs.reduce((a, b) => a + b, 0))
-              console.log(expandedScore)
+
+            // Bail out if we get greater than 1 expanded probability
+            if (Math.log(expandedBinProbs.reduce((a, b) => a + b, 0)) > TOLERANCE) {
+              console.log(`Error in ${csvFile}, region ${region} and target ${target}`)
+              console.log(`Getting expanded probability higher than 1 for bin starts ${trueBinStarts}`)
+              console.log(`Bin probabilties sum: ${binProbs.reduce((a, b) => a + b, 0)}, score: ${score}`)
+              console.log(`Expanded bin starts ${expandedTrueBinStarts}`)
+              console.log(`Expanded probabilties sum: ${expandedBinProbs.reduce((a, b) => a + b, 0)}, score: ${expandedScore}`)
               process.exit(1)
             }
-            // Handle infinity scores
-            score = score === -Infinity ? -999 : score
-            expandedScore = expandedScore === -Infinity ? -999 : expandedScore
-            // Handle EPSILON
-            score = (-score < tolerance) && (score !== 'NaN') ? 0 : score
-            expandedScore = (-expandedScore < tolerance) && (expandedScore !== 'NaN') ? 0 : expandedScore
+
+            // Fix score ranges
+            score = util.clip(score, -999, 0, TOLERANCE)
+            expandedScore = util.clip(expandedScore, -999, 0, TOLERANCE)
+
             outputLines.push(
               `${modelId},${year},${epiweek},${season},${modelWeek},${region},${target},${score},${expandedScore}`
             )
           } catch (e) {
-            errorLogLines.push(`Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            errorLogLines.push(`Error in ${csvFile} for ${region}, ${target}`)
             errorLogLines.push(e.name)
             errorLogLines.push(e.message)
             errorLogLines.push('')
             errorBlacklistLines.push(`- ${csvFile}`)
-            console.log(` # Error in ${modelId} ${year}-${epiweek} for ${region}, ${target}`)
+            console.log(`Error in ${csvFile} for ${region}, ${target}`)
             console.log(e)
           }
         })
@@ -223,7 +218,7 @@ models.getModelDirs(
       errorLogLines.push(e.message)
       errorLogLines.push('')
       errorBlacklistLines.push(`- ${csvFile}`)
-      console.log(` # Error in ${csvFile}`)
+      console.log(`Error in ${csvFile}`)
       console.log(e)
     }
   })
@@ -233,5 +228,9 @@ models.getModelDirs(
 util.writeLines(outputLines, outputFile)
 
 // Error logs
-util.writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+if (errorBlacklistLines.length === 0) {
+  util.writeLines(['[]'], errorBlacklistFile)
+} else {
+  util.writeLines(util.unique(errorBlacklistLines), errorBlacklistFile)
+}
 util.writeLines(errorLogLines, errorLogFile)
