@@ -74,6 +74,14 @@ scores_by_region <- scores_adj %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
 
+scores_by_target_region <- scores_adj %>%
+    group_by(Model, Target, Location) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+
 scores_by_target_season <- scores_adj %>%
     group_by(Model, Target, Season) %>%
     summarize(
@@ -135,7 +143,7 @@ ggplot(scores_by_region,
     ggtitle("Average model scores by location")
 ```
 
-```{r}
+```{r, eval=FALSE}
 midpt <- mean(filter(scores_by_target_season, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_target_season, 
     aes(x=Season, fill=avg_score, y=Model)) +
@@ -148,6 +156,18 @@ ggplot(scores_by_target_season,
 ```
 
 ```{r}
+midpt <- mean(filter(scores_by_target_region, Model=="ReichLab-KDE")$avg_score)
+ggplot(scores_by_target_region, 
+    aes(x=Location, fill=avg_score, y=Model)) +
+    facet_grid(.~Target) +
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    #geom_text(aes(label=round(avg_score, 2))) +
+    scale_fill_gradient2(midpoint = midpt) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    ggtitle("Average model scores by location and target")
+```
+
+```{r, eval=FALSE}
 midpt <- mean(filter(scores_by_target_season_region, Model=="ReichLab-KDE", Target=="Season onset")$avg_score)
 ggplot(filter(scores_by_target_season_region, Target=="Season onset"), 
     aes(y=Season, fill=avg_score, x=reorder(Model, -avg_score))) +
