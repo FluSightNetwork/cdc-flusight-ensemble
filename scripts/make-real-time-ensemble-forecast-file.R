@@ -47,7 +47,10 @@ for(j in 1:length(weight_files)){
     
     ## check files exist, modify weights if they don't
     if(!all(file.exists(files_to_stack))){
-        warning(paste(sum(file.exists(files_to_stack)), "component files are missing."))
+        warning(paste(
+            length(files_to_stack) - sum(file.exists(files_to_stack)), 
+            "component files are missing.")
+        )
 
         ## id which files don't exist
         missing_model_ids <- file_df[!file.exists(file_df$file),"model_id"]
@@ -72,7 +75,7 @@ for(j in 1:length(weight_files)){
     tot_target_weights <- wt_subset %>%
         group_by_at(vars(weight_var_cols)) %>%
         summarize(total_weights = sum(weight)) 
-    all_weights_sum_to_1 <- all.equal(
+    all_weights_sum_to_1 <- base::all.equal(
         tot_target_weights$total_weights, 
         rep(1, nrow(tot_target_weights))
     )
@@ -91,4 +94,8 @@ for(j in 1:length(weight_files)){
     write.csv(stacked_entry, file=stacked_file_name, 
         row.names = FALSE, quote = FALSE)
 }
-    
+
+## visualize the TTW submission
+
+
+

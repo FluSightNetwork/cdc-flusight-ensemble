@@ -40,8 +40,7 @@ scores_adj <- scores_trimmed %>%
     mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
                                       -10, 
                                       !!SCORE_COL)) %>%
-    mutate(score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj))
-    
+    mutate(score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj)) 
 
 scores_by_season <- scores_adj %>%
     group_by(Model, Season) %>%
@@ -99,7 +98,7 @@ scores_by_target_season_region <- scores_adj %>%
     mutate(Model = reorder(Model, avg_score))
 ```
 
-```{r}
+```{r, include=FALSE}
 midpt <- mean(filter(scores_by_season, Model=="ReichLab-KDE")$avg_score)
 ggplot(scores_by_season, 
     aes(x=Season, fill=avg_score, y=Model)) + 
@@ -178,4 +177,89 @@ ggplot(filter(scores_by_target_season_region, Target=="Season onset"),
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by location-season-target")
 ```
+
+
+```{r}
+M <- 21
+FSN_labels <- c("EW", "CW", "TTW", "TW", "TRW")
+FSN_levels <- paste0("FSNetwork-", FSN_labels)
+FNS_df <- M*c(0, 1, 2, 7, 77)
+max_avg_scores_target <- scores_by_target %>%
+    group_by(Target) %>%
+    summarize(max_score = max(avg_score))
+```
+
+```{r}
+ggplot(scores_by_target_season, aes(x=Model, y=avg_score)) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=scores_by_target, shape="x", size=1, stroke=5)+
+    facet_wrap(~Target, ncol=4) +
+    geom_hline(data=max_avg_scores_target, aes(yintercept=max_score), linetype=2) +
+    scale_color_brewer(palette="Dark2") +
+    ylab("average multi-bin log score") + 
+    #ylab("geometric mean of probabilities assigned to multi-bin correct value") + 
+    theme(axis.text.x = element_text(
+        angle = 90, hjust = 1, vjust = .5,
+        color=ifelse(
+            levels(scores_by_target_season$Model)%in% FSN_levels,
+            "red", 
+            "black"
+            ))
+    ) +
+    ggtitle("Average log-scores for all models, by target and season")
+
+```
+
+```{r}
+ensemble_scores <- scores_by_target_season %>% 
+    filter(grepl("FSN", Model)) %>%
+    mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
+ensemble_scores_target <- scores_by_target %>% 
+    filter(grepl("FSN", Model)) %>%
+    mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
+ggplot(ensemble_scores, aes(x=Model, y=avg_score)) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=ensemble_scores_target, shape="x", size=1, stroke=5)+
+    facet_wrap(~Target, ncol=4) +
+    geom_hline(data=max_avg_scores_target, aes(yintercept=max_score), linetype=2) +
+    scale_color_brewer(palette="Dark2") +
+    ylab("average log score") +
+    ggtitle("Average log-scores for ensemble models, by target and season")
+```
+
+```{r}
+ensemble_scores_season <- scores_by_season %>% 
+    filter(grepl("FSN", Model)) %>%
+    mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
+ensemble_scores_model <- scores_by_model %>% 
+    filter(grepl("FSN", Model)) %>%
+    mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
+ggplot(ensemble_scores_season, aes(x=Model, y=avg_score)) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=ensemble_scores_model, shape="x", size=1, stroke=5)+
+    scale_color_brewer(palette="Dark2") +
+    ylab("average log score") +
+    ggtitle("Average log-scores for ensemble models, by season")
+
+```
+
+```{r}
+ggplot(scores_by_season, aes(x=Model, y=avg_score)) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
+    scale_color_brewer(palette="Dark2") +
+    ylab("average log score") +
+        theme(axis.text.x = element_text(
+        angle = 90, hjust = 1, vjust = .5,
+        color=ifelse(
+            levels(scores_by_target_season$Model)%in% FSN_levels,
+            "red", 
+            "black"
+            ))
+    ) +
+    ggtitle("Average log-scores for all models, by season")
+
+```
+
+
 
