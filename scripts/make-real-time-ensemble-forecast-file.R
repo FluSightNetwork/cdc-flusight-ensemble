@@ -4,6 +4,7 @@
 
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 library(dplyr)
+library(gridExtra)
 
 source("scripts/stack_forecasts.R")
 
@@ -95,7 +96,41 @@ for(j in 1:length(weight_files)){
         row.names = FALSE, quote = FALSE)
 }
 
-## visualize the TTW submission
+## move/rename submission file
 
+## visualize the TTW submission
+ttw_name <- paste0(
+    "model-forecasts/real-time-ensemble-models/target-type-based-weights/", 
+    this_week_name, "-", "target-type-based-weights.csv"
+)
+d <- read_entry(ttw_name)
+
+my_plot_peakweek <- function(dat, region){
+    d <- subset(dat, location == region & target == "Season peak week" & 
+                    type == "Bin")
+    d$Week <- c(1:33)[as.factor(d$bin_start_incl)]
+    d$bin_start_incl <- factor(substr(d$bin_start_incl, 1, nchar(d$bin_start_incl) - 2),
+                               levels=paste(c(40:52, 1:20), sep = ""))
+    ggplot(data = d, aes(x = bin_start_incl, y = value)) + geom_point() + 
+        ylim(0, 1) + 
+        labs(title = "Season Peak Week", x = "Week", y = "Prob")
+}
+
+ttw_plots_name <- paste0(
+    "model-forecasts/real-time-ensemble-models/target-type-based-weights/plots/", 
+    this_week_name, ".csv"
+)
+pdf(ttw_plots_name, width = 12)
+for(reg in unique(d$location)){
+    p_onset <- plot_onset(d, region = reg)
+    p_peakpct <- plot_peakper(d, region = reg)
+    p_peakwk <- my_plot_peakweek(d, region = reg)
+    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2017) + ggtitle(paste(reg, "1 wk ahead"))
+    p_2wk <- plot_weekahead(d, region = reg, wk = 2, ilimax=13, years = 2017)
+    p_3wk <- plot_weekahead(d, region = reg, wk = 3, ilimax=13, years = 2017)
+    p_4wk <- plot_weekahead(d, region = reg, wk = 4, ilimax=13, years = 2017)
+    grid.arrange(p_1wk, p_2wk, p_3wk, p_4wk, p_onset, p_peakpct, p_peakwk, ncol=4)
+}
+dev.off()
 
 
