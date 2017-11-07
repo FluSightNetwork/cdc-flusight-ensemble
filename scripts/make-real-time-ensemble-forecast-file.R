@@ -5,11 +5,19 @@
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 library(dplyr)
 library(gridExtra)
+library(ggplot2)
+theme_set(theme_minimal())
 
 source("scripts/stack_forecasts.R")
 
 THIS_SEASON <- "2017/2018"
 THIS_EW <- 43
+
+this_year <- ifelse(
+    THIS_EW>=40, 
+    substr(THIS_SEASON, 0, 4),
+    substr(THIS_SEASON, 5, 9))
+this_week_name <- paste0("EW", THIS_EW, "-", this_year)
 
 ## get list of component models
 model_names <- read.csv("model-forecasts/component-models/model-id-map.csv",
@@ -28,12 +36,6 @@ for(j in 1:length(weight_files)){
     wt_subset <- dplyr::filter(stacking_weights, season==THIS_SEASON) %>%
         dplyr::select(-season)
     weight_var_cols <- colnames(wt_subset)[!(colnames(wt_subset) %in% c("component_model_id", "weight"))]
-    
-    this_year <- ifelse(
-        THIS_EW>=40, 
-        substr(THIS_SEASON, 0, 4),
-        substr(THIS_SEASON, 5, 9))
-    this_week_name <- paste0("EW", THIS_EW, "-", this_year)
     
     ## assemble files to stack
     files_to_stack <- paste0(
@@ -97,35 +99,29 @@ for(j in 1:length(weight_files)){
 }
 
 ## move/rename submission file
-
-## visualize the TTW submission
-ttw_name <- paste0(
+ttw_file <- paste0(
     "model-forecasts/real-time-ensemble-models/target-type-based-weights/", 
     this_week_name, "-", "target-type-based-weights.csv"
 )
-d <- read_entry(ttw_name)
+ttw_submission_file <- paste0(
+    "model-forecasts/submissions/EW", THIS_EW, "-FSNetwork-", Sys.Date(), ".csv"
+)
 
-my_plot_peakweek <- function(dat, region){
-    d <- subset(dat, location == region & target == "Season peak week" & 
-                    type == "Bin")
-    d$Week <- c(1:33)[as.factor(d$bin_start_incl)]
-    d$bin_start_incl <- factor(substr(d$bin_start_incl, 1, nchar(d$bin_start_incl) - 2),
-                               levels=paste(c(40:52, 1:20), sep = ""))
-    ggplot(data = d, aes(x = bin_start_incl, y = value)) + geom_point() + 
-        ylim(0, 1) + 
-        labs(title = "Season Peak Week", x = "Week", y = "Prob")
-}
+file.copy(ttw_file, ttw_submission_file)
+
+
+## visualize the TTW submission
+d <- read_entry(ttw_submission_file)
 
 ttw_plots_name <- paste0(
-    "model-forecasts/real-time-ensemble-models/target-type-based-weights/plots/", 
-    this_week_name, ".csv"
+    "model-forecasts/submissions/plots/", this_week_name, ".pdf"
 )
 pdf(ttw_plots_name, width = 12)
 for(reg in unique(d$location)){
     p_onset <- plot_onset(d, region = reg)
     p_peakpct <- plot_peakper(d, region = reg)
-    p_peakwk <- my_plot_peakweek(d, region = reg)
-    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2017) + ggtitle(paste(reg, "1 wk ahead"))
+    p_peakwk <- plot_peakweek(d, region = reg)
+    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2017) + ggtitle(paste(reg, ": 1 wk ahead"))
     p_2wk <- plot_weekahead(d, region = reg, wk = 2, ilimax=13, years = 2017)
     p_3wk <- plot_weekahead(d, region = reg, wk = 3, ilimax=13, years = 2017)
     p_4wk <- plot_weekahead(d, region = reg, wk = 4, ilimax=13, years = 2017)
