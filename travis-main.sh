@@ -77,7 +77,7 @@ cd .. # in repo root now
 find . -name "*.csv" -type f -delete
 
 git add .
-git commit -m "Auto deploy to GitHub Pages: ${SHA}"
+git commit -m "[TRAVIS] Auto deploy to GitHub pages from travis: ${SHA}"
 
 echo "> Pushing visualizer to gh-pages"
 # Push to gh-pages
