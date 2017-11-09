@@ -1,6 +1,6 @@
 ---
 title: 'Combining Mechanistic and Statistical Models to Forecat Influenza in the U.S.:  A Collaborative Ensemble from the FluSight Network'
-author: Nicholas G Reich, Logan Brooks, Abhinav Tushar, Teresa Yamana, Craig McGowan, Evan Ray, Dave Osthus, Roni Rosenfeld
+author: Nicholas G Reich, Logan Brooks, Craig McGowan, Dave Osthus, Abhinav Tushar, Evan Ray, Teresa Yamana, Jeff Shaman, Roni Rosenfeld
 date: "November 2017"
 output: pdf_document
 header-includes:
@@ -12,20 +12,19 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(dplyr)
 library(readr)
 library(ggplot2)
-library(directlabels)
 theme_set(theme_minimal())
 ```
 
 
 ## Overview
 
-In the 2016/2017 influenza season, the CDC ran the 4th annual FluSight competition and received XX submissions from XX teams. During the season, analysts at the CDC built an ensemble model that combined all of the submitted models by taking the "average" forecast for each influenza target. This model was one of the top performing models for the entire season.
+In the 2016/2017 influenza season, the CDC ran the 4th annual FluSight competition and received XX submissions from XX teams. During the 2016/2017 season, analysts at the CDC built an ensemble model that combined all of the submitted models by taking the average forecast for each influenza target. This model was one of the top performing models for the entire season.
 
-In March 2017 the FluSight Network, a collaborative group of influenza forecasters who have worked with the CDC in the past, was established to facilitate the pooling of resources to develop an ensemble that could incorporate past performance of models. This group worked throughout 2017 to create a set of guidelines and an experimental design that would enable submission of a publicly available, multi-team, real-time submission of an ensemble model with validated and performance-based weights for each model (i.e. not a simple average of models). 
+In March 2017, a group of influenza forecasters who have participated in this challenge in past seasons established the FluSight Network, a  multi-institution and multi-disciplinary consortium of forecasting teams. The goal of the FluSight Network is to develop a collaborative ensemble that incorporates individual component models based on their past performance. This group worked throughout 2017 to create a set of guidelines and an experimental design that would enable submission of a publicly available, multi-team, real-time submission of a collaborative ensemble model with validated and performance-based weights for each model (i.e. not a simple average of models). 
 
 This document provides an executive summary of that effort, highlighting the results and documenting the chosen model that was designated for real-time submission during the 2017/2018 U.S. influenza season.
 
-Institution | No. of models | Team leaders
+Institution | No. of component models | Team leaders
 ----------- | ------------- | -------------
 Carnegie Mellon | 9 | Logan Brooks, Roni Rosenfeld
 Columbia University | 7 | Teresa Yamana, Jeff Shaman
@@ -34,14 +33,13 @@ UMass-Amherst | 4 | Nicholas Reich, Abhinav Tushar, Evan Ray
 
 ## Selected Ensemble Model for Real-time Submissions
 
-For each week in a season, each model submits forecasts for seven targets of public health interest specified by the CDC for each of the 11 HHS regions. The region-level targets are: weighted influenza-like-illness (wILI) in each of the next four weeks of the season, the week of season onset, the week in which the peak wILI occurs, and the level of the peak ILI. Forecasts within 0.5 percentage points of the target wILI and within 1 week of the weekly targets are given full credit for having been "correct".
+For every week in a season, each component model submission contains forecasts for seven targets of public health interest specified by the CDC for each of the 11 HHS regions. The region-level targets are: weighted influenza-like-illness (wILI) in each of the next four weeks of the season, the week of season onset, the week in which the peak wILI occurs, and the level of the peak ILI. Forecasts within 0.5 percentage points of the target wILI and within 1 week of the weekly targets are given full credit for having been "correct".
 
-All of our ensemble models are built by taking weighted averages of the component models. The central question here is whether using past performance to determine those weights can improve our performance. We examined the performance of five different possible ensemble specifications. The first took a simple average of all of the models, with no consideration of past performance. The other four approaches estimated weights for models based on past performance. These four approaches varied in complexity, from having a single weight for each model to having weights for each model that varied by region and target. 
+All of our ensemble models are built by taking weighted averages of the component models. The central question here is whether using past performance to determine those weights can reliably improve upon the performance of the best component models. We examined the performance of five different possible ensemble specifications. The first took a simple average of all of the models, with no consideration of past performance. The other four approaches estimated weights for models based on past performance. These four approaches varied in complexity, from having a single weight for each model to having weights for each model that varied by region and target. 
 
-We measured performance by (1) comparing the average accuracy across relevant times and targets and (2) comparing the variability in performance. The variability is important because a model can achieve good average performance by having a model captures typical trends fairly well, but in a season showing unusual timing or dynamics it might fail. We want to ensure that we choose a model that shows good average performance but also is consistently good.
+We measured performance by (1) comparing the average accuracy across all targets and all relevant weeks in the last seven seasons and (2) comparing the variability in performance. The variability is important because a model can achieve good average performance by having a model that captures typical trends fairly well, but in a season showing unusual timing or dynamics it might fail. We want to ensure that we choose a model that shows good average performance but also is consistently good, especially in unusual seasons.
 
-
-The model selected for real-time submissions is the model that showed the best overall performance in a cross-validation experiment over the last seven seasons. 
+For submitting in real-time in 2017-2018, we selected the ensemble model that showed the best overall performance in a cross-validation experiment over the last seven seasons. This was the ensemble model that assigned one set weights to each component model for the weekly incidence targets and another set of weights for the seasonal targets (onset timing, peak timing, and peak incidence).
 
 
 ```{r, cache=TRUE}
