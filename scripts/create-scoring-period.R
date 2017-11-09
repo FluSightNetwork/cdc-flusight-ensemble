@@ -5,7 +5,7 @@ create_scoring_period <- function() {
   require(dplyr)
   
   # Pull in baselines
-  baselines <- read.csv("../baselines/wILI_baseline.csv",
+  baselines <- read.csv("../baselines/wILI_Baseline.csv",
                         stringsAsFactors = F) %>%
     mutate(Season = paste0(year, "/", year + 1)) %>%
     select(Location = location, Season, base = value)
