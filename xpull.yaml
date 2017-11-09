@@ -1,0 +1,7 @@
+# xpull config file
+
+reichlab/2017-2018-cdc-flu-contest:
+  - ["inst/submissions/kcde-region/*.csv", "model-forecasts/real-time-component-models/ReichLab_kcde"]
+  - ["inst/submissions/kde-region/*.csv", "model-forecasts/real-time-component-models/ReichLab_kde"]
+  - ["inst/submissions/sarima_seasonal_difference_FALSE-region/*.csv", "model-forecasts/real-time-component-models/ReichLab_sarima_seasonal_difference_FALSE"]
+  - ["inst/submissions/sarima_seasonal_difference_TRUE-region/*.csv", "model-forecasts/real-time-component-models/ReichLab_sarima_seasonal_difference_TRUE"]
