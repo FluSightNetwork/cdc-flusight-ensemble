@@ -61,7 +61,7 @@ fi
 echo "> Setting up R dependencies"
 wget https://raw.githubusercontent.com/lepisma/pkr/d4fed8349bec44bd058e94063a9280f85284ff0a/pkr
 sudo chmod +x pkr
-sudo Rscript -e "install.packages(c('packrat', 'docopt'), repos = 'http://cran.us.r-project.org')"
+sudo Rscript -e "install.packages(c('packrat', 'docopt', 'devtools'), repos = 'http://cran.us.r-project.org')"
 sudo ./pkr --version
 sudo ./pkr in --file pkrfile --global
 
