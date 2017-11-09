@@ -60,10 +60,10 @@ fi
 # Download pinned [pkr](https://github.com/lepisma/pkr) version
 echo "> Setting up R dependencies"
 wget https://raw.githubusercontent.com/lepisma/pkr/d4fed8349bec44bd058e94063a9280f85284ff0a/pkr
-chmod +x pkr
-Rscript -e "install.packages(c('packrat', 'docopt'), repos = 'http://cran.us.r-project.org')"
-./pkr --version
-./pkr in --file pkrfile --global
+sudo chmod +x pkr
+sudo Rscript -e "install.packages(c('packrat', 'docopt'), repos = 'http://cran.us.r-project.org')"
+sudo ./pkr --version
+sudo ./pkr in --file pkrfile --global
 
 echo "> Building visualizer"
 # Go back and build flusight
