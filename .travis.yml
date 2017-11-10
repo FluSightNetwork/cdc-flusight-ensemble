@@ -1,6 +1,8 @@
 language: node_js
 sudo: required
 dist: trusty
+git:
+  depth: 1
 
 addons:
   apt:
