@@ -1,0 +1,15 @@
+team_name: Delphi
+team_members: >-
+  Logan C. Brooks, David C. Farrow, Sangwon Hyun, Shannon Gallagher, Ryan J.
+  Tibshirani, Roni Rosenfeld, Rob Tibshirani
+model_name: Uniform Distribution
+model_abbr: Uniform
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Models the distribution of each target's value as a uniform distribution over
+  spreadsheet bin means.  Reports the median for point predictions.  The code
+  for generating these forecasts is available at
+  https://github.com/cmu-delphi/epiforecast-R.

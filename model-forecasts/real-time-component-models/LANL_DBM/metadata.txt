@@ -1,0 +1,21 @@
+team_name: LANL
+team_members: 'Dave Osthus, Reid Priedhorsky, Jim Gattiker, Sara Del Valle'
+model_name: Dynamic Bayesian Model with a hierarchical discrepancy
+model_abbr: DBM
+anonymity: named
+data_source1: ILI Net
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >
+  The DBM combines an SIR model with a flexible discrepancy function in a
+  Bayesian framework. Methodological details can be found here:
+  https://arxiv.org/pdf/1708.09481.pdf. To produce forecasts, the DBM requires
+  historical data, ideally from EW 40 of 1997 through the forecast date, sans
+  the H1N1 2008/2009 and 2009/2010 seasons. To our knowledge, the earliest date
+  on which all historical data is available is EW 52 of 2013 through the DELPHI
+  API. For flu seasons 2014/2015, 2015/2016, and 2016/2017, all forecasts
+  strictly respect the backfill issue (i.e., all data used in the fitting of the
+  DBM was pulled on or before the forecast date). For seasons 2010/2011 through
+  2013/2014, historical data from 1997, EW 40 through 2008, EW 25 was pulled on
+  2013, EW 52 (i.e., NOT strictly obeying the backfill issue) while all other
+  used data was pulled on or before the forecast date.

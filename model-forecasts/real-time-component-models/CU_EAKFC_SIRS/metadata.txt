@@ -1,0 +1,12 @@
+team_name: CU
+team_members: 'J Shaman, T Yamana, S Kandula, S Pei, W Yang, H Morita'
+model_name: Ensemble Adjustment Kalman Filter SIRS
+model_abbr: EAKFC_SIRS
+anonymity: named
+data_source1: ILI Net
+data_source2: Google Health Trends API
+this_model_is_an_ensemble: FALSE
+methods: >-
+  EAKFC.  Model-inference ensemble forecast using a SIRS compartmental model
+  coupled with Ensemble Adjustment Kalman Filter state space estimation and
+  dynamic error growth correction.

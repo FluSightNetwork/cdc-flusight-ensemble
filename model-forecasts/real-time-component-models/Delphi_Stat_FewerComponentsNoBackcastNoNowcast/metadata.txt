@@ -1,0 +1,28 @@
+team_name: Delphi
+team_members: >-
+  Logan C. Brooks, David C. Farrow, Sangwon Hyun, Shannon Gallagher, Ryan J.
+  Tibshirani, Roni Rosenfeld, Rob Tibshirani
+model_name: >-
+  Statistical Ensemble (using the eight submitted components, with no
+  backcasting or nowcasting)
+model_abbr: Stat
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: TRUE
+methods: >-
+  Constructs an adaptively weighted ensemble of the eight other components
+  shared here (but training on forecasts from additional seasons).  Weights are
+  selected using the degenerate EM algorithm on a window of training data that
+  is a function of the week of the season, target, and type of prediction (Point
+  vs. Bin).  Uses two types of component forecasts in combination to train the
+  ensemble weights: (a) leave-one-season-out cross-validation component
+  forecasts for 2003/2004 to 2009/2010, excluding data from 2010/2011 onward,
+  and (b) retrospective forecasts using past seasons' data for 2010/2011
+  onwards.   When generating forecasts for a given test season, the ensemble
+  trains weights using only component forecasts made using past seasons' data,
+  and uses these weights to combine component forecasts for the test week that
+  were made using only data from previous weeks; observations from the test
+  season use mimicPastEpidataDF to approximate what the ILINet report for the
+  forecast week looked like.  The code for generating these forecasts is
+  available at https://github.com/cmu-delphi/epiforecast-R.
