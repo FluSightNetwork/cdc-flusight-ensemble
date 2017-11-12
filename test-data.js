@@ -169,7 +169,7 @@ describe('Ground truth file', function () {
 
   let modelDirs = models.getModelDirs(
     './model-forecasts',
-    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+    ['component-models', 'cv-ensemble-models']
   )
 
   let yearWeekPairs = modelDirs.map(function (modelDir) {
