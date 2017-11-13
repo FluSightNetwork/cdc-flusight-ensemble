@@ -13,7 +13,7 @@ sudo ./pkr in --file pkrfile --global
 Rscript ./scripts/make-real-time-ensemble-forecast-file.R $(node ./scripts/get-current-week.js)
 
 git add ./model-forecasts/real-time-ensemble-models/*/*.csv
-git add ./model-forecasts/submission/target-type-based-weights/*.csv
-git add ./model-forecasts/submission/plots/*.pdf
+git add ./model-forecasts/submissions/target-type-based-weights/*.csv
+git add ./model-forecasts/submissions/plots/*.pdf
 git diff-index --quiet HEAD || git commit -m "[TRAVIS] Ensemble files from travis"
 git push $SSH_REPO HEAD:master
