@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Script for handling xpull triggers
+# Script for handling xpull triggers from another repo
+# This only gets called from travis api calls using trigger.sh in xpull
 set -e
 
 # Save some useful information
@@ -8,7 +9,7 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
-# Setup credentials
+# Setup deploy keys
 git config user.name "CI auto deploy"
 git config user.email "lepisma@fastmail.com"
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
