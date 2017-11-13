@@ -8,10 +8,14 @@ library(gridExtra)
 library(ggplot2)
 theme_set(theme_minimal())
 
+## Takes epiweek number as (first) command line argument
+args <- commandArgs(TRUE)
+
 source("scripts/stack_forecasts.R")
 
 THIS_SEASON <- "2017/2018"
-THIS_EW <- 43
+THIS_EW <- as.numeric(args[1])
+cat(paste0("Generating ensemble files for week ", THIS_EW))
 
 this_year <- ifelse(
     THIS_EW>=40,
@@ -106,7 +110,7 @@ ttw_file <- paste0(
 ttw_submission_file <- paste0(
     ## "model-forecasts/submissions/EW", THIS_EW, "-FSNetwork-", Sys.Date(), ".csv"
     ## Renaming the files to have week and year information in the start - Abhinav Tushar
-    "model-forecasts/submissions/EW", THIS_EW, "-2017-FSNetwork-", Sys.Date(), ".csv"
+    "model-forecasts/submissions/target-type-based-weights/EW", THIS_EW, "-2017-FSNetwork-", Sys.Date(), ".csv"
 )
 
 file.copy(ttw_file, ttw_submission_file)
