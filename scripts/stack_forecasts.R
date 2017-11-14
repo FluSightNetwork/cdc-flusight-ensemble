@@ -86,5 +86,11 @@ stack_forecasts <- function(files, stacking_weights) {
         select(-contains("_value")) %>%
         select(-contains("_weight")) %>%
         select(-c(forecast_week))
+    ## correct point estimates because averages break for weekly means
+    corrected_point_ests <- generate_point_forecasts(ensemble_entry)
+    ensemble_entry <- ensemble_entry %>% 
+        left_join(corrected_point_ests, by=c("location", "target", "type", "unit")) %>% 
+        mutate(value = ifelse(type=="Point", value.y, value.x)) %>% 
+        select(-value.x, -value.y)
     return(ensemble_entry)
 }
