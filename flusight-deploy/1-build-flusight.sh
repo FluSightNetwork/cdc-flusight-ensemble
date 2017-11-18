@@ -27,8 +27,8 @@ sed -i 's/| Real-time <b>Influenza Forecasts<\/b>/a(v-bind:href="branding.parent
 sed -i 's/CDC FluSight Challenge/Collaborative Ensemble/' ./src/components/Panels.vue
 sed -i "/computed/a...mapGetters(['branding'])," ./src/components/Panels.vue
 
-# Clean footer text from bottom of score table
-sed -i '/.score-footer$/,/Calculated using the most/d' ./src/components/Panels/TimeChart.vue
+# Change footer text from bottom of score table
+sed -i 's/Calculated using the most recently updated data. Final values may differ./These are single bin scores. Scores for the latest season (2017-2018) are based on most recently updated data. Final values may differ./' ./src/components/Panels/TimeChart.vue
 
 # Change max heap size
 sed -i 's/node build\/build.js/node --max_old_space_size=6000 build\/build.js/' ./package.json
