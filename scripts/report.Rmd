@@ -34,7 +34,7 @@ UMass-Amherst | 4 | Nicholas Reich, Abhinav Tushar, Evan Ray
 ## Choosing an Ensemble Model for Real-time Influenza Forecasting
 
 In early November, the FluSight Network team chose a single model to submit to the CDC throughout the 2017/2018 influenza season. This model showed the best average overall performance among all individual component models and ensemble models examined (Figure 1). This model is called the "target-type weight" (TTW) model because it assigns each model an individual weight for each target-type (Figure 2). 
-Forecasts from this model are being submitted to the CDC in real-time, starting on November 6, 2017. They may be viewed at a public website by visiting: https://flusightnetwork.github.io/cdc-flusight-ensemble/.
+Forecasts from this model are being submitted to the CDC in real-time, starting on November 6, 2017. They may be viewed at a public website by visiting: https://flusightnetwork.io.
 
 An algorithm estimates an optimal distribution of weights for the 21 different component models (Figure 2). 
 For example, the `DeltaDensity1` model from the Delphi team is given 42% of the weight when creating ensemble predictions for incidence in the next four weeks and is given 12% of the weight for the seasonal targets (onset week, peak week, peak incidence). <!--`DeltaDensity1` is the only model that receives greater than 10% weight for both target types.-->
