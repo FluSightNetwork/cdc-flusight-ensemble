@@ -18,7 +18,7 @@ theme_set(theme_minimal())
 
 ## Abstract
 
-__Problem:__ Our aim is to combine a set of forecasting models for seasonal influenza in the US to create a single ensemble forecast. The central question is whether using past performance of the models to inform the ensemble approach can consistently improve upon the performance of any single model.
+__Problem:__ Our aim is to combine forecasting models for seasonal influenza in the US to create a single ensemble forecast. The central question is __can we provide better information to decision makers by combining forecasting models__, and specifically by using past performance of the models to inform the ensemble approach.
 
 __Materials and Methods:__ The FluSight Network is a  multi-institution and multi-disciplinary consortium of teams that have participated in past CDC FluSight challenges. Prior to the start of the 2017/2018 influenza season in the US, we assembled 21 distinct forecasting models for influenza, each with forecasts from the last seven influenza seasons in the US. Subsequently, we conducted a cross-validation study to compare five different methods for combining these models into a single ensemble forecast.
 
