@@ -96,6 +96,22 @@ scores_by_target_season_region <- scores_adj %>%
         min_score = min(score_adj)) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
+
+scores_by_week_season <- scores_adj %>%
+    group_by(Model, Target, Season, `Model Week`) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
+
+scores_by_week <- scores_adj %>%
+    group_by(Model, Target, `Model Week`) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
 ```
 
 ```{r, include=FALSE}
@@ -234,11 +250,11 @@ ensemble_scores_season <- scores_by_season %>%
 ensemble_scores_model <- scores_by_model %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
-ggplot(ensemble_scores_season, aes(x=Model, y=avg_score)) +
-    geom_point(alpha=.5, aes(color=Season)) + 
-    geom_point(data=ensemble_scores_model, shape="x", size=1, stroke=5)+
+ggplot(ensemble_scores_season, aes(x=Model, y=exp(avg_score))) +
+    geom_point(alpha=.8, aes(color=Season)) + 
+    geom_point(data=ensemble_scores_model, shape="x", size=1, stroke=8)+
     scale_color_brewer(palette="Dark2") +
-    ylab("average log score") +
+    ylab("average forecast skill") + xlab(NULL) +
     ggtitle("Average log-scores for ensemble models, by season")
 
 ```
@@ -261,5 +277,20 @@ ggplot(scores_by_season, aes(x=Model, y=avg_score)) +
 
 ```
 
+```{r}
+ggplot(scores_by_week, aes(x=`Model Week`, y=exp(avg_score))) +
+    geom_line(alpha=.5, aes(color=Model)) + 
+    geom_line(data=filter(scores_by_week, Model=="ReichLab-KDE"), color="black", size=1, alpha=.8)+ 
+    ylab("Forecast skill") +
+    facet_wrap(~Target)
+```
+
+```{r}
+ggplot(filter(scores_by_week_season, Target=="Season onset"), 
+    aes(x=`Model Week`, y=exp(avg_score))) +
+    geom_line(alpha=.5, aes(color=Model)) + 
+    ylab("Forecast skill") +
+    facet_wrap(~Season)
+```
 
 
