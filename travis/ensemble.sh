@@ -5,7 +5,7 @@ set -e
 
 # Download pinned [pkr](https://github.com/lepisma/pkr) version
 echo "> Setting up R dependencies"
-wget https://raw.githubusercontent.com/lepisma/pkr/cea19da312d66ec53508859acea15b41c8ba9979/pkr
+wget https://raw.githubusercontent.com/lepisma/pkr/7de00852f48cf9719c008fdf12cb8941bdb71953/pkr
 sudo chmod +x pkr
 sudo ./pkr --version
 sudo ./pkr in --file pkrfile --global
