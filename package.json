@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Scripts for cdc-flusight-ensemble data repo",
   "scripts": {
-    "test": "mocha ./test-data.js -R spec",
+    "test": "mocha ./test-data.js -R min",
     "format-metadata": "node ./scripts/format-metadata.js",
     "generate-scores": "node ./scripts/generate-scores.js",
     "generate-id-mappings": "node ./scripts/generate-id-mappings.js"
