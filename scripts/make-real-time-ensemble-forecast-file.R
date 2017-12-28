@@ -124,10 +124,13 @@ ttw_plots_name <- paste0(
 )
 pdf(ttw_plots_name, width = 12)
 for(reg in unique(d$location)){
-    p_onset <- plot_onset(d, region = reg) + ylim(0,1)
+    p_onset <- plot_onset(d, region = reg) + ylim(0,1) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5, size=5))
     p_peakpct <- plot_peakper(d, region = reg) + ylim(0,1)
-    p_peakwk <- plot_peakweek(d, region = reg) + ylim(0,1)
-    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2017) + ggtitle(paste(reg, ": 1 wk ahead")) + ylim(0,1)
+    p_peakwk <- plot_peakweek(d, region = reg) + ylim(0,1) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5, size=5))
+    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2017) + 
+        ggtitle(paste(reg, ": 1 wk ahead")) + ylim(0,1)
     p_2wk <- plot_weekahead(d, region = reg, wk = 2, ilimax=13, years = 2017) + ylim(0,1)
     p_3wk <- plot_weekahead(d, region = reg, wk = 3, ilimax=13, years = 2017) + ylim(0,1)
     p_4wk <- plot_weekahead(d, region = reg, wk = 4, ilimax=13, years = 2017) + ylim(0,1)
