@@ -6,6 +6,7 @@ library(FluSight) ## devtools::install_github("jarad/FluSight")
 library(dplyr)
 library(gridExtra)
 library(ggplot2)
+library(stringr)
 theme_set(theme_minimal())
 
 ## Takes epiweek number as (first) command line argument
@@ -20,8 +21,8 @@ cat(paste0("Generating ensemble files for week ", THIS_EW))
 this_year <- ifelse(
     THIS_EW>=40,
     substr(THIS_SEASON, 0, 4),
-    substr(THIS_SEASON, 5, 9))
-this_week_name <- paste0("EW", THIS_EW, "-", this_year)
+    substr(THIS_SEASON, 6, 9))
+this_week_name <- paste0("EW", str_pad(THIS_EW, 2, pad = "0"), "-", this_year)
 
 ## get list of component models
 model_names <- read.csv("model-forecasts/component-models/model-id-map.csv",
