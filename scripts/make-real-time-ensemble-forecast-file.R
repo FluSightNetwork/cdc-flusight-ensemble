@@ -105,13 +105,12 @@ for(j in 1:length(weight_files)){
 
 ## move/rename submission file
 ttw_file <- paste0(
-    "model-forecasts/real-time-ensemble-models/target-type-based-weights/",
-    this_week_name, "-", "target-type-based-weights.csv"
+  "model-forecasts/real-time-ensemble-models/target-type-based-weights/",
+  this_week_name, "-", "target-type-based-weights.csv"
 )
 ttw_submission_file <- paste0(
-    ## "model-forecasts/submissions/EW", THIS_EW, "-FSNetwork-", Sys.Date(), ".csv"
-    ## Renaming the files to have week and year information in the start - Abhinav Tushar
-    "model-forecasts/submissions/target-type-based-weights/EW", THIS_EW, "-2017-FSNetwork-", Sys.Date(), ".csv"
+  "model-forecasts/submissions/target-type-based-weights/",
+  "EW", str_pad(THIS_EW, 2, pad = "0"), "-", this_year, "-FSNetwork-", Sys.Date(), ".csv"
 )
 
 file.copy(ttw_file, ttw_submission_file)
