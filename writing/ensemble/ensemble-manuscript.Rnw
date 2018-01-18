@@ -1,17 +1,6 @@
----
-title: 'Combining Mechanistic and Statistical Models to Forecat Influenza in the U.S.:  A Collaborative Ensemble from the FluSight Network'
-author: Nicholas G Reich, Logan Brooks, Abhinav Tushar, Teresa Yamana, Craig McGowan, Evan Ray, Dave Osthus, Roni Rosenfeld
-output: pdf_document
----
+\documentclass{article}
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## Overview
-Forecasts of infectious disease outbreaks can inform public health response to outbreaks. Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
-
-Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. Yet there is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. Mechanistic models consider the biological underpinnings of disease transmission, and are in practice are typically implemented as variants on the Susceptible-Infectious-Recovered (SIR) model. Phenomenological models ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. Both approaches are commonly used and both have advantages and disadvantages in different settings.
+\begin{document}
 
 Ensemble models, or models that fuse together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach (where the "crowd" can be thought of as a throng of models) has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. 
 
@@ -28,6 +17,10 @@ Columbia University | 7 | Teresa Yamana, Jeff Shaman
 Los Alamos National Laboratories | 1 | Dave Osthus
 UMass-Amherst | 4 | Nicholas Reich, Abhinav Tushar, Evan Ray
 
-## Selected Ensemble Model for Real-time Submissions
+
+ Selected Ensemble Model for Real-time Submissions
 
 The model selected for real-time submissions is the model that performed 
+
+
+\end{document}
