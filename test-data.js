@@ -117,7 +117,7 @@ describe('metadata.txt', function () {
 describe('CSV', function () {
   let modelDirs = models.getModelDirs(
     './model-forecasts',
-    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+    ['component-models', 'cv-ensemble-models', 'real-time-component-models', 'real-time-ensemble-models']
   )
 
   let csvFiles = modelDirs.map(function (modelDir) {
@@ -128,6 +128,15 @@ describe('CSV', function () {
     return acc.concat(item)
   }, [])
 
+  describe('should match the file name pattern', function () {
+    let pattern = /^EW[0-5][0-9]-20[0-1][0-9]-.*\.csv$/
+    csvFiles.forEach(function (csvFile) {
+      it(csvFile, function () {
+        pattern.test(path.basename(csvFile)).should.be.true
+      })
+    })
+  })
+
   let currentMoment = moment()
   describe('should have valid week number', function () {
     csvFiles.forEach(function (csvFile) {
@@ -136,7 +145,11 @@ describe('CSV', function () {
         let week = parseInt(splits[0].slice(2))
         let year = parseInt(splits[1])
         let mdate = new mmwr.MMWRDate(year, week)
-        currentMoment.isAfter(mdate.toMomentDate()).should.be.true
+
+        // Real time component models can have files for future weeks
+        if (csvFile.indexOf('real-time-component-models') === -1) {
+          currentMoment.isAfter(mdate.toMomentDate()).should.be.true
+        }
       })
     })
   })
