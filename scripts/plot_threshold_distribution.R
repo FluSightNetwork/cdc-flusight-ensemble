@@ -60,7 +60,7 @@ gridplot_ili_percentage <- function(path_to_entry, path_to_baseline_entry, targe
     grid.arrange(p1, p2, p3, nrow=1, widths=c(.4, .3, .3))    
 }
 
-gridplot_ili_percentage(path_to_entry = "model-forecasts/submissions/target-type-based-weights/EW50-2017-FSNetwork-2017-12-27.csv", 
+gridplot_ili_percentage(path_to_entry = "model-forecasts/submissions/target-type-based-weights/EW51-2017-FSNetwork-2018-01-03.csv", 
     path_to_baseline_entry = "model-forecasts/real-time-component-models/ReichLab_kde/EW05-2018-ReichLab_kde.csv", 
     target="Season peak percentage")
 
@@ -78,3 +78,17 @@ wk4 <- gridplot_ili_percentage(path_to_entry = "model-forecasts/submissions/targ
     target="4 wk ahead")
 
 grid.arrange(wk1, wk2, wk3, wk4, nrow=4)
+
+## loop through peak forecasts
+fcast_files <- list.files("model-forecasts/submissions/target-type-based-weights/", full.names=TRUE)
+fcast_files <- fcast_files[-grep("metadata.txt", fcast_files)]
+
+pdf("model-forecasts/submissions/plots/peakdists.pdf", width=10, height=7)
+for(fcast_file in fcast_files) {
+    #grid.arrange(
+        gridplot_ili_percentage(path_to_entry = fcast_file, 
+        path_to_baseline_entry = "model-forecasts/real-time-component-models/ReichLab_kde/EW05-2018-ReichLab_kde.csv", 
+        target="Season peak percentage")#,
+    #    top=substr(fcast_file, 0, 4))
+}
+dev.off()

@@ -138,10 +138,10 @@ ggplot(scores_by_model, aes(x=Model, y=exp(avg_score))) +
     theme(axis.text.x = element_text(
         angle = 90, hjust = 1, vjust = .5,
         color=ifelse(
-            levels(scores_by_target_season$Model)%in% mech_models,
+            levels(scores_by_model$Model)%in% mech_models,
             "red", 
             "black"
         ))
     ) +
-    ggtitle("Average log-scores for all models")
+    ggtitle("Average performance across all seasons, targets, and weeks")
 
