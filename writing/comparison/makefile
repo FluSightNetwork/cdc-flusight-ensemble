@@ -11,6 +11,8 @@ all: $(TEXFILE).pdf $(PDFFIGS) view
 ## the manuscript
 $(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS)
 	pdflatex $(TEXFILE)
+	bibtex $(TEXFILE)
+	pdflatex $(TEXFILE)
 	pdflatex $(TEXFILE)
 
 # the figures, in order for this to work, might need the file to exist...
