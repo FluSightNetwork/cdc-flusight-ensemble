@@ -89,7 +89,9 @@ For example, the forecast skill for model $m$ and target $t$ would be calculated
  FS^{m}_{t} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f^{(m)}_{r,t,s,w}(\hat z|{\bf x}) \right ) \\
  & = & \left ( \prod_{r,s,w} \hat f^{(m)}_{r,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
 \end{eqnarray}
-where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week.
+where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week. 
+Further, within a given region-season-target combination, the weeks included in the calculation of the average forecast skill depend on when the onset and peak occur. Specifically, [[...]].
+All weeks are included for the forecast skill calculations for the $k$-step ahead forecasts of wILI.
 
 The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
 
@@ -104,6 +106,8 @@ The log-scores are computed for the targets on the wILI percentage scale such th
 \section{Results}
 
 \subsection{Overall performance of models}
+
+Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately, make point estimates fresh using flusight package?
 
 \subsubsection{Target-specific performance across seasons}
 i.e. which targets are easier to forecast than others
