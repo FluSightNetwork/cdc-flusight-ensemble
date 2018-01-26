@@ -94,10 +94,14 @@ Further, within a given region-season-target combination, the weeks included in 
 All weeks are included for the forecast skill calculations for the $k$-step ahead forecasts of wILI.
 
 The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
-
 \begin{itemize}
     \item log-score for predictive distribution, aggregated by (model), (model x season), (model x season x location), (model x season x target-type), (model x season x target), , (model x season x week)
     \item MAE for point predictions
+\end{itemize}
+
+\subsection{Formal comparisons of model performance}
+
+\begin{itemize}
     \item permutation test for pairwise statistical comparison between two models
     \item beta regression or permutation test for comparison between groups of models (i.e. mechanistic vs. statistical)
 \end{itemize}
@@ -116,7 +120,7 @@ i.e. which targets are easier to forecast than others
 
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=\textwidth]{figures/fig1.pdf}
+\includegraphics[width=\textwidth]{figures/fig-results-season.pdf}
 \caption{Model results by season.}
 \label{fig:results-season}
 \end{center}
@@ -124,6 +128,15 @@ i.e. which targets are easier to forecast than others
 
 \subsection{Performance of models by location}
 
+Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
+\caption{Model results by region and target-type.}
+\label{fig:results-region}
+\end{center}
+\end{figure}
 
 \subsection{Performance of models by target}
 

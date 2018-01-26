@@ -15,7 +15,7 @@ $(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS)
 	pdflatex $(TEXFILE)
 	pdflatex $(TEXFILE)
 
-# the figures, in order for this to work, might need the file to exist...
+# the figures, in order for this to work, might need the PDF file to exist...
 $(FIGDIR)/%.pdf: $(RDIR)/%.R
 	R CMD BATCH $< 
 

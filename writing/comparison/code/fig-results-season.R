@@ -19,7 +19,7 @@ all_target_bounds = create_scoring_period(
     scoresfile = "../../scores/target-multivals.csv")
 
 ## Remove scores that fall outside of evaluation period for a given target/season
-scores_trimmed <- scores %>%
+scores_trimmed <- scores %>% 
     dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
     dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
 
@@ -50,4 +50,4 @@ p <- ggplot(scores_by_season,
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by season")
 
-ggsave("./figures/fig1.pdf", plot=p, device="pdf")
+ggsave("./figures/fig-results-season.pdf", plot=p, device="pdf")
