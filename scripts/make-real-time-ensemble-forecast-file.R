@@ -113,7 +113,7 @@ ttw_submission_file <- paste0(
   "EW", str_pad(THIS_EW, 2, pad = "0"), "-", this_year, "-FSNetwork-", Sys.Date(), ".csv"
 )
 
-file.copy(ttw_file, ttw_submission_file)
+file.copy(ttw_file, ttw_submission_file, overwrite = TRUE)
 
 
 ## visualize the TTW submission
