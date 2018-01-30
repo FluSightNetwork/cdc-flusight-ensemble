@@ -3,7 +3,7 @@ FIGDIR= ./figures
 RDIR= ./code
 
 # define figures as targets so they can be called with all
-PDFFIGS := $(wildcard $(FIGDIR)/*.pdf)
+PDFFIGS := $(wildcard $(FIGDIR)/*.pdf) 
 
 ## define the full make, explicitly referencing all targets
 all: $(TEXFILE).pdf $(PDFFIGS) view
