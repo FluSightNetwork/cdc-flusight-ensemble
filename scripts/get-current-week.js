@@ -6,9 +6,11 @@ const travisCommitMessage = process.env.TRAVIS_COMMIT_MESSAGE
 const travisEventType = process.env.TRAVIS_EVENT_TYPE
 
 const getCommitWeek = message => {
-  if (message) {
+  if (travisEventType === 'cron') {
+    return NaN
+  } else if (travisCommitMessage) {
     let pattern = /week\ [0-5][0-9]?/
-    let splits = message.trim().match(pattern)[0].split(' ')
+    let splits = travisCommitMessage.trim().match(pattern)[0].split(' ')
     return parseInt(splits[1])
   } else {
     return NaN
@@ -23,7 +25,7 @@ const incrementTimeStamp = ts => {
   return mdate.year * 100 + mdate.week
 }
 
-let commitWeek = getCommitWeek(travisCommitMessage)
+let commitWeek = getCommitWeek()
 
 if (isNaN(commitWeek)) {
   // Figure out the week by other means
