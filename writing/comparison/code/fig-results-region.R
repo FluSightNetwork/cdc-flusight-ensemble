@@ -49,7 +49,7 @@ p <- ggplot(scores_by_region,
     aes(x=Location, fill=skill, y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
     facet_grid(~target_type) +
-    geom_text(aes(label=round(skill, 2))) +
+    geom_text(aes(label=round(skill, 2)), size=2) +
     scale_fill_gradient2(midpoint = midpt, name="forecast skill") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     ggtitle("Average model scores by region and target type")
