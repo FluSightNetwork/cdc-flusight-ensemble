@@ -1,0 +1,604 @@
+---
+title: "2015-2016 Gamma Regression Plots"
+author: "Craig McGowan"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document
+  # word_document
+---
+
+```{r setup, include=FALSE, message = FALSE}
+library(tidyverse)
+library(knitr)
+library(broom)
+
+opts_knit$set(root.dir = "../../")
+opts_chunk$set(echo = FALSE)
+```
+
+```{r pull in data and functions, message = FALSE}
+# source("R/submissions_scoring_1516.R")
+load("Data/AllScoreFiles_1516.Rdata")
+
+# Load functions
+
+old_teams <- c("4Sight", "CU1", "CU2", "Delphi-Archefilter", "Delphi-Epicast",
+               "Delphi-Stat", "NEU")
+new_teams <- c("ARETE", "UMN", "ISU", "JL", "KBSI1", "KOT", "PSI")
+
+# Compare new teams vs repeat teams for national targets
+mech_teams <- c("4Sight", "CU1", "CU2", "NEU", "PSI")
+stat_teams <- c("ARETE","Delphi-Archefilter", "Delphi-Epicast",
+                "Delphi-Stat", "UMN","KBSI1", "KOT", "ISU", "JL")
+
+# Compare teams w/ ILINet only vs extra data
+ILI_only <- c("ARETE", "Delphi-Stat", "JL", "KBSI1", "KOT")
+ILI_plus <- c("4Sight", "CU1", "CU2", "Delphi-Archefilter", "Delphi-Epicast",
+              "UMN", "ISU", "NEU", "PSI")
+
+# Compare teams w/ ensemble approach vs single model
+ens_teams <- c("4Sight", "ARETE", "CU1", "CU2", "Delphi-Epicast", 
+               "Delphi-Stat")
+single_teams <- c("Delphi-Archefilter", "UMN", "JL", "KBSI1", "KOT",
+                  "ISU", "NEU", "PSI")
+
+
+# Add variables to flag for different groupings
+us_sub_eval_plot <- eval_scores_sub_1516 %>%
+  filter(location == "US National") %>% 
+  mutate(ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target"))  %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg"))) %>%
+  mutate(return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0)) 
+
+reg_sub_eval_plot <- eval_scores_sub_1516 %>% 
+  filter(location != "US National") %>%
+  mutate(ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target")) %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg", "KOT")))  %>%
+  mutate(return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0))
+
+all_sub_eval_regress <- bind_rows(us_sub_eval_plot, reg_sub_eval_plot) %>%
+  mutate(skill = ifelse((1 - skill) < 1E-6, 0.999999, skill),
+         forecast_week = factor(forecast_week),
+         surprisal = -score,
+         surprisal = ifelse(surprisal < 0.00001, 0.00001, surprisal))
+
+all_sub_eval_plot <- all_sub_eval_regress %>%
+  group_by(location, target, team) %>%
+  summarize(score = mean(score)) %>%
+  ungroup %>%
+  mutate(skill = exp(score),
+         ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target"),
+         return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0))
+
+
+# Exact scores
+# Add variables to flag for different groupings
+us_exact_eval_plot <- eval_scores_exact_sub_1516 %>%
+  filter(location == "US National") %>% 
+  mutate(ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target"))  %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg"))) %>%
+  mutate(return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0)) 
+
+reg_exact_eval_plot <- eval_scores_exact_sub_1516 %>% 
+  filter(location != "US National") %>%
+  mutate(ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target")) %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg", "KOT")))  %>%
+  mutate(return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0))
+
+all_exact_eval_regress <- bind_rows(us_exact_eval_plot, reg_exact_eval_plot) %>%
+  mutate(skill = ifelse((1 - skill) < 1E-6, 0.999999, skill),
+         forecast_week = factor(forecast_week))
+
+all_exact_eval_plot <- all_exact_eval_regress %>%
+  group_by(location, target, team) %>%
+  summarize(score = mean(score)) %>%
+  ungroup %>%
+  mutate(skill = exp(score),
+         ssn = ifelse(target %in% c("Season peak week",
+                                    "Season peak percentage",
+                                    "Season onset"),
+                      "Seasonal Target", "Weekly Target"),
+         return = ifelse(team %in% old_teams, 1, 0),
+         ILIplus = ifelse(team %in% ILI_plus, 1, 0),
+         stat = ifelse(team %in% stat_teams, 1, 0),
+         ens = ifelse(team %in% ens_teams, 1, 0))
+
+```
+
+
+## Team comparisons using only submitted forecasts during evaluation periods
+
+### Ensemble Approach or Single Model - gamma regression
+Unadjusted and adjusted models tell a similar story, which aligns with observed differences in means. Ensemble models have significantly higher log scores than models relying on a single model approach.
+
+```{r ensemble/single regression, warning = FALSE}
+unadjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ ens,
+              data = ., family='Gamma'))) %>%
+  filter(term == "ens") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  mutate(location_num = length(unique(location)),
+         week_num = length(unique(forecast_week))) %>%
+  do(tidy(glm(surprisal ~ ens + location + forecast_week,
+                data = ., family = "Gamma", 
+            start = rep(0.000001, (max(.$location_num) + max(.$week_num)))))) %>%
+  filter(term == "ens") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+plot_avg <- all_sub_eval_regress %>%
+  group_by(target, ens, ssn) %>%
+  summarize(avg_score = mean(score)) 
+
+spread(plot_avg %>% select(-ssn), ens, avg_score) %>%
+  mutate(diff = `1` - `0`) %>%
+  rename(`Single Model` = `0`, `Ensemble` = `1`) %>%
+  left_join(unadjust_betas, by = "target") %>%
+  left_join(adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_sub_eval_regress, aes(ens, score, color = target)) +
+  geom_jitter(width = 0.4, alpha = 0.05) +
+  geom_point(data = plot_avg, aes(ens, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_x_continuous(breaks = c(0, 1), labels = c("Single Model", "Ensemble")) +
+  scale_alpha(range = c(0.1, 1)) +
+  labs(title = "Ensemble Approach",
+       x = "",
+       y = "log score") +
+  facet_grid(. ~ target) +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  geom_smooth(method = "lm", se = F,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+
+```
+
+
+### New/Returning Teams
+Unadjusted and adjusted models tell a similar story, which aligns with observed differences in means. Returning teams have significantly higher log scores than models from teams that are participating in the challenge for the first time.
+```{r new/returning regression, warning = FALSE}
+unadjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ return,
+              data = ., family = "Gamma"))) %>%
+  filter(term == "return") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  mutate(location_num = length(unique(location)),
+         week_num = length(unique(forecast_week))) %>%
+  do(tidy(glm(surprisal ~ return + location + forecast_week,
+                data = ., family = "Gamma", 
+            start = rep(0.000001, (max(.$location_num) + max(.$week_num)))))) %>%
+  filter(term == "return") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+plot_avg <- all_sub_eval_regress %>%
+  group_by(target, return, ssn) %>%
+  summarize(avg_score = mean(score)) 
+
+spread(plot_avg %>% select(-ssn), return, avg_score) %>%
+  mutate(diff = `1` - `0`) %>%
+  rename(new_teams = `0`, old_teams = `1`) %>%
+  left_join(unadjust_betas, by = "target") %>%
+  left_join(adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+  
+ggplot(all_sub_eval_regress, aes(return, score, color = target)) +
+  geom_jitter(width = 0.4, alpha = 0.1) +
+  geom_point(data = plot_avg, aes(return, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_x_continuous(breaks = c(0, 1), labels = c("New", "Returning")) +
+  scale_alpha(range = c(0.1, 1)) +
+  labs(title = "New/Returning Team",
+       x = "",
+       y = "log score") +
+  facet_grid(. ~ target) +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  geom_smooth(method = "lm", se = F,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+### Mechanistic or Statistical Methods
+Note: In addition to only referring to submitted forecasts, this also includes the reclassification of ISU as a statistical model rather than a mechanistic model.
+
+Statistical models are significantly more accurate for forecasts of 2-4 weeks ahead and season peak week. There are no significant differences between accuracy of 1 week ahead, season onset, or season peak intensity forecasts.
+```{r mech/stat regression, warning = FALSE}
+unadjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ stat,
+              data = ., family = "Gamma"))) %>%
+  filter(term == "stat") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+
+adjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  mutate(location_num = length(unique(location)),
+         week_num = length(unique(forecast_week))) %>%
+  do(tidy(glm(surprisal ~ stat + location + forecast_week,
+                data = ., family = "Gamma", 
+            start = rep(0.000001, (max(.$location_num) + max(.$week_num)))))) %>%
+  filter(term == "stat") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+plot_avg <- all_sub_eval_regress %>%
+  group_by(target, stat, ssn) %>%
+  summarize(avg_score = mean(score)) 
+
+spread(plot_avg %>% select(-ssn), stat, avg_score) %>%
+  mutate(diff = `1` - `0`) %>%
+  rename(mechanistic = `0`, statistical = `1`) %>%
+  left_join(unadjust_betas, by = "target") %>%
+  left_join(adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_sub_eval_regress, aes(stat, score, color = target)) +
+  geom_jitter(width = 0.4, alpha = 0.1) +
+  geom_point(data = plot_avg, aes(stat, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_x_continuous(breaks = c(0, 1), labels = c("Mechanistic", "Statistical")) +
+  scale_alpha(range = c(0.1, 1)) +
+  labs(title = "Model Type",
+       x = "",
+       y = "log score") +
+  facet_grid(. ~ target) +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  geom_smooth(method = "lm", se = F,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+### ILINet only or Additional information
+Models utilizing only ILINet information were significantly more accurate at forecasts of seasonal peak intensity. There were no significant differences between accuracy of forecasts for other targets once adjusted for location and week forecasts were received.
+```{r ili/iliplus regression, warning = FALSE}
+unadjust_betas <-all_sub_eval_regress %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ ILIplus,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "ILIplus") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_sub_eval_regress %>%
+  group_by(target) %>%
+  mutate(location_num = length(unique(location)),
+         week_num = length(unique(forecast_week))) %>%
+  do(tidy(glm(surprisal ~ ILIplus + location + forecast_week,
+                data = ., family = "Gamma", 
+            start = rep(0.000001, (max(.$location_num) + max(.$week_num)))))) %>%
+  filter(term == "ILIplus") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+plot_avg <- all_sub_eval_regress %>%
+  group_by(target, ILIplus, ssn) %>%
+  summarize(avg_score = mean(score)) 
+
+spread(plot_avg %>% select(-ssn), ILIplus, avg_score) %>%
+  mutate(diff = `1` - `0`) %>%
+  rename(`ILI Only` = `0`, `Add'l Data` = `1`) %>%
+  left_join(unadjust_betas, by = "target") %>%
+  left_join(adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_sub_eval_regress, aes(ILIplus, score, color = target)) +
+  geom_jitter(width = 0.4, alpha = 0.1) +
+  geom_point(data = plot_avg, aes(ILIplus, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_x_continuous(breaks = c(0, 1), labels = c("ILINet only", "Add'l data")) +
+  scale_alpha(range = c(0.1, 1)) +
+  labs(title = "Data Source",
+       x = "",
+       y = "log score") +
+  facet_grid(. ~ target) +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  geom_smooth(method = "lm", se = F,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_sub_eval_regress %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+
+## Skill across regions by seasonal characteristics
+```{r seasonal characteristics code set up, message = FALSE}
+# Observed truth for timing of targets
+truth_1516 <- read_csv("Exact_Targets_2015-2016.csv")
+week_bounds <- read_csv("Above_Baseline_ILI_Bounds_2015-2016.csv")
+
+# Relative intensity datasets
+rel_int <- FluSight::past_baselines %>%
+  filter(year == 2015) %>%
+  rename(baseline = value) %>%
+  left_join(truth_1516 %>%
+              filter(target == "Season peak percentage") %>%
+              select(location, peak = bin_start_incl),
+            by = "location") %>%
+  mutate(relative = peak / baseline)
+
+
+all_sub_relative_eval <- all_sub_eval_regress %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg"))) %>%
+  left_join(rel_int %>% select(location, relative), by = "location")
+
+all_sub_relative_eval_avg <- all_sub_relative_eval %>%
+  group_by(target, relative, ssn) %>%
+  summarize(avg_score = mean(score))
+
+
+# Onset timing datasets
+all_onset_timing_eval <- all_sub_eval_regress %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg"))) %>%
+  left_join(truth_1516 %>% filter(target == "Season onset") %>%
+              select(location, bin_start_incl),
+            by = "location") %>%
+  mutate(onset = ifelse(as.numeric(bin_start_incl) < 40,
+                        as.numeric(bin_start_incl) + 52,
+                        as.numeric(bin_start_incl))) %>%
+  select(-bin_start_incl)
+
+all_onset_timing_eval_avg <- all_onset_timing_eval %>%
+  group_by(target, onset, ssn) %>%
+  summarize(avg_score = mean(score))
+
+
+# Peak timing datasets
+all_peak_timing_eval <- all_sub_eval_regress %>%
+  filter(!(team %in% c("Hist-Avg", "UnwghtAvg"))) %>%
+  left_join(truth_1516 %>% filter(target == "Season peak week") %>%
+              select(location, bin_start_incl),
+            by = "location") %>%
+  mutate(peak = as.numeric(bin_start_incl)) %>%
+  select(-bin_start_incl)
+
+all_peak_timing_eval_avg <- all_peak_timing_eval %>%
+  group_by(target, peak, ssn) %>%
+  summarize(avg_score = mean(score))
+
+# Number of weeks above baseline dataset
+all_eval_week_baseline <- all_sub_eval_regress %>%
+  left_join(week_bounds %>%
+              mutate(start_week = ifelse(start_week < 40, start_week + 52, start_week),
+                     end_week = ifelse(end_week < 40, end_week + 52, end_week),
+                     eval_time = end_week - start_week) %>%
+              select(-start_week, -end_week),
+            by = c("location"))
+
+all_eval_week_baseline_avg <- all_eval_week_baseline %>%
+  group_by(target, ssn, eval_time) %>%
+  summarize(avg_score = mean(score))
+```
+
+
+### Comparison by relative strength of peak intensity
+Forecasts of 1 week ahead were significantly more accurate with increasing relative strength of the influenza season, though the effect was minor. There were no other significant differences in forecast accuracy of other targets with increasing season intensity.
+```{r relative peak intensity, warning = FALSE}
+unadjust_betas <- all_sub_relative_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ relative ,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "relative") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_sub_relative_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ relative + forecast_week,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "relative") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+left_join(unadjust_betas, adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_sub_relative_eval, aes(relative, score, color = target)) +
+  geom_jitter(alpha = 0.1, width = 0.01) +
+  geom_point(data = all_sub_relative_eval_avg, aes(relative, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_alpha(range = c(0.1, 1)) +
+  theme_classic() +
+  labs(title = "Relative peak intensity",
+       x = "Relative peak intensity",
+       y = "log score") +
+  facet_grid(ssn ~ .) +
+  geom_smooth(method = "lm", se = F,
+              data = all_sub_relative_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_sub_relative_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+
+### Comparison by timing of onset week
+Forecasts for all week ahead targets and season peak intensity were significantly more accurate in regions with later onset, though the effect was small. Forecasts for season onset were significantly less accurate in regions with later onset, though the effect was also minor once adjusting for the week the forecasts were received. There was no significant association between accuracy of peak week forecasts and timing of season onset.
+```{r onset week timing , warning = FALSE}
+unadjust_betas <- all_onset_timing_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ onset ,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "onset") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_onset_timing_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ onset + forecast_week,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "onset") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+left_join(unadjust_betas, adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_onset_timing_eval, aes(onset, score, color = target)) +
+  geom_jitter(alpha = 0.1, width = 0.4) +
+  geom_point(data = all_onset_timing_eval_avg, aes(onset, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_alpha(range = c(0.1, 1)) +
+  scale_x_continuous(breaks = seq(46, 60, 2),
+                     labels = c("46", "48", "50", "52", "2", "4", "6", "8")) +
+  theme_classic() +
+  labs(title = "Onset week timing",
+       x = "Onset week",
+       y = "log score") +
+  facet_grid(ssn ~ .) +
+  geom_smooth(method = "lm", se = F,
+              data = all_onset_timing_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_onset_timing_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+
+### Comparison by timing of peak week
+Forecasts for 1-2 week ahead were significantly more accurate in regions with later peak week, while forecasts for season onset and season peak week were significantly less accurate in regions with later peaks. Forecasts for 3-4 weeks ahead and season peak percentage were not significantly associated with the timing of peak week.
+```{r peak week timing , warning = FALSE}
+unadjust_betas <- all_peak_timing_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ peak ,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "peak") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_peak_timing_eval %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ peak + forecast_week,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "peak") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+left_join(unadjust_betas, adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+
+ggplot(all_peak_timing_eval, aes(peak, score, color = target)) +
+  geom_jitter(alpha = 0.1, width = 0.35) +
+  geom_point(data = all_peak_timing_eval_avg, aes(peak, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_alpha(range = c(0.1, 1)) +
+  #scale_x_continuous(breaks = seq(6, 12, 2)) +
+  theme_classic() +
+  labs(title = "Peak week timing",
+       x = "Peak week",
+       y = "log score") +
+  facet_grid(ssn ~ .) +
+  geom_smooth(method = "lm", se = F,
+              data = all_peak_timing_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_peak_timing_eval %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
+
+
+### Comparison by number of weeks above baseline
+Forecasts for 2-4 week ahead targets were significantly less accurate in regions with more weeks above baseline, though the effects were small. Forecasts for season onset were significantly more accurate in regions with more weeks above baseline, which aligns with what was found above with increasing accuracy with early onset. There were no significant differences in accuracy of 1 week ahead, season peak percentage, or season peak intensity forecasts with number of weeks above baseline.
+```{r weeks above baseline, warning = FALSE }
+unadjust_betas <- all_eval_week_baseline %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ eval_time ,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "eval_time") %>%
+  select(target, Unadj.Beta = estimate, Unadj.p = p.value)
+
+adjust_betas <- all_eval_week_baseline %>%
+  group_by(target) %>%
+  do(tidy(glm(surprisal ~ eval_time + forecast_week,
+                data = ., family = "Gamma"))) %>%
+  filter(term == "eval_time") %>%
+  select(target, Adj.Beta = estimate, Adj.p = p.value)
+
+left_join(unadjust_betas, adjust_betas, by = "target") %>%
+  map_if(is.numeric, round, 3) %>%
+  as.data.frame() %>%
+  kable()
+
+ggplot(all_eval_week_baseline, aes(eval_time, score, color = target)) +
+  geom_jitter(alpha = 0.1) +
+  geom_point(data = all_eval_week_baseline_avg, aes(eval_time, avg_score, color = target),
+             size = 4, shape = 18) +
+  scale_color_brewer(name = "Target", palette = "Dark2") +
+  scale_alpha(range = c(0.1, 1)) +
+  labs(title = "Weeks above baseline",
+       x = "Number of weeks ILINet above baseline",
+       y = "log score") +
+  facet_grid(ssn ~ .) +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  geom_smooth(method = "lm", se = F,
+              data = all_eval_week_baseline %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p < 0.05])) +
+  geom_smooth(method = "lm", se = F, linetype = 2,
+              data = all_eval_week_baseline %>%
+                filter(target %in% adjust_betas$target[adjust_betas$Adj.p >= 0.05]))
+```
