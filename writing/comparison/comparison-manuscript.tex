@@ -153,13 +153,32 @@ Consider adding map that averages across all models, or shows max skill per regi
 \end{center}
 \end{figure}
 
-\subsection{Performance of models by target}
-
 
 \subsection{Performance of models by time-of-season}
 
+Maybe in supplements?
+
 
 \subsection{Comparison between statistical and mechanistic models}
+
+Gamma mixed effects regression model on negative log-scores. Need to remove correlation between successive observation.
+
+strategies to remove correlation between successive scores within a year:
+\begin{itemize}
+    \item smooth/aggregate scores into different sections of the year, possibly reducing the number of and/or correlation between sucessive scores
+    \item smooth spline across years with random effect for model, fixed effects for model-type
+    \item permutation test
+\end{itemize}
+
+
+\subsection{Where do these models fail?}
+
+\begin{itemize}
+    \item holiday peak?
+    \item data revisions
+    \item peak performance? (connection between size of season and performance)
+    \item missing a slow descent because of a second outbreak that is lifting the tail up?
+\begin{itemize}
 
 
 \section{Discussion}
