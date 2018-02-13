@@ -118,17 +118,9 @@ Things to confirm: removed weeks that CDC does not score, no onset seasons and m
 \subsection{Performance in forecasting week-ahead incidence}
 
 Average forecast skill for the four week-ahead targets varied substantially across models and regions.
-The best model (XX) achieved between XX and XX average skill across all seasons and regions.
+The best model (XX) achieved between XX and XX average skill in forecasting week-ahead targets across all seasons and regions.
 The historical baseline model achieved between XX and XX average skill.
 Of the XX model-region-seasons available for comparison to the historical baseline, XX\% showed greater skill than the historical baseline for a given region-season.
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
-\caption{Model results by region and target-type.}
-\label{fig:results-region}
-\end{center}
-\end{figure}
 
 
 Even within given models, forecast skill showed large region-to-region and year-to-year variation. 
@@ -176,9 +168,18 @@ TODO: make point plot of skill by season to show variability and average perform
 \end{center}
 \end{figure}
 
+
 \subsection{Performance of models by location}
 
 Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
+\caption{Model results by region and target-type.}
+\label{fig:results-region}
+\end{center}
+\end{figure}
 
 
 two columns: by target type
@@ -187,21 +188,27 @@ mapb: performance of historical model by region
 figc: scatter plot of region-level historical model skill on x and avg model skill on y, colored by season
 
 
-\subsection{Performance of models by time-of-season}
-
-Maybe in supplements?
+\subsection{Comparison between statistical and compartmental models}
 
 
-\subsection{Comparison between statistical and mechanistic models}
+Statistical models showed the same amount of skill as compartmental models at forecasting week-ahead targets, and slightly more skill for the seasonal targets. 
+Using the best three overall models from each category, we computed the average forecast skill for each combination of region, season, and target (Table \ref{tab:score-by-model-type}). 
+For the week-ahead forecasts, the difference in model skill was below XX.
+For the three seasonal targets, the difference in model skill was larger, ranging from XX for [target X] to XX for [target X].
+We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven largely by a statistical ``nowcast`` model that uses data from the Google Search API and influenza laboratory testing data from the CDC to create the ILI+ metric.\cite{yang2014}
+Therefore, the only truly compartmental model making 1 week-ahead forecasts is the LANL-DBM model. 
 
-Gamma mixed effects regression model on negative log-scores. Need to remove correlation between successive observation.
+\input{./static-figures/score-by-model-type.tex}
 
-strategies to remove correlation between successive scores within a year:
-\begin{itemize}
-    \item smooth/aggregate scores into different sections of the year, possibly reducing the number of and/or correlation between sucessive scores
-    \item smooth spline across years with random effect for model, fixed effects for model-type
-    \item permutation test
-\end{itemize}
+
+% Gamma mixed effects regression model on negative log-scores. Need to remove correlation between successive observation.
+% 
+% strategies to remove correlation between successive scores within a year:
+% \begin{itemize}
+%     \item smooth/aggregate scores into different sections of the year, possibly reducing the number of and/or correlation between sucessive scores
+%     \item smooth spline across years with random effect for model, fixed effects for model-type
+%     \item permutation test
+% \end{itemize}
 
 
 \subsection{Where do these models fail?}

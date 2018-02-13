@@ -6,10 +6,10 @@ RDIR= ./code
 PDFFIGS := $(wildcard $(FIGDIR)/*.pdf) 
 
 ## define the full make, explicitly referencing all targets
-all: $(TEXFILE).pdf $(PDFFIGS) data/all-target-bounds.csv view
+all: $(TEXFILE).pdf $(PDFFIGS) data/all-target-bounds.csv ./static-figures/score-by-model-type.tex view 
 
 ## the manuscript
-$(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS) ./static-figures/model-table.tex
+$(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS) ./static-figures/model-table.tex ./static-figures/score-by-model-type.tex
 	pdflatex $(TEXFILE)
 	bibtex $(TEXFILE)
 	pdflatex $(TEXFILE)
@@ -21,6 +21,10 @@ $(FIGDIR)/%.pdf: $(RDIR)/%.R
 
 # the file defining weekly bounds for evaluation
 data/all-target-bounds.csv:  $(RDIR)/create-target-bounds.R
+	R CMD BATCH $< 
+
+# a table
+./static-figures/score-by-model-type.tex: $(RDIR)/score-by-model-type.R
 	R CMD BATCH $< 
 
 # View main tex file
