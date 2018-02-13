@@ -72,12 +72,16 @@ Particular reference to the 2-3 models that can be considered ``baseline'' model
  - Delphi-Uniform
  - ReichLab-KDE
 
+see Table \ref{tab:model-list}
+
 %% Table with columns for:
 %%   - institution
 %%   - model name
 %%   - underlying method
 %%   - statistical/mechanistic
 %%   - non-ILI data sources
+
+\input{./static-figures/model-table.tex}
 
 \subsection{Metrics Used for Evaluation and Comparison}
 
@@ -113,21 +117,52 @@ Things to confirm: removed weeks that CDC does not score, no onset seasons and m
 
 \subsection{Performance in forecasting week-ahead incidence}
 
-\begin{itemize}
-    \item describe historical model average performance and how it varies (min/max?) across seasons/regions and what that says about inter-season and inter-region variability
-    \item what fraction of models did better than historical average/uniform.
-    \item describe skill degradation has horizon increases
-    \item 
-\end{itemize}
+Average forecast skill for the four week-ahead targets varied substantially across models and regions.
+The best model (XX) achieved between XX and XX average skill across all seasons and regions.
+The historical baseline model achieved between XX and XX average skill.
+Of the XX model-region-seasons available for comparison to the historical baseline, XX\% showed greater skill than the historical baseline for a given region-season.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
+\caption{Model results by region and target-type.}
+\label{fig:results-region}
+\end{center}
+\end{figure}
+
+
+Even within given models, forecast skill showed large region-to-region and year-to-year variation. 
+The model with the lowest variation in forecast skill across region-seasons was XX, with skills ranging between XX and XX.
+The model with the highest variation in forecast skill across region-seasons was XX, with skills ranging between XX and XX.
+In general, Region XX was the easiest to forecast and XX was the hardest, with models showing an average forecast skill of XX and XX across all seasons, respectively.
+
+Forecast skill declined as the target moved further into the future.
+For the model with highest forecast skill across all four week-ahead targets (XX), the average skill across region and season for 1 through 4 week-ahead forecasts were XX, XX, XX and XX.
+This mirrored an overall decline in skill observed across most models.
+The historical baseline model showed average forecast skill of XX for all week-ahead targets. (Performance does not decline for the historical model, since it always forecasts the same thing for every week, without updating based on recent data.)
+For 1 week-ahead forecasts, XX of 21 models showed more skill than a historical baseline. 
+For the 4 week-ahead forecasts, only XX of 21 models showed more skill than the historical baseline.
+In Regions XX, XX, and XX, the average forecast skill for the ``nowcast'' targets (1 and 2 weeks ahead) were both above 0.5.
+
 
 \subsection{Performance in forecasting seasonal targets}
 
-\begin{itemize}
-    \item describe historical model average performance and how it varies (min/max?) across seasons/regions/targets
-    \item what fraction of models did better than historical average/uniform.
-    \item What is hard about Region 2?
-\end{itemize}
+Of the three seasonal targets, models showed the lowest average skill in forecasting season onset, with an overall average skill of XX. 
+Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season, varying from XX to XX weeks per region-season (see methods for details).
+Of the XX region-seasons evaluated, XX had no onset. 
+The best model for onset was XX, with overall average skill of XX and minimum skill for a region-season of XX.
+Overall, XX of XX models had more forecast skill than the historical baseline model in the scoring period of interest.
 
+
+Models showed less overall skill in forecasting the peak week and peak intensity when compared to the week-ahead forecasts.
+Model-specific average skill for peak week, across region and season, was above 0.25 for XX models. 
+This means that XX models assigned on average at least 25\% probability to a week within +/- 1 week of the eventually observed peak week during the scoring period of interest.
+Similarly, for peak intensity, XX models assigned on average at least 25\% probability to a wILI percentage within +/- 0.5\% of the eventually observed value during the scoring period of interest.
+During the same time-periods, the historical model forecasts assigned XX\% probability to the eventually observed peak week and XX\% probability to the eventually observed peak intensity.
+
+Average forecast skill showed substantial variation by region and by season.
+[[Forecasts of peak intensity and peak week showed lower skill in seasons that experienced higher than average peak incidence.]]
+[[Forecasts of peak intensity and peak week showed lower skill in regions with larger variability in peak incidence.]]
 
 \subsection{Characterize skill and variability in skill of each model}
 
@@ -145,13 +180,11 @@ TODO: make point plot of skill by season to show variability and average perform
 
 Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
-\caption{Model results by region and target-type.}
-\label{fig:results-region}
-\end{center}
-\end{figure}
+
+two columns: by target type
+mapa: average performance across all models(-KDE)/targets by region
+mapb: performance of historical model by region
+figc: scatter plot of region-level historical model skill on x and avg model skill on y, colored by season
 
 
 \subsection{Performance of models by time-of-season}
@@ -178,7 +211,7 @@ strategies to remove correlation between successive scores within a year:
     \item data revisions
     \item peak performance? (connection between size of season and performance)
     \item missing a slow descent because of a second outbreak that is lifting the tail up?
-\begin{itemize}
+\end{itemize}
 
 
 \section{Discussion}

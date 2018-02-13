@@ -1,0 +1,36 @@
+\begin{table}
+\setlength{\tabcolsep}{4pt} 
+\begin{tabular}{p{1.69cm} l p{7.5cm}  p{1.70cm}  p{1.7cm}}
+\textbf{Team}     & \textbf{Model Abbr} & \textbf{Model Description}                                                                                     & \textbf{External Data} & \textbf{Comp. Model*} \\ 
+\hline
+CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS                                                        & x             & x                   \\ 
+
+~        & EAKFC\_SIRS        & Ensemble Adjustment Kalman Filter SIRS                                                         & x             & x                   \\
+~        & EKF\_SEIRS         & Ensemble Kalman Filter SEIRS                                                                   & x             & x                   \\
+~        & EKF\_SIRS          & Ensemble Kalman Filter SIRS                                                                    & x             & x                   \\
+~        & RHF\_SEIRS         & Rank Histogram Filter SEIRS                                                                    & x             & x                   \\
+~        & RHF\_SIRS          & Rank Histogram Filter SIRS                                                                     & x             & x                   \\
+~        & BMA                & Bayesian Modeling Average                                                                      & ~             & ~                   \\
+\hline
+Delphi   & BasisRegression    & Basis Regression (epiforecast package defaults)                                                & ~             & ~                   \\ 
+~        & DeltaDensity1      & Delta Density (epiforecast package defaults)                                                   & ~             & ~                   \\ 
+~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks only)                                         & ~             & ~                   \\ 
+~        & EmpiricalBayes2    & Empirical Bayes (epiforecast package defaults)                                                 & ~             & ~                   \\ 
+~        & EmpiricalFuture    & Empirical Futures (epiforecast package defaults)                                               & ~             & ~                   \\ 
+~        & EmpiricalTraj      & Empirical Trajectories (epiforecast package defaults)                                          & ~             & ~                   \\ 
+~        & DeltaDensity2      & Markovian Delta Density (epiforecast package defaults)                                         & ~             & ~                   \\ 
+~        & Stat               & Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting) & ~             & ~                   \\
+~        & Uniform            & Uniform Distribution                                                                           & ~             & ~                   \\ 
+\hline
+LANL     & DBM                & Dynamic Bayesian Model with a hierarchical discrepancy                                         & ~             & x                   \\ 
+\hline
+ReichLab & KCDE               & Kernel Conditional Density Estimation                                                          & ~             & ~                   \\ 
+~        & KDE                & Kernel Density Estimation                                                                      & ~             & ~                   \\ 
+~        & SARIMA1            & SARIMA model without seasonal differencing                                                     & ~             & ~                   \\ 
+~        & SARIMA2            & SARIMA model with seasonal differencing                                                        & ~             & ~                   \\ 
+\hline
+UTAustin & EDM                & Empirical Dynamic Model                                                                        & ~             & ~                   \\ 
+\end{tabular}
+\caption{List of models, with key characteristics. *Comp. model stands for compartmental model.}
+\label{tab:model-list}
+\end{table}
