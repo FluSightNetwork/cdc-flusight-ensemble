@@ -16,7 +16,7 @@ args <- commandArgs(TRUE)
 source("scripts/stack_forecasts.R")
 
 THIS_SEASON <- "2017/2018"
-THIS_EW <- as.numeric(args[1])
+#THIS_EW <- as.numeric(args[1])
 cat(paste0("Generating ensemble files for week ", THIS_EW))
 
 this_year <- ifelse(
@@ -235,7 +235,7 @@ title <- ggdraw() + draw_label(title_str, fontface='bold')
 p <- plot_grid(p1, p2, ncol = 2, rel_widths=c(12/20, 8/20))
 
 prob_plot_name <- paste0(
-    "plots/prob_past_peak/", this_week_name, ".png"
+    "plots/prob_past_peak_",this_week_name, ".png"
 )
 
 png(prob_plot_name, width = 1208, height=471)
