@@ -6,9 +6,25 @@ RDIR= ./code
 PDFFIGS := $(wildcard $(FIGDIR)/*.pdf) 
 
 ## define the full make, explicitly referencing all targets
-all: $(TEXFILE).pdf $(PDFFIGS) data/all-target-bounds.csv ./static-figures/score-by-model-type.tex view 
+all: $(TEXFILE).pdf $(TEXFILE).tex $(PDFFIGS) data/all-target-bounds.csv ./static-figures/score-by-model-type.tex view clean
 
-## the manuscript
+pdf: $(TEXFILE).pdf
+
+clean: 
+	-rm $(TEXFILE).aux
+	-rm $(TEXFILE).bbl
+	-rm $(TEXFILE).blg
+	-rm $(TEXFILE).log
+	-rm $(TEXFILE).out
+	-rm $(TEXFILE).toc
+
+## knit Rnw --> tex
+$(TEXFILE).tex: $(TEXFILE).Rnw
+	Rscript \
+	  -e "library(knitr)" \
+	  -e "knitr::knit('$<','$@')"
+
+## knit the manuscript tex --> pdf
 $(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS) ./static-figures/model-table.tex ./static-figures/score-by-model-type.tex
 	pdflatex $(TEXFILE)
 	bibtex $(TEXFILE)
@@ -16,7 +32,7 @@ $(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS) ./static-figures/model-table.tex ./sta
 	pdflatex $(TEXFILE)
 
 # the figures, in order for this to work, might need the PDF file to exist...
-$(FIGDIR)/%.pdf: $(RDIR)/%.R
+$(FIGDIR)/%.pdf: $(RDIR)/%.R $(RDIR)/create-target-bounds.R
 	R CMD BATCH $< 
 
 # the file defining weekly bounds for evaluation

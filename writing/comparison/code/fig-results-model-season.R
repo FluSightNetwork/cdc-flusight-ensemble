@@ -1,12 +1,16 @@
+## scatterplot with models on x-axis, skill on y
+
 library(dplyr)
 library(readr)
 library(ggplot2)
 theme_set(theme_minimal())
 
-
 scores <- read_csv("../../scores/scores.csv")
 models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
 complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
+
+compartment_models <- c("CU-EAKFC_SEIRS", "CU-EAKFC_SIRS", "CU-EKF_SEIRS", 
+    "CU-EKF_SIRS", "CU-RHF_SEIRS", "CU-RHF_SIRS", "LANL-DBM")
 
 ## define column with scores of interest
 SCORE_COL <- quo(`Multi bin score`)
@@ -14,7 +18,7 @@ SCORE_COL <- quo(`Multi bin score`)
 all_target_bounds <- read_csv("data/all-target-bounds.csv")
 
 ## Remove scores that fall outside of evaluation period for a given target/season
-scores_trimmed <- scores %>% 
+scores_trimmed <- scores %>%
     dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
     dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
 
@@ -31,19 +35,28 @@ scores_by_season <- scores_adj %>%
     group_by(Model, Season) %>%
     summarize(
         avg_score = mean(score_adj),
-        skill = exp(avg_score),
         min_score = min(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
+scores_by_model <- scores_adj %>%
+    group_by(Model) %>%
+    summarize(
+        avg_score = mean(score_adj),
+        min_score = min(score_adj)) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_score))
 
-midpt <- mean(filter(scores_by_season, Model=="ReichLab-KDE")$skill)
-p <- ggplot(scores_by_season, 
-    aes(x=Season, fill=skill, y=Model)) + 
-    geom_tile() + ylab(NULL) + xlab(NULL) +
-    geom_text(aes(label=round(skill, 2))) +
-    scale_fill_gradient2(midpoint = midpt) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    ggtitle("Average forecast skill by season")
+p <- ggplot(scores_by_season, aes(x=Model, y=exp(avg_score))) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
+    scale_color_brewer(palette="Dark2") +
+    ylab("average forecast skill") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5,
+        face=ifelse(
+            levels(scores_by_season$Model)%in% compartment_models,
+            "bold", 
+            "plain"
+        ))) 
 
-ggsave("./figures/fig-results-season.pdf", plot=p, device="pdf")
+ggsave("./figures/fig-results-model-season.pdf", plot=p, device="pdf", width=8, height=5.5)

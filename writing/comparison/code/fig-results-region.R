@@ -11,11 +11,7 @@ complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
 ## define column with scores of interest
 SCORE_COL <- quo(`Multi bin score`)
 
-## Create data.frame of boundary weeks of scores to keep for each target/season
-source("../../scripts/create-scoring-period.R")
-all_target_bounds = create_scoring_period(
-    baselinefile = "../../baselines/wILI_Baseline.csv",
-    scoresfile = "../../scores/target-multivals.csv")
+all_target_bounds <- read_csv("data/all-target-bounds.csv")
 
 ## Remove scores that fall outside of evaluation period for a given target/season
 scores_trimmed <- scores %>%
