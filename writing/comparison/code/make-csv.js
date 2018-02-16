@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// this script was used to create truth.csv
+// this script was used to create truth-with-lags.csv
 // Needs flusight-csv-tools installed
 // npm i flusight-csv-tools (in current dir)
 // npm i -g flusight-csv-tools (for global installation)
@@ -8,7 +8,7 @@
 const fct = require('flusight-csv-tools')
 const fs = require('fs')
 
-let stream = fs.createWriteStream('truth.csv', { flags: 'a' })
+let stream = fs.createWriteStream('truth-with-lags.csv', { flags: 'a' })
 stream.write(`epiweek,region,first-observed-wili,final-observed-wili\n`)
 
 // A season 20xx-20yy is represented using just the first year 20xx
