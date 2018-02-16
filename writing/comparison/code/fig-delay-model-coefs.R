@@ -3,6 +3,7 @@
 library(dplyr)
 library(readr)
 library(broom)
+library(ggplot2)
 
 dat <- read_csv("./data/truth-with-lags.csv")
 scores <- read_csv("../../scores/scores.csv")

@@ -2,6 +2,8 @@ TEXFILE= comparison-manuscript
 FIGDIR= ./figures
 RDIR= ./code
 
+## should be made to rely on scores.csv and maybe target-multivals.csv in ../../scores/
+
 # define figures as targets so they can be called with all
 PDFFIGS := $(wildcard $(FIGDIR)/*.pdf) 
 
@@ -19,13 +21,13 @@ clean:
 	-rm $(TEXFILE).toc
 
 ## knit Rnw --> tex
-$(TEXFILE).tex: $(TEXFILE).Rnw
+$(TEXFILE).tex: $(TEXFILE).Rnw $(PDFFIGS) ./static-figures/model-table.tex ./static-figures/score-by-model-type.tex
 	Rscript \
 	  -e "library(knitr)" \
 	  -e "knitr::knit('$<','$@')"
 
 ## knit the manuscript tex --> pdf
-$(TEXFILE).pdf: $(TEXFILE).tex $(PDFFIGS) ./static-figures/model-table.tex ./static-figures/score-by-model-type.tex
+$(TEXFILE).pdf: $(TEXFILE).tex 
 	pdflatex $(TEXFILE)
 	bibtex $(TEXFILE)
 	pdflatex $(TEXFILE)

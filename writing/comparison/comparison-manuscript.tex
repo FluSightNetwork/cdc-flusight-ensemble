@@ -162,10 +162,35 @@ The log-scores are computed for the targets on the wILI percentage scale such th
     \item beta regression or permutation test for comparison between groups of models (i.e. mechanistic vs. statistical)
 \end{itemize}
 
+Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
 
 \section{Results}
 
-Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
+\subsection{Summary of forecast skill by season}
+
+Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-season}). 
+The historical baseline model showed an average seasonal skill of XX, meaning that in an typical season, across all targets and locations, this model assigned on average XX probability to the eventually observed value. 
+The model with the highest average seasonal forecast skill (XX) and lowest (XX) had skills of XX and XX. 
+XX models (XX\%) showed higher average seasonal forecast skill than the historical average.
+Season-to-season variation was substantial, with XX models having at least one season with greater forecast skill than the best model did on average.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
+\caption{Model forecast season, overall and by season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
+\label{fig:results-season}
+\end{center}
+\end{figure}
+
+The top six performing models utilized a range of methodologies, highlighting that very different approaches can result in very similar overall performance. 
+The overall best model was an ensemble model (Delphi-Stat) that used a weighted combination of other models from the Delphi group.
+Both the ReichLab-KCDE and the Delphi-DeltaDensity1 model utilized kernel conditional density estimation, a non-parametric statistical methodology that is distribution-based variation on nearest-neighbors regression. 
+These models used different implementations and different input variables, but showed similarly strong performance across all seasons.
+The UTAustin-edm and Delphi-DeltaDensity2 models also used variants of nearest-neighbors regression, although overall skill for these models was not as consistent, indicating that implementation and or input variables can impact the performance of this approach.
+The LANL-DBM and CU-EKS\_SIRS models both rely on a compartmental model of influenza transmission, however the methodologies used to fit and forecast were different for these approaches.
+The CU model used an ensemble-adjustment Kalman filter approach to generate forecasts, the LANL model used particle filtering.
+The ReichLab-SARIMA2 model used a classical statistical time-series model, the seasonal auto-regressive integrated moving average model, to fit and generate forecasts. 
+Interestingly, several pairs of models, although having strongly contrasting methodological approaches, showed similar overall performance; e.g., CU-EKF\_SIRS and ReichLab-SARIMA2, LANL-DBM and ReichLab-KCDE.
 
 \subsection{Performance in forecasting week-ahead incidence}
 
@@ -207,18 +232,6 @@ During the same time-periods, the historical model forecasts assigned XX\% proba
 Average forecast skill showed substantial variation by region and by season.
 [[Forecasts of peak intensity and peak week showed lower skill in seasons that experienced higher than average peak incidence.]]
 [[Forecasts of peak intensity and peak week showed lower skill in regions with larger variability in peak incidence.]]
-
-\subsection{Characterize skill and variability in skill of each model}
-
-TODO: make point plot of skill by season to show variability and average performance.
-
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
-\caption{Model forecast season, overall and by season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
-\label{fig:results-season}
-\end{center}
-\end{figure}
 
 
 
@@ -266,12 +279,37 @@ Therefore, the only truly compartmental model making 1 week-ahead forecasts is t
 
 \subsection{Where do these models fail?}
 
-\begin{itemize}
-    \item holiday peak?
-    \item data revisions
-    \item peak performance? (connection between size of season and performance)
-    \item missing a slow descent because of a second outbreak that is lifting the tail up?
-\end{itemize}
+In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
+We identify and quantify several of these challenges, including revisions to initially reported data, ....
+
+When the first report of the wILI measurement for a given region-week is not accurate (due to incomplete or delayed reporting), this has a strong negative impact on forecast accuracy.
+In the seven years examined in this study, wILI percentages were often revised after first being reported. 
+For example, XX\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
+We found that an increase in the bias of the initially reported data was stronly associated with a decrease in the forecast skill for the forecasts made using the biased data.
+Specifically, among top-performing models we see a XX decline in forecast skill when the first observed wILI measurement is XX, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-model-coefs}).
+These results are based on results from four top-performing models: ReichLab-KCDE, LANL-DBM, Delphi-DeltaDensity1, and CU-EKF\_SIRS.
+This pattern is symmetric for under- and over-reported values, although there are more extreme under-reported values than there are over-reported values. 
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{figures/fig-delay-model-coefs.pdf}
+\caption{Model-estimated changes in forecast skill due to bias in initial reports of wILI \%. The figure shows estimated coefficient values (and 95\% confidence intervals) from a multivariate linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.s}
+\label{fig:delay-model-coefs}
+\end{center}
+\end{figure}
+
+
+We anticipated seeing a relationship between the peak intensity of the season and the observed forecast skill for the peak. 
+However, no clear relationship between the peak intensity of the season and the skill at forecasting the peak intensity was observed (data not shown).
+% See analysis in code/peak-analysis.R.
+
+[[Add a paragraph about capturing a holiday spike?]]
+
+% \begin{itemize}
+%     \item holiday peak?
+%     \item missing a slow descent because of a second outbreak that is lifting the tail up?
+% \end{itemize}
 
 
 \section{Discussion}
