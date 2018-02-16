@@ -56,6 +56,12 @@ scores_by_delay <- scores %>%
 
 scores_for_analysis <- filter(scores_by_delay, Model%in%c("ReichLab-KCDE", "LANL-DBM", "Delphi-DeltaDensity1", "CU-EKF_SIRS"))
 
+## get total number of obs in each bin
+n_legend <- table(scores_for_analysis$bias_first_report_factor)
+n_legend_df <- data.frame(bias_range = names(n_legend), count_cat = n_legend) %>%
+    mutate(bias_range = factor(bias_range, levels=c("(-3.5,-2.5]", "(-2.5,-1.5]", "(-1.5,-0.5]", "(-0.5,0.5]", "(0.5,1.5]", "(1.5,2.5]")))
+
+
 # ggplot(scores_for_analysis, aes(x=bias_first_report, y=exp(multi_bin_score))) + 
 #     geom_point() + 
 #     geom_smooth(se=FALSE) + 
@@ -78,11 +84,13 @@ summary(fm4)
 
 fm4_coefs <- tidy(fm4, conf.int = TRUE)
 
+## make data.frame with regression results
 fm4_coefs_fltr <- 
     filter(fm4_coefs, grepl("bias_first_report",term)) %>%
     mutate(bias_range = substr(term, start=25, stop=100)) %>%
     bind_rows(data.frame(estimate=0, conf.low=0, conf.high=0, bias_range="(-0.5,0.5]")) %>%
-    mutate(bias_range = factor(bias_range, levels=c("(-3.5,-2.5]", "(-2.5,-1.5]", "(-1.5,-0.5]", "(-0.5,0.5]", "(0.5,1.5]", "(1.5,2.5]")))
+    mutate(bias_range = factor(bias_range, levels=c("(-3.5,-2.5]", "(-2.5,-1.5]", "(-1.5,-0.5]", "(-0.5,0.5]", "(0.5,1.5]", "(1.5,2.5]"))) %>%
+    left_join(n_legend_df)
 
 p <- ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
     geom_point()+
@@ -90,9 +98,10 @@ p <- ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
     labs(x = "first observed wILI% - final observed wILI% (binned)", y="expected change in forecast skill") +
     geom_vline(xintercept=4, linetype="dashed", color="gray") +
     geom_text(aes(x=1, y=0, label="first observation\nlower than final"), hjust="left", color="darkgray", vjust="top") +
-    geom_text(aes(x=7, y=0, label="first observation\nhigher than final"), hjust="right", color="darkgray", vjust="top") 
+    geom_text(aes(x=7, y=0, label="first observation\nhigher than final"), hjust="right", color="darkgray", vjust="top") +
+    geom_text(aes(y=-0.4, label=count_cat.Freq))
     ## add sample sizes!
 
-ggsave("./figures/fig-delay-model-coefs.pdf", plot=p, device="pdf")
+ggsave("./figures/fig-delay-model-coefs.pdf", plot=p, device="pdf", width=6, height=5)
 
 saveRDS(fm4_coefs_fltr, file="delay-model-coefs.rds")
