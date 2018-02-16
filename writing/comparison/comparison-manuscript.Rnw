@@ -58,7 +58,7 @@ The FluSight challenge has been focused on forecasts of the weighted percentage 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{static-figures/timezero-sketch.pdf}
-\caption{A schematic showing when data arrives in realtime relative to when the forecasts are made available.}
+\caption{A schematic showing when data arrives in realtime relative to when the forecasts are made available. Based on typical timelines for the CDC FluSight challenge, we assume that forecasts are generated or submitted to the CDC using the most recent reported data. This data includes the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are considered nowcasts, i.e. at or before the current time. Similarly, 3 and 4 week-ahead forecasts are considered proper forecasts, or estimates about events in the future.}
 \label{fig:timezero-schematic}
 \end{center}
 \end{figure}

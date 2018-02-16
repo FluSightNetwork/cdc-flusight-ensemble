@@ -1,5 +1,6 @@
 TEXFILE= comparison-manuscript
 FIGDIR= ./figures
+STATICFILEDIR= ./static-figures
 RDIR= ./code
 
 ## should be made to rely on scores.csv and maybe target-multivals.csv in ../../scores/
@@ -21,7 +22,7 @@ clean:
 	-rm $(TEXFILE).toc
 
 ## knit Rnw --> tex
-$(TEXFILE).tex: $(TEXFILE).Rnw $(PDFFIGS) ./static-figures/model-table.tex ./static-figures/score-by-model-type.tex
+$(TEXFILE).tex: $(TEXFILE).Rnw $(PDFFIGS) $(wildcard $(STATICFILEDIR)/*) 
 	Rscript \
 	  -e "library(knitr)" \
 	  -e "knitr::knit('$<','$@')"
