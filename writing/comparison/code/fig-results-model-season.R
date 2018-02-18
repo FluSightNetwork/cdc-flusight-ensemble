@@ -35,6 +35,7 @@ scores_by_season <- scores_adj %>%
     group_by(Model, Season) %>%
     summarize(
         avg_score = mean(score_adj),
+        skill = exp(avg_score),
         min_score = min(score_adj)
     ) %>%
     ungroup() %>%
@@ -43,11 +44,12 @@ scores_by_model <- scores_adj %>%
     group_by(Model) %>%
     summarize(
         avg_score = mean(score_adj),
+        skill = exp(avg_score),
         min_score = min(score_adj)) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_score))
 
-p <- ggplot(scores_by_season, aes(x=Model, y=exp(avg_score))) +
+p <- ggplot(scores_by_season, aes(x=Model, y=skill)) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
     scale_color_brewer(palette="Dark2") +
@@ -60,3 +62,5 @@ p <- ggplot(scores_by_season, aes(x=Model, y=exp(avg_score))) +
         ))) 
 
 ggsave("./figures/fig-results-model-season.pdf", plot=p, device="pdf", width=8, height=5.5)
+saveRDS(scores_by_model, file="./data/scores_by_model.rds")
+saveRDS(scores_by_season, file="./data/scores_by_season.rds")

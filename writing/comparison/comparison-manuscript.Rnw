@@ -41,17 +41,44 @@ library(readr)
 
 
 \section{Introduction}
-Forecasts of infectious disease outbreaks can inform public health response to outbreaks. Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
 
-Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. Yet there is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. Mechanistic models consider the biological underpinnings of disease transmission, and are in practice are typically implemented as variations on the Susceptible-Infectious-Recovered (SIR) model. Phenomenological models largely ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. Both approaches are commonly used and both have advantages and disadvantages in different settings.   
+In recent years, the quantity of research on forecasting infectious diseases has increased XX fold. 
+This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of everything from large-scale population behavior to microscopic patterns in disease transmission could lead to measurable improvements in how disease transmission is detected and prevented. 
+With the spectre of a serious pandemic looming over global public health preparedness efforts and national security planning, efforts to improve infectious disease forecasting efforts continue to be a central concern of global health, national security, and broader geopolitical stability.
+
+Forecasts of infectious disease outbreaks can inform public health response to outbreaks. 
+Accurate forecasts of the timing and spatial spread of seasonal outbreaks of diseases such as influenza or dengue fever can provide valuable information about where public health interventions can be targeted.
+Decisions about hospital staffing, resource allocation, and the timing of public health communication campaigns could be assisted by forecasts. 
+Implementation of interventions designed to disrupt disease transmissions, such as vector control measures or mandatory infection prevention protocols at hospitals or helath clinics, could be targeted based on forecasted incidence.
+
+Public health officials are still learning how to best integrate forecasts into real-time decision making.
+Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+Understanding what targets should be forecasted for maximum public health impact is hard to assess without real-time implementation and testing.
+
+
+Starting in the 2013-2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world.
+These forecasts are displayed together on a website during the season and are evaluated for accuracy after the season is over.\cite{PhiResearchLab} 
+This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both our technical understanding of how different forecast models perform but also how to integrate these models into decsision-making.
+
+Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts\cite{Viboud}), a subset of participants founded a consortium to facilitate direct comparison and fusion of modeling approaches. 
+In this paper, we provide a detailed analysis of the performance of 22 different models from 5 different teams over the course of seven influenza seasons.
+Drawing on the different expertise of the five teams allows us to make fine-grained and standardized comparisons of distinct modeling approaches that using different data sources.
+Additionally, it allows us to identify gaps and continued challenges that should be addressed in future modeling efforts. 
+
+
+
+% Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. 
+% Yet there is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. 
+% Mechanistic models consider the biological underpinnings of disease transmission, and are in practice are typically implemented as variations on the Susceptible-Infectious-Recovered (SIR) model. 
+% Phenomenological models largely ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. 
+% Both approaches are commonly used and both have advantages and disadvantages in different settings.   
 
 
 \section{Methods}
 
 \subsection{FluSight Challenge Overview}
-
-Starting in the 2013-2014 influenza season, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world. These forecasts are displayed together on a website during the season and are evaluated for accuracy after the season is over.\cite{PhiResearchLab} 
-Detailed methodology and results from this challenge have been published\cite{Biggerstaff2016}, but summarize the key features of the challenge here.
+ 
+Detailed methodology and results from previous FluSight challenges have been published\cite{Biggerstaff2016}, but we summarize the key features of the challenge here.
 
 The FluSight challenge has been focused on forecasts of the weighted percentage of doctor's office visits for influenza-like-illness (wILI) in a particular region. This is a standard measure of seasonal flu activity, for which public data is available back to the 1997/1998 influenza season. During each influenza season, this data is updated each week by the CDC (Figure \ref{fig:timezero-schematic}). When the most recent data is released, the prior weeks' reported wILI data may also be revised. The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2013/2014 season.\cite{DELPHI} This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This enables more accurate assessment of how models would have performed in real-time. 
 
@@ -77,18 +104,15 @@ Each team created their submitted forecasts in a prospective, out-of-sample fash
 
 \subsection{Summary of Models}
 
-Particular reference to the 2-3 models that can be considered ``baseline'' models:
- - Delphi-Uniform
- - ReichLab-KDE
+Five teams each submitted between 1 and 9 separate models for evaluation (Table \ref{tab:model-list}). 
+A wide range of methodological approaches and modeling paradigms are included in the set of forecast models.
+For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that directly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
+Other less directly mechanistic models, use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
+XX models directly incorporate external data (i.e. not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
+Two models stand out as being clear na\"ive baseline models, that never change based on recent data. 
+The Delphi-Uniform model always provides a forecast that assigns equal probability to all possible outcomes. 
+The ReichLab-KDE model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
 
-see Table \ref{tab:model-list}
-
-%% Table with columns for:
-%%   - institution
-%%   - model name
-%%   - underlying method
-%%   - statistical/mechanistic
-%%   - non-ILI data sources
 
 \input{./static-figures/model-table.tex}
 
@@ -114,22 +138,47 @@ The log-scores are computed for the targets on the wILI percentage scale such th
 
 \subsection{Formal comparisons of model performance}
 
-\begin{itemize}
-    \item permutation test for pairwise statistical comparison between two models
-    \item beta regression or permutation test for comparison between groups of models (i.e. mechanistic vs. statistical)
-\end{itemize}
+Model-based comparisons of forecast accuracy are hindered by the high correlation of sequential forecasts and by outlying observations. 
+When observations assign no probability to the eventually observed outcome they have a log-score of $-\infty$.
 
-Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
+%Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
 
 \section{Results}
 
 \subsection{Summary of forecast skill by season}
+<<>>=
+scores_by_model <- readRDS("./data/scores_by_model.rds")
+kde_skill <- round(unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"]),2)
+max_skill <- max(scores_by_model$skill)
+min_skill <- min(scores_by_model$skill)
+max_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == max_skill), "Model"]))
+min_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == min_skill), "Model"]))
+n_above_kde <- sum(scores_by_model$skill>kde_skill)
+n_models <- nrow(scores_by_model)
+
+scores_by_season <- readRDS("./data/scores_by_season.rds")
+tmp <- scores_by_season %>% group_by(Model) %>%
+    summarize(n_seasons_above_maxavg = sum(skill>max_skill)) 
+@
+
 
 Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-season}). 
-The historical baseline model showed an average seasonal skill of XX, meaning that in an typical season, across all targets and locations, this model assigned on average XX probability to the eventually observed value. 
-The model with the highest average seasonal forecast skill (XX) and lowest (XX) had skills of XX and XX. 
-XX models (XX\%) showed higher average seasonal forecast skill than the historical average.
-Season-to-season variation was substantial, with XX models having at least one season with greater forecast skill than the best model did on average.
+The historical baseline model showed an average seasonal skill of 
+$\Sexpr{kde_skill}$, 
+meaning that in an typical season, across all targets and locations, this model assigned on average 
+$\Sexpr{kde_skill}$ 
+probability to the eventually observed value. 
+The model with the highest average seasonal forecast skill 
+({\tt \Sexpr{max_skill_model}}) 
+and lowest 
+({\tt \Sexpr{min_skill_model}}) 
+had skills of $\Sexpr{round(max_skill, 2)}$ and $\Sexpr{round(min_skill, 2)}$, respectively. 
+Of the $\Sexpr{n_models}$ models, $\Sexpr{n_above_kde}$ models 
+($\Sexpr{round(n_above_kde/n_models*100)}$\%) 
+showed higher average seasonal forecast skill than the historical average.
+Season-to-season variation was substantial, with 
+$\Sexpr{sum(tmp$n_seasons_above_maxavg>0)}$ 
+models having at least one season with greater forecast skill than the best model did on average.
 
 \begin{figure}[htbp]
 \begin{center}

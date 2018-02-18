@@ -8,8 +8,11 @@ RDIR= ./code
 # define figures as targets so they can be called with all
 PDFFIGS := $(wildcard $(FIGDIR)/*.pdf) 
 
+# define RDS files as targets
+RDSFILES := $(wildcard ./data/*.rds) 
+
 ## define the full make, explicitly referencing all targets
-all: $(TEXFILE).pdf $(TEXFILE).tex $(PDFFIGS) data/all-target-bounds.csv ./static-figures/score-by-model-type.tex view clean
+all: $(TEXFILE).pdf $(TEXFILE).tex $(PDFFIGS) $(RDSFILES) data/all-target-bounds.csv ./static-figures/score-by-model-type.tex view clean
 
 pdf: $(TEXFILE).pdf
 
@@ -22,7 +25,7 @@ clean:
 	-rm $(TEXFILE).toc
 
 ## knit Rnw --> tex
-$(TEXFILE).tex: $(TEXFILE).Rnw $(PDFFIGS) $(wildcard $(STATICFILEDIR)/*) 
+$(TEXFILE).tex: $(TEXFILE).Rnw $(PDFFIGS) $(RDSFILES) $(wildcard $(STATICFILEDIR)/*) 
 	Rscript \
 	  -e "library(knitr)" \
 	  -e "knitr::knit('$<','$@')"
