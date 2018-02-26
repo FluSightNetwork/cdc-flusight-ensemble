@@ -1,0 +1,19 @@
+team_name: Delphi
+team_members: >-
+  Logan C. Brooks, David C. Farrow, Sangwon Hyun, Shannon Gallagher, Ryan J.
+  Tibshirani, Roni Rosenfeld, Rob Tibshirani
+model_name: Empirical Futures (epiforecast package defaults)
+model_abbr: EmpiricalFuture
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Models the remainder of the test season's trajectory as a duplicate of a
+  randomly, equiprobably selected training season, concatenated onto the
+  available observations from the test season.  A medium amount of smoothing is
+  applied when calculating target distributions.  All training seasons precede
+  the test season, and observations from the test season use mimicPastEpidataDF
+  to approximate what the ILINet report for the forecast week looked like.  The
+  code for generating these forecasts is available at
+  https://github.com/cmu-delphi/epiforecast-R.

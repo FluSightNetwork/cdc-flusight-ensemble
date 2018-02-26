@@ -1,0 +1,14 @@
+team_name: CU
+team_members: 'J Shaman, T Yamana, S Kandula, S Pei, W Yang, H Morita'
+model_name: Bayesian Model Averaging
+model_abbr: BMA
+anonymity: named
+data_source1: ILI Net
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Bayesian Weighted Outbreaks.  Models outbreak in progress as a weighted
+  average of previously observed outbreaks.  Current ILI observations are
+  compared to previous years over a training window of 3-8 weeks.  See Yamana et
+  al. 2016 (10.1098/rsif.2016.0410) for further details.  Out-of-sample data
+  using Ray & Reich?s flu_data_with_backfill.rds

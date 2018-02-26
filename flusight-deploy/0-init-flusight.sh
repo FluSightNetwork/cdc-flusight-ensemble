@@ -17,7 +17,6 @@ mv ./data ./flusight-master
 
 cd ./flusight-master
 yarn
-yarn run get-actual
 yarn run parse
 yarn run test
 cd .. # in flusight-deploy now

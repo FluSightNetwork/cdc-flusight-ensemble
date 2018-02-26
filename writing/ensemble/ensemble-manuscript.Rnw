@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\begin{document}
+
+Ensemble models, or models that fuse together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach (where the "crowd" can be thought of as a throng of models) has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. 
+
+In the 2016/2017 influenza season, the CDC ran the 4th annual FluSight competition and received XX submissions from XX teams. During the season, analysts at the CDC built an ensemble model that combined all of the submitted models by taking the "average" forecast for each influenza target. This model was one of the top performing models for the entire season.
+
+In March 2017 the FluSight Network, a collaborative group of influenza forecasters who have worked with the CDC in the past, was established to facilitate the pooling of resources to develop an ensemble that could incorporate past performance of models. This group worked throughout 2017 to create a set of guidelines and an experimental design that would enable submission of a publicly available, multi-team, real-time submission of an ensemble model with validated and performance-based weights for each model (i.e. not a simple average of models). 
+
+This document provides an executive summary of that effort, highlighting the results and documenting the chosen model that was designated for real-time submission during the 2017/2018 U.S. influenza season.
+
+Institution | No. of models | Team leaders
+----------- | ------------- | -------------
+Carnegie Mellon | 9 | Logan Brooks, Roni Rosenfeld
+Columbia University | 7 | Teresa Yamana, Jeff Shaman
+Los Alamos National Laboratories | 1 | Dave Osthus
+UMass-Amherst | 4 | Nicholas Reich, Abhinav Tushar, Evan Ray
+
+
+ Selected Ensemble Model for Real-time Submissions
+
+The model selected for real-time submissions is the model that performed 
+
+
+\end{document}

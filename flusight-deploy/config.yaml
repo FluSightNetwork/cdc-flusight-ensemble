@@ -4,11 +4,7 @@ branding:
   parent: ""
   description: "CDC FluSight Network Collaborative Ensemble"
   imageUrl: ""
-  aboutUrl: ""
-  appUrl: "http://flusightnetwork.github.io/cdc-flusight-ensemble"
+  aboutUrl: "http://reichlab.io/2017/11/28/flusight-ensemble.html"
+  appUrl: "http://flusightnetwork.io/"
   sourceUrl: "https://github.com/FluSightNetwork/cdc-flusight-ensemble"
   parentUrl: "https://github.com/FluSightNetwork/cdc-flusight-ensemble/blob/master/README.md"
-
-# Items required by backend script for generating data.json
-scripts:
-  baselineUrl: "https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv"

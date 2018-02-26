@@ -19,7 +19,7 @@ chai.should()
 describe('metadata.txt', function () {
   let modelDirs = models.getModelDirs(
     './model-forecasts',
-    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+    ['component-models', 'cv-ensemble-models', 'real-time-component-models', 'real-time-ensemble-models']
   )
 
   describe('should be present', function () {
@@ -47,27 +47,50 @@ describe('metadata.txt', function () {
     })
   })
 
-  it('team-model abbreviations should be unique', function (done) {
-    let abbreviations = metadataFiles.map(function (metaFile) {
-      let meta = yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
-      return meta.team_name + '-' + meta.model_abbr
-    })
-
-    // Count number of times the names are present
-    let counts = abbreviations.reduce(function (acc, y) {
-      if (acc[y]) {
-        acc[y] += 1
+  it('team-model abbreviations should be unique in each subdir', function (done) {
+    // Create groupings based on subdirectory
+    function getModelTypeDir (metaFilePath) {
+      let rootDir = path.basename(path.dirname(path.dirname(metaFilePath)))
+      // Group all realtime models in one and non-realtime in other
+      if (rootDir.startsWith('real-time')) {
+        return 'real-time'
       } else {
-        acc[y] = 1
+        return 'non-real-time'
+      }
+    }
+
+    let grpMetadataFiles = metadataFiles.reduce(function (acc, mf) {
+      let fileModelType = getModelTypeDir(mf)
+      if (acc[fileModelType]) {
+        acc[fileModelType].push(mf)
+      } else {
+        acc[fileModelType] = [mf]
       }
       return acc
     }, {})
 
-    for (let name in counts) {
-      if (counts[name] > 1) {
-        done(new Error(`Non unique model abbreviation found for ${name}`))
+    Object.keys(grpMetadataFiles).forEach(function (key) {
+      let abbreviations = grpMetadataFiles[key].map(function (metaFile) {
+        let meta = yaml.safeLoad(fs.readFileSync(metaFile, 'utf8'))
+        return meta.team_name + '-' + meta.model_abbr
+      })
+
+      // Count number of times the names are present
+      let counts = abbreviations.reduce(function (acc, y) {
+        if (acc[y]) {
+          acc[y] += 1
+        } else {
+          acc[y] = 1
+        }
+        return acc
+      }, {})
+
+      for (let name in counts) {
+        if (counts[name] > 1) {
+          done(new Error(`Non unique model abbreviation found for ${name} in ${key}`))
+        }
       }
-    }
+    })
     done()
   })
 
@@ -94,7 +117,7 @@ describe('metadata.txt', function () {
 describe('CSV', function () {
   let modelDirs = models.getModelDirs(
     './model-forecasts',
-    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+    ['component-models', 'cv-ensemble-models', 'real-time-component-models', 'real-time-ensemble-models']
   )
 
   let csvFiles = modelDirs.map(function (modelDir) {
@@ -105,6 +128,15 @@ describe('CSV', function () {
     return acc.concat(item)
   }, [])
 
+  describe('should match the file name pattern', function () {
+    let pattern = /^EW[0-5][0-9]-20[0-1][0-9]-.*\.csv$/
+    csvFiles.forEach(function (csvFile) {
+      it(csvFile, function () {
+        pattern.test(path.basename(csvFile)).should.be.true
+      })
+    })
+  })
+
   let currentMoment = moment()
   describe('should have valid week number', function () {
     csvFiles.forEach(function (csvFile) {
@@ -113,7 +145,11 @@ describe('CSV', function () {
         let week = parseInt(splits[0].slice(2))
         let year = parseInt(splits[1])
         let mdate = new mmwr.MMWRDate(year, week)
-        currentMoment.isAfter(mdate.toMomentDate()).should.be.true
+
+        // Real time component models can have files for future weeks
+        if (csvFile.indexOf('real-time-component-models') === -1) {
+          currentMoment.isAfter(mdate.toMomentDate()).should.be.true
+        }
       })
     })
   })
@@ -146,7 +182,7 @@ describe('Ground truth file', function () {
 
   let modelDirs = models.getModelDirs(
     './model-forecasts',
-    ['component-models', 'cv-ensemble-models', 'real-time-ensemble-models']
+    ['component-models', 'cv-ensemble-models']
   )
 
   let yearWeekPairs = modelDirs.map(function (modelDir) {

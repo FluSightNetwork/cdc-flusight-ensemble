@@ -1,11 +1,13 @@
 
 # Function to create scoring period for each season
-create_scoring_period <- function() {
+create_scoring_period <- function(
+    baselinefile = "../baselines/wILI_Baseline.csv",
+    scoresfile = "../scores/target-multivals.csv") {
   require(cdcfluview)
   require(dplyr)
   
   # Pull in baselines
-  baselines <- read.csv("../baselines/wILI_baseline.csv",
+  baselines <- read.csv(baselinefile,
                         stringsAsFactors = F) %>%
     mutate(Season = paste0(year, "/", year + 1)) %>%
     select(Location = location, Season, base = value)
@@ -25,7 +27,7 @@ create_scoring_period <- function() {
     select(Location = REGION, Season, Epiweek = WEEK, ILI)
   
   # Pull in targets
-  onsets <- read.csv("../scores/target-multivals.csv",
+  onsets <- read.csv(scoresfile,
                      stringsAsFactors = FALSE) %>%
     filter(Target == "Season onset") %>%
     distinct(Season, Location, Valid.Bin_start_incl) %>%

@@ -10,10 +10,11 @@ const util = require('./util')
  * Return model directories
  */
 const getModelDirs = (rootDir, modelTypes) => {
-  return modelTypes.reduce(function (acc, subDir) {
-    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(function (it) { return path.join(rootDir, subDir, it) } ))
+  return modelTypes.reduce((acc, subDir) => {
+    return acc.concat(fs.readdirSync(path.join(rootDir, subDir)).map(it => path.join(rootDir, subDir, it)))
   }, [])
-    .filter(function (it) { return fs.statSync(it).isDirectory() })
+    .filter(it => fs.statSync(it).isDirectory())
+    .filter(it => fs.existsSync(path.join(it, 'metadata.txt')))
 }
 
 const getModelMetadata = modelDir => {

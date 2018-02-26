@@ -4,7 +4,7 @@
 library(FluSight) 
 library(dplyr)
 library(doMC)
-registerDoMC(cores = 20)
+registerDoMC(3)
 
 source("scripts/stack_forecasts.R")
 

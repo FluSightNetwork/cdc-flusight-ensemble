@@ -1,15 +1,22 @@
 language: node_js
 sudo: required
 dist: trusty
+git:
+  depth: 1
 
 addons:
   apt:
     sources:
       - sourceline: "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"
+      - sourceline: "ppa:ubuntugis/ubuntugis-unstable"
     packages:
       - libv8-3.14-dev
       - r-base
       - r-base-dev
+      - libudunits2-dev
+      - libgdal-dev
+      - libgeos-dev
+      - libproj-dev
 
 node_js:
   - 7

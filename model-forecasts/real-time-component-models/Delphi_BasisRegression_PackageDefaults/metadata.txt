@@ -1,0 +1,21 @@
+team_name: Delphi
+team_members: >-
+  Logan C. Brooks, David C. Farrow, Sangwon Hyun, Shannon Gallagher, Ryan J.
+  Tibshirani, Roni Rosenfeld, Rob Tibshirani
+model_name: Basis Regression (epiforecast package defaults)
+model_abbr: BasisRegression
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Constructs a set of "pseudo-trajectories" by splicing together (a) the
+  observed part of the test season with (b) each training season's trajectory
+  for later portions of the season.  Estimates a mean curve for the
+  pseudo-trajectories by regressing onto a set of basis elements.  Forecasts the
+  singleton distribution containing this curve, plus a large, heuristic amount
+  of smoothing for each of the targets.  All training seasons precede the test
+  season, and observations from the test season use mimicPastEpidataDF to
+  approximate what the ILINet report for the forecast week looked like.  The
+  code for generating these forecasts is available at
+  https://github.com/cmu-delphi/epiforecast-R.

@@ -1,0 +1,20 @@
+team_name: Delphi
+team_members: >-
+  Logan C. Brooks, David C. Farrow, Sangwon Hyun, Shannon Gallagher, Ryan J.
+  Tibshirani, Roni Rosenfeld, Rob Tibshirani
+model_name: Delta Density (epiforecast package defaults)
+model_abbr: DeltaDensity1
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Uses kernel conditional density estimation (using training seasons) to model
+  the week-on-week change in wILI, conditioned on features of recent
+  observations.  Features are heuristically selected; parameters values are
+  manually chosen using data from seasons before the test period.  A small
+  amount of smoothing is applied when calculating target distributions.  All
+  training seasons precede the test season, and observations from the test
+  season use mimicPastEpidataDF to approximate what the ILINet report for the
+  forecast week looked like.  The code for generating these forecasts is
+  available at https://github.com/cmu-delphi/epiforecast-R.

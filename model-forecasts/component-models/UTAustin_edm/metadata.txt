@@ -1,0 +1,22 @@
+team_name: UTAustin
+team_members: Spencer J Fox
+model_name: UTA - Empirical dynamic model
+model_abbr: edm
+anonymity: named
+data_source1: ILI
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  The forecasting method uses basic empirical dynamic modeling to make
+  predictions. This method uses a topological transformation of time series data
+  to identify previous states of the time series that are similar to the current
+  state. To make predictions it chooses a neighborhood of nearest neighbors of
+  the current state, and projects those forward. Predictions are then made by
+  the resultant location of the neighborhood (Sugihara And May 1990). In essence
+  it's similar to a topological method of analogues approach. The model output
+  is a mean and variance for future states of the time series. We simulate from
+  a normal distribution with those parameters to generate potential time courses
+  for the epidemic, and use those potential trajectories to obtain our target
+  probability distributions. The model is implemented using R, and harnesses the
+  rEDM package for running the forecasts and the epiforecast R package to ensure
+  proper historical data use.

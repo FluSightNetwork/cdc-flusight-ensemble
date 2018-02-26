@@ -10,6 +10,7 @@ const rootPath = './model-forecasts'
 const modelParents = [
   'component-models',
   'cv-ensemble-models',
+  'real-time-component-models',
   'real-time-ensemble-models'
 ]
 

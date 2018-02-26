@@ -44,7 +44,7 @@ const parseCSVInfo = (fileName) => {
 // Main entry point
 let modelDirs = models.getModelDirs(
   '../model-forecasts',
-  ['component-models', 'real-time-ensemble-models']
+  ['component-models', 'submissions']
 )
 
 // Load csv blacklist
