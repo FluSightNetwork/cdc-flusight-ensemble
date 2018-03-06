@@ -9,7 +9,7 @@ const getCommitWeek = message => {
   if (travisEventType === 'cron') {
     return NaN
   } else if (travisCommitMessage) {
-    let pattern = /week\ [0-5][0-9]?/
+    let pattern = /week\ [0-5]?[0-9]/
     let splits = travisCommitMessage.trim().match(pattern)[0].split(' ')
     return parseInt(splits[1])
   } else {
