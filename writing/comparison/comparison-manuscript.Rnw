@@ -283,6 +283,22 @@ Therefore, the only truly compartmental model making 1 week-ahead forecasts is t
 % \end{itemize}
 
 
+<<>>=
+fm4_coefs_fltr <- readRDS(file="./data/delay-model-coefs.rds")
+lagged_truth <- readRDS(file = "./data/lagged_truth.rds")
+
+per_change_gt_20 <- lagged_truth %>%
+  mutate(gt_20 = (abs_pct_bias_first_report >= 0.2)) %>%
+  group_by(gt_20) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(per = round(n / sum(n) * 100, 0)) %>%
+  filter(gt_20 == TRUE) %>%
+  pull(per)
+
+@
+
+
 \subsection{Where do these models fail?}
 
 In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
@@ -290,9 +306,9 @@ We identify and quantify several of these challenges, including revisions to ini
 
 When the first report of the wILI measurement for a given region-week is not accurate (due to incomplete or delayed reporting), this has a strong negative impact on forecast accuracy.
 In the seven years examined in this study, wILI percentages were often revised after first being reported. 
-For example, XX\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
-We found that an increase in the bias of the initially reported data was stronly associated with a decrease in the forecast skill for the forecasts made using the biased data.
-Specifically, among top-performing models we see a XX decline in forecast skill when the first observed wILI measurement is XX, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-model-coefs}).
+For example, $\Sexpr{per_change_gt_20}$\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
+We found that an increase in the bias of the initially reported data was strongly associated with a decrease in the forecast skill for the forecasts made using the biased data.
+Specifically, among top-performing models we see an expected change in forecast skill of $\Sexpr{round(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}$ when the first observed wILI measurement is between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-model-coefs}).
 These results are based on results from four top-performing models: ReichLab-KCDE, LANL-DBM, Delphi-DeltaDensity1, and CU-EKF\_SIRS.
 This pattern is symmetric for under- and over-reported values, although there are more extreme under-reported values than there are over-reported values. 
 
@@ -300,7 +316,7 @@ This pattern is symmetric for under- and over-reported values, although there ar
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/fig-delay-model-coefs.pdf}
-\caption{Model-estimated changes in forecast skill due to bias in initial reports of wILI \%. The figure shows estimated coefficient values (and 95\% confidence intervals) from a multivariate linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.s}
+\caption{Model-estimated changes in forecast skill due to bias in initial reports of wILI \%. The figure shows estimated coefficient values (and 95\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.s}
 \label{fig:delay-model-coefs}
 \end{center}
 \end{figure}
