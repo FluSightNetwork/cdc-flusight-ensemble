@@ -14,5 +14,6 @@ Rscript ./scripts/make-real-time-ensemble-forecast-file.R $(node ./scripts/get-c
 git add ./model-forecasts/real-time-ensemble-models/*/*.csv
 git add ./model-forecasts/submissions/target-type-based-weights/*.csv
 git add ./model-forecasts/submissions/plots/*.pdf
+git add ./plots/*.png
 git diff-index --quiet HEAD || git commit -m "[TRAVIS] Ensemble files from travis"
 git push $SSH_REPO HEAD:master
