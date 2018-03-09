@@ -39,6 +39,11 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(xtable)
+library(cdcfluview)
+library(fiftystater)
+library(mapproj)
+library(gridExtra)
+
 theme_set(theme_minimal())
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
@@ -149,7 +154,7 @@ When observations assign no probability to the eventually observed outcome they 
 
 \section{Results}
 
-\subsection{Summary of forecast skill by season}
+\subsection{Comparing models' forecasting performance by season}
 <<>>=
 scores_by_model <- readRDS("./data/scores_by_model.rds")
 kde_skill <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"])
@@ -166,7 +171,7 @@ tmp <- scores_by_season %>% group_by(Model) %>%
 @
 
 
-Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-season}). 
+Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-model-season}). 
 The historical baseline model showed an average seasonal skill of 
 \Sexpr{specify_decimal(kde_skill, 2)}, 
 meaning that in an typical season, across all targets and locations, this model assigned on average 
@@ -182,13 +187,13 @@ Of the \Sexpr{n_models} models, \Sexpr{n_above_kde} models
 showed higher average seasonal forecast skill than the historical average.
 Season-to-season variation was substantial, with 
 \Sexpr{sum(tmp$n_seasons_above_maxavg>0)} 
-models having at least one season with greater forecast skill than the best model did on average.
+models having at least one season with greater average forecast skill than the best model did.
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
 \caption{Average forecast skill, aggregated across targets and plotted separately for each model and season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
-\label{fig:results-season}
+\label{fig:results-model-season}
 \end{center}
 \end{figure}
 
@@ -196,7 +201,7 @@ The top six performing models utilized a range of methodologies, highlighting th
 The overall best model was an ensemble model ({\tt Delphi-Stat}) that used a weighted combination of other models from the Delphi group.
 Both the {\tt ReichLab-KCDE} and the {\tt Delphi-DeltaDensity1} model utilized kernel conditional density estimation, a non-parametric statistical methodology that is a distribution-based variation on nearest-neighbors regression. 
 These models used different implementations and different input variables, but showed similarly strong performance across all seasons.
-The {\tt UTAustin-edm} and {\tt Delphi-DeltaDensity2} models also used variants of nearest-neighbors regression, although overall skill for these models was not as consistent, indicating that implementation and or input variables can impact the performance of this approach.
+The {\tt UTAustin-edm} and {\tt Delphi-DeltaDensity2} models also used variants of nearest-neighbors regression, although overall skill for these models was not as consistent, indicating that implementation details and/or input variables can impact the performance of this approach.
 The {\tt LANL-DBM} and {\tt CU-EKF\_SIRS} models both rely on a compartmental model of influenza transmission, however the methodologies used to fit and forecast were different for these approaches.
 The CU model used an ensemble-adjustment Kalman filter approach to generate forecasts, the LANL model used particle filtering.
 The {\tt ReichLab-SARIMA2} model used a classical statistical time-series model, the seasonal auto-regressive integrated moving average model, to fit and generate forecasts. 
@@ -215,8 +220,8 @@ kde_skill_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_tar
 n_above_kde_wkahead <- sum(scores_by_model_targettype$skill[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_skill_wkahead)
 @
 
-Average forecast skill for the four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
-The model with the most highest average week-ahead forecasts across all regions and seasons was {\tt \Sexpr{sanitize(max_skill_model_wkahead)}}.
+Average forecast skill for all four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
+The model with the highest average week-ahead forecast skill across all regions and seasons was {\tt \Sexpr{sanitize(max_skill_model_wkahead)}}.
 Within regions and across all seasons, this model achieved average forecast skill between
 \Sexpr{specify_decimal(min(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model==max_skill_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} 
 and 
@@ -273,13 +278,16 @@ max_skillvar_model_wkahead_scores <- scores_by_model_season_targettype_region %>
     filter(Model==max_skillvar_model_wkahead, target_type=="k-week-ahead") %>% 
     .$skill
 
-## Get top six models for k-week-ahead
-# scores_by_model_targettype
-
-
+## top model region-season scores
+top_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==max_skill_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$skill
 @
 
 Even within given models, target-specific forecast skill showed large region-to-region and year-to-year variation. 
+The forecask skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model varied from 
+\Sexpr{specify_decimal(min(top_model_wkahead_scores), 2)} to
+\Sexpr{specify_decimal(max(top_model_wkahead_scores), 2)}.
 The model with the lowest variation in combined week-ahead forecast skill across region-seasons (excluding the uniform model) was 
 \Sexpr{sanitize(min_skillvar_model_wkahead)}, 
 with skills ranging between 
@@ -290,7 +298,131 @@ The model with the highest variation in forecast skill across region-seasons was
 with skills ranging between 
 \Sexpr{specify_decimal(min(max_skillvar_model_wkahead_scores), 2)} and 
 \Sexpr{specify_decimal(max(max_skillvar_model_wkahead_scores), 2)}.
-Looking at results from the top six models, Region XX was the easiest to forecast and XX was the hardest, with models showing an average forecast skill of XX and XX across all seasons, respectively.
+
+<<>>=
+## Get models better than KDE for k-week-ahead
+scores_wkahead_better_than_kde <- scores_by_model_targettype %>%
+    filter(target_type=="k-week-ahead", skill>kde_skill_wkahead)
+models_wkahead_better_than_kde <- as.character(scores_wkahead_better_than_kde$Model)
+
+## look at region-specific, k-week-ahead scores for those models
+scores_aggr_by_region <- scores_by_model_targettype_region %>% 
+    filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
+    group_by(Location) %>%
+    summarize(avg_skill = mean(skill))
+best_region <- scores_aggr_by_region$Location[which.max(scores_aggr_by_region$avg_skill)]
+best_region_skill <- scores_aggr_by_region$avg_skill[which.max(scores_aggr_by_region$avg_skill)]
+worst_region <- scores_aggr_by_region$Location[which.min(scores_aggr_by_region$avg_skill)]
+worst_region_skill <- scores_aggr_by_region$avg_skill[which.min(scores_aggr_by_region$avg_skill)]
+
+kde_kwkahead_worst_score <- scores_by_model_targettype_region %>% 
+    filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
+    .$skill
+@
+
+Models were more consistently able to forecast week-ahead wILI in some regions than in others.
+Looking at results from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, \Sexpr{best_region} was the most predictable and \Sexpr{worst_region} was the least predictable.
+In \Sexpr{best_region}, the subset of better-than-historical-average models showed an average forecast skill of \Sexpr{specify_decimal(best_region_skill, 2)} (Figure \ref{fig:map-results}). 
+This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_skill, 2)} probability to the eventually observed outcome.
+On the flip side, in \Sexpr{worst_region} the average skill was \Sexpr{specify_decimal(worst_region_skill, 2)}. 
+This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
+<<map-results, fig.cap="Map figure. Color indicates average forecast skill for models that performed better than the historical average model.">>=
+data("fifty_states")
+data(hhs_regions)
+scores_for_map <- scores_aggr_by_region %>% 
+    filter(Location != "US National")
+scores_for_map$region_number <- gsub("[^0-9]", "", scores_for_map$Location)
+not_50 <- c(9, 10, 12, 50:55)
+hhs_regions <- hhs_regions[-(not_50),]
+hhs_regions$state <- tolower(hhs_regions$state_or_territory)
+skill_lims <- c(.1, .6)
+
+wkahead_top <- hhs_regions %>% 
+    merge(scores_for_map, by="region_number") %>%
+    ggplot(aes(map_id = state)) + 
+    geom_map(aes(fill = avg_skill), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+    coord_map() +
+    annotate("text", x = -118, y =  45, label = "10") +
+    annotate("text", x = -119.48333, y =  40, label = "9") +
+    annotate("text", x = -105.48333, y =  44, label = "8") +
+    annotate("text", x = -92.1, y =  45, label = "5") +
+    annotate("text", x = -97, y =  40, label = "7") +
+    annotate("text", x = -101, y =  35, label = "6") +
+    annotate("text", x = -85, y =  35, label = "4") +
+    annotate("text", x = -78.4, y =  38.5, label = "3") +
+    annotate("text", x = -76, y =  42.75, label = "2") +
+    annotate("text", x = -69.5, y =  44.95, label = "1") +
+    scale_x_continuous(breaks = NULL) + 
+    scale_y_continuous(breaks = NULL) +
+    labs(x = NULL, y = NULL) +
+    ggtitle("A: week-ahead forecast skill") #+
+    # theme(legend.position = "none", 
+    #     panel.background = element_blank())
+
+
+kde_scores <- scores_by_model_targettype_region %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead") %>%
+    rename(kde_skill = skill) %>% 
+    left_join(scores_aggr_by_region) %>%
+    mutate(skill_diff = avg_skill - kde_skill)
+
+#wkahead_comparison <- ggplot(kde_scores, aes(x=Location, y=skill_diff)) + 
+#    geom_point(aes(color=avg_skill)) +
+#    geom_hline(yintercept=0, linetype=2)
+
+hhs_regions %>% 
+    merge(kde_scores, by="region_number") %>%
+    ggplot(aes(map_id = state)) + 
+    geom_map(aes(fill = skill_diff), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+    coord_map() +
+    annotate("text", x = -118, y =  45, label = "10") +
+    annotate("text", x = -119.48333, y =  40, label = "9") +
+    annotate("text", x = -105.48333, y =  44, label = "8") +
+    annotate("text", x = -92.1, y =  45, label = "5") +
+    annotate("text", x = -97, y =  40, label = "7") +
+    annotate("text", x = -101, y =  35, label = "6") +
+    annotate("text", x = -85, y =  35, label = "4") +
+    annotate("text", x = -78.4, y =  38.5, label = "3") +
+    annotate("text", x = -76, y =  42.75, label = "2") +
+    annotate("text", x = -69.5, y =  44.95, label = "1") +
+    scale_x_continuous(breaks = NULL) + 
+    scale_y_continuous(breaks = NULL) +
+    labs(x = NULL, y = NULL) +
+    ggtitle("A: week-ahead forecast skill")
+
+grid.arrange(wkahead_top, wkahead_comparison, ncol=2)
+@
+
+
+
+<<>>=
+scores_by_model_season_target_region <- readRDS("./data/scores_by_model_season_target_region.rds")
+kde_skill_1wkahead <- scores_by_model_target %>% 
+    filter(Target=="1 wk ahead", Model=="ReichLab-KDE") %>%
+    .$skill
+n_models_better_than_kde_1wk <- scores_by_model_target %>%
+    filter(Target=="1 wk ahead", skill>kde_skill_1wkahead) %>%
+    nrow() 
+kde_skill_4wkahead <- scores_by_model_target %>% 
+    filter(Target=="4 wk ahead", Model=="ReichLab-KDE") %>%
+    .$skill
+n_models_better_than_kde_4wk <- scores_by_model_target %>%
+    filter(Target=="4 wk ahead", skill>kde_skill_4wkahead) %>%
+    nrow() 
+
+regions_above_.5_best_model <- scores_by_model_season_target_region %>%
+    filter(Target %in% paste(1:2, "wk ahead"), Model==max_skill_model_wkahead) %>%
+    group_by(Location, Target) %>%
+    summarize(avg_skill = mean(skill)) %>%
+    ungroup() %>%
+    group_by(Location) %>%
+    summarize(both_above_.5 = all(avg_skill>=.5)) %>%
+    filter(both_above_.5) %>% .$Location
+@
 
 Forecast skill declined as the target moved further into the future.
 For the model with highest forecast skill across all four week-ahead targets ({\tt \Sexpr{sanitize(max_skill_model_wkahead)}}), the average skill across region and season for 1 through 4 week-ahead forecasts were 
@@ -299,14 +431,13 @@ For the model with highest forecast skill across all four week-ahead targets ({\
 \Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "3 wk ahead" )], 2)}, and 
 \Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "4 wk ahead" )], 2)}.
 This mirrored an overall decline in skill observed across most models.
+Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast skills from the {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
 The historical baseline model showed average forecast skill of 
 \Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )], 2)}, 
 for all week-ahead targets. 
 (Performance does not decline for the historical model, since it always forecasts the same thing for every week, without updating based on recent data.)
-For 1 week-ahead forecasts, XX of 21 models showed more skill than a historical baseline. 
-For the 4 week-ahead forecasts, only XX of 21 models showed more skill than the historical baseline.
-In Regions XX, XX, and XX, the average forecast skill for the ``nowcast'' targets (1 and 2 weeks ahead) were both above 0.5.
-
+For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed more skill than a historical baseline.
+For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed more skill than the historical baseline.
 
 \subsection{Performance in forecasting seasonal targets}
 
