@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{Collaborative Multi-year Evaluation of Seasonal Influenza Forecasting Models in the U.S.}
+\title{Collaborative Multi-Season Evaluation of Annual Influenza Forecasting Models in the U.S.}
 
 \author{Logan Brooks, Spencer Fox, Craig McGowan, Sasikiran Kandula, \\ Dave Osthus, Evan Ray, Nicholas G Reich, Roni Rosenfeld, Jeffrey Shaman, \\Abhinav Tushar, Teresa Yamana [authorship list to be finalized]}
 
@@ -38,6 +38,7 @@ knitr::opts_chunk$set(
 library(dplyr)
 library(readr)
 library(ggplot2)
+library(MMWRweek)
 library(xtable)
 library(cdcfluview)
 library(fiftystater)
@@ -89,38 +90,79 @@ Additionally, it allows us to identify gaps and continued challenges that should
  
 Detailed methodology and results from previous FluSight challenges have been published\cite{Biggerstaff2016}, but we summarize the key features of the challenge here.
 
-The FluSight challenge has been focused on forecasts of the weighted percentage of doctor's office visits for influenza-like-illness (wILI) in a particular region. This is a standard measure of seasonal flu activity, for which public data is available back to the 1997/1998 influenza season. During each influenza season, this data is updated each week by the CDC (Figure \ref{fig:timezero-schematic}). When the most recent data is released, the prior weeks' reported wILI data may also be revised. The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2013/2014 season.\cite{DELPHI} This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This enables more accurate assessment of how models would have performed in real-time. 
+The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits for influenza-like-illness (wILI) in a particular region. 
+This is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season. 
+During each influenza season, this data is updated each week by the CDC (Figure \ref{fig:timezero-schematic}). When the most recent data is released, the prior weeks' reported wILI data may also be revised. 
+The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2013/2014 season.\cite{DELPHI} 
+This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This enables more accurate assessment of how models would have performed in real-time. 
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{static-figures/timezero-sketch.pdf}
-\caption{A schematic showing when data arrives in realtime relative to when the forecasts are made available. Based on typical timelines for the CDC FluSight challenge, we assume that forecasts are generated or submitted to the CDC using the most recent reported data. This data includes the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are considered nowcasts, i.e. at or before the current time. Similarly, 3 and 4 week-ahead forecasts are considered proper forecasts, or estimates about events in the future.}
-\label{fig:timezero-schematic}
+\caption{(A) Raw data weighted influenza-like illness data downloaded from the CDC website. The y-axis shows the weighted percentage of doctor's office visits for influenza-like illness for each week between September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five the targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region-specific baseline wILI percentage defined by the CDC. Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. This data includes the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are considered nowcasts, i.e. at or before the current time. Similarly, 3 and 4 week-ahead forecasts are considered proper forecasts, or estimates about events in the future.}
+\label{fig:intro-schematic}
 \end{center}
 \end{figure}
 
 
-The FluSight challenges have defined seven forecasting targets of particular public health relevance. Three of these targets are fixed scalar values for a particular season: onset week, peak week, and peak intensity (i.e. the maximum observed wILI percentage). The remaining four targets are the observed wILI percentages in each of the subsequent four weeks. 
+<<eval=FALSE>>=
+## code for plot in Figure 1
+regionflu <- get_flu_data("hhs", sub_region=1:10, data_source="ilinet", years=1997:2017)
+usflu <- get_flu_data("national", sub_region=NA, data_source="ilinet", years=1997:2017)
+
+## make AGE cols in usflu integer data type
+cols <- grepl('^AGE', colnames(regionflu))
+regionflu[,cols] <- sapply(regionflu[,cols], as.integer)
+cols <- grepl('^AGE', colnames(usflu))
+usflu[,cols] <- sapply(usflu[,cols], as.integer)
+
+
+fludata <- bind_rows(regionflu, usflu)
+
+fludata <- dplyr::transmute(fludata,
+    region.type = `REGION TYPE`,
+    region = REGION,
+    year = YEAR,
+    week = WEEK,
+    caldate = as.POSIXct(MMWRweek2Date(YEAR, WEEK)),
+    weighted_ili = as.numeric(`% WEIGHTED ILI`))
+
+fludata$region[fludata$region == "X"] <- "National"
+fludata$region <- factor(fludata$region, 
+    levels=c("National", paste("Region", 1:10)),
+    labels=c("National", paste("HHS Region", 1:10)))
+
+fludata %>%
+    filter(
+        region %in% c("National", paste("HHS Region", c(1,5,6,7,9))),
+        caldate > as.POSIXct(as.Date("2010-09-01")),
+        caldate < as.POSIXct(as.Date("2017-08-01"))) %>%
+    ggplot(aes(x=caldate, y=weighted_ili, color=region)) + 
+    xlab(NULL) + ylab("weighted ILI (%)") +
+    geom_line() +
+    scale_color_brewer(palette="Dark2")
+@
+
+
+The FluSight challenges have defined seven forecasting targets of particular public health relevance. Three of these targets are fixed scalar values for a particular season: onset week, peak week, and peak intensity (i.e. the maximum observed wILI percentage). The remaining four targets are the observed wILI percentages in each of the subsequent four weeks (Figure \ref{fig:intro-schematic}). 
 
 The FluSight challenges have also required that all forecast submissions and follow a particular format. A single submission file (a comma-separated text file) contains the forecast made for a particular epidemic week (EW) of a season. Standard CDC definitions of epidemic week are used. Each file contains binned predictive distributions for seven specific targets across the 10 HHS regions of the US plus the national level. Each file contains over 8000 rows and typically is about 400KB in size.
 
 To be included in the model comparison presented here, previous participants in the CDC FluSight challenge were invited to provide out-of-sample forecasts for the 2010/2011 through 2016/2017 seasons. For each model, this involved creating 233 separate forecast submission files, one for each of the weeks in the seven training seasons.
 Each forecast file represented a single submission file, as would be submitted to the CDC challenge. 
-Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e. fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:timezero-schematic}). 
-
-\subsection{Description of this Forecasting Experiment}
-
+Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e. fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:intro-schematics}). 
 
 \subsection{Summary of Models}
 
 Five teams each submitted between 1 and 9 separate models for evaluation (Table \ref{tab:model-list}). 
 A wide range of methodological approaches and modeling paradigms are included in the set of forecast models.
 For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that directly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
-Other less directly mechanistic models, use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
-XX models directly incorporate external data (i.e. not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
+Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
+[[Six]] models directly incorporate external data (i.e. not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
 Two models stand out as being clear na\"ive baseline models, that never change based on recent data. 
-The Delphi-Uniform model always provides a forecast that assigns equal probability to all possible outcomes. 
-The ReichLab-KDE model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
+The {\tt Delphi-Uniform} model always provides a forecast that assigns equal probability to all possible outcomes. 
+The {\tt ReichLab-KDE} model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
+Throughout the manuscript when we refer to the `historical baseline` model we mean the {\tt ReichLab-KDE} model.
 
 
 \input{./static-figures/model-table.tex}
@@ -129,21 +171,38 @@ The ReichLab-KDE model yields predictive distributions based entirely on data fr
 
 Forecasts have historically been evaluated by the CDC using two metrics, the log-score and the mean absolute error. These two metrics capture different desirable features of performance. The log-score enables evaluation of both the precision and accuracy of a forecast, using the predicted density function.\cite{Gneiting2007} The absolute error provides an interpretable summary of the amount of error the point estimates had on average.\cite{Reich2016} 
 
-We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $z$. In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific, notated as $\log f^{(m)}_{r,t,s,w}(\hat z|\bf{x})$. We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
-For example, the forecast skill for model $m$ and target $t$ would be calculated as
-\begin{eqnarray}
- FS^{m}_{t} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f^{(m)}_{r,t,s,w}(\hat z|{\bf x}) \right ) \\
- & = & \left ( \prod_{r,s,w} \hat f^{(m)}_{r,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
-\end{eqnarray}
-where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week. 
-Further, within a given region-season-target combination, the weeks included in the calculation of the average forecast skill depend on when the onset and peak occur. Specifically, [[...]].
-All weeks are included for the forecast skill calculations for the $k$-step ahead forecasts of wILI.
+We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
+In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific.
+For example, one specific scalar score value is represented as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
+We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
+The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
+In this application, it has the appealing and intuitive interpretation of being the average probability assigned to the true outcome.
 
-The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
-\begin{itemize}
-    \item log-score for predictive distribution, aggregated by (model), (model x season), (model x season x location), (model x season x target-type), (model x season x target), , (model x season x week)
-    \item MAE for point predictions
-\end{itemize}
+For example, the forecast skill for model $m$ and target $t$, averaged across the other dimensions,  would be calculated as
+\begin{eqnarray}
+ FS_{m,\cdot,t,\cdot,\cdot} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
+ & = & \left ( \prod_{r,s,w} \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
+\end{eqnarray}
+where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week.
+More generally, we will use the $\cdot$ subscript to indicate which indices are being summed over.
+[[Occasionally, we will additionally take a further arithmetic mean across one of the indices, for example
+\begin{eqnarray}
+ FS_{m,r,t,\bar s,\cdot} & = &  \frac{1}{S} \sum_{s=1}^S FS_{m,r,t,s,\cdot}
+\end{eqnarray}
+where $S$ is the number of seasons
+]]
+
+Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average forecast skill for each target.
+Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week.
+Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given season season. 
+Week-ahead forecasts are evaluated using forecasts received four weeks prior to the onset week through forecasts received three weeks after the weighted ILI goes below the regional baseline for the final time.
+[[In a region-season without an onset, all weeks are scored.]]
+
+The CDC has used a modified log-score as a measure of forecast accuracy, and we adopt the same approach here.
+The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
+For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
+While this modification eliminates the advantage of the log-score being a proper scoring rule[[cite Gneiting]], it has the advantage of having a clear interpretation that is meaningful to public health officials.
+To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10.
 
 \subsection{Formal comparisons of model performance}
 
