@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{Comparing Mechanistic and Statistical Models to Forecast Influenza in the U.S.}
+\title{Collaborative Multi-Season Evaluation of Annual Influenza Forecasting Models in the U.S.}
 
 \author{Logan Brooks, Spencer Fox, Craig McGowan, Sasikiran Kandula, \\ Dave Osthus, Evan Ray, Nicholas G Reich, Roni Rosenfeld, Jeffrey Shaman, \\Abhinav Tushar, Teresa Yamana [authorship list to be finalized]}
 
@@ -33,20 +33,30 @@
 
 <<echo=FALSE, warning=FALSE, message=FALSE>>=
 knitr::opts_chunk$set(
-  echo = FALSE, cache = TRUE, cache.path = './cache', message = FALSE, warning = FALSE
+  echo = FALSE, cache = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
 )
 library(dplyr)
 library(readr)
+library(ggplot2)
+library(MMWRweek)
+library(xtable)
+library(cdcfluview)
+library(fiftystater)
+library(mapproj)
+library(gridExtra)
+
+theme_set(theme_minimal())
+specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
 
 
 \section{Introduction}
 
 In recent years, the quantity of research on forecasting infectious diseases has increased XX fold. 
-This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of everything from large-scale population behavior to microscopic patterns in disease transmission could lead to measurable improvements in how disease transmission is detected and prevented. 
-With the spectre of a serious pandemic looming over global public health preparedness efforts and national security planning, efforts to improve infectious disease forecasting efforts continue to be a central concern of global health, national security, and broader geopolitical stability.
+This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of large-scale population behavior \cite{Molodecky2017} to microscopic changes in a pathogen \cite{Du2017} could lead to measurable improvements in how disease transmission is measured, forecasted, and prevented \cite{Bansal2016}. 
+With the spectre of a global pandemic looming, improving infectious disease forecasting continues to be a central priority of global health preparedness efforts.\cite{Myers2000,WHO2016}
 
-Forecasts of infectious disease outbreaks can inform public health response to outbreaks. 
+Forecasts of infectious disease transmission can inform public health response to outbreaks. 
 Accurate forecasts of the timing and spatial spread of seasonal outbreaks of diseases such as influenza or dengue fever can provide valuable information about where public health interventions can be targeted.
 Decisions about hospital staffing, resource allocation, and the timing of public health communication campaigns could be assisted by forecasts. 
 Implementation of interventions designed to disrupt disease transmissions, such as vector control measures or mandatory infection prevention protocols at hospitals or helath clinics, could be targeted based on forecasted incidence.
@@ -80,38 +90,79 @@ Additionally, it allows us to identify gaps and continued challenges that should
  
 Detailed methodology and results from previous FluSight challenges have been published\cite{Biggerstaff2016}, but we summarize the key features of the challenge here.
 
-The FluSight challenge has been focused on forecasts of the weighted percentage of doctor's office visits for influenza-like-illness (wILI) in a particular region. This is a standard measure of seasonal flu activity, for which public data is available back to the 1997/1998 influenza season. During each influenza season, this data is updated each week by the CDC (Figure \ref{fig:timezero-schematic}). When the most recent data is released, the prior weeks' reported wILI data may also be revised. The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2013/2014 season.\cite{DELPHI} This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This enables more accurate assessment of how models would have performed in real-time. 
+The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits for influenza-like-illness (wILI) in a particular region. 
+This is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season. 
+During each influenza season, this data is updated each week by the CDC (Figure \ref{fig:timezero-schematic}). When the most recent data is released, the prior weeks' reported wILI data may also be revised. 
+The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2013/2014 season.\cite{DELPHI} 
+This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This enables more accurate assessment of how models would have performed in real-time. 
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{static-figures/timezero-sketch.pdf}
-\caption{A schematic showing when data arrives in realtime relative to when the forecasts are made available. Based on typical timelines for the CDC FluSight challenge, we assume that forecasts are generated or submitted to the CDC using the most recent reported data. This data includes the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are considered nowcasts, i.e. at or before the current time. Similarly, 3 and 4 week-ahead forecasts are considered proper forecasts, or estimates about events in the future.}
-\label{fig:timezero-schematic}
+\caption{(A) Raw data weighted influenza-like illness data downloaded from the CDC website. The y-axis shows the weighted percentage of doctor's office visits for influenza-like illness for each week between September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five the targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region-specific baseline wILI percentage defined by the CDC. Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. This data includes the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are considered nowcasts, i.e. at or before the current time. Similarly, 3 and 4 week-ahead forecasts are considered proper forecasts, or estimates about events in the future.}
+\label{fig:intro-schematic}
 \end{center}
 \end{figure}
 
 
-The FluSight challenges have defined seven forecasting targets of particular public health relevance. Three of these targets are fixed scalar values for a particular season: onset week, peak week, and peak intensity (i.e. the maximum observed wILI percentage). The remaining four targets are the observed wILI percentages in each of the subsequent four weeks. 
+<<eval=FALSE>>=
+## code for plot in Figure 1
+regionflu <- get_flu_data("hhs", sub_region=1:10, data_source="ilinet", years=1997:2017)
+usflu <- get_flu_data("national", sub_region=NA, data_source="ilinet", years=1997:2017)
+
+## make AGE cols in usflu integer data type
+cols <- grepl('^AGE', colnames(regionflu))
+regionflu[,cols] <- sapply(regionflu[,cols], as.integer)
+cols <- grepl('^AGE', colnames(usflu))
+usflu[,cols] <- sapply(usflu[,cols], as.integer)
+
+
+fludata <- bind_rows(regionflu, usflu)
+
+fludata <- dplyr::transmute(fludata,
+    region.type = `REGION TYPE`,
+    region = REGION,
+    year = YEAR,
+    week = WEEK,
+    caldate = as.POSIXct(MMWRweek2Date(YEAR, WEEK)),
+    weighted_ili = as.numeric(`% WEIGHTED ILI`))
+
+fludata$region[fludata$region == "X"] <- "National"
+fludata$region <- factor(fludata$region, 
+    levels=c("National", paste("Region", 1:10)),
+    labels=c("National", paste("HHS Region", 1:10)))
+
+fludata %>%
+    filter(
+        region %in% c("National", paste("HHS Region", c(1,5,6,7,9))),
+        caldate > as.POSIXct(as.Date("2010-09-01")),
+        caldate < as.POSIXct(as.Date("2017-08-01"))) %>%
+    ggplot(aes(x=caldate, y=weighted_ili, color=region)) + 
+    xlab(NULL) + ylab("weighted ILI (%)") +
+    geom_line() +
+    scale_color_brewer(palette="Dark2")
+@
+
+
+The FluSight challenges have defined seven forecasting targets of particular public health relevance. Three of these targets are fixed scalar values for a particular season: onset week, peak week, and peak intensity (i.e. the maximum observed wILI percentage). The remaining four targets are the observed wILI percentages in each of the subsequent four weeks (Figure \ref{fig:intro-schematic}). 
 
 The FluSight challenges have also required that all forecast submissions and follow a particular format. A single submission file (a comma-separated text file) contains the forecast made for a particular epidemic week (EW) of a season. Standard CDC definitions of epidemic week are used. Each file contains binned predictive distributions for seven specific targets across the 10 HHS regions of the US plus the national level. Each file contains over 8000 rows and typically is about 400KB in size.
 
 To be included in the model comparison presented here, previous participants in the CDC FluSight challenge were invited to provide out-of-sample forecasts for the 2010/2011 through 2016/2017 seasons. For each model, this involved creating 233 separate forecast submission files, one for each of the weeks in the seven training seasons.
 Each forecast file represented a single submission file, as would be submitted to the CDC challenge. 
-Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e. fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:timezero-schematic}). 
-
-\subsection{Description of this Forecasting Experiment}
-
+Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e. fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:intro-schematics}). 
 
 \subsection{Summary of Models}
 
 Five teams each submitted between 1 and 9 separate models for evaluation (Table \ref{tab:model-list}). 
 A wide range of methodological approaches and modeling paradigms are included in the set of forecast models.
 For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that directly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
-Other less directly mechanistic models, use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
-XX models directly incorporate external data (i.e. not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
+Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
+[[Six]] models directly incorporate external data (i.e. not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
 Two models stand out as being clear na\"ive baseline models, that never change based on recent data. 
-The Delphi-Uniform model always provides a forecast that assigns equal probability to all possible outcomes. 
-The ReichLab-KDE model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
+The {\tt Delphi-Uniform} model always provides a forecast that assigns equal probability to all possible outcomes. 
+The {\tt ReichLab-KDE} model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
+Throughout the manuscript when we refer to the `historical baseline` model we mean the {\tt ReichLab-KDE} model.
 
 
 \input{./static-figures/model-table.tex}
@@ -120,21 +171,38 @@ The ReichLab-KDE model yields predictive distributions based entirely on data fr
 
 Forecasts have historically been evaluated by the CDC using two metrics, the log-score and the mean absolute error. These two metrics capture different desirable features of performance. The log-score enables evaluation of both the precision and accuracy of a forecast, using the predicted density function.\cite{Gneiting2007} The absolute error provides an interpretable summary of the amount of error the point estimates had on average.\cite{Reich2016} 
 
-We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $z$. In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific, notated as $\log f^{(m)}_{r,t,s,w}(\hat z|\bf{x})$. We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
-For example, the forecast skill for model $m$ and target $t$ would be calculated as
-\begin{eqnarray}
- FS^{m}_{t} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f^{(m)}_{r,t,s,w}(\hat z|{\bf x}) \right ) \\
- & = & \left ( \prod_{r,s,w} \hat f^{(m)}_{r,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
-\end{eqnarray}
-where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week. 
-Further, within a given region-season-target combination, the weeks included in the calculation of the average forecast skill depend on when the onset and peak occur. Specifically, [[...]].
-All weeks are included for the forecast skill calculations for the $k$-step ahead forecasts of wILI.
+We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
+In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific.
+For example, one specific scalar score value is represented as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
+We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
+The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
+In this application, it has the appealing and intuitive interpretation of being the average probability assigned to the true outcome.
 
-The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
-\begin{itemize}
-    \item log-score for predictive distribution, aggregated by (model), (model x season), (model x season x location), (model x season x target-type), (model x season x target), , (model x season x week)
-    \item MAE for point predictions
-\end{itemize}
+For example, the forecast skill for model $m$ and target $t$, averaged across the other dimensions,  would be calculated as
+\begin{eqnarray}
+ FS_{m,\cdot,t,\cdot,\cdot} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
+ & = & \left ( \prod_{r,s,w} \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
+\end{eqnarray}
+where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week.
+More generally, we will use the $\cdot$ subscript to indicate which indices are being summed over.
+[[Occasionally, we will additionally take a further arithmetic mean across one of the indices, for example
+\begin{eqnarray}
+ FS_{m,r,t,\bar s,\cdot} & = &  \frac{1}{S} \sum_{s=1}^S FS_{m,r,t,s,\cdot}
+\end{eqnarray}
+where $S$ is the number of seasons
+]]
+
+Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average forecast skill for each target.
+Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week.
+Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given season season. 
+Week-ahead forecasts are evaluated using forecasts received four weeks prior to the onset week through forecasts received three weeks after the weighted ILI goes below the regional baseline for the final time.
+[[In a region-season without an onset, all weeks are scored.]]
+
+The CDC has used a modified log-score as a measure of forecast accuracy, and we adopt the same approach here.
+The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
+For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
+While this modification eliminates the advantage of the log-score being a proper scoring rule[[cite Gneiting]], it has the advantage of having a clear interpretation that is meaningful to public health officials.
+To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10.
 
 \subsection{Formal comparisons of model performance}
 
@@ -145,10 +213,10 @@ When observations assign no probability to the eventually observed outcome they 
 
 \section{Results}
 
-\subsection{Summary of forecast skill by season}
+\subsection{Comparing models' forecasting performance by season}
 <<>>=
 scores_by_model <- readRDS("./data/scores_by_model.rds")
-kde_skill <- round(unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"]),2)
+kde_skill <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"])
 max_skill <- max(scores_by_model$skill)
 min_skill <- min(scores_by_model$skill)
 max_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == max_skill), "Model"]))
@@ -162,63 +230,273 @@ tmp <- scores_by_season %>% group_by(Model) %>%
 @
 
 
-Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-season}). 
+Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-model-season}). 
 The historical baseline model showed an average seasonal skill of 
-$\Sexpr{kde_skill}$, 
+\Sexpr{specify_decimal(kde_skill, 2)}, 
 meaning that in an typical season, across all targets and locations, this model assigned on average 
-$\Sexpr{kde_skill}$ 
+\Sexpr{specify_decimal(kde_skill, 2)} 
 probability to the eventually observed value. 
 The model with the highest average seasonal forecast skill 
-({\tt \Sexpr{max_skill_model}}) 
+({\tt \Sexpr{sanitize(max_skill_model)}}) 
 and lowest 
-({\tt \Sexpr{min_skill_model}}) 
-had skills of $\Sexpr{round(max_skill, 2)}$ and $\Sexpr{round(min_skill, 2)}$, respectively. 
-Of the $\Sexpr{n_models}$ models, $\Sexpr{n_above_kde}$ models 
-($\Sexpr{round(n_above_kde/n_models*100)}$\%) 
+({\tt \Sexpr{sanitize(min_skill_model)}}) 
+had skills of \Sexpr{specify_decimal(max_skill, 2)} and \Sexpr{specify_decimal(min_skill, 2)}, respectively. 
+Of the \Sexpr{n_models} models, \Sexpr{n_above_kde} models 
+(\Sexpr{specify_decimal(n_above_kde/n_models*100)}\%) 
 showed higher average seasonal forecast skill than the historical average.
 Season-to-season variation was substantial, with 
-$\Sexpr{sum(tmp$n_seasons_above_maxavg>0)}$ 
-models having at least one season with greater forecast skill than the best model did on average.
+\Sexpr{sum(tmp$n_seasons_above_maxavg>0)} 
+models having at least one season with greater average forecast skill than the best model did.
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
-\caption{Model forecast season, overall and by season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
-\label{fig:results-season}
+\caption{Average forecast skill, aggregated across targets and plotted separately for each model and season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
+\label{fig:results-model-season}
 \end{center}
 \end{figure}
 
 The top six performing models utilized a range of methodologies, highlighting that very different approaches can result in very similar overall performance. 
-The overall best model was an ensemble model (Delphi-Stat) that used a weighted combination of other models from the Delphi group.
-Both the ReichLab-KCDE and the Delphi-DeltaDensity1 model utilized kernel conditional density estimation, a non-parametric statistical methodology that is distribution-based variation on nearest-neighbors regression. 
+The overall best model was an ensemble model ({\tt Delphi-Stat}) that used a weighted combination of other models from the Delphi group.
+Both the {\tt ReichLab-KCDE} and the {\tt Delphi-DeltaDensity1} model utilized kernel conditional density estimation, a non-parametric statistical methodology that is a distribution-based variation on nearest-neighbors regression. 
 These models used different implementations and different input variables, but showed similarly strong performance across all seasons.
-The UTAustin-edm and Delphi-DeltaDensity2 models also used variants of nearest-neighbors regression, although overall skill for these models was not as consistent, indicating that implementation and or input variables can impact the performance of this approach.
-The LANL-DBM and CU-EKS\_SIRS models both rely on a compartmental model of influenza transmission, however the methodologies used to fit and forecast were different for these approaches.
+The {\tt UTAustin-edm} and {\tt Delphi-DeltaDensity2} models also used variants of nearest-neighbors regression, although overall skill for these models was not as consistent, indicating that implementation details and/or input variables can impact the performance of this approach.
+The {\tt LANL-DBM} and {\tt CU-EKF\_SIRS} models both rely on a compartmental model of influenza transmission, however the methodologies used to fit and forecast were different for these approaches.
 The CU model used an ensemble-adjustment Kalman filter approach to generate forecasts, the LANL model used particle filtering.
-The ReichLab-SARIMA2 model used a classical statistical time-series model, the seasonal auto-regressive integrated moving average model, to fit and generate forecasts. 
-Interestingly, several pairs of models, although having strongly contrasting methodological approaches, showed similar overall performance; e.g., CU-EKF\_SIRS and ReichLab-SARIMA2, LANL-DBM and ReichLab-KCDE.
+The {\tt ReichLab-SARIMA2} model used a classical statistical time-series model, the seasonal auto-regressive integrated moving average model, to fit and generate forecasts. 
+Interestingly, several pairs of models, although having strongly contrasting methodological approaches, showed similar overall performance; e.g., {\tt CU-EKF\_SIRS} and {\tt ReichLab-SARIMA2}, {\tt LANL-DBM} and {\tt ReichLab-KCDE}.
 
 \subsection{Performance in forecasting week-ahead incidence}
+<<>>=
+scores_by_model_target <- readRDS("./data/scores_by_model_target.rds")
+scores_by_model_targettype <- readRDS("./data/scores_by_model_targettype.rds")
+scores_by_model_targettype_region <- readRDS("./data/scores_by_model_targettype_region.rds")
 
-Average forecast skill for the four week-ahead targets varied substantially across models and regions.
-The best model (XX) achieved between XX and XX average skill in forecasting week-ahead targets across all seasons and regions.
-The historical baseline model achieved between XX and XX average skill.
-Of the XX model-region-seasons available for comparison to the historical baseline, XX\% showed greater skill than the historical baseline for a given region-season.
+max_skill_wkahead <- max(scores_by_model_targettype$skill[which(scores_by_model_targettype$target_type == "k-week-ahead")])
+max_skill_model_wkahead <- as.character(unlist(scores_by_model_targettype[which(scores_by_model_targettype$skill == max_skill_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
+
+kde_skill_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="k-week-ahead"), "skill"])
+n_above_kde_wkahead <- sum(scores_by_model_targettype$skill[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_skill_wkahead)
+@
+
+Average forecast skill for all four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
+The model with the highest average week-ahead forecast skill across all regions and seasons was {\tt \Sexpr{sanitize(max_skill_model_wkahead)}}.
+Within regions and across all seasons, this model achieved average forecast skill between
+\Sexpr{specify_decimal(min(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model==max_skill_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} 
+and 
+\Sexpr{specify_decimal(max(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model==max_skill_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}.
+As a comparison, the historical baseline model achieved between
+\Sexpr{specify_decimal(min(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} and
+\Sexpr{specify_decimal(max(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}
+average skill for all week-ahead targets.
+% Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
+% (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater skill than the historical baseline across all region-seasons.
+
+<<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, ReichLab-KDE.">>=
+midpt <- mean(filter(scores_by_model_targettype_region, Model=="ReichLab-KDE")$skill)
+ggplot(scores_by_model_targettype_region, 
+    aes(x=Location, fill=skill, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    facet_grid(~target_type) +
+    geom_text(aes(label=round(skill, 2)), size=2) +
+    scale_fill_gradient2(midpoint = midpt, name="forecast skill") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+@
 
 
-Even within given models, forecast skill showed large region-to-region and year-to-year variation. 
-The model with the lowest variation in forecast skill across region-seasons was XX, with skills ranging between XX and XX.
-The model with the highest variation in forecast skill across region-seasons was XX, with skills ranging between XX and XX.
-In general, Region XX was the easiest to forecast and XX was the hardest, with models showing an average forecast skill of XX and XX across all seasons, respectively.
+% \begin{figure}[htbp]
+% \begin{center}
+% \includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
+% \caption{Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, {\tt ReichLab-KDE}.}
+% \label{fig:results-region}
+% \end{center}
+% \end{figure}
+
+
+<<>>=
+scores_by_model_season_targettype_region <- readRDS("./data/scores_by_model_season_targettype_region.rds")
+
+## summarizing variation in target-type forecasts by model across season-regions
+skillvar_by_mstr <- scores_by_model_season_targettype_region %>% 
+    filter(Model != "Delphi-Uniform") %>% group_by(Model, target_type) %>%
+    summarize(skillvar = var(skill))
+
+min_skillvar_wkahead <- min(skillvar_by_mstr$skillvar[which(skillvar_by_mstr$target_type == "k-week-ahead")])
+min_skillvar_model_wkahead <- as.character(unlist(skillvar_by_mstr[which(skillvar_by_mstr$skillvar == min_skillvar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
+
+max_skillvar_wkahead <- max(skillvar_by_mstr$skillvar[which(skillvar_by_mstr$target_type == "k-week-ahead")])
+max_skillvar_model_wkahead <- as.character(unlist(skillvar_by_mstr[which(skillvar_by_mstr$skillvar == max_skillvar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
+
+## least variable model in weekahead forecasts
+min_skillvar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==min_skillvar_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$skill
+
+## highest variable model in weekahead forecasts
+max_skillvar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==max_skillvar_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$skill
+
+## top model region-season scores
+top_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==max_skill_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$skill
+@
+
+Even within given models, target-specific forecast skill showed large region-to-region and year-to-year variation. 
+The forecask skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model varied from 
+\Sexpr{specify_decimal(min(top_model_wkahead_scores), 2)} to
+\Sexpr{specify_decimal(max(top_model_wkahead_scores), 2)}.
+The model with the lowest variation in combined week-ahead forecast skill across region-seasons (excluding the uniform model) was 
+\Sexpr{sanitize(min_skillvar_model_wkahead)}, 
+with skills ranging between 
+\Sexpr{specify_decimal(min(min_skillvar_model_wkahead_scores), 2)} and 
+\Sexpr{specify_decimal(max(min_skillvar_model_wkahead_scores), 2)}.
+The model with the highest variation in forecast skill across region-seasons was 
+\Sexpr{sanitize(max_skillvar_model_wkahead)}, 
+with skills ranging between 
+\Sexpr{specify_decimal(min(max_skillvar_model_wkahead_scores), 2)} and 
+\Sexpr{specify_decimal(max(max_skillvar_model_wkahead_scores), 2)}.
+
+<<>>=
+## Get models better than KDE for k-week-ahead
+scores_wkahead_better_than_kde <- scores_by_model_targettype %>%
+    filter(target_type=="k-week-ahead", skill>kde_skill_wkahead)
+models_wkahead_better_than_kde <- as.character(scores_wkahead_better_than_kde$Model)
+
+## look at region-specific, k-week-ahead scores for those models
+scores_aggr_by_region <- scores_by_model_targettype_region %>% 
+    filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
+    group_by(Location) %>%
+    summarize(avg_skill = mean(skill))
+best_region <- scores_aggr_by_region$Location[which.max(scores_aggr_by_region$avg_skill)]
+best_region_skill <- scores_aggr_by_region$avg_skill[which.max(scores_aggr_by_region$avg_skill)]
+worst_region <- scores_aggr_by_region$Location[which.min(scores_aggr_by_region$avg_skill)]
+worst_region_skill <- scores_aggr_by_region$avg_skill[which.min(scores_aggr_by_region$avg_skill)]
+
+kde_kwkahead_worst_score <- scores_by_model_targettype_region %>% 
+    filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
+    .$skill
+@
+
+Models were more consistently able to forecast week-ahead wILI in some regions than in others.
+Looking at results from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, \Sexpr{best_region} was the most predictable and \Sexpr{worst_region} was the least predictable.
+In \Sexpr{best_region}, the subset of better-than-historical-average models showed an average forecast skill of \Sexpr{specify_decimal(best_region_skill, 2)} (Figure \ref{fig:map-results}). 
+This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_skill, 2)} probability to the eventually observed outcome.
+On the flip side, in \Sexpr{worst_region} the average skill was \Sexpr{specify_decimal(worst_region_skill, 2)}. 
+This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
+<<map-results, fig.cap="Map figure. Color indicates average forecast skill for models that performed better than the historical average model.">>=
+data("fifty_states")
+data(hhs_regions)
+scores_for_map <- scores_aggr_by_region %>% 
+    filter(Location != "US National")
+scores_for_map$region_number <- gsub("[^0-9]", "", scores_for_map$Location)
+not_50 <- c(9, 10, 12, 50:55)
+hhs_regions <- hhs_regions[-(not_50),]
+hhs_regions$state <- tolower(hhs_regions$state_or_territory)
+skill_lims <- c(.1, .6)
+
+wkahead_top <- hhs_regions %>% 
+    merge(scores_for_map, by="region_number") %>%
+    ggplot(aes(map_id = state)) + 
+    geom_map(aes(fill = avg_skill), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+    coord_map() +
+    annotate("text", x = -118, y =  45, label = "10") +
+    annotate("text", x = -119.48333, y =  40, label = "9") +
+    annotate("text", x = -105.48333, y =  44, label = "8") +
+    annotate("text", x = -92.1, y =  45, label = "5") +
+    annotate("text", x = -97, y =  40, label = "7") +
+    annotate("text", x = -101, y =  35, label = "6") +
+    annotate("text", x = -85, y =  35, label = "4") +
+    annotate("text", x = -78.4, y =  38.5, label = "3") +
+    annotate("text", x = -76, y =  42.75, label = "2") +
+    annotate("text", x = -69.5, y =  44.95, label = "1") +
+    scale_x_continuous(breaks = NULL) + 
+    scale_y_continuous(breaks = NULL) +
+    labs(x = NULL, y = NULL) +
+    ggtitle("A: week-ahead forecast skill") #+
+    # theme(legend.position = "none", 
+    #     panel.background = element_blank())
+
+
+kde_scores <- scores_by_model_targettype_region %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead") %>%
+    rename(kde_skill = skill) %>% 
+    left_join(scores_aggr_by_region) %>%
+    mutate(skill_diff = avg_skill - kde_skill)
+
+#wkahead_comparison <- ggplot(kde_scores, aes(x=Location, y=skill_diff)) + 
+#    geom_point(aes(color=avg_skill)) +
+#    geom_hline(yintercept=0, linetype=2)
+
+hhs_regions %>% 
+    merge(kde_scores, by="region_number") %>%
+    ggplot(aes(map_id = state)) + 
+    geom_map(aes(fill = skill_diff), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+    coord_map() +
+    annotate("text", x = -118, y =  45, label = "10") +
+    annotate("text", x = -119.48333, y =  40, label = "9") +
+    annotate("text", x = -105.48333, y =  44, label = "8") +
+    annotate("text", x = -92.1, y =  45, label = "5") +
+    annotate("text", x = -97, y =  40, label = "7") +
+    annotate("text", x = -101, y =  35, label = "6") +
+    annotate("text", x = -85, y =  35, label = "4") +
+    annotate("text", x = -78.4, y =  38.5, label = "3") +
+    annotate("text", x = -76, y =  42.75, label = "2") +
+    annotate("text", x = -69.5, y =  44.95, label = "1") +
+    scale_x_continuous(breaks = NULL) + 
+    scale_y_continuous(breaks = NULL) +
+    labs(x = NULL, y = NULL) +
+    ggtitle("A: week-ahead forecast skill")
+
+grid.arrange(wkahead_top, wkahead_comparison, ncol=2)
+@
+
+
+
+<<>>=
+scores_by_model_season_target_region <- readRDS("./data/scores_by_model_season_target_region.rds")
+kde_skill_1wkahead <- scores_by_model_target %>% 
+    filter(Target=="1 wk ahead", Model=="ReichLab-KDE") %>%
+    .$skill
+n_models_better_than_kde_1wk <- scores_by_model_target %>%
+    filter(Target=="1 wk ahead", skill>kde_skill_1wkahead) %>%
+    nrow() 
+kde_skill_4wkahead <- scores_by_model_target %>% 
+    filter(Target=="4 wk ahead", Model=="ReichLab-KDE") %>%
+    .$skill
+n_models_better_than_kde_4wk <- scores_by_model_target %>%
+    filter(Target=="4 wk ahead", skill>kde_skill_4wkahead) %>%
+    nrow() 
+
+regions_above_.5_best_model <- scores_by_model_season_target_region %>%
+    filter(Target %in% paste(1:2, "wk ahead"), Model==max_skill_model_wkahead) %>%
+    group_by(Location, Target) %>%
+    summarize(avg_skill = mean(skill)) %>%
+    ungroup() %>%
+    group_by(Location) %>%
+    summarize(both_above_.5 = all(avg_skill>=.5)) %>%
+    filter(both_above_.5) %>% .$Location
+@
 
 Forecast skill declined as the target moved further into the future.
-For the model with highest forecast skill across all four week-ahead targets (XX), the average skill across region and season for 1 through 4 week-ahead forecasts were XX, XX, XX and XX.
+For the model with highest forecast skill across all four week-ahead targets ({\tt \Sexpr{sanitize(max_skill_model_wkahead)}}), the average skill across region and season for 1 through 4 week-ahead forecasts were 
+\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "1 wk ahead" )], 2)}, 
+\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "2 wk ahead" )], 2)}, 
+\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "3 wk ahead" )], 2)}, and 
+\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "4 wk ahead" )], 2)}.
 This mirrored an overall decline in skill observed across most models.
-The historical baseline model showed average forecast skill of XX for all week-ahead targets. (Performance does not decline for the historical model, since it always forecasts the same thing for every week, without updating based on recent data.)
-For 1 week-ahead forecasts, XX of 21 models showed more skill than a historical baseline. 
-For the 4 week-ahead forecasts, only XX of 21 models showed more skill than the historical baseline.
-In Regions XX, XX, and XX, the average forecast skill for the ``nowcast'' targets (1 and 2 weeks ahead) were both above 0.5.
-
+Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast skills from the {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
+The historical baseline model showed average forecast skill of 
+\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )], 2)}, 
+for all week-ahead targets. 
+(Performance does not decline for the historical model, since it always forecasts the same thing for every week, without updating based on recent data.)
+For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed more skill than a historical baseline.
+For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed more skill than the historical baseline.
 
 \subsection{Performance in forecasting seasonal targets}
 
@@ -245,19 +523,13 @@ Average forecast skill showed substantial variation by region and by season.
 
 Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
-\caption{Model results by region and target-type.}
-\label{fig:results-region}
-\end{center}
-\end{figure}
-
-
 two columns: by target type
 mapa: average performance across all models(-KDE)/targets by region
 mapb: performance of historical model by region
-figc: scatter plot of region-level historical model skill on x and avg model skill on y, colored by season
+figc: scatter plot of AVERAGE region-level historical model skill on x and avg model skill on y (one point for each region, aggregated across seasons?). Point is to show that regions with higher season-to-season variation (i.e. lower historical forecast skill) also have lower skill from other models? Maybe plot one line for top models, one for all models. 
+
+Hypothesis: year-to-year variation within a region (as measured by skill -> lower skill = larger variation) is associated with skill of (top) models for that region. 
+lower skill = larger variation --> lower component model skill
 
 
 \subsection{Comparison between statistical and compartmental models}
@@ -268,7 +540,7 @@ Using the best three overall models from each category, we computed the average 
 For the week-ahead forecasts, the difference in model skill was below XX.
 For the three seasonal targets, the difference in model skill was larger, ranging from XX for [target X] to XX for [target X].
 We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven largely by a statistical ``nowcast`` model that uses data from the Google Search API and influenza laboratory testing data from the CDC to create the ILI+ metric.\cite{yang2014}
-Therefore, the only truly compartmental model making 1 week-ahead forecasts is the LANL-DBM model. 
+Therefore, the only compartmental model making 1 week-ahead forecasts is the LANL-DBM model. 
 
 \input{./static-figures/score-by-model-type.tex}
 
@@ -304,6 +576,7 @@ per_change_gt_20 <- lagged_truth %>%
 In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
 We identify and quantify several of these challenges, including revisions to initially reported data, ....
 
+\subsubsection*{Delayed case reporting impacts forecast skill}
 When the first report of the wILI measurement for a given region-week is not accurate (due to incomplete or delayed reporting), this has a strong negative impact on forecast accuracy.
 In the seven years examined in this study, wILI percentages were often revised after first being reported. 
 For example, $\Sexpr{per_change_gt_20}$\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
@@ -322,16 +595,19 @@ This pattern is symmetric for under- and over-reported values, although there ar
 \end{figure}
 
 
+\subsubsection*{Intensity of season not reliably correlated with forecast skill}
+
 We anticipated seeing a relationship between the peak intensity of the season and the observed forecast skill for the peak. 
 However, no clear relationship between the peak intensity of the season and the skill at forecasting the peak intensity was observed (data not shown).
 % See analysis in code/peak-analysis.R.
 
-[[Add a paragraph about capturing a holiday spike?]]
+% [[Add a paragraph about capturing a holiday spike?]]
 
 % \begin{itemize}
 %     \item holiday peak?
 %     \item missing a slow descent because of a second outbreak that is lifting the tail up?
 % \end{itemize}
+
 
 
 \section{Discussion}

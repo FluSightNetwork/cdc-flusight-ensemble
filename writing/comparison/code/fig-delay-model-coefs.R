@@ -37,7 +37,8 @@ lagged_truth <- dat %>%
 #     geom_bar(aes(x=abs_pct_bias_factor)) + facet_wrap(~Location)
 # 
 # ggplot(lagged_truth) +
-#     geom_density(aes(x=pct_bias_first_report)) + facet_wrap(~Location)
+#     geom_histogram(aes(x=pct_bias_first_report)) + facet_wrap(~Location)
+#     
 
 
 
