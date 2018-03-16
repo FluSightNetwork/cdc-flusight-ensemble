@@ -741,28 +741,28 @@
 "HHS Region 1","Season onset","Bin","week","49","50",0
 "HHS Region 1","Season onset","Bin","week","50","51",0
 "HHS Region 1","Season onset","Bin","week","51","52",0
-"HHS Region 1","Season onset","Bin","week","52","53",0
-"HHS Region 1","Season onset","Bin","week","1","2",0.225
+"HHS Region 1","Season onset","Bin","week","52","53",0.3053
+"HHS Region 1","Season onset","Bin","week","1","2",0
 "HHS Region 1","Season onset","Bin","week","2","3",0.062
 "HHS Region 1","Season onset","Bin","week","3","4",0.0452
-"HHS Region 1","Season onset","Bin","week","4","5",0.0332
-"HHS Region 1","Season onset","Bin","week","5","6",0.0278
-"HHS Region 1","Season onset","Bin","week","6","7",0.0219
-"HHS Region 1","Season onset","Bin","week","7","8",0.0182
-"HHS Region 1","Season onset","Bin","week","8","9",0.0163
-"HHS Region 1","Season onset","Bin","week","9","10",0.0156
-"HHS Region 1","Season onset","Bin","week","10","11",0.0158
-"HHS Region 1","Season onset","Bin","week","11","12",0.015
-"HHS Region 1","Season onset","Bin","week","12","13",0.0136
-"HHS Region 1","Season onset","Bin","week","13","14",0.0151
-"HHS Region 1","Season onset","Bin","week","14","15",0.0127
-"HHS Region 1","Season onset","Bin","week","15","16",0.0115
-"HHS Region 1","Season onset","Bin","week","16","17",0.0099
-"HHS Region 1","Season onset","Bin","week","17","18",0.0084
+"HHS Region 1","Season onset","Bin","week","4","5",0.0248
+"HHS Region 1","Season onset","Bin","week","5","6",0.0233
+"HHS Region 1","Season onset","Bin","week","6","7",0.019
+"HHS Region 1","Season onset","Bin","week","7","8",0.0159
+"HHS Region 1","Season onset","Bin","week","8","9",0.014
+"HHS Region 1","Season onset","Bin","week","9","10",0.0134
+"HHS Region 1","Season onset","Bin","week","10","11",0.0136
+"HHS Region 1","Season onset","Bin","week","11","12",0.0136
+"HHS Region 1","Season onset","Bin","week","12","13",0.0119
+"HHS Region 1","Season onset","Bin","week","13","14",0.013
+"HHS Region 1","Season onset","Bin","week","14","15",0.0117
+"HHS Region 1","Season onset","Bin","week","15","16",0.0093
+"HHS Region 1","Season onset","Bin","week","16","17",0.00909999999999999
+"HHS Region 1","Season onset","Bin","week","17","18",0.0074
 "HHS Region 1","Season onset","Bin","week","18","19",0
 "HHS Region 1","Season onset","Bin","week","19","20",0
 "HHS Region 1","Season onset","Bin","week","20","21",0
-"HHS Region 1","Season onset","Bin","week","none","none",0.4328
+"HHS Region 1","Season onset","Bin","week","none","none",0.3875
 "HHS Region 1","Season peak week","Point","week",NA,NA,5
 "HHS Region 1","Season peak week","Bin","week","40","41",0
 "HHS Region 1","Season peak week","Bin","week","41","42",0
@@ -3644,7 +3644,7 @@
 "HHS Region 4","4 wk ahead","Bin","percent","12.8","12.9",0
 "HHS Region 4","4 wk ahead","Bin","percent","12.9","13",0
 "HHS Region 4","4 wk ahead","Bin","percent","13","100",2e-04
-"HHS Region 5","Season onset","Point","week",NA,NA,51
+"HHS Region 5","Season onset","Point","week",NA,NA,50
 "HHS Region 5","Season onset","Bin","week","40","41",0
 "HHS Region 5","Season onset","Bin","week","41","42",0
 "HHS Region 5","Season onset","Bin","week","42","43",0
@@ -3655,20 +3655,20 @@
 "HHS Region 5","Season onset","Bin","week","47","48",0
 "HHS Region 5","Season onset","Bin","week","48","49",0
 "HHS Region 5","Season onset","Bin","week","49","50",0
-"HHS Region 5","Season onset","Bin","week","50","51",0
-"HHS Region 5","Season onset","Bin","week","51","52",0.9994
+"HHS Region 5","Season onset","Bin","week","50","51",1
+"HHS Region 5","Season onset","Bin","week","51","52",0
 "HHS Region 5","Season onset","Bin","week","52","53",0
 "HHS Region 5","Season onset","Bin","week","1","2",0
-"HHS Region 5","Season onset","Bin","week","2","3",1e-04
-"HHS Region 5","Season onset","Bin","week","3","4",1e-04
+"HHS Region 5","Season onset","Bin","week","2","3",0
+"HHS Region 5","Season onset","Bin","week","3","4",0
 "HHS Region 5","Season onset","Bin","week","4","5",0
-"HHS Region 5","Season onset","Bin","week","5","6",1e-04
+"HHS Region 5","Season onset","Bin","week","5","6",0
 "HHS Region 5","Season onset","Bin","week","6","7",0
 "HHS Region 5","Season onset","Bin","week","7","8",0
 "HHS Region 5","Season onset","Bin","week","8","9",0
 "HHS Region 5","Season onset","Bin","week","9","10",0
 "HHS Region 5","Season onset","Bin","week","10","11",0
-"HHS Region 5","Season onset","Bin","week","11","12",1e-04
+"HHS Region 5","Season onset","Bin","week","11","12",0
 "HHS Region 5","Season onset","Bin","week","12","13",0
 "HHS Region 5","Season onset","Bin","week","13","14",0
 "HHS Region 5","Season onset","Bin","week","14","15",0
@@ -3678,7 +3678,7 @@
 "HHS Region 5","Season onset","Bin","week","18","19",0
 "HHS Region 5","Season onset","Bin","week","19","20",0
 "HHS Region 5","Season onset","Bin","week","20","21",0
-"HHS Region 5","Season onset","Bin","week","none","none",2e-04
+"HHS Region 5","Season onset","Bin","week","none","none",0
 "HHS Region 5","Season peak week","Point","week",NA,NA,1
 "HHS Region 5","Season peak week","Bin","week","40","41",0
 "HHS Region 5","Season peak week","Bin","week","41","42",0
