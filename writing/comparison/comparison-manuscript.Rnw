@@ -33,7 +33,7 @@
 
 <<echo=FALSE, warning=FALSE, message=FALSE>>=
 knitr::opts_chunk$set(
-  echo = FALSE, cache = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
+  echo = FALSE, cache = TRUE, cache.path = './cache', message = FALSE, warning = FALSE
 )
 library(dplyr)
 library(readr)
@@ -48,6 +48,86 @@ library(gridExtra)
 theme_set(theme_minimal())
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
+
+<<generate-scores>>=
+scores <- read_csv("../../scores/scores.csv")
+models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
+
+## define column with scores of interest
+SCORE_COL <- quo(`Multi bin score`)
+
+## Create data.frame of boundary weeks of scores to keep for each target/season
+all_target_bounds <- read_csv("data/all-target-bounds.csv")
+
+## Remove scores that fall outside of evaluation period for a given target/season
+scores_trimmed <- scores %>% 
+    dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
+    dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
+## truncate lowest possible scores to -10, define target-type variable
+scores_adj <- scores_trimmed %>%
+    filter(Model %in% complete_models) %>%
+    ## if NA, NaN or <-10, set score to -10
+    mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+        -10, 
+        !!SCORE_COL),
+        target_type = dplyr::if_else(Target %in% c("Season onset", "Season peak week", "Season peak percentage"),
+            "seasonal", "k-week-ahead")) %>%
+    mutate(
+        score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10)))
+        ) 
+
+scores_by_model_target <- scores_adj %>%
+    group_by(Model, Target) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+
+scores_by_model_season <- scores_adj %>%
+    group_by(Model, Season) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+
+scores_by_model_targettype <- scores_adj %>%
+    group_by(Model, target_type) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+
+scores_by_model_season_target <- scores_adj %>%
+    group_by(Model, Season, Target) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+
+scores_by_model_targettype_region <- scores_adj %>%
+    group_by(Model, target_type, Location) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+
+scores_by_model_season_targettype_region <- scores_adj %>%
+    group_by(Model, Season, target_type, Location) %>%
+    summarize(
+        avg_score = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, skill))
+@
+
 
 
 \section{Introduction}
@@ -167,42 +247,48 @@ Throughout the manuscript when we refer to the `historical baseline` model we me
 
 \input{./static-figures/model-table.tex}
 
-\subsection{Metrics Used for Evaluation and Comparison}
+\subsection{Metric Used for Evaluation and Comparison}
 
-Forecasts have historically been evaluated by the CDC using two metrics, the log-score and the mean absolute error. These two metrics capture different desirable features of performance. The log-score enables evaluation of both the precision and accuracy of a forecast, using the predicted density function.\cite{Gneiting2007} The absolute error provides an interpretable summary of the amount of error the point estimates had on average.\cite{Reich2016} 
+Influenza forecasts have been evaluated by the CDC primarily using the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
+The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is the predicted density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
+The log-score is a ``proper`` scoring rule, which has the practical implication that linear combinations (i.e. arithmetic means) of log scores will [[preserve overall rankings of forecasts]].
 
-We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
-In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific.
-For example, one specific scalar score value is represented as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
-We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
-The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
-In this application, it has the appealing and intuitive interpretation of being the average probability assigned to the true outcome.
 
-For example, the forecast skill for model $m$ and target $t$, averaged across the other dimensions,  would be calculated as
+Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts. 
+The modified log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
+For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
+While this modification means that the resulting score is not formally a proper scoring rule, some have suggested that improper scores derived from proper scoring rules may, with large enough sample size, have negligible differences in practice.\cite{Gneiting2007} % see especially last paragraph of section 2.3 
+Additionally, this modified log score has the advantage of having a clear interpretation motivated and designed by public health officials.
+Hereafter, we will refer to these modified log scores as simply log scores.
+
+Average log scores can be used to compare models' performance in forecasting for different locations, seasons, targets, or times of year.
+In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week-specific.
+We represent one specific scalar log score value as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
+These values can be averaged across any of the indices to create a summary measure of performance.
+For example,
 \begin{eqnarray}
- FS_{m,\cdot,t,\cdot,\cdot} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
+LS_{m,\cdot,t,\cdot,\cdot} & = & \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x})
+\end{eqnarray}
+represents a log score for model $m$ and target $t$ averaged across all regions, seasons and weeks.
+
+While log scores are not on a particularly interpretable scale, a simple transformation enhances interpretability substantially.
+Exponentiating an average log score yields a forecast score equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
+The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
+Using the example above, we then have that
+\begin{eqnarray}
+S_{m,\cdot,t,\cdot,\cdot} = \exp \left ( LS_{m,\cdot,t,\cdot,\cdot} \right } & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
  & = & \left ( \prod_{r,s,w} \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
 \end{eqnarray}
-where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week.
-More generally, we will use the $\cdot$ subscript to indicate which indices are being summed over.
-[[Occasionally, we will additionally take a further arithmetic mean across one of the indices, for example
-\begin{eqnarray}
- FS_{m,r,t,\bar s,\cdot} & = &  \frac{1}{S} \sum_{s=1}^S FS_{m,r,t,s,\cdot}
-\end{eqnarray}
-where $S$ is the number of seasons
-]]
+In this setting, this score has the intuitive interpretation of being the average probability assigned to the true outcome (where average is considered to be a geometric average).
+Hereafter, we will refer to an average score as an exponentiated average log score.
+In all cases, we compute the averages arithmetically on the log scale and only exponentiate before reporting and interpreting a final number.
 
-Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average forecast skill for each target.
-Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week.
-Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given season season. 
+Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average log scores for each target.
+Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week within a given region.
+Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given region-season. 
 Week-ahead forecasts are evaluated using forecasts received four weeks prior to the onset week through forecasts received three weeks after the weighted ILI goes below the regional baseline for the final time.
-[[In a region-season without an onset, all weeks are scored.]]
-
-The CDC has used a modified log-score as a measure of forecast accuracy, and we adopt the same approach here.
-The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
-For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
-While this modification eliminates the advantage of the log-score being a proper scoring rule[[cite Gneiting]], it has the advantage of having a clear interpretation that is meaningful to public health officials.
-To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10.
+In a region-season without an onset, all weeks are scored.
+To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10, following CDC scoring conventions.
 
 \subsection{Formal comparisons of model performance}
 
@@ -215,16 +301,14 @@ When observations assign no probability to the eventually observed outcome they 
 
 \subsection{Comparing models' forecasting performance by season}
 <<>>=
-scores_by_model <- readRDS("./data/scores_by_model.rds")
-kde_skill <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"])
-max_skill <- max(scores_by_model$skill)
-min_skill <- min(scores_by_model$skill)
+kde_skill <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "avg_score"])
+max_skill <- max(scores_by_model$avg_score)
+min_skill <- min(scores_by_model$avg_score)
 max_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == max_skill), "Model"]))
 min_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == min_skill), "Model"]))
 n_above_kde <- sum(scores_by_model$skill>kde_skill)
 n_models <- nrow(scores_by_model)
 
-scores_by_season <- readRDS("./data/scores_by_season.rds")
 tmp <- scores_by_season %>% group_by(Model) %>%
     summarize(n_seasons_above_maxavg = sum(skill>max_skill)) 
 @

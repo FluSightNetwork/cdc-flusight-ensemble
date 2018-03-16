@@ -37,9 +37,7 @@ scores_adj <- scores_trimmed %>%
 scores_by_model_target <- scores_adj %>%
     group_by(Model, Target) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
@@ -49,9 +47,7 @@ saveRDS(scores_by_model_target, file="./data/scores_by_model_target.rds")
 scores_by_model_season <- scores_adj %>%
     group_by(Model, Season) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
@@ -60,9 +56,7 @@ saveRDS(scores_by_model_season, file="./data/scores_by_model_season.rds")
 scores_by_model_targettype <- scores_adj %>%
     group_by(Model, target_type) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
@@ -71,9 +65,7 @@ saveRDS(scores_by_model_targettype, file="./data/scores_by_model_targettype.rds"
 scores_by_model_season_target <- scores_adj %>%
     group_by(Model, Season, Target) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
@@ -82,9 +74,7 @@ saveRDS(scores_by_model_season_target, file="./data/scores_by_model_season_targe
 scores_by_model_targettype_region <- scores_adj %>%
     group_by(Model, target_type, Location) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
@@ -93,9 +83,7 @@ saveRDS(scores_by_model_targettype_region, file="./data/scores_by_model_targetty
 scores_by_model_season_targettype_region <- scores_adj %>%
     group_by(Model, Season, target_type, Location) %>%
     summarize(
-        avg_score = mean(score_adj),
-        skill = exp(avg_score),
-        min_score = min(score_adj)
+        avg_score = mean(score_adj)
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, skill))
