@@ -116,8 +116,24 @@ scores_by_model_targettype <- scores_adj %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_logscore))
 
+scores_by_model_region <- scores_adj %>%
+    group_by(Model, Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
 scores_by_model_season_target <- scores_adj %>%
     group_by(Model, Season, Target) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_season_target_region <- scores_adj %>%
+    group_by(Model, Season, Target, Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
@@ -139,6 +155,14 @@ scores_by_model_season_targettype_region <- scores_adj %>%
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_region <- scores_adj %>%
+    group_by(Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Location = reorder(Location, avg_logscore))
 @
 
 
@@ -468,22 +492,18 @@ with skills ranging between
 <<>>=
 ## Get models better than KDE for k-week-ahead
 scores_wkahead_better_than_kde <- scores_by_model_targettype %>%
-    filter(target_type=="k-week-ahead", skill>kde_skill_wkahead)
+    filter(target_type=="k-week-ahead", avg_logscore>kde_logscore_wkahead)
 models_wkahead_better_than_kde <- as.character(scores_wkahead_better_than_kde$Model)
 
 ## look at region-specific, k-week-ahead scores for those models
-scores_aggr_by_region <- scores_by_model_targettype_region %>% 
-    filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
-    group_by(Location) %>%
-    summarize(avg_skill = mean(skill))
-best_region <- scores_aggr_by_region$Location[which.max(scores_aggr_by_region$avg_skill)]
-best_region_skill <- scores_aggr_by_region$avg_skill[which.max(scores_aggr_by_region$avg_skill)]
-worst_region <- scores_aggr_by_region$Location[which.min(scores_aggr_by_region$avg_skill)]
-worst_region_skill <- scores_aggr_by_region$avg_skill[which.min(scores_aggr_by_region$avg_skill)]
+best_region <- scores_by_region$Location[which.max(scores_by_region$avg_logscore)]
+best_region_skill <- exp(scores_by_region$avg_logscore[which.max(scores_by_region$avg_logscore)])
+worst_region <- scores_by_region$Location[which.min(scores_by_region$avg_logscore)]
+worst_region_skill <- exp(scores_by_region$avg_logscore[which.min(scores_by_region$avg_logscore)])
 
 kde_kwkahead_worst_score <- scores_by_model_targettype_region %>% 
     filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
-    .$skill
+    .$avg_logscore %>% exp()
 @
 
 Models were more consistently able to forecast week-ahead wILI in some regions than in others.
@@ -492,11 +512,14 @@ In \Sexpr{best_region}, the subset of better-than-historical-average models show
 This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_skill, 2)} probability to the eventually observed outcome.
 On the flip side, in \Sexpr{worst_region} the average skill was \Sexpr{specify_decimal(worst_region_skill, 2)}. 
 This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
-<<map-results, fig.cap="Map figure. Color indicates average forecast skill for models that performed better than the historical average model.">>=
+<<map-results, fig.cap="(A) Color shading indicates average forecast skill for models that performed better than the historical baseline model. (B) Plot showing the average historical model skill (x-axis) against the difference between the skill of all models that performed better than the historical baseline model and the historical model (y-axis). Positive y-values indicate an improvement over the historical baseline. Numbers indicate the location of the points for each region.">>=
 data("fifty_states")
 data(hhs_regions)
-scores_for_map <- scores_aggr_by_region %>% 
-    filter(Location != "US National")
+scores_for_map <- scores_by_model_region %>% 
+    filter(Location != "US National", Model %in% models_wkahead_better_than_kde) %>%
+    group_by(Location) %>%
+    summarize(avg_logscore = mean(avg_logscore)) %>% 
+    ungroup()
 scores_for_map$region_number <- gsub("[^0-9]", "", scores_for_map$Location)
 not_50 <- c(9, 10, 12, 50:55)
 hhs_regions <- hhs_regions[-(not_50),]
@@ -506,8 +529,8 @@ skill_lims <- c(.1, .6)
 wkahead_top <- hhs_regions %>% 
     merge(scores_for_map, by="region_number") %>%
     ggplot(aes(map_id = state)) + 
-    geom_map(aes(fill = avg_skill), map = fifty_states) +
-    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    geom_map(aes(fill = exp(avg_logscore)), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims, name="skill") + 
     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
     coord_map() +
     annotate("text", x = -118, y =  45, label = "10") +
@@ -529,36 +552,51 @@ wkahead_top <- hhs_regions %>%
 
 
 kde_scores <- scores_by_model_targettype_region %>%
-    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead") %>%
-    rename(kde_skill = skill) %>% 
-    left_join(scores_aggr_by_region) %>%
-    mutate(skill_diff = avg_skill - kde_skill)
+    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead", Location != "US National") %>%
+    rename(kde_logscore = avg_logscore) %>% 
+    left_join(scores_for_map) %>%
+    mutate(
+        logscore_diff = avg_logscore - kde_logscore
+        )
 
 #wkahead_comparison <- ggplot(kde_scores, aes(x=Location, y=skill_diff)) + 
 #    geom_point(aes(color=avg_skill)) +
 #    geom_hline(yintercept=0, linetype=2)
 
-hhs_regions %>% 
-    merge(kde_scores, by="region_number") %>%
-    ggplot(aes(map_id = state)) + 
-    geom_map(aes(fill = skill_diff), map = fifty_states) +
-    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
-    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
-    coord_map() +
-    annotate("text", x = -118, y =  45, label = "10") +
-    annotate("text", x = -119.48333, y =  40, label = "9") +
-    annotate("text", x = -105.48333, y =  44, label = "8") +
-    annotate("text", x = -92.1, y =  45, label = "5") +
-    annotate("text", x = -97, y =  40, label = "7") +
-    annotate("text", x = -101, y =  35, label = "6") +
-    annotate("text", x = -85, y =  35, label = "4") +
-    annotate("text", x = -78.4, y =  38.5, label = "3") +
-    annotate("text", x = -76, y =  42.75, label = "2") +
-    annotate("text", x = -69.5, y =  44.95, label = "1") +
-    scale_x_continuous(breaks = NULL) + 
-    scale_y_continuous(breaks = NULL) +
-    labs(x = NULL, y = NULL) +
-    ggtitle("A: week-ahead forecast skill")
+# hhs_regions %>% 
+#     merge(kde_scores, by="region_number") %>%
+#     ggplot(aes(map_id = state)) + 
+#     geom_map(aes(fill = exp(logscore_diff)), map = fifty_states) +
+#     scale_fill_gradient2(low="#f7fbff", high="#084594", midpoint=1) + 
+#     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+#     coord_map() +
+#     annotate("text", x = -118, y =  45, label = "10") +
+#     annotate("text", x = -119.48333, y =  40, label = "9") +
+#     annotate("text", x = -105.48333, y =  44, label = "8") +
+#     annotate("text", x = -92.1, y =  45, label = "5") +
+#     annotate("text", x = -97, y =  40, label = "7") +
+#     annotate("text", x = -101, y =  35, label = "6") +
+#     annotate("text", x = -85, y =  35, label = "4") +
+#     annotate("text", x = -78.4, y =  38.5, label = "3") +
+#     annotate("text", x = -76, y =  42.75, label = "2") +
+#     annotate("text", x = -69.5, y =  44.95, label = "1") +
+#     scale_x_continuous(breaks = NULL) + 
+#     scale_y_continuous(breaks = NULL) +
+#     labs(x = NULL, y = NULL) +
+#     ggtitle("A: week-ahead forecast skill")
+# 
+# ggplot(kde_scores, aes(x=exp(kde_logscore), y=exp(avg_logscore))) + 
+#     geom_text(aes(label=region_number)) +
+#     geom_abline(slope=1, intercept=0)
+
+wkahead_comparison <- ggplot(kde_scores, aes(x=exp(kde_logscore), y=exp(avg_logscore)-exp(kde_logscore))) + 
+    geom_text(aes(label=region_number), fontface="bold") +
+    geom_hline(yintercept=0, linetype=2) + 
+    scale_y_continuous(limits=c(-.15, .15), name = "skill improvement over historical model") +
+    scale_x_continuous(name = "historical model skill") +
+    ggtitle("B: week-ahead skill comparison with historical forecast") #+
+
+
 
 grid.arrange(wkahead_top, wkahead_comparison, ncol=2)
 @
@@ -566,7 +604,6 @@ grid.arrange(wkahead_top, wkahead_comparison, ncol=2)
 
 
 <<>>=
-scores_by_model_season_target_region <- readRDS("./data/scores_by_model_season_target_region.rds")
 kde_skill_1wkahead <- scores_by_model_target %>% 
     filter(Target=="1 wk ahead", Model=="ReichLab-KDE") %>%
     .$skill
