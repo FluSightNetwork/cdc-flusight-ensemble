@@ -49,6 +49,131 @@ theme_set(theme_minimal())
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
 
+<<generate-scores>>=
+scores <- read_csv("../../scores/scores.csv")
+models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+
+complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
+compartment_models <- c("CU-EAKFC_SEIRS", "CU-EAKFC_SIRS", "CU-EKF_SEIRS", 
+    "CU-EKF_SIRS", "CU-RHF_SEIRS", "CU-RHF_SIRS", "LANL-DBM")
+
+
+## define column with scores of interest
+SCORE_COL <- quo(`Multi bin score`)
+
+## Create data.frame of boundary weeks of scores to keep for each target/season
+all_target_bounds <- read_csv("data/all-target-bounds.csv")
+
+## Remove scores that fall outside of evaluation period for a given target/season
+scores_trimmed <- scores %>% 
+    dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
+    dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
+## truncate lowest possible scores to -10, define target-type variable
+scores_adj <- scores_trimmed %>%
+    filter(Model %in% complete_models) %>%
+    ## if NA, NaN or <-10, set score to -10
+    mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+        -10, 
+        !!SCORE_COL),
+        target_type = dplyr::if_else(Target %in% c("Season onset", "Season peak week", "Season peak percentage"),
+            "seasonal", "k-week-ahead")) %>%
+    mutate(
+        score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10)))
+        ) 
+
+scores_by_model <- scores_adj %>%
+    group_by(Model) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+
+scores_by_model_target <- scores_adj %>%
+    group_by(Model, Target) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_season <- scores_adj %>%
+    group_by(Model, Season) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_targettype <- scores_adj %>%
+    group_by(Model, target_type) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_region <- scores_adj %>%
+    group_by(Model, Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_season_target <- scores_adj %>%
+    group_by(Model, Season, Target) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_season_target_region <- scores_adj %>%
+    group_by(Model, Season, Target, Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_targettype_region <- scores_adj %>%
+    group_by(Model, target_type, Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_model_season_targettype_region <- scores_adj %>%
+    group_by(Model, Season, target_type, Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Model = reorder(Model, avg_logscore))
+
+scores_by_region <- scores_adj %>%
+    group_by(Location) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Location = reorder(Location, avg_logscore))
+
+scores_by_region_targettype <- scores_adj %>%
+    group_by(Location, target_type) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Location = reorder(Location, avg_logscore))
+@
+
+
 
 \section{Introduction}
 
@@ -167,42 +292,48 @@ Throughout the manuscript when we refer to the `historical baseline` model we me
 
 \input{./static-figures/model-table.tex}
 
-\subsection{Metrics Used for Evaluation and Comparison}
+\subsection{Metric Used for Evaluation and Comparison}
 
-Forecasts have historically been evaluated by the CDC using two metrics, the log-score and the mean absolute error. These two metrics capture different desirable features of performance. The log-score enables evaluation of both the precision and accuracy of a forecast, using the predicted density function.\cite{Gneiting2007} The absolute error provides an interpretable summary of the amount of error the point estimates had on average.\cite{Reich2016} 
+Influenza forecasts have been evaluated by the CDC primarily using the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
+The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is the predicted density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
+The log-score is a ``proper`` scoring rule, which has the practical implication that linear combinations (i.e. arithmetic means) of log scores will [[preserve overall rankings of forecasts]].
 
-We used a modified form of the log-score to evaluate forecasts, in line with the evaluation performed by the CDC. The log-score is defined as $\log f(\hat z|\bf{x})$ where $f(z|\bf{x})$ is a predictive density function for some target $Z$, conditional on some data $\bf{x}$ and $\hat z$ is the observed value of the target $Z$. 
-In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week- specific.
-For example, one specific scalar score value is represented as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
-We evaluated model performance based on the exponentiated average log scores, which has been called ``forecast skill'' and is equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
-The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
-In this application, it has the appealing and intuitive interpretation of being the average probability assigned to the true outcome.
 
-For example, the forecast skill for model $m$ and target $t$, averaged across the other dimensions,  would be calculated as
+Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts. 
+The modified log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
+For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
+While this modification means that the resulting score is not formally a proper scoring rule, some have suggested that improper scores derived from proper scoring rules may, with large enough sample size, have negligible differences in practice.\cite{Gneiting2007} % see especially last paragraph of section 2.3 
+Additionally, this modified log score has the advantage of having a clear interpretation motivated and designed by public health officials.
+Hereafter, we will refer to these modified log scores as simply log scores.
+
+Average log scores can be used to compare models' performance in forecasting for different locations, seasons, targets, or times of year.
+In practice, each model $m$ has a set of log scores associated with it are region-, target-, season-, and week-specific.
+We represent one specific scalar log score value as $\log f_{m,r,t,s,w}(\hat z|\bf{x})$. 
+These values can be averaged across any of the indices to create a summary measure of performance.
+For example,
 \begin{eqnarray}
- FS_{m,\cdot,t,\cdot,\cdot} & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
+LS_{m,\cdot,t,\cdot,\cdot} & = & \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x})
+\end{eqnarray}
+represents a log score for model $m$ and target $t$ averaged across all regions, seasons and weeks.
+
+While log scores are not on a particularly interpretable scale, a simple transformation enhances interpretability substantially.
+Exponentiating an average log score yields a forecast score equivalent to the geometric mean of the probabilities assigned to the eventually observed outcome. 
+The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $n^{th}$ root of a product of $n$ numbers. 
+Using the example above, we then have that
+\begin{eqnarray}
+S_{m,\cdot,t,\cdot,\cdot} = \exp \left ( LS_{m,\cdot,t,\cdot,\cdot} \right } & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) \\
  & = & \left ( \prod_{r,s,w} \hat f_{m,r,t,s,w}(\hat z|{\bf x}) \right ) ^{1/N} 
 \end{eqnarray}
-where $N$ is the total number of log-scores for target $t$ and model $m$, across all combinations of region, season, and week.
-More generally, we will use the $\cdot$ subscript to indicate which indices are being summed over.
-[[Occasionally, we will additionally take a further arithmetic mean across one of the indices, for example
-\begin{eqnarray}
- FS_{m,r,t,\bar s,\cdot} & = &  \frac{1}{S} \sum_{s=1}^S FS_{m,r,t,s,\cdot}
-\end{eqnarray}
-where $S$ is the number of seasons
-]]
+In this setting, this score has the intuitive interpretation of being the average probability assigned to the true outcome (where average is considered to be a geometric average).
+Hereafter, we will refer to an average score as an exponentiated average log score.
+In all cases, we compute the averages arithmetically on the log scale and only exponentiate before reporting and interpreting a final number.
 
-Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average forecast skill for each target.
-Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week.
-Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given season season. 
+Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average log scores for each target.
+Forecasts of season onset are evaluated based on the forecasts that are received up to six weeks after the observed onset week within a given region.
+Forecasts of season peak and intensity are evaluated through the first forecast received after the weighted ILI goes below the regional baseline for the final time during a given region-season. 
 Week-ahead forecasts are evaluated using forecasts received four weeks prior to the onset week through forecasts received three weeks after the weighted ILI goes below the regional baseline for the final time.
-[[In a region-season without an onset, all weeks are scored.]]
-
-The CDC has used a modified log-score as a measure of forecast accuracy, and we adopt the same approach here.
-The log-scores are computed for the targets on the wILI percentage scale such that predictions within +/- 0.5 percentage points are considered accurate, i.e. log score = $\log \int_{\hat z -.5}^{\hat z + .5} f^{(m)}(z|{\bf{x}})dz$. 
-For the targets on the scale of epidemic weeks, predictions within +/- 1 week are considered accurate, i.e. log score = $\log \int_{\hat z -1}^{\hat z + 1} f^{(m)}(z|{\bf{x}})dz$. 
-While this modification eliminates the advantage of the log-score being a proper scoring rule[[cite Gneiting]], it has the advantage of having a clear interpretation that is meaningful to public health officials.
-To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10.
+In a region-season without an onset, all weeks are scored.
+To ensure all calculated summary measures would be finite, all modified log scores with values of less than -10 were assigned the value -10, following CDC scoring conventions.
 
 \subsection{Formal comparisons of model performance}
 
@@ -215,32 +346,30 @@ When observations assign no probability to the eventually observed outcome they 
 
 \subsection{Comparing models' forecasting performance by season}
 <<>>=
-scores_by_model <- readRDS("./data/scores_by_model.rds")
-kde_skill <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "skill"])
-max_skill <- max(scores_by_model$skill)
-min_skill <- min(scores_by_model$skill)
-max_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == max_skill), "Model"]))
-min_skill_model <- as.character(unlist(scores_by_model[which(scores_by_model$skill == min_skill), "Model"]))
-n_above_kde <- sum(scores_by_model$skill>kde_skill)
+kde_logscore <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "avg_logscore"])
+max_logscore <- max(scores_by_model$avg_logscore)
+min_logscore <- min(scores_by_model$avg_logscore)
+max_logscore_model <- as.character(unlist(scores_by_model[which(scores_by_model$avg_logscore == max_logscore), "Model"]))
+min_logscore_model <- as.character(unlist(scores_by_model[which(scores_by_model$avg_logscore == min_logscore), "Model"]))
+n_above_kde <- sum(scores_by_model$avg_logscore>kde_logscore)
 n_models <- nrow(scores_by_model)
 
-scores_by_season <- readRDS("./data/scores_by_season.rds")
-tmp <- scores_by_season %>% group_by(Model) %>%
-    summarize(n_seasons_above_maxavg = sum(skill>max_skill)) 
+tmp <- scores_by_model_season %>% group_by(Model) %>%
+    summarize(n_seasons_above_maxavg = sum(avg_logscore>max_logscore)) 
 @
 
 
 Averaging across targets and locations, forecast skill varied widely by model and season (Figure \ref{fig:results-model-season}). 
 The historical baseline model showed an average seasonal skill of 
-\Sexpr{specify_decimal(kde_skill, 2)}, 
+\Sexpr{specify_decimal(exp(kde_logscore), 2)}, 
 meaning that in an typical season, across all targets and locations, this model assigned on average 
-\Sexpr{specify_decimal(kde_skill, 2)} 
+\Sexpr{specify_decimal(exp(kde_logscore), 2)} 
 probability to the eventually observed value. 
 The model with the highest average seasonal forecast skill 
-({\tt \Sexpr{sanitize(max_skill_model)}}) 
+({\tt \Sexpr{sanitize(max_logscore_model)}}) 
 and lowest 
-({\tt \Sexpr{sanitize(min_skill_model)}}) 
-had skills of \Sexpr{specify_decimal(max_skill, 2)} and \Sexpr{specify_decimal(min_skill, 2)}, respectively. 
+({\tt \Sexpr{sanitize(min_logscore_model)}}) 
+had scores of \Sexpr{specify_decimal(exp(max_logscore), 2)} and \Sexpr{specify_decimal(exp(min_logscore), 2)}, respectively. 
 Of the \Sexpr{n_models} models, \Sexpr{n_above_kde} models 
 (\Sexpr{specify_decimal(n_above_kde/n_models*100)}\%) 
 showed higher average seasonal forecast skill than the historical average.
@@ -248,13 +377,40 @@ Season-to-season variation was substantial, with
 \Sexpr{sum(tmp$n_seasons_above_maxavg>0)} 
 models having at least one season with greater average forecast skill than the best model did.
 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
-\caption{Average forecast skill, aggregated across targets and plotted separately for each model and season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the average of the seven seasons. The names of compartmental models are shown in bold face. The ReichLab-KDE model can be thought of as the historical baseline model.}
-\label{fig:results-model-season}
-\end{center}
-\end{figure}
+<<results-model-season, fig.height=5, fig.cap="Average forecast skill, aggregated across targets and plotted separately for each model and season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model (italicized red font) can be thought of as the historical baseline model.">>=
+ggplot(scores_by_model_season, aes(x=Model, y=exp(avg_logscore))) +
+    geom_point(alpha=.5, aes(color=Season)) + 
+    geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
+    scale_color_brewer(palette="Dark2") +
+    ylab("forecast skill") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
+        #family="Courier",
+        face=ifelse(
+            levels(scores_by_model_season$Model)%in% compartment_models,
+            "bold", 
+            ifelse(
+            levels(scores_by_model_season$Model) == "ReichLab-KDE", 
+            "italic",
+            "plain"
+        )
+        ),
+        color = ifelse(
+            levels(scores_by_model_season$Model) == "ReichLab-KDE", 
+            "red",
+            "black"
+        )
+        )) 
+
+@
+
+
+% \begin{figure}[htbp]
+% \begin{center}
+% \includegraphics[width=\textwidth]{figures/fig-results-model-season.pdf}
+% \caption{Average forecast skill, aggregated across targets and plotted separately for each model and season. Models are sorted from least skill (left) to most skill (right). Dots show average skill across all targets and regions for a given season. The x marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model can be thought of as the historical baseline model.}
+% \label{fig:results-model-season}
+% \end{center}
+% \end{figure}
 
 The top six performing models utilized a range of methodologies, highlighting that very different approaches can result in very similar overall performance. 
 The overall best model was an ensemble model ({\tt Delphi-Stat}) that used a weighted combination of other models from the Delphi group.
@@ -268,37 +424,33 @@ Interestingly, several pairs of models, although having strongly contrasting met
 
 \subsection{Performance in forecasting week-ahead incidence}
 <<>>=
-scores_by_model_target <- readRDS("./data/scores_by_model_target.rds")
-scores_by_model_targettype <- readRDS("./data/scores_by_model_targettype.rds")
-scores_by_model_targettype_region <- readRDS("./data/scores_by_model_targettype_region.rds")
+max_logscore_wkahead <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "k-week-ahead")])
+max_logscore_model_wkahead <- as.character(unlist(scores_by_model_targettype[which(scores_by_model_targettype$avg_logscore == max_logscore_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
 
-max_skill_wkahead <- max(scores_by_model_targettype$skill[which(scores_by_model_targettype$target_type == "k-week-ahead")])
-max_skill_model_wkahead <- as.character(unlist(scores_by_model_targettype[which(scores_by_model_targettype$skill == max_skill_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
-
-kde_skill_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="k-week-ahead"), "skill"])
-n_above_kde_wkahead <- sum(scores_by_model_targettype$skill[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_skill_wkahead)
+kde_logscore_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="k-week-ahead"), "avg_logscore"])
+n_above_kde_wkahead <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_logscore_wkahead)
 @
 
 Average forecast skill for all four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
-The model with the highest average week-ahead forecast skill across all regions and seasons was {\tt \Sexpr{sanitize(max_skill_model_wkahead)}}.
+The model with the highest average week-ahead forecast skill across all regions and seasons was {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}.
 Within regions and across all seasons, this model achieved average forecast skill between
-\Sexpr{specify_decimal(min(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model==max_skill_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} 
+\Sexpr{specify_decimal(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} 
 and 
-\Sexpr{specify_decimal(max(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model==max_skill_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}.
+\Sexpr{specify_decimal(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}.
 As a comparison, the historical baseline model achieved between
-\Sexpr{specify_decimal(min(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} and
-\Sexpr{specify_decimal(max(scores_by_model_targettype_region$skill[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}
+\Sexpr{specify_decimal(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} and
+\Sexpr{specify_decimal(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}
 average skill for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater skill than the historical baseline across all region-seasons.
 
 <<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, ReichLab-KDE.">>=
-midpt <- mean(filter(scores_by_model_targettype_region, Model=="ReichLab-KDE")$skill)
+midpt <- mean(exp(filter(scores_by_model_targettype_region, Model=="ReichLab-KDE")$avg_logscore))
 ggplot(scores_by_model_targettype_region, 
-    aes(x=Location, fill=skill, y=Model)) + 
+    aes(x=Location, fill=exp(avg_logscore), y=Model)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
     facet_grid(~target_type) +
-    geom_text(aes(label=round(skill, 2)), size=2) +
+    geom_text(aes(label=specify_decimal(exp(avg_logscore), 2)), size=2) +
     scale_fill_gradient2(midpoint = midpt, name="forecast skill") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 @
@@ -314,93 +466,143 @@ ggplot(scores_by_model_targettype_region,
 
 
 <<>>=
-scores_by_model_season_targettype_region <- readRDS("./data/scores_by_model_season_targettype_region.rds")
-
 ## summarizing variation in target-type forecasts by model across season-regions
-skillvar_by_mstr <- scores_by_model_season_targettype_region %>% 
+logscorevar_by_mstr <- scores_by_model_season_targettype_region %>% 
     filter(Model != "Delphi-Uniform") %>% group_by(Model, target_type) %>%
-    summarize(skillvar = var(skill))
+    summarize(logscorevar = var(avg_logscore))
 
-min_skillvar_wkahead <- min(skillvar_by_mstr$skillvar[which(skillvar_by_mstr$target_type == "k-week-ahead")])
-min_skillvar_model_wkahead <- as.character(unlist(skillvar_by_mstr[which(skillvar_by_mstr$skillvar == min_skillvar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
+min_logscorevar_wkahead <- min(logscorevar_by_mstr$logscorevar[which(logscorevar_by_mstr$target_type == "k-week-ahead")])
+min_logscorevar_model_wkahead <- as.character(unlist(logscorevar_by_mstr[which(logscorevar_by_mstr$logscorevar == min_logscorevar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
 
-max_skillvar_wkahead <- max(skillvar_by_mstr$skillvar[which(skillvar_by_mstr$target_type == "k-week-ahead")])
-max_skillvar_model_wkahead <- as.character(unlist(skillvar_by_mstr[which(skillvar_by_mstr$skillvar == max_skillvar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
+max_logscorevar_wkahead <- max(logscorevar_by_mstr$logscorevar[which(logscorevar_by_mstr$target_type == "k-week-ahead")])
+max_logscorevar_model_wkahead <- as.character(unlist(logscorevar_by_mstr[which(logscorevar_by_mstr$logscorevar == max_logscorevar_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
 
 ## least variable model in weekahead forecasts
-min_skillvar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
-    filter(Model==min_skillvar_model_wkahead, target_type=="k-week-ahead") %>% 
-    .$skill
+min_logscorevar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==min_logscorevar_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$avg_logscore
 
 ## highest variable model in weekahead forecasts
-max_skillvar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
-    filter(Model==max_skillvar_model_wkahead, target_type=="k-week-ahead") %>% 
-    .$skill
+max_logscorevar_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
+    filter(Model==max_logscorevar_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$avg_logscore
 
 ## top model region-season scores
 top_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
-    filter(Model==max_skill_model_wkahead, target_type=="k-week-ahead") %>% 
-    .$skill
+    filter(Model==max_logscore_model_wkahead, target_type=="k-week-ahead") %>% 
+    .$avg_logscore
 @
 
 Even within given models, target-specific forecast skill showed large region-to-region and year-to-year variation. 
-The forecask skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model varied from 
-\Sexpr{specify_decimal(min(top_model_wkahead_scores), 2)} to
-\Sexpr{specify_decimal(max(top_model_wkahead_scores), 2)}.
+The forecask skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model varied from 
+\Sexpr{specify_decimal(exp(min(top_model_wkahead_scores)), 2)} to
+\Sexpr{specify_decimal(exp(max(top_model_wkahead_scores)), 2)}.
 The model with the lowest variation in combined week-ahead forecast skill across region-seasons (excluding the uniform model) was 
-\Sexpr{sanitize(min_skillvar_model_wkahead)}, 
+\Sexpr{sanitize(min_logscorevar_model_wkahead)}, 
 with skills ranging between 
-\Sexpr{specify_decimal(min(min_skillvar_model_wkahead_scores), 2)} and 
-\Sexpr{specify_decimal(max(min_skillvar_model_wkahead_scores), 2)}.
+\Sexpr{specify_decimal(exp(min(min_logscorevar_model_wkahead_scores)), 2)} and 
+\Sexpr{specify_decimal(exp(max(min_logscorevar_model_wkahead_scores)), 2)}.
 The model with the highest variation in forecast skill across region-seasons was 
-\Sexpr{sanitize(max_skillvar_model_wkahead)}, 
+\Sexpr{sanitize(max_logscorevar_model_wkahead)}, 
 with skills ranging between 
-\Sexpr{specify_decimal(min(max_skillvar_model_wkahead_scores), 2)} and 
-\Sexpr{specify_decimal(max(max_skillvar_model_wkahead_scores), 2)}.
+\Sexpr{specify_decimal(exp(min(max_logscorevar_model_wkahead_scores)), 2)} and 
+\Sexpr{specify_decimal(exp(max(max_logscorevar_model_wkahead_scores)), 2)}.
 
-<<>>=
+<<region-wkahead-results>>=
 ## Get models better than KDE for k-week-ahead
 scores_wkahead_better_than_kde <- scores_by_model_targettype %>%
-    filter(target_type=="k-week-ahead", skill>kde_skill_wkahead)
+    filter(target_type=="k-week-ahead", avg_logscore>kde_logscore_wkahead)
 models_wkahead_better_than_kde <- as.character(scores_wkahead_better_than_kde$Model)
 
-## look at region-specific, k-week-ahead scores for those models
-scores_aggr_by_region <- scores_by_model_targettype_region %>% 
-    filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
-    group_by(Location) %>%
-    summarize(avg_skill = mean(skill))
-best_region <- scores_aggr_by_region$Location[which.max(scores_aggr_by_region$avg_skill)]
-best_region_skill <- scores_aggr_by_region$avg_skill[which.max(scores_aggr_by_region$avg_skill)]
-worst_region <- scores_aggr_by_region$Location[which.min(scores_aggr_by_region$avg_skill)]
-worst_region_skill <- scores_aggr_by_region$avg_skill[which.min(scores_aggr_by_region$avg_skill)]
+## look at region-specific, k-week-ahead scores
+scores_by_region_wkahead <- filter(scores_by_region_targettype, target_type=="k-week-ahead")
+best_region_wkahead <- scores_by_region_wkahead$Location[which.max(scores_by_region_wkahead$avg_logscore)]
+best_region_wkahead_skill <- exp(scores_by_region_wkahead$avg_logscore[which.max(scores_by_region_wkahead$avg_logscore)])
+worst_region_wkahead <- scores_by_region_wkahead$Location[which.min(scores_by_region_wkahead$avg_logscore)]
+worst_region_wkahead_skill <- exp(scores_by_region_wkahead$avg_logscore[which.min(scores_by_region_wkahead$avg_logscore)])
 
 kde_kwkahead_worst_score <- scores_by_model_targettype_region %>% 
-    filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
-    .$skill
+    filter(Model %in% "ReichLab-KDE", Location==worst_region_wkahead, target_type=="k-week-ahead") %>% 
+    .$avg_logscore %>% exp()
 @
 
 Models were more consistently able to forecast week-ahead wILI in some regions than in others.
-Looking at results from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, \Sexpr{best_region} was the most predictable and \Sexpr{worst_region} was the least predictable.
-In \Sexpr{best_region}, the subset of better-than-historical-average models showed an average forecast skill of \Sexpr{specify_decimal(best_region_skill, 2)} (Figure \ref{fig:map-results}). 
-This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_skill, 2)} probability to the eventually observed outcome.
-On the flip side, in \Sexpr{worst_region} the average skill was \Sexpr{specify_decimal(worst_region_skill, 2)}. 
-This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
-<<map-results, fig.cap="Map figure. Color indicates average forecast skill for models that performed better than the historical average model.">>=
+Looking at results across all models,
+%from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, 
+\Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable.
+In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast skill of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} for $k$-week-ahead targets (Figure \ref{fig:map-results}). 
+This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} probability to the eventually observed wILI percentages.
+On the flip side, in \Sexpr{worst_region_wkahead} the average skill was \Sexpr{specify_decimal(worst_region_wkahead_skill, 2)}. 
+This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
+
+<<region-seasonal-results>>=
+kde_logscore_seasonal <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="seasonal"), "avg_logscore"])
+n_above_kde_seasonal <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="seasonal")]>kde_logscore_seasonal)
+
+## Get models better than KDE for k-week-ahead
+scores_seasonal_better_than_kde <- scores_by_model_targettype %>%
+    filter(target_type=="k-week-ahead", avg_logscore>kde_logscore_seasonal)
+models_seasonal_better_than_kde <- as.character(scores_seasonal_better_than_kde$Model)
+
+## look at region-specific, k-week-ahead scores
+scores_by_region_seasonal <- filter(scores_by_region_targettype, target_type=="seasonal")
+best_region_seasonal <- scores_by_region_seasonal$Location[which.max(scores_by_region_seasonal$avg_logscore)]
+best_region_seasonal_skill <- exp(scores_by_region_seasonal$avg_logscore[which.max(scores_by_region_seasonal$avg_logscore)])
+worst_region_seasonal <- scores_by_region_seasonal$Location[which.min(scores_by_region_seasonal$avg_logscore)]
+worst_region_seasonal_skill <- exp(scores_by_region_seasonal$avg_logscore[which.min(scores_by_region_seasonal$avg_logscore)])
+
+kde_kseasonal_worst_score <- scores_by_model_targettype_region %>% 
+    filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
+    .$avg_logscore %>% exp()
+@
+
+<<map-results, fig.height=4.5, fig.cap="(A \\& C) Forecast skill for week-ahead and seasonal targets. Color shading indicates average forecast skill for all models. (B \\& D) Comparisons of historical model skill (x-axis) with the average skill of all models (y-axis). Positive y-values indicate an improvement over the historical baseline. The digits in the plot refer to the corresponding HHS Region number.">>=
+
+## gather data needed for plots
 data("fifty_states")
 data(hhs_regions)
-scores_for_map <- scores_aggr_by_region %>% 
-    filter(Location != "US National")
-scores_for_map$region_number <- gsub("[^0-9]", "", scores_for_map$Location)
+
+## aggreate scores by target type for models better than KDE
+scores_for_map_wkahead <- scores_by_model_targettype_region %>% 
+    filter(Location != "US National", Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
+    group_by(Location) %>%
+    summarize(avg_logscore = mean(avg_logscore)) %>% 
+    ungroup() %>%
+    mutate(region_number = gsub("[^0-9]", "", Location))
+scores_for_map_seasonal <- scores_by_model_targettype_region %>% 
+    filter(Location != "US National", Model %in% models_seasonal_better_than_kde, target_type=="seasonal") %>%
+    group_by(Location) %>%
+    summarize(avg_logscore = mean(avg_logscore)) %>% 
+    ungroup() %>%
+    mutate(region_number = gsub("[^0-9]", "", Location))
 not_50 <- c(9, 10, 12, 50:55)
 hhs_regions <- hhs_regions[-(not_50),]
 hhs_regions$state <- tolower(hhs_regions$state_or_territory)
 skill_lims <- c(.1, .6)
 
-wkahead_top <- hhs_regions %>% 
-    merge(scores_for_map, by="region_number") %>%
+## get KDE specific scores
+kde_scores_wkahead <- scores_by_model_targettype_region %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead", Location != "US National") %>%
+    rename(kde_logscore = avg_logscore) %>% 
+    left_join(scores_for_map_wkahead) %>%
+    mutate(
+        logscore_diff = avg_logscore - kde_logscore
+        )
+
+kde_scores_seasonal <- scores_by_model_targettype_region %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="seasonal", Location != "US National") %>%
+    rename(kde_logscore = avg_logscore) %>% 
+    left_join(scores_for_map_seasonal) %>%
+    mutate(
+        logscore_diff = avg_logscore - kde_logscore
+        )
+
+## make weekahead plots
+wkahead_map <- hhs_regions %>% 
+    merge(scores_for_map_wkahead, by="region_number") %>%
     ggplot(aes(map_id = state)) + 
-    geom_map(aes(fill = avg_skill), map = fifty_states) +
-    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    geom_map(aes(fill = exp(avg_logscore)), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims, name="skill") + 
     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
     coord_map() +
     annotate("text", x = -118, y =  45, label = "10") +
@@ -420,22 +622,50 @@ wkahead_top <- hhs_regions %>%
     # theme(legend.position = "none", 
     #     panel.background = element_blank())
 
-
-kde_scores <- scores_by_model_targettype_region %>%
-    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead") %>%
-    rename(kde_skill = skill) %>% 
-    left_join(scores_aggr_by_region) %>%
-    mutate(skill_diff = avg_skill - kde_skill)
-
-#wkahead_comparison <- ggplot(kde_scores, aes(x=Location, y=skill_diff)) + 
+#wkahead_comparison <- ggplot(kde_scores_wkahead, aes(x=Location, y=skill_diff)) + 
 #    geom_point(aes(color=avg_skill)) +
 #    geom_hline(yintercept=0, linetype=2)
 
-hhs_regions %>% 
-    merge(kde_scores, by="region_number") %>%
+# hhs_regions %>% 
+#     merge(kde_scores_wkahead, by="region_number") %>%
+#     ggplot(aes(map_id = state)) + 
+#     geom_map(aes(fill = exp(logscore_diff)), map = fifty_states) +
+#     scale_fill_gradient2(low="#f7fbff", high="#084594", midpoint=1) + 
+#     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+#     coord_map() +
+#     annotate("text", x = -118, y =  45, label = "10") +
+#     annotate("text", x = -119.48333, y =  40, label = "9") +
+#     annotate("text", x = -105.48333, y =  44, label = "8") +
+#     annotate("text", x = -92.1, y =  45, label = "5") +
+#     annotate("text", x = -97, y =  40, label = "7") +
+#     annotate("text", x = -101, y =  35, label = "6") +
+#     annotate("text", x = -85, y =  35, label = "4") +
+#     annotate("text", x = -78.4, y =  38.5, label = "3") +
+#     annotate("text", x = -76, y =  42.75, label = "2") +
+#     annotate("text", x = -69.5, y =  44.95, label = "1") +
+#     scale_x_continuous(breaks = NULL) + 
+#     scale_y_continuous(breaks = NULL) +
+#     labs(x = NULL, y = NULL) +
+#     ggtitle("A: week-ahead forecast skill")
+# 
+# ggplot(kde_scores_wkahead, aes(x=exp(kde_logscore), y=exp(avg_logscore))) + 
+#     geom_text(aes(label=region_number)) +
+#     geom_abline(slope=1, intercept=0)
+
+wkahead_scatter <- ggplot(kde_scores_wkahead, aes(x=exp(kde_logscore), y=exp(avg_logscore)-exp(kde_logscore))) + 
+    geom_text(aes(label=region_number), fontface="bold") +
+    #geom_hline(yintercept=0, linetype=2) + 
+    scale_y_continuous(limits=c(0, .2), name = "skill diff. w/historical model") +
+    scale_x_continuous(limits=c(.1, .4), name = "historical model skill") +
+    ggtitle("B: vs. historical forecast") #+
+
+
+## make seasonal plots
+seasonal_map <- hhs_regions %>% 
+    merge(scores_for_map_seasonal, by="region_number") %>%
     ggplot(aes(map_id = state)) + 
-    geom_map(aes(fill = skill_diff), map = fifty_states) +
-    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims) + 
+    geom_map(aes(fill = exp(avg_logscore)), map = fifty_states) +
+    scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims, name="skill") + 
     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
     coord_map() +
     annotate("text", x = -118, y =  45, label = "10") +
@@ -451,48 +681,55 @@ hhs_regions %>%
     scale_x_continuous(breaks = NULL) + 
     scale_y_continuous(breaks = NULL) +
     labs(x = NULL, y = NULL) +
-    ggtitle("A: week-ahead forecast skill")
+    ggtitle("C: seasonal forecast skill")
 
-grid.arrange(wkahead_top, wkahead_comparison, ncol=2)
+seasonal_scatter <- ggplot(kde_scores_seasonal, aes(x=exp(kde_logscore), y=exp(avg_logscore)-exp(kde_logscore))) + 
+    geom_text(aes(label=region_number), fontface="bold") +
+    #geom_hline(yintercept=0, linetype=2) + 
+    scale_y_continuous(limits=c(0, .2), name = "skill diff. w/historical model") +
+    scale_x_continuous(limits=c(.1, .4),name = "historical model skill") +
+    ggtitle("D: vs. historical forecast") #+
+
+
+grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, ncol=2)
 @
 
 
 
 <<>>=
-scores_by_model_season_target_region <- readRDS("./data/scores_by_model_season_target_region.rds")
-kde_skill_1wkahead <- scores_by_model_target %>% 
+kde_logscore_1wkahead <- scores_by_model_target %>% 
     filter(Target=="1 wk ahead", Model=="ReichLab-KDE") %>%
-    .$skill
+    .$avg_logscore
 n_models_better_than_kde_1wk <- scores_by_model_target %>%
-    filter(Target=="1 wk ahead", skill>kde_skill_1wkahead) %>%
+    filter(Target=="1 wk ahead", avg_logscore  >kde_logscore_1wkahead) %>%
     nrow() 
-kde_skill_4wkahead <- scores_by_model_target %>% 
+kde_logscore_4wkahead <- scores_by_model_target %>% 
     filter(Target=="4 wk ahead", Model=="ReichLab-KDE") %>%
-    .$skill
+    .$avg_logscore
 n_models_better_than_kde_4wk <- scores_by_model_target %>%
-    filter(Target=="4 wk ahead", skill>kde_skill_4wkahead) %>%
+    filter(Target=="4 wk ahead", avg_logscore>kde_logscore_4wkahead) %>%
     nrow() 
 
 regions_above_.5_best_model <- scores_by_model_season_target_region %>%
-    filter(Target %in% paste(1:2, "wk ahead"), Model==max_skill_model_wkahead) %>%
+    filter(Target %in% paste(1:2, "wk ahead"), Model==max_logscore_model_wkahead) %>%
     group_by(Location, Target) %>%
-    summarize(avg_skill = mean(skill)) %>%
+    summarize(avg_logscore = mean(avg_logscore)) %>%
     ungroup() %>%
     group_by(Location) %>%
-    summarize(both_above_.5 = all(avg_skill>=.5)) %>%
+    summarize(both_above_.5 = all(exp(avg_logscore)>=.5)) %>%
     filter(both_above_.5) %>% .$Location
 @
 
 Forecast skill declined as the target moved further into the future.
-For the model with highest forecast skill across all four week-ahead targets ({\tt \Sexpr{sanitize(max_skill_model_wkahead)}}), the average skill across region and season for 1 through 4 week-ahead forecasts were 
-\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "1 wk ahead" )], 2)}, 
-\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "2 wk ahead" )], 2)}, 
-\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "3 wk ahead" )], 2)}, and 
-\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model==max_skill_model_wkahead & scores_by_model_target$Target == "4 wk ahead" )], 2)}.
+For the model with highest forecast skill across all four week-ahead targets ({\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}), the average skill across region and season for 1 through 4 week-ahead forecasts were 
+\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
+\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "2 wk ahead" )]), 2)}, 
+\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "3 wk ahead" )]), 2)}, and 
+\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "4 wk ahead" )]), 2)}.
 This mirrored an overall decline in skill observed across most models.
-Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast skills from the {\tt \Sexpr{sanitize(max_skill_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
+Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast skills from the {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
 The historical baseline model showed average forecast skill of 
-\Sexpr{specify_decimal(scores_by_model_target$skill[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )], 2)}, 
+\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
 for all week-ahead targets. 
 (Performance does not decline for the historical model, since it always forecasts the same thing for every week, without updating based on recent data.)
 For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed more skill than a historical baseline.
