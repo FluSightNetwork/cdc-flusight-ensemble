@@ -28,12 +28,12 @@ read_forecasts <- function(dir, these_weeks = NULL) {
         error = function(cond) {
           message(paste("Errors reading in submission for", team_name))
           message(cond)
-          #return(NA)
+          return(NA)
         },
         warning = function(cond) {
           message(paste("Warnings reading in submission for", team_name))
           message(cond)
-          #return(NA)
+          return(NA)
         },
         finally = message(paste("Submission read in for", team_name))
       )

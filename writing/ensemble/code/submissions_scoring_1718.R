@@ -10,7 +10,6 @@ library(cdcfluview)
 source("../../scripts/read_forecasts.R")
 subs_1718 <- read_forecasts("../../model-forecasts/real-time-component-models/")
 
-
 # # Create observed truth to score entries against ------------------------------
 ILI_1718 <- ilinet(region = "national", year = 2017) %>%
   mutate(location = "US National") %>%
@@ -39,18 +38,18 @@ truth_1718 <- create_truth(fluview = FALSE, year = 2017, weekILI = ILI_1718,
                            challenge = "ilinet")
 
 # Save observed truth
-write.table(truth_1718, "Targets_2017-2018.csv", sep = ",", row.names = F)
+# write.table(truth_1718, "Targets_2017-2018.csv", sep = ",", row.names = F)
 
 # Expand observed truth to include all bins that will be counted as correct
 exp_truth_1718 <- expand_truth(truth_1718, week_expand = 1, percent_expand = 5,
                                challenge = "ilinet")
 
 # Truth for examining seasonal severity for peak percentage
-intensity_truth <- tibble(target = rep("Season peak percentage", 23),
-                          location = rep("US National", 23),
-                          forecast_week = rep(NA, 23),
-                          bin_start_incl = seq(4.5, 6.7, 0.1)) %>%
-  mutate(bin_start_incl = trimws(format(bin_start_incl, nsmall = 1)))
+# intensity_truth <- tibble(target = rep("Season peak percentage", 23),
+#                           location = rep("US National", 23),
+#                           forecast_week = rep(NA, 23),
+#                           bin_start_incl = seq(4.5, 6.7, 0.1)) %>%
+#   mutate(bin_start_incl = trimws(format(bin_start_incl, nsmall = 1)))
 
 
 # Calculate evaluation period for scoring -------------------------------------
@@ -121,7 +120,8 @@ seasonal_eval_period_1718 <- truth_1718 %>%
                        TRUE ~ end_week
                      ),
                      target = "Season peak percentage")) %>%
-  select(target, location, start_week, end_week)
+  select(target, location, start_week, end_week) %>%
+  unique()
 
 # Week eval period 
 single_week_eval_period <- truth_1718 %>%
@@ -177,7 +177,7 @@ create_eval_scores <- function(scores) {
 }
 
 # Score entries and save results in list  -------------------------------------
-source("R/calc_scores.R")
+source("calc_scores.R")
 full_scores_1718 <- calc_scores(subs = subs_1718, truth = exp_truth_1718, exclude = F)
 
 submitted_scores_1718 <- calc_scores(subs_1718, exp_truth_1718, exclude = T) 
@@ -191,7 +191,3 @@ eval_submitted_scores_1718 <- create_eval_scores(submitted_scores_1718)
 save(subs_1718, full_scores_1718, submitted_scores_1718, 
      eval_scores_1718, eval_submitted_scores_1718, #intensity_scores_1718, 
      file = "Data/AllScoreFiles_1718.Rdata")
-
-
-# Calculate Hellinger distance between all submissions
-# Hell_dist_1718 <- calc_Hellinger(subs_1718)
