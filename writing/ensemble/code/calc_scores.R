@@ -10,7 +10,7 @@ calc_scores <- function(subs, truth, exclude = FALSE) {
     # Determine which weeks to score
     # exclude = F will count missing weeks as -10
     # exclude = T will only score forecasts that teams have submitted
-    if (exclude == FALSE) weeks <- names(subs[["Hist-Avg"]])
+    if (exclude == FALSE) weeks <- names(subs[["Delphi_Uniform"]])
     else weeks <- names(subs[[this_team]])
 
     for (this_week in weeks) { 

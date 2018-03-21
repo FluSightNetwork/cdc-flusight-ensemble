@@ -7,8 +7,8 @@ library(cdcfluview)
 # devtools::install_github("jarad/FluSight")
 
 # Read in CSVs to list in R
-source("../../scripts/read_forecasts.R")
-subs_1718 <- read_forecasts("../../model-forecasts/real-time-component-models/")
+source("read_forecasts.R")
+subs_1718 <- read_forecasts("../../../model-forecasts/real-time-component-models/")
 
 # # Create observed truth to score entries against ------------------------------
 ILI_1718 <- ilinet(region = "national", year = 2017) %>%
@@ -159,8 +159,8 @@ all_eval_period_1718 <- bind_rows(
 )
 
 # Save week over baseline bounds and eval period bounds
-write_csv(wks_abv_baseline_1718, "Above_Baseline_ILI_Bounds_2017-2018.csv")
-write_csv(all_eval_period_1718, "Eval_Period_Bounds_2017-2018.csv")
+# write_csv(wks_abv_baseline_1718, "Above_Baseline_ILI_Bounds_2017-2018.csv")
+# write_csv(all_eval_period_1718, "Eval_Period_Bounds_2017-2018.csv")
 
 # Convenience function to filter scores by evaluation period
 create_eval_scores <- function(scores) {
