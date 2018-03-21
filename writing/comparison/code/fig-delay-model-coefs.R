@@ -11,7 +11,8 @@ scores <- read_csv("../../scores/scores.csv")
 region_map <- data.frame(
     region = c("nat", "hhs1", "hhs2", "hhs3", "hhs4", "hhs5", "hhs6", "hhs7", "hhs8", "hhs9", "hhs10"),
     Location = c("US National", "HHS Region 1", "HHS Region 2", "HHS Region 3", "HHS Region 4",
-        "HHS Region 5", "HHS Region 6", "HHS Region 7", "HHS Region 8", "HHS Region 9", "HHS Region 10")
+        "HHS Region 5", "HHS Region 6", "HHS Region 7", "HHS Region 8", "HHS Region 9", "HHS Region 10"),
+    stringsAsFactors = FALSE
 )
 
 lagged_truth <- dat %>% 
@@ -64,9 +65,9 @@ n_legend_df <- data.frame(bias_range = names(n_legend), count_cat = n_legend) %>
     mutate(bias_range = factor(bias_range, levels=c("(-3.5,-2.5]", "(-2.5,-1.5]", "(-1.5,-0.5]", "(-0.5,0.5]", "(0.5,1.5]", "(1.5,2.5]")))
 
 
-# ggplot(scores_for_analysis, aes(x=bias_first_report, y=exp(multi_bin_score))) + 
-#     geom_point() + 
-#     geom_smooth(se=FALSE) + 
+# ggplot(scores_for_analysis, aes(x=bias_first_report, y=exp(multi_bin_score))) +
+#     geom_point() +
+#     geom_smooth(se=FALSE) +
 #     facet_grid(Target~Model) +
 #     geom_vline(xintercept=0, color="grey", linetype="dashed") +
 #     scale_y_continuous(name = "forecast skill") +
@@ -83,6 +84,7 @@ n_legend_df <- data.frame(bias_range = names(n_legend), count_cat = n_legend) %>
 
 fm4 <- glm(exp(multi_bin_score) ~ Model + Target + factor(forecasted_epiweek) + bias_first_report_factor, data=scores_for_analysis)
 summary(fm4)
+
 
 fm4_coefs <- tidy(fm4, conf.int = TRUE)
 
@@ -106,4 +108,5 @@ p <- ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
 
 ggsave("./figures/fig-delay-model-coefs.pdf", plot=p, device="pdf", width=6, height=5)
 
-saveRDS(fm4_coefs_fltr, file="delay-model-coefs.rds")
+saveRDS(fm4_coefs_fltr, file="./data/delay-model-coefs.rds")
+saveRDS(lagged_truth, file = "./data/lagged_truth.rds")
