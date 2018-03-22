@@ -52,6 +52,7 @@ specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 <<generate-scores>>=
 scores <- read_csv("../../scores/scores.csv")
 models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+targets <- read_csv("../../scores/target-multivals.csv")
 
 complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
 compartment_models <- c("CU-EAKFC_SEIRS", "CU-EAKFC_SIRS", "CU-EKF_SEIRS", 
@@ -80,7 +81,9 @@ scores_adj <- scores_trimmed %>%
             "seasonal", "k-week-ahead")) %>%
     mutate(
         score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
-        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10)))
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10))),
+        model_type = ifelse(Model %in% compartment_models, "compartment_model", "stat_model"),
+        stat_model = ifelse(Model %in% compartment_models, 0, 1)
         ) 
 
 scores_by_model <- scores_adj %>%
@@ -90,7 +93,6 @@ scores_by_model <- scores_adj %>%
     ) %>%
     ungroup() %>%
     mutate(Model = reorder(Model, avg_logscore))
-
 
 scores_by_model_target <- scores_adj %>%
     group_by(Model, Target) %>%
@@ -163,6 +165,14 @@ scores_by_region <- scores_adj %>%
     ) %>%
     ungroup() %>%
     mutate(Location = reorder(Location, avg_logscore))
+
+scores_by_season <- scores_adj %>%
+    group_by(Season) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup() %>%
+    mutate(Season = reorder(Season, avg_logscore))
 
 scores_by_region_targettype <- scores_adj %>%
     group_by(Location, target_type) %>%
@@ -342,10 +352,13 @@ When observations assign no probability to the eventually observed outcome they 
 
 %Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
 
+\subsection{Analysis of delays}
+[GLM regression model with ...]
+
 \section{Results}
 
 \subsection{Comparing models' forecasting performance by season}
-<<>>=
+<<performance-by-season>>=
 kde_logscore <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "avg_logscore"])
 max_logscore <- max(scores_by_model$avg_logscore)
 min_logscore <- min(scores_by_model$avg_logscore)
@@ -353,6 +366,8 @@ max_logscore_model <- as.character(unlist(scores_by_model[which(scores_by_model$
 min_logscore_model <- as.character(unlist(scores_by_model[which(scores_by_model$avg_logscore == min_logscore), "Model"]))
 n_above_kde <- sum(scores_by_model$avg_logscore>kde_logscore)
 n_models <- nrow(scores_by_model)
+n_seasons <- nrow(scores_by_season)
+n_regions <- nrow(scores_by_region)
 
 tmp <- scores_by_model_season %>% group_by(Model) %>%
     summarize(n_seasons_above_maxavg = sum(avg_logscore>max_logscore)) 
@@ -434,17 +449,17 @@ n_above_kde_wkahead <- sum(scores_by_model_targettype$avg_logscore[which(scores_
 Average forecast skill for all four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
 The model with the highest average week-ahead forecast skill across all regions and seasons was {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}.
 Within regions and across all seasons, this model achieved average forecast skill between
-\Sexpr{specify_decimal(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} 
+\Sexpr{specify_decimal(exp(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)} 
 and 
-\Sexpr{specify_decimal(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}.
+\Sexpr{specify_decimal(exp(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)}.
 As a comparison, the historical baseline model achieved between
-\Sexpr{specify_decimal(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)} and
-\Sexpr{specify_decimal(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )]), 2)}
+\Sexpr{specify_decimal(exp(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)} and
+\Sexpr{specify_decimal(exp(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)}
 average skill for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater skill than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, ReichLab-KDE.">>=
+<<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, {\\tt ReichLab-KDE}.">>=
 midpt <- mean(exp(filter(scores_by_model_targettype_region, Model=="ReichLab-KDE")$avg_logscore))
 ggplot(scores_by_model_targettype_region, 
     aes(x=Location, fill=exp(avg_logscore), y=Model)) + 
@@ -493,8 +508,8 @@ top_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
     .$avg_logscore
 @
 
-Even within given models, target-specific forecast skill showed large region-to-region and year-to-year variation. 
-The forecask skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model varied from 
+Even within given models, week-ahead forecast skill showed large region-to-region and year-to-year variation. 
+The forecast skill for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model varied from 
 \Sexpr{specify_decimal(exp(min(top_model_wkahead_scores)), 2)} to
 \Sexpr{specify_decimal(exp(max(top_model_wkahead_scores)), 2)}.
 The model with the lowest variation in combined week-ahead forecast skill across region-seasons (excluding the uniform model) was 
@@ -532,8 +547,8 @@ Looking at results across all models,
 \Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable.
 In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast skill of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} for $k$-week-ahead targets (Figure \ref{fig:map-results}). 
 This means that in a typical season these models together assigned an average of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} probability to the eventually observed wILI percentages.
-On the flip side, in \Sexpr{worst_region_wkahead} the average skill was \Sexpr{specify_decimal(worst_region_wkahead_skill, 2)}. 
-This was just marginally better than the forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
+On the flip side, in \Sexpr{worst_region_wkahead} the average week-ahead skill was \Sexpr{specify_decimal(worst_region_wkahead_skill, 2)}. 
+This was just marginally better than the week-ahead forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
 
 <<region-seasonal-results>>=
 kde_logscore_seasonal <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="seasonal"), "avg_logscore"])
@@ -552,11 +567,11 @@ worst_region_seasonal <- scores_by_region_seasonal$Location[which.min(scores_by_
 worst_region_seasonal_skill <- exp(scores_by_region_seasonal$avg_logscore[which.min(scores_by_region_seasonal$avg_logscore)])
 
 kde_kseasonal_worst_score <- scores_by_model_targettype_region %>% 
-    filter(Model %in% "ReichLab-KDE", Location==worst_region, target_type=="k-week-ahead") %>% 
+    filter(Model %in% "ReichLab-KDE", Location==worst_region_seasonal, target_type=="k-week-ahead") %>% 
     .$avg_logscore %>% exp()
 @
 
-<<map-results, fig.height=4.5, fig.cap="(A \\& C) Forecast skill for week-ahead and seasonal targets. Color shading indicates average forecast skill for all models. (B \\& D) Comparisons of historical model skill (x-axis) with the average skill of all models (y-axis). Positive y-values indicate an improvement over the historical baseline. The digits in the plot refer to the corresponding HHS Region number.">>=
+<<map-results, fig.height=4.5, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast skill for all models. Panels B \\& D compare historical model skill (x-axis) with the average skill of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number.">>=
 
 ## gather data needed for plots
 data("fifty_states")
@@ -737,12 +752,81 @@ For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Se
 
 \subsection{Performance in forecasting seasonal targets}
 
-Of the three seasonal targets, models showed the lowest average skill in forecasting season onset, with an overall average skill of XX. 
-Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season, varying from XX to XX weeks per region-season (see methods for details).
-Of the XX region-seasons evaluated, XX had no onset. 
-The best model for onset was XX, with overall average skill of XX and minimum skill for a region-season of XX.
-Overall, XX of XX models had more forecast skill than the historical baseline model in the scoring period of interest.
+<<best-models-seasonal>>=
+max_logscore_seasonal <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "seasonal")])
+max_logscore_model_seasonal <- as.character(unlist(scores_by_model_targettype[which(scores_by_model_targettype$avg_logscore == max_logscore_seasonal), "Model"]))[1] ## adding [1] in case multiple models are returned
 
+kde_logscore_seasonal <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="seasonal"), "avg_logscore"])
+n_above_kde_seasonal <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="seasonal")]>kde_logscore_seasonal)
+@
+
+
+Overall, forecast skill was lower for seasonal targets than for week-ahead targets (Figure \ref{fig:regults-model-region-tt}).
+While the scale of the log score can depend on the number of possible bins in the predictive distribution (i.e. more bins means less probability on average assigned to each bin), the model that assigned uniform probabilities to all possible outcomes achieved similar forecast skill for both seasonal and week-ahead targets.
+This shows that as a whole, the models performed worse on predicting seasonal targets relative to this uniform baseline.
+The best single model across all seasonal targets was {\tt \Sexpr{max_logscore_model_seasonal}} with an overall forecast skill of 
+\Sexpr{specify_decimal(exp(max_logscore_seasonal), 2)}.
+The historical average model achieved  an overall forecast skill of 
+\Sexpr{specify_decimal(exp(kde_logscore_seasonal), 2)}.
+
+<<best-models-onset>>=
+mean_logscore_onset <- mean(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season onset")])
+
+max_logscore_onset <- max(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season onset")])
+max_logscore_model_onset <- as.character(unlist(scores_by_model_target[which(scores_by_model_target$avg_logscore == max_logscore_onset), "Model"]))[1] ## adding [1] in case multiple models are returned
+
+range_regseas_logscore_onset <- scores_by_model_season_target_region %>% 
+    filter(Model==max_logscore_model_onset, Target == "Season onset") %>% 
+    .$avg_logscore %>% range()
+
+kde_logscore_onset <- unlist(scores_by_model_target[which(scores_by_model_target$Model=="ReichLab-KDE"& scores_by_model_target$Target=="Season onset"), "avg_logscore"])
+n_above_kde_onset <- sum(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target=="Season onset")]>kde_logscore_onset)
+
+## how many seasons had no onset
+n_regseas_no_onset <- targets %>% 
+    filter(Target=="Season onset", `Model Week`==45) %>% ## arbitrarily chosen model week
+    .$`Valid Bin_start_incl` %>% 
+    is.na() %>%
+    sum()
+
+@
+
+Of the three seasonal targets, models showed the lowest average skill in forecasting season onset, with an overall average skill of 
+\Sexpr{specify_decimal(exp(mean_logscore_onset), 2)}. 
+Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season, varying from XX to XX weeks per region-season (see methods for details).
+Of the \Sexpr{n_regions*n_seasons} region-seasons evaluated, \Sexpr{n_regseas_no_onset} had no onset. 
+The best model for onset was 
+{\tt \Sexpr{max_logscore_model_onset}}, 
+with overall average skill of 
+\Sexpr{specify_decimal(exp(max_logscore_onset), 2)}. 
+and region-season-specific skills for onset that ranged from
+\Sexpr{specify_decimal(exp(range_regseas_logscore_onset[1]), 2)} to 
+\Sexpr{specify_decimal(exp(range_regseas_logscore_onset[2]), 2)}.
+Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}) had more forecast skill than the historical baseline model in the scoring period of interest.
+
+<<best-models-peak>>=
+
+## PEAK WEEK
+mean_logscore_pkwk <- mean(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season peak week")])
+max_logscore_pkwk <- max(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season peak week")])
+max_logscore_model_pkwk <- as.character(unlist(scores_by_model_target[which(scores_by_model_target$avg_logscore == max_logscore_pkwk), "Model"]))[1] ## adding [1] in case multiple models are returned
+range_regseas_logscore_pkwk <- scores_by_model_season_target_region %>% 
+    filter(Model==max_logscore_model_pkwk, Target == "Season peak week") %>% 
+    .$avg_logscore %>% range()
+kde_logscore_pkwk <- unlist(scores_by_model_target[which(scores_by_model_target$Model=="ReichLab-KDE"& scores_by_model_target$Target=="Season peak week"), "avg_logscore"])
+n_above_kde_pkwk <- sum(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target=="Season peak week")]>kde_logscore_pkwk)
+
+## PEAK INTENSITY
+mean_logscore_pk <- mean(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season peak percentage")])
+max_logscore_pk <- max(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target == "Season peak percentage")])
+max_logscore_model_pk <- as.character(unlist(scores_by_model_target[which(scores_by_model_target$avg_logscore == max_logscore_pk), "Model"]))[1] ## adding [1] in case multiple models are returned
+range_regseas_logscore_pk <- scores_by_model_season_target_region %>% 
+    filter(Model==max_logscore_model_pk, Target == "Season peak percentage") %>% 
+    .$avg_logscore %>% range()
+kde_logscore_pk <- unlist(scores_by_model_target[which(scores_by_model_target$Model=="ReichLab-KDE"& scores_by_model_target$Target=="Season peak percentage"), "avg_logscore"])
+n_above_kde_pk <- sum(scores_by_model_target$avg_logscore[which(scores_by_model_target$Target=="Season peak percentage")]>kde_logscore_pk)
+
+@
 
 Models showed less overall skill in forecasting the peak week and peak intensity when compared to the week-ahead forecasts.
 Model-specific average skill for peak week, across region and season, was above 0.25 for XX models. 
@@ -754,28 +838,77 @@ Average forecast skill showed substantial variation by region and by season.
 [[Forecasts of peak intensity and peak week showed lower skill in seasons that experienced higher than average peak incidence.]]
 [[Forecasts of peak intensity and peak week showed lower skill in regions with larger variability in peak incidence.]]
 
-
-
-\subsection{Performance of models by location}
-
-Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
-
-two columns: by target type
-mapa: average performance across all models(-KDE)/targets by region
-mapb: performance of historical model by region
-figc: scatter plot of AVERAGE region-level historical model skill on x and avg model skill on y (one point for each region, aggregated across seasons?). Point is to show that regions with higher season-to-season variation (i.e. lower historical forecast skill) also have lower skill from other models? Maybe plot one line for top models, one for all models. 
-
-Hypothesis: year-to-year variation within a region (as measured by skill -> lower skill = larger variation) is associated with skill of (top) models for that region. 
-lower skill = larger variation --> lower component model skill
+% \subsection{Performance of models by location}
+% 
+% Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
+% 
+% two columns: by target type
+% mapa: average performance across all models(-KDE)/targets by region
+% mapb: performance of historical model by region
+% figc: scatter plot of AVERAGE region-level historical model skill on x and avg model skill on y (one point for each region, aggregated across seasons?). Point is to show that regions with higher season-to-season variation (i.e. lower historical forecast skill) also have lower skill from other models? Maybe plot one line for top models, one for all models. 
+% 
+% Hypothesis: year-to-year variation within a region (as measured by skill -> lower skill = larger variation) is associated with skill of (top) models for that region. 
+% lower skill = larger variation --> lower component model skill
 
 
 \subsection{Comparison between statistical and compartmental models}
 
+<<modeltype-comparison>>=
+top_models <- scores_adj %>%
+    group_by(Model, stat_model) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+        ) %>%
+    arrange(desc(avg_logscore)) %>%
+    group_by(stat_model) %>%
+    mutate(rank = row_number()) %>%
+    ungroup() %>%
+    filter(rank <= 3) %>% .$Model
 
-Statistical models showed the same amount of skill as compartmental models at forecasting week-ahead targets, and slightly more skill for the seasonal targets. 
+scores_by_modeltype <- scores_adj %>%
+    filter(Model %in% top_models) %>%
+    group_by(Target) %>%
+    summarize(
+        stat_model_logscore = sum(stat_model * score_adj)/sum(stat_model),
+        compartment_model_logscore = sum((1-stat_model) * score_adj)/sum((1-stat_model)),
+        stat_model_skill = exp(stat_model_logscore),
+        compartment_model_skill = exp(compartment_model_logscore),
+        diff_model_skill = stat_model_skill - compartment_model_skill
+    )
+
+skills_to_show <- select(scores_by_modeltype, Target, stat_model_skill, compartment_model_skill, diff_model_skill)
+colnames(skills_to_show) <- c("target", "stat. model skill", "compartment model skill", "difference")
+
+caption_text <- paste0("Comparison of the top three statistical models ({\\tt ",
+    paste(sanitize(top_models[!(top_models%in%compartment_models)]), collapse="}, {\\tt "),
+    "}) and the top three compartmental models, ({\\tt ",
+    paste(sanitize(top_models[top_models%in%compartment_models]), collapse="}, {\\tt "),
+    "}) based on best average region-season forecast skill. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed more average skill than the compartmental models.")
+
+print(
+    xtable(skills_to_show,
+        caption=caption_text, 
+        label = "tab:score-by-model-type"), 
+    file="./static-figures/score-by-model-type.tex",
+    include.rownames = FALSE
+    )
+
+@
+
+
+On the whole, statistical models showed the same amount of skill as compartmental models at forecasting week-ahead targets, and slightly more skill for the seasonal targets, although the differences were small. 
 Using the best three overall models from each category, we computed the average forecast skill for each combination of region, season, and target (Table \ref{tab:score-by-model-type}). 
-For the week-ahead forecasts, the difference in model skill was below XX.
-For the three seasonal targets, the difference in model skill was larger, ranging from XX for [target X] to XX for [target X].
+For the week-ahead forecasts, the difference in model skill was slight, never greater than 
+\Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[1:4])*100, 1)}
+percentange points of probability. 
+For the three seasonal targets, the difference in model skill was larger, ranging from 
+\Sexpr{specify_decimal(min(scores_by_modeltype$diff_model_skill[5:7]), 2)} 
+for 
+\Sexpr{scores_by_modeltype$Target[5:7][which.min(scores_by_modeltype$diff_model_skill[5:7])]} 
+to 
+\Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[5:7]), 2)} 
+for 
+\Sexpr{scores_by_modeltype$Target[5:7][which.max(scores_by_modeltype$diff_model_skill[5:7])]} .
 We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven largely by a statistical ``nowcast`` model that uses data from the Google Search API and influenza laboratory testing data from the CDC to create the ILI+ metric.\cite{yang2014}
 Therefore, the only compartmental model making 1 week-ahead forecasts is the LANL-DBM model. 
 
@@ -792,7 +925,13 @@ Therefore, the only compartmental model making 1 week-ahead forecasts is the LAN
 % \end{itemize}
 
 
-<<>>=
+\subsection{Where do these models fail?}
+
+In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
+We identify and quantify several of these challenges, including revisions to initially reported data, ....
+
+\subsubsection*{Delayed case reporting impacts forecast skill}
+<<delay-analysis, fig.height=4, fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
 fm4_coefs_fltr <- readRDS(file="./data/delay-model-coefs.rds")
 lagged_truth <- readRDS(file = "./data/lagged_truth.rds")
 
@@ -805,31 +944,36 @@ per_change_gt_20 <- lagged_truth %>%
   filter(gt_20 == TRUE) %>%
   pull(per)
 
+ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
+    geom_point()+
+    geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
+    labs(x = "first observed wILI% - final observed wILI% (binned)", y="expected change in forecast skill") +
+    geom_vline(xintercept=4, linetype="dashed", color="gray") +
+    geom_text(aes(x=1, y=0, label="first observation\nlower than final"), hjust="left", color="darkgray", vjust="top") +
+    geom_text(aes(x=7, y=0, label="first observation\nhigher than final"), hjust="right", color="darkgray", vjust="top") +
+    geom_text(aes(y=-0.4, label=count_cat.Freq))
+    ## add sample sizes!?
+
 @
 
+In the seven years examined in this study, wILI percentages were often revised after first being reported. For example, $\Sexpr{per_change_gt_20}$\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
+The frequency and magnitude of revisions varies substantially by region.
 
-\subsection{Where do these models fail?}
-
-In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
-We identify and quantify several of these challenges, including revisions to initially reported data, ....
-
-\subsubsection*{Delayed case reporting impacts forecast skill}
-When the first report of the wILI measurement for a given region-week is not accurate (due to incomplete or delayed reporting), this has a strong negative impact on forecast accuracy.
-In the seven years examined in this study, wILI percentages were often revised after first being reported. 
-For example, $\Sexpr{per_change_gt_20}$\% of all weekly reported wILI percentages ended up being over 20\% different than the originally reported value.
-We found that an increase in the bias of the initially reported data was strongly associated with a decrease in the forecast skill for the forecasts made using the biased data.
-Specifically, among top-performing models we see an expected change in forecast skill of $\Sexpr{round(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}$ when the first observed wILI measurement is between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-model-coefs}).
-These results are based on results from four top-performing models: ReichLab-KCDE, LANL-DBM, Delphi-DeltaDensity1, and CU-EKF\_SIRS.
+When the first report of the wILI measurement for a given region-week was not accurate (due to incomplete or delayed reporting), we observed a corresponding strong negative impact on forecast accuracy.
+We found that larger biases in the initially reported data were strongly associated with a decrease in the forecast skill for the forecasts made using the incomplete data.
+Specifically, among the four top-performing models we observed an expected change in forecast skill of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
+when the first observed wILI measurement is between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-analysis}).
+These results are based on results from four top-performing models: {\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}.
 This pattern is symmetric for under- and over-reported values, although there are more extreme under-reported values than there are over-reported values. 
 
 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{figures/fig-delay-model-coefs.pdf}
-\caption{Model-estimated changes in forecast skill due to bias in initial reports of wILI \%. The figure shows estimated coefficient values (and 95\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.s}
-\label{fig:delay-model-coefs}
-\end{center}
-\end{figure}
+% \begin{figure}[htbp]
+% \begin{center}
+% \includegraphics[width=\textwidth]{figures/fig-delay-analysis.pdf}
+% \caption{Model-estimated changes in forecast skill due to bias in initial reports of wILI \%. The figure shows estimated coefficient values (and 95\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \% to predict forecast skill. The model was fit to  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within +/- 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.}
+% \label{fig:delay-model-coefs}
+% \end{center}
+% \end{figure}
 
 
 \subsubsection*{Intensity of season not reliably correlated with forecast skill}
@@ -851,6 +995,7 @@ However, no clear relationship between the peak intensity of the season and the 
 
 \subsection{Overview of key results and importance}
 The first large-scale comparison of flu forecasting models from different modeling teams/philosophies across multiple years.
+Importance of this work (and the foundational work of the CDC) in establishing and evaluating against a set of shared benchmarks against which other methods/models can use as comparisons.
 
 \subsection{Overview of statistical vs. mechanistic model comparison}
 As our knowledge/data about the system mature, we expect mechanistic models to be better, but when true signals of mechanistic model is drowned out by observational noise or spatial aggregation, statistical models may perform better. This comparison serves as a barometer for where the current state of forecast models are.
@@ -862,6 +1007,7 @@ As our knowledge/data about the system mature, we expect mechanistic models to b
     \item no models that explicitly incorporate strain information
     \item no models with spatial information included
     \item seven seasons of data is not a lot (n=7) to draw strong conclusions about comparative model performance
+    \item no standard methods for evaluating repeated forecasts of the same targets with the same models...
     \item currently limited to models with only recent data...
 \end{itemize}
 

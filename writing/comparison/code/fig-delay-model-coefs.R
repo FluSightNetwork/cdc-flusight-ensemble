@@ -96,17 +96,8 @@ fm4_coefs_fltr <-
     mutate(bias_range = factor(bias_range, levels=c("(-3.5,-2.5]", "(-2.5,-1.5]", "(-1.5,-0.5]", "(-0.5,0.5]", "(0.5,1.5]", "(1.5,2.5]"))) %>%
     left_join(n_legend_df)
 
-p <- ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
-    geom_point()+
-    geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
-    labs(x = "first observed wILI% - final observed wILI% (binned)", y="expected change in forecast skill") +
-    geom_vline(xintercept=4, linetype="dashed", color="gray") +
-    geom_text(aes(x=1, y=0, label="first observation\nlower than final"), hjust="left", color="darkgray", vjust="top") +
-    geom_text(aes(x=7, y=0, label="first observation\nhigher than final"), hjust="right", color="darkgray", vjust="top") +
-    geom_text(aes(y=-0.4, label=count_cat.Freq))
-    ## add sample sizes!
 
-ggsave("./figures/fig-delay-model-coefs.pdf", plot=p, device="pdf", width=6, height=5)
+## ggsave("./figures/fig-delay-model-coefs.pdf", plot=p, device="pdf", width=6, height=5)
 
 saveRDS(fm4_coefs_fltr, file="./data/delay-model-coefs.rds")
 saveRDS(lagged_truth, file = "./data/lagged_truth.rds")
