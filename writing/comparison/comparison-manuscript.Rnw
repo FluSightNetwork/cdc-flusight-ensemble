@@ -298,7 +298,8 @@ Two models stand out as being clear na\"ive baseline models, that never change b
 The {\tt Delphi-Uniform} model always provides a forecast that assigns equal probability to all possible outcomes. 
 The {\tt ReichLab-KDE} model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
 Throughout the manuscript when we refer to the `historical baseline` model we mean the {\tt ReichLab-KDE} model.
-
+Once submitted to the central repository, the models were not updated or modified except in [[XX]] cases to fix explicit bugs in the code that unearthed numerical problems with the forecasts. 
+Re-fitting of models or tuning of model parameters was explicitly discouraged and disallowed to avoid unintentional overfitting of models.
 
 \input{./static-figures/model-table.tex}
 
@@ -798,10 +799,13 @@ Of the \Sexpr{n_regions*n_seasons} region-seasons evaluated, \Sexpr{n_regseas_no
 The best model for onset was 
 {\tt \Sexpr{max_logscore_model_onset}}, 
 with overall average skill of 
-\Sexpr{specify_decimal(exp(max_logscore_onset), 2)}. 
+\Sexpr{specify_decimal(exp(max_logscore_onset), 2)}
 and region-season-specific skills for onset that ranged from
 \Sexpr{specify_decimal(exp(range_regseas_logscore_onset[1]), 2)} to 
 \Sexpr{specify_decimal(exp(range_regseas_logscore_onset[2]), 2)}.
+The historical baseline model showed 
+\Sexpr{specify_decimal(exp(kde_logscore_onset), 2)} average
+skill in forecasting onset.
 Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}) had more forecast skill than the historical baseline model in the scoring period of interest.
 
 <<best-models-peak>>=
@@ -828,15 +832,38 @@ n_above_kde_pk <- sum(scores_by_model_target$avg_logscore[which(scores_by_model_
 
 @
 
-Models showed less overall skill in forecasting the peak week and peak intensity when compared to the week-ahead forecasts.
-Model-specific average skill for peak week, across region and season, was above 0.25 for XX models. 
-This means that XX models assigned on average at least 25\% probability to a week within +/- 1 week of the eventually observed peak week during the scoring period of interest.
-Similarly, for peak intensity, XX models assigned on average at least 25\% probability to a wILI percentage within +/- 0.5\% of the eventually observed value during the scoring period of interest.
-During the same time-periods, the historical model forecasts assigned XX\% probability to the eventually observed peak week and XX\% probability to the eventually observed peak intensity.
+Models showed the an overall average skill of 
+\Sexpr{specify_decimal(exp(mean_logscore_pkwk), 2)}
+in forecasting peak week. 
+Following CDC evaluation rules, peak week and peak intensity forecasts were scored for all weeks in a specific region-season up until the wILI measure drops below the regional baseline level for the final time. 
+All weeks are scored if wILI never goes above the baseline.
+The best model for peak week was 
+{\tt \Sexpr{max_logscore_model_pkwk}}, 
+with overall average skill of 
+\Sexpr{specify_decimal(exp(max_logscore_pkwk), 2)}. 
+Region- and season-specific forecast skill from this model for peak week ranged from
+\Sexpr{specify_decimal(exp(range_regseas_logscore_pkwk[1]), 2)} to 
+\Sexpr{specify_decimal(exp(range_regseas_logscore_pkwk[2]), 2)}.
+The historical baseline model showed 
+\Sexpr{specify_decimal(exp(kde_logscore_pkwk), 2)} 
+skill in forecasting peak week.
+Overall, \Sexpr{n_above_kde_pkwk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pkwk/n_models*100)}\%) had more forecast skill than the historical baseline model in the scoring period of interest.
 
-Average forecast skill showed substantial variation by region and by season.
-[[Forecasts of peak intensity and peak week showed lower skill in seasons that experienced higher than average peak incidence.]]
-[[Forecasts of peak intensity and peak week showed lower skill in regions with larger variability in peak incidence.]]
+Models showed the an overall average skill of 
+\Sexpr{specify_decimal(exp(mean_logscore_pk), 2)}
+in forecasting peak intensity. 
+The best model for peak intensity was 
+{\tt \Sexpr{max_logscore_model_pk}}, 
+with overall average skill of 
+\Sexpr{specify_decimal(exp(max_logscore_pk), 2)}. 
+Region- and season-specific forecast skill from this model for peak intensity ranged from
+\Sexpr{specify_decimal(exp(range_regseas_logscore_pk[1]), 2)} to 
+\Sexpr{specify_decimal(exp(range_regseas_logscore_pk[2]), 2)}.
+The historical baseline model showed 
+\Sexpr{specify_decimal(exp(kde_logscore_pk), 2)}. 
+skill in forecasting peak intensity
+Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had more forecast skill than the historical baseline model in the scoring period of interest for peak intensity.
+
 
 % \subsection{Performance of models by location}
 % 
