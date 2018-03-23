@@ -2,13 +2,17 @@ library(tidyverse)
 library(FluSight)
 library(MMWRweek)
 library(cdcfluview)
+library(stringr)
 
 # Download FluSight package from GitHub if necessary
 # devtools::install_github("jarad/FluSight")
 
 # Read in CSVs to list in R
 source("read_forecasts.R")
-subs_1718 <- read_forecasts("../../../model-forecasts/real-time-component-models/")
+subs_comp_1718 <- read_forecasts("../../../model-forecasts/real-time-component-models/")
+subs_ens_1718 <- read_forecasts("../../../model-forecasts/real-time-ensemble-models/")
+
+subs_1718 <- c(subs_comp_1718, subs_ens_1718)
 
 # # Create observed truth to score entries against ------------------------------
 ILI_1718 <- ilinet(region = "national", year = 2017) %>%
