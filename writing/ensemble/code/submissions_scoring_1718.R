@@ -194,4 +194,14 @@ eval_submitted_scores_1718 <- create_eval_scores(submitted_scores_1718)
 # Save all scores for access from RMarkdown summary document ------------------
 save(subs_1718, full_scores_1718, submitted_scores_1718, 
      eval_scores_1718, eval_submitted_scores_1718, #intensity_scores_1718, 
-     file = "Data/AllScoreFiles_1718.Rdata")
+     file = "../scores/AllScoreFiles_1718.Rdata")
+
+
+# Investigate overall performance
+source("score_summary.R")
+
+# Overall average 
+overall_average_score <- overall_avg(eval_scores_1718)
+
+# Location/target specific average
+loc_target_scores <- target_scores(eval_scores_1718)
