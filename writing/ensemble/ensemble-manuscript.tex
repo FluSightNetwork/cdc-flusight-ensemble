@@ -25,28 +25,14 @@
 \renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
 
 
+\usepackage{Sweave}
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+\input{ensemble-manuscript-concordance}
 
 \maketitle
 
 \tableofcontents
 
-<<echo=FALSE, warning=FALSE, message=FALSE>>=
-knitr::opts_chunk$set(
-  echo = FALSE, cache = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
-)
-library(dplyr)
-library(readr)
-library(ggplot2)
-library(MMWRweek)
-library(xtable)
-library(cdcfluview)
-library(gridExtra)
-
-theme_set(theme_minimal())
-specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
-@
 
 
 \section{Introduction}
