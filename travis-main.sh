@@ -11,6 +11,9 @@ echo "> Running tests"
 yarn
 yarn run test
 
+echo "> Running bin tests"
+fish ./test-bins.fish
+
 if [[ "$TRAVIS_BRANCH" != "master" ]]; then
     echo "Not on master. Not doing anything else."
     exit 0

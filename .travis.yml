@@ -9,6 +9,7 @@ addons:
     sources:
       - sourceline: "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"
       - sourceline: "ppa:ubuntugis/ubuntugis-unstable"
+      - sourceline: "ppa:fish-shell/release-2"
     packages:
       - libv8-3.14-dev
       - r-base
@@ -17,6 +18,7 @@ addons:
       - libgdal-dev
       - libgeos-dev
       - libproj-dev
+      - fish
 
 node_js:
   - 7
