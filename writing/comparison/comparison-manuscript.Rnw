@@ -267,6 +267,8 @@ fludata$region <- factor(fludata$region,
     levels=c("National", paste("Region", 1:10)),
     labels=c("National", paste("HHS Region", 1:10)))
 
+cls <- c("black", "darkgrey", "forestgreen", "orange", "blue", "lightblue")
+
 fludata %>%
     filter(
         region %in% c("National", paste("HHS Region", c(1,5,6,7,9))),
@@ -275,7 +277,9 @@ fludata %>%
     ggplot(aes(x=caldate, y=weighted_ili, color=region)) + 
     xlab(NULL) + ylab("weighted ILI (%)") +
     geom_line() +
-    scale_color_brewer(palette="Dark2")
+    #scale_color_brewer(palette="Dark2")
+    #scale_color_manual(values=brewer.pal(6, "Dark2")[c(1, 4, 3, 2, 5, 6)])
+    scale_color_manual(values=cls)
 @
 
 
@@ -460,14 +464,22 @@ average skill for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater skill than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, {\\tt ReichLab-KDE}.">>=
-midpt <- mean(exp(filter(scores_by_model_targettype_region, Model=="ReichLab-KDE")$avg_logscore))
-ggplot(scores_by_model_targettype_region, 
-    aes(x=Location, fill=exp(avg_logscore), y=Model)) + 
+<<results-model-region-tt, fig.cap="Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}.">>=
+scores_by_model_targettype_region %>%
+    group_by(target_type, Location) %>%
+    mutate(
+        baseline_score = avg_logscore[Model=="ReichLab-KDE"]
+    ) %>%
+    ungroup() %>%
+    mutate(
+        baseline_skill = exp(baseline_score),
+        pct_diff_baseline_skill = (exp(avg_logscore) - baseline_skill)/baseline_skill
+    ) %>%
+    ggplot(aes(x=Location, y=Model, fill=pct_diff_baseline_skill)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
     facet_grid(~target_type) +
     geom_text(aes(label=specify_decimal(exp(avg_logscore), 2)), size=2) +
-    scale_fill_gradient2(midpoint = midpt, name="forecast skill") +
+    scale_fill_gradient2(name="% change \nfrom baseline") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 @
 
@@ -1023,9 +1035,12 @@ However, no clear relationship between the peak intensity of the season and the 
 \subsection{Overview of key results and importance}
 The first large-scale comparison of flu forecasting models from different modeling teams/philosophies across multiple years.
 Importance of this work (and the foundational work of the CDC) in establishing and evaluating against a set of shared benchmarks against which other methods/models can use as comparisons.
+SciSci ref on collaboration (Fortunato).
 
 \subsection{Overview of statistical vs. mechanistic model comparison}
 As our knowledge/data about the system mature, we expect mechanistic models to be better, but when true signals of mechanistic model is drowned out by observational noise or spatial aggregation, statistical models may perform better. This comparison serves as a barometer for where the current state of forecast models are.
+
+
 
 \subsection{Limitations}
 
