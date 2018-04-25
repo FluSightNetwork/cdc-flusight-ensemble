@@ -1,36 +1,36 @@
 \begin{table}
 \setlength{\tabcolsep}{4pt} 
-\begin{tabular}{p{1.69cm} l p{7.5cm}  p{1.70cm}  p{1.7cm}}
+\begin{tabular}{p{1.69cm} l p{7.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}}
 \hline
-Team     & Model Abbr& Model Description & External Data & Comp. Model* \\ 
+Team     & Model Abbr& Model Description & Ext. Data & Comp. Model* & Ens. Model \\ 
 \hline
-CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS  & x & x    \\ 
+CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS  & x & x & \\ 
 
-~        & EAKFC\_SIRS        & Ensemble Adjustment Kalman Filter SIRS   & x & x \\
-~        & EKF\_SEIRS         & Ensemble Kalman Filter SEIRS    & x             & x                   \\
-~        & EKF\_SIRS          & Ensemble Kalman Filter SIRS     & x             & x                   \\
-~        & RHF\_SEIRS         & Rank Histogram Filter SEIRS     & x             & x                   \\
-~        & RHF\_SIRS          & Rank Histogram Filter SIRS      & x             & x                   \\
-~        & BMA                & Bayesian Model Averaging       & ~             & ~                   \\
+~        & EAKFC\_SIRS        & Ensemble Adjustment Kalman Filter SIRS   & x & x & \\
+~        & EKF\_SEIRS         & Ensemble Kalman Filter SEIRS    & x             & x &                    \\
+~        & EKF\_SIRS          & Ensemble Kalman Filter SIRS     & x             & x   &                 \\
+~        & RHF\_SEIRS         & Rank Histogram Filter SEIRS     & x             & x     &               \\
+~        & RHF\_SIRS          & Rank Histogram Filter SIRS      & x             & x       &             \\
+~        & BMA                & Bayesian Model Averaging       & ~             & ~          & x         \\
 \hline
-Delphi   & BasisRegression    & Basis Regression (epiforecast package defaults) & ~             & ~                   \\ 
-~        & DeltaDensity1      & Delta Density (epiforecast package defaults)    & ~             & ~                   \\ 
-~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks only) & ~             & ~                   \\ 
-~        & EmpiricalBayes2    & Empirical Bayes (epiforecast package defaults) & ~             & ~                   \\ 
-~        & EmpiricalFuture    & Empirical Futures (epiforecast package defaults)    & ~             & ~                   \\ 
-~        & EmpiricalTraj      & Empirical Trajectories (epiforecast package defaults) & ~             & ~                   \\ 
-~        & DeltaDensity2      & Markovian Delta Density (epiforecast package defaults) & ~             & ~                   \\ 
-~        & Stat               & Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting) & ~             & ~                   \\
-~        & Uniform            & Uniform Distribution  & ~             & ~                   \\ 
+Delphi   & BasisRegression    & Basis Regression (epiforecast package defaults) & ~             & ~     &               \\ 
+~        & DeltaDensity1      & Delta Density (epiforecast package defaults)    & ~             & ~       &             \\ 
+~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks only) & ~             & ~  &                  \\ 
+~        & EmpiricalBayes2    & Empirical Bayes (epiforecast package defaults) & ~             & ~            &        \\ 
+~        & EmpiricalFuture    & Empirical Futures (epiforecast package defaults)    & ~             & ~         &           \\ 
+~        & EmpiricalTraj      & Empirical Trajectories (epiforecast package defaults) & ~             & ~         &           \\ 
+~        & DeltaDensity2      & Markovian Delta Density (epiforecast package defaults) & ~             & ~          &          \\ 
+~        & Uniform            & Uniform Distribution  & ~             & ~   &                 \\ 
+~        & Stat               & Statistical Ensemble (combining predictions from the other 8 models submitted by Delphi) & ~             & ~  & x                 \\
 \hline
-LANL     & DBM                & Dynamic Bayesian SIR Model with a hierarchical discrepancy & ~             & x                   \\ 
+LANL     & DBM                & Dynamic Bayesian SIR Model with a hierarchical discrepancy & ~             & x      &              \\ 
 \hline
-ReichLab & KCDE               & Kernel Conditional Density Estimation using recent observations and seasonality  & ~             & ~                   \\ 
-~        & KDE                & Kernel Density Estimation (seasonal targets) and cyclic penalized splines (week-ahead targets)  & ~             & ~                   \\ 
-~        & SARIMA1            & SARIMA model without seasonal differencing & ~             & ~                   \\ 
-~        & SARIMA2            & SARIMA model with seasonal differencing & ~             & ~                   \\ 
+ReichLab & KCDE               & Kernel Conditional Density Estimation using recent observations and seasonality  & ~             & ~            &        \\ 
+~        & KDE                & Kernel Density Estimation (seasonal targets) and cyclic penalized splines (week-ahead targets)  & ~             & ~     &               \\ 
+~        & SARIMA1            & SARIMA model without seasonal differencing & ~             & ~      &              \\ 
+~        & SARIMA2            & SARIMA model with seasonal differencing & ~             & ~           &         \\ 
 \hline
-UTAustin & EDM                & Empirical Dynamic Model, or topological method of analogues & ~             & ~                   \\ 
+UTAustin & EDM                & Empirical Dynamic Model, or topological method of analogues & ~             & ~         &           \\ 
 \end{tabular}
 \caption{List of models, with key characteristics. *Comp. model stands for compartmental model.}
 \label{tab:model-list}
