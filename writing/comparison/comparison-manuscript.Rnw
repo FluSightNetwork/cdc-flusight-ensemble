@@ -192,14 +192,20 @@ This increased interest has been fueled in part by the promise of `big data', th
 With the spectre of a global pandemic looming, improving infectious disease forecasting continues to be a central priority of global health preparedness efforts.\cite{Myers2000,WHO2016}
 
 Forecasts of infectious disease transmission can inform public health response to outbreaks. 
-Accurate forecasts of the timing and spatial spread of seasonal outbreaks of diseases such as influenza or dengue fever can provide valuable information about where public health interventions can be targeted.
+Accurate forecasts of the timing and spatial spread of outbreaks of infectious diseases can provide valuable information about where public health interventions can be targeted.\cite{Lipsitch2011}
 Decisions about hospital staffing, resource allocation, and the timing of public health communication campaigns could be assisted by forecasts. 
 Implementation of interventions designed to disrupt disease transmissions, such as vector control measures or mandatory infection prevention protocols at hospitals or health clinics, could be targeted based on forecasted incidence.
 
-Public health officials are still learning how to best integrate forecasts into real-time decision making.
-Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
-Real-time implementation and testing of forecasting methods is helpful for planning and assessing what targets should be forecasted for maximum public health impact.
+In part due to the growing recognition of the importance of systematically integrating forecasting into public health outbreak response, large-scale collaborations have been used in forecasting applications to develop common data standards and facilitate comparisons across multiple models.\cite{Viboud,Hollingsworth, Biggerstaff,McGowan}
+%These studies serve as an important counterweight to many forecasting efforts remain one-off academic exercises focused on a single application or a single method.
+By enabling a standardized comparison in a single application, these studies greatly improve our understanding of which models perform best in certain settings, of how results can best be disseminated and used by decision-makers, and of what the bottlenecks are in terms of improving forecasts.
 
+The aim of this study is to present a standardized comparison of a range of different forecasting models for influenza in the US, over multiple seasons.
+Our work brings together models from five different institutions (Carnegie Mellon, Columbia University, Los Alamos National Laboratory, University of Massachusetts-Amherst, and University of Texas-Austin), enhancing the methodological diversity of the models presented.
+While such multi-model comparisons exist in the literature for single-season performance, a unique aspect of this work is its focus on performance of the models over a longer period of time, i.e. seven flu seasons. 
+To our knowledge, this is the first such documented comparison of multiple forecasting models (from different teams) across multiple seasons for any infectious disease application.
+Since each season has unique dynamical structure, multi-season comparisons like this will greatly improve our understanding of how models perform over the longer term.
+In addition to focusing 
 
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world.
 These forecasts are displayed together on a website during the season and are evaluated for accuracy after the season is over.\cite{PhiResearchLab} 
@@ -1051,6 +1057,9 @@ Models improve substantially on baseline forecasts, both in places where we alre
 \subsection{Overview of statistical vs. mechanistic model comparison}
 As our knowledge/data about the system mature, we expect mechanistic models to be better, but when true signals of mechanistic model is drowned out by observational noise or spatial aggregation, statistical models may perform better. This comparison serves as a barometer for where the current state of forecast models are.
 
+Public health officials are still learning how to best integrate forecasts into real-time decision making.
+Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+Real-time implementation and testing of forecasting methods is helpful for planning and assessing what targets should be forecasted for maximum public health impact.
 
 
 \subsection{Limitations}
