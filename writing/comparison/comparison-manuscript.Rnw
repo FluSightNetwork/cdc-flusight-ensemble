@@ -194,35 +194,34 @@ With the spectre of a global pandemic looming, improving infectious disease fore
 Forecasts of infectious disease transmission can inform public health response to outbreaks. 
 Accurate forecasts of the timing and spatial spread of outbreaks of infectious diseases can provide valuable information about where public health interventions can be targeted.\cite{Lipsitch2011}
 Decisions about hospital staffing, resource allocation, and the timing of public health communication campaigns could be assisted by forecasts. 
-Implementation of interventions designed to disrupt disease transmissions, such as vector control measures or mandatory infection prevention protocols at hospitals or health clinics, could be targeted based on forecasted incidence.
+Implementation of interventions designed to disrupt disease transmission, such as vector control measures or mandatory infection prevention protocols at hospitals or health clinics, could be targeted based on forecasted incidence.
 
 In part due to the growing recognition of the importance of systematically integrating forecasting into public health outbreak response, large-scale collaborations have been used in forecasting applications to develop common data standards and facilitate comparisons across multiple models.\cite{Viboud,Hollingsworth, Biggerstaff,McGowan}
 %These studies serve as an important counterweight to many forecasting efforts remain one-off academic exercises focused on a single application or a single method.
 By enabling a standardized comparison in a single application, these studies greatly improve our understanding of which models perform best in certain settings, of how results can best be disseminated and used by decision-makers, and of what the bottlenecks are in terms of improving forecasts.
 
 The aim of this study is to present a standardized comparison of a range of different forecasting models for influenza in the US, over multiple seasons.
-Our work brings together models from five different institutions (Carnegie Mellon, Columbia University, Los Alamos National Laboratory, University of Massachusetts-Amherst, and University of Texas-Austin), enhancing the methodological diversity of the models presented.
-While such multi-model comparisons exist in the literature for single-season performance, a unique aspect of this work is its focus on performance of the models over a longer period of time, i.e. seven flu seasons. 
-To our knowledge, this is the first such documented comparison of multiple forecasting models (from different teams) across multiple seasons for any infectious disease application.
-Since each season has unique dynamical structure, multi-season comparisons like this will greatly improve our understanding of how models perform over the longer term.
-In addition to focusing 
+Our work brings together models from five different institutions: Carnegie Mellon, Columbia University, Los Alamos National Laboratory, University of Massachusetts-Amherst, and University of Texas-Austin.
+While most groups developed more than one model for consideration, the models developed within a single group through the use of common data sources and/or methodologies often bear similarities to each other.
+Having 22 models from five different teams enhances the diversity of the models presented.
 
+While such multi-model comparisons exist in the literature for single-season performance, a unique aspect of this work is its focus on performance of the models over a longer period of time, i.e. seven flu seasons. 
+To our knowledge, this is the first documented comparison of multiple models (from different teams), in a ``real-time'' setting, across multiple seasons for any infectious disease application.
+Since each season has unique dynamical structure, multi-season comparisons like this will greatly improve our understanding of how models perform over the longer term.
+
+This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world.
 These forecasts are displayed together on a website during the season and are evaluated for accuracy after the season is over.\cite{PhiResearchLab} 
 This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both our technical understanding of how different forecast models perform and also how to integrate these models into decision-making.
 
-Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts\cite{Viboud}), a subset of participants founded a consortium to facilitate direct comparison and fusion of modeling approaches. 
+
+Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts\cite{Viboud}), a subset of FluSight participants founded a consortium to facilitate direct comparison and fusion of modeling approaches. 
 In this paper, we provide a detailed analysis of the performance of 22 different models from 5 different teams over the course of seven influenza seasons.
-Drawing on the different expertise of the five teams allows us to make fine-grained and standardized comparisons of distinct approaches to disease incidence forecasting that use different data sources and statistical models..
-Additionally, it allows us to identify gaps and continued challenges that should be addressed in future modeling efforts. 
+Drawing on the different expertise of the five teams allows us to make fine-grained and standardized comparisons of distinct approaches to disease incidence forecasting that use different data sources and statistical models.
 
-
-
-% Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. 
-% Yet there is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. 
-% Mechanistic models consider the biological underpinnings of disease transmission, and are in practice are typically implemented as variations on the Susceptible-Infectious-Recovered (SIR) model. 
-% Phenomenological models largely ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. 
-% Both approaches are commonly used and both have advantages and disadvantages in different settings.   
+In addition to analyzing comparative model performance over seasons, this work identifies key bottlenecks that limit the accuracy and generalizability of current forecasting efforts.
+Specifically, we present quantitative analyses of the impact that incomplete or partial case reporting has on forecast accuracy.
+Additionally, we assess whether purely statistical models show similar performance to models that consider explicit mechanistic models of disease transmission.
 
 
 \section{Methods}
@@ -367,8 +366,28 @@ To ensure all calculated summary measures would be finite, all modified log scor
 
 %Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
 
-\subsection{Analysis of delays}
+\subsection{Specific model comparisons}
+
+\subsubsection*{Analysis of delays}
 [GLM regression model with ...]
+
+\subsubsection*{Mechanistic vs. statistical models}
+
+% Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. 
+There is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. 
+Semantically modelers and forecasters often use a dichotomy of mechanistic vs. statistical (or `phenomenological') models to represent two different philosophical approaches to modeling.
+Mechanistic models for infectious disease consider the biological underpinnings of disease transmission, and are in practice are implemented as variations on the Susceptible-Infectious-Recovered (SIR) model. 
+Statistical models largely ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. 
+In practice, this dichotomized distinction can be fuzzy.
+For example, statistical models for infectious disease counts may encode an autoregressive term for incidence, which in certain setting can be seen as representing a transmission process from one time period to another.
+In another example, the {\tt LANL-DBM} model has an explicit SIR compartmental model component but also leverages a hierarchical discrepancy which is purely statistical.
+The models from Columbia University used a statistical `now-casting' approach for their 1-week ahead forecasts, but after that relied on different variations of an SIR model.
+% Both approaches are commonly used and both have advantages and disadvantages in different settings.  
+
+We categorized models according to whether or not they had an explicit compartmental framework. 
+We then took the top three performing compartmental models (i.e. models with some kind of an underlying compartmental structure) and compared their performance with the top three individual component models without compartmental structure. 
+We excluded multi-model ensemble models (i.e. {\tt Delphi-Stat}) from this comparison.
+Separately for each target, we computed the average score for the top three compartmental models and compared this to the average score for the top three non-compartmental models.
 
 \section{Results}
 
@@ -1061,6 +1080,7 @@ Public health officials are still learning how to best integrate forecasts into 
 Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
 Real-time implementation and testing of forecasting methods is helpful for planning and assessing what targets should be forecasted for maximum public health impact.
 
+Notes on mech vs. statistical comparison: mechanistic models are modeling a disease, while the data-generating mechanism for wILI captures much more than just disease transmission (e.g., clinical visitation process, symptomatic diagnosis process, reporting process, a backfill process, etc.) That is, a disease transmission model and the wILI data generating model are fundamentally different things — suggesting a limitation to purely mechanistic models. 
 
 \subsection{Limitations}
 
