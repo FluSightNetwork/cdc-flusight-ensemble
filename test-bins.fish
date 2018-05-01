@@ -4,7 +4,6 @@
 set -g error 0
 
 # Check if all the 2014-2015 CSVs have bins for week 53
-
 function test_bin_53
     set -l bin_counts (cat $argv[1] | grep -E "week\"?,\"?53" | wc -l)
     if [ $bin_counts != "22" ]
@@ -30,7 +29,6 @@ for csv in (ls ./model-forecasts/real-time-ensemble-models/*/*.csv | grep "EW[4-
 end
 
 # Check if the latest season has bin 52,53 and not 52,1
-
 function test_bin_52
     cat $argv[1] | egrep "week\"?,\"?52\"?,\"?1" >> /dev/null
     if test $status -eq 0
@@ -44,7 +42,6 @@ for csv in (ls ./model-forecasts/real-time-component-models/*/*.csv | grep -v "U
 end
 
 # Check that there is no NaN,NaN (should be NA,NA)
-
 function test_nan
     cat $argv[1] | grep "NaN" >> /dev/null
     if test $status -eq 0
