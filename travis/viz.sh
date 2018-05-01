@@ -17,4 +17,6 @@ git add .
 git commit -m "[TRAVIS] Auto deploy to GitHub pages from travis: ${SHA}"
 
 echo "> Pushing visualizer to gh-pages"
+# Pull if origin has new files
+git pull $SSH_REPO master --no-edit
 git push $SSH_REPO gh-pages --force
