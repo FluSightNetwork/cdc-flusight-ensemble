@@ -1,6 +1,6 @@
 ## script to generate real-time ensemble entry file
 ## Nicholas Reich
-## created: November 2017
+## created: November 2017 
 
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 library(dplyr)
