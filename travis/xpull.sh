@@ -24,5 +24,8 @@ ssh-add deploy_key
 echo "This is a trigger from another repository."
 npm install -g "reichlab/xpull"
 xpull --repo "reichlab/2017-2018-cdc-flu-contest" --message "[TRAVIS] Xpulled files from travis"
+
+# Pull if origin has new files
+git pull $SSH_REPO master --no-edit
 git push $SSH_REPO HEAD:master
 ssh-agent -k

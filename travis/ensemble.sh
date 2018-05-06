@@ -16,4 +16,7 @@ git add ./model-forecasts/submissions/target-type-based-weights/*.csv
 git add ./model-forecasts/submissions/plots/*.pdf
 git add ./plots/*.png
 git diff-index --quiet HEAD || git commit -m "[TRAVIS] Ensemble files from travis"
+
+# Pull if origin has new files
+git pull $SSH_REPO master --no-edit
 git push $SSH_REPO HEAD:master
