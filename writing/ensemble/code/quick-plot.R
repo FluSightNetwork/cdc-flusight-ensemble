@@ -3,6 +3,8 @@
 library(ggplot2)
 library(dplyr)
 
+load("../scores/AllScoreFiles_1718.Rdata")
+
 scores_aggr <- eval_scores_1718 %>%
     group_by(team, target) %>%
     summarize(
