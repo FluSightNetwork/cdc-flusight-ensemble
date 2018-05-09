@@ -26,6 +26,7 @@
 
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \maketitle
 
@@ -945,6 +946,48 @@ The historical baseline model showed
 \Sexpr{specify_decimal(exp(kde_logscore_pk), 2)} 
 score in forecasting peak intensity.
 Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had more forecast score than the historical baseline model in the scoring period of interest for peak intensity.
+
+<<seasons-above-baseline-plot, eval=FALSE, fig.height=4.5>>=
+dat <- scores_adj %>%
+  group_by(Model,
+           Target, 
+           Season) %>%
+  summarise(
+    avg_score = mean(score_adj),
+    Skill = exp(avg_score),
+    min_score = min(score_adj)
+  ) %>%
+  ungroup() %>%
+  mutate(Model = reorder(Model, avg_score))
+
+## these lines create a new column with the 'baseline' model score
+dat <- dat %>%   
+  group_by(Target, Season) %>%
+  mutate(
+    baseline_score = avg_score[Model=="ReichLab-KDE"]
+  ) %>%
+  ungroup() %>%
+  ## these lines then create the skill for the baseline model and a "% skill change over baseline" column
+  mutate(
+    baseline_skill = exp(baseline_score),
+    pct_diff_baseline_skill = (Skill - baseline_skill)/baseline_skill,
+    over_baseline = ifelse(pct_diff_baseline_skill > 0, 1, 0)
+  )
+
+dat <- dat %>% 
+  group_by(Model, Target) %>% 
+  mutate(seasons = sum(over_baseline == 1))
+
+palette <- colorRampPalette(c("white", "darkblue"))
+
+ggplot(dat, aes(x=Target, y=Model, fill=factor(seasons))) +
+  geom_tile(color = "gray90") + ylab(NULL) + xlab(NULL) +
+  scale_fill_brewer(palette(7)) + 
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  guides(fill = guide_legend(title = "Seasons \nAbove \nBaseline", reverse = T)) + 
+  coord_fixed(ratio = 0.7)
+@
 
 % \subsection{Performance of models by location}
 % 

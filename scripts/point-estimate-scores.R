@@ -43,8 +43,10 @@ ests_with_truth <- tmp.df %>%
     dplyr::rename(Calendar.Week = `Calendar Week`) %>% 
     left_join(truths) %>%
     mutate(
+        target_type = ifelse(Target %in% c("Season peak week", "Season onset"), "Week", "wILI"),
         obs_value = as.numeric(as.character(Valid.Bin_start_incl)),
-        err = Value - obs_value
+        # todo: fix error calculation for week targets
+        err = ifelse(target_type == "wILI", Value - obs_value, Value - obs_value)
         )
     
 
