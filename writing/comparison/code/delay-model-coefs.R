@@ -1,4 +1,4 @@
-## evaluating truth with lags for accuracy
+## evaluating truth with lags for accuracy 
 
 library(dplyr)
 library(readr)
