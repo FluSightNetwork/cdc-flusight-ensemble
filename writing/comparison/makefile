@@ -18,14 +18,15 @@ view: pdf
 pdf: $(TEXFILE).pdf
 
 ## knit the manuscript tex --> pdf
-$(TEXFILE).pdf: $(TEXFILE).tex 
+## dependencies here are static files, manually updated, not used in reproducible analyses
+$(TEXFILE).pdf: $(TEXFILE).tex ../flusightnetwork.bib static-figures/model-table.tex static-figures/timezero-sketch.pdf
 	pdflatex $(TEXFILE)
 	bibtex $(TEXFILE)
 	pdflatex $(TEXFILE)
 	pdflatex $(TEXFILE)
 
 ## knit Rnw --> tex
-$(TEXFILE).tex: $(TEXFILE).Rnw data/all-target-bounds.csv ../../scores/target-multivals.csv ../../scores/scores.csv data/delay-model-coefs.rds ../flusightnetwork.bib static-figures/model-table.tex static-figures/timezero-sketch.pdf
+$(TEXFILE).tex: $(TEXFILE).Rnw data/all-target-bounds.csv ../../scores/target-multivals.csv ../../scores/scores.csv data/delay-model-coefs.rds 
 	Rscript \
 	  -e "library(knitr)" \
 	  -e "knitr::knit('$<','$@')"
