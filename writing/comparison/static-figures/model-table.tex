@@ -1,37 +1,37 @@
 \begin{table}
 \setlength{\tabcolsep}{4pt} 
-\begin{tabular}{p{1.69cm} l p{7.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}}
+\begin{tabular}{p{1.6cm} l p{7.5cm} l  p{1cm}  p{1cm} p{1cm}}
 \hline
-Team     & Model Abbr& Model Description & Ext. Data & Comp. Model* & Ens. Model \\ 
+Team     & Model Abbr& Model Description & & Ext. Data & Mech. Model & Ens. Model \\ 
 \hline
-CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS  & x & x & \\ 
+CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS & \cite{Pei2018}  & x & x & \\ 
 
-~        & EAKFC\_SIRS        & Ensemble Adjustment Kalman Filter SIRS   & x & x & \\
-~        & EKF\_SEIRS         & Ensemble Kalman Filter SEIRS    & x             & x &                    \\
-~        & EKF\_SIRS          & Ensemble Kalman Filter SIRS     & x             & x   &                 \\
-~        & RHF\_SEIRS         & Rank Histogram Filter SEIRS     & x             & x     &               \\
-~        & RHF\_SIRS          & Rank Histogram Filter SIRS      & x             & x       &             \\
-~        & BMA                & Bayesian Model Averaging       & ~             & ~          & x         \\
+~        & EAKFC\_SIRS        & Ensemble Adjustment Kalman Filter SIRS & \cite{Pei2018}  & x & x & \\
+~        & EKF\_SEIRS         & Ensemble Kalman Filter SEIRS & \cite{Yang2017}    & x             & x &                    \\
+~        & EKF\_SIRS          & Ensemble Kalman Filter SIRS & \cite{Yang2017}     & x             & x   &                 \\
+~        & RHF\_SEIRS         & Rank Histogram Filter SEIRS & \cite{Yang2017}    & x             & x     &               \\
+~        & RHF\_SIRS          & Rank Histogram Filter SIRS & \cite{Yang2017}     & x             & x       &             \\
+~        & BMA                & Bayesian Model Averaging & \cite{Yamana2017}      & ~             & ~          &          \\
 \hline
-Delphi   & BasisRegression    & Basis Regression (epiforecast package defaults) & ~             & ~     &               \\ 
-~        & DeltaDensity1      & Delta Density (epiforecast package defaults)    & ~             & ~       &             \\ 
-~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks only) & ~             & ~  &                  \\ 
-~        & EmpiricalBayes2    & Empirical Bayes (epiforecast package defaults) & ~             & ~            &        \\ 
-~        & EmpiricalFuture    & Empirical Futures (epiforecast package defaults)    & ~             & ~         &           \\ 
-~        & EmpiricalTraj      & Empirical Trajectories (epiforecast package defaults) & ~             & ~         &           \\ 
-~        & DeltaDensity2      & Markovian Delta Density (epiforecast package defaults) & ~             & ~          &          \\ 
-~        & Uniform            & Uniform Distribution  & ~             & ~   &                 \\ 
-~        & Stat               & Statistical Ensemble (combining predictions from the other 8 models submitted by Delphi) & ~             & ~  & x                 \\
+Delphi   & BasisRegression    & Basis Regression ({\tt epiforecast} defaults) & \cite{Brooks2015a} & ~             & ~     &               \\ 
+~        & DeltaDensity1      & Delta Density ({\tt epiforecast} defaults)   & \cite{Brooks2015a} & ~             & ~       &             \\ 
+~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks) & \cite{Brooks2015,Brooks2015a} & ~             & ~  &                  \\ 
+~        & EmpiricalBayes2    & Empirical Bayes ({\tt epiforecast} defaults) & \cite{Brooks2015,Brooks2015a} & ~             & ~            &        \\ 
+~        & EmpiricalFuture    & Empirical Futures ({\tt epiforecast} defaults) &  \cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & EmpiricalTraj      & Empirical Trajectories ({\tt epiforecast} defaults)& \cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & DeltaDensity2      & Markovian Delta Density ({\tt epiforecast} defaults)& \cite{Brooks2015a} & ~             & ~          &          \\ 
+~        & Uniform            & Uniform Distribution&  & ~             & ~   &                 \\ 
+~        & Stat               & Statistical Ensemble (combining predictions from the other 8 models submitted by Delphi)& & ~             & ~  & x                 \\
 \hline
-LANL     & DBM                & Dynamic Bayesian SIR Model with a hierarchical discrepancy & ~             & x      &              \\ 
+LANL     & DBM                & Dynamic Bayesian SIR Model with a hierarchical discrepancy & \cite{Osthus2017} & ~             & x      &              \\ 
 \hline
-ReichLab & KCDE               & Kernel Conditional Density Estimation using recent observations and seasonality  & ~             & ~            &        \\ 
-~        & KDE                & Kernel Density Estimation (seasonal targets) and cyclic penalized splines (week-ahead targets)  & ~             & ~     &               \\ 
-~        & SARIMA1            & SARIMA model without seasonal differencing & ~             & ~      &              \\ 
-~        & SARIMA2            & SARIMA model with seasonal differencing & ~             & ~           &         \\ 
+ReichLab & KCDE               & Kernel Conditional Density Estimation using recent observations and seasonality & \cite{Ray2017}  & ~             & ~            &        \\ 
+~        & KDE                & Kernel Density Estimation (seasonal targets) and cyclic penalized splines (week-ahead targets) & \cite{Ray2018}  & ~             & ~     &               \\ 
+~        & SARIMA1            & SARIMA model without seasonal differencing & \cite{Ray2018} & ~             & ~      &              \\ 
+~        & SARIMA2            & SARIMA model with seasonal differencing & \cite{Ray2018} & ~             & ~           &         \\ 
 \hline
-UTAustin & EDM                & Empirical Dynamic Model, or topological method of analogues & ~             & ~         &           \\ 
+UTAustin & EDM                & Empirical Dynamic Model, or topological method of analogues & & ~             & ~         &           \\ 
 \end{tabular}
-\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University (PI: Shaman), Delphi = Carnegie Mellon (PI: Rosenfeld), LANL = Los Alamos National Laboratories (PI: Osthus), ReichLab = University of Massachusetts Amherst (PI: Reich), UTAustin = University of Texas Austin (PI: Lauren Meyers).  The `Ext data' column notes models that use data external to the ILI Net data from CDC. The `Comp. model' column notes models that rely to some extent on an compartmental model formulation. The `Ens. model' column notes models that are ensemble models.}
+\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University (PI: Shaman), Delphi = Carnegie Mellon (PI: Rosenfeld), LANL = Los Alamos National Laboratories (PI: Osthus), ReichLab = University of Massachusetts Amherst (PI: Reich), UTAustin = University of Texas Austin (PI: Lauren Meyers).  The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on an mechanistic or compartmental model formulation. The `Ens. model' column notes models that are ensemble models.}
 \label{tab:model-list}
 \end{table}
