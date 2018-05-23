@@ -296,6 +296,7 @@ Influenza forecasts have been evaluated by the CDC primarily using a variation o
 Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts (see Methods). 
 The reported scores are aggregated into an average on the log scale and then exponentiated so the reported scores can in general be interpreted as the average probability assigned to the eventually observed value of each target by a particular model. 
 Therefore, higher scores reflect more accurate forecasts. 
+We compare all models against a historical baseline model, {\tt ReichLab-KDE}, which forecasts the same historical average every week within a season and does not update based on recently observed data.
 
 <<>>=
 max_logscore_wkahead <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "k-week-ahead")])
@@ -305,7 +306,7 @@ kde_logscore_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_
 n_above_kde_wkahead <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_logscore_wkahead)
 @
 
-Average score for all of the short term forecasts --1 through 4 week-ahead targets-- varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
+Average score for all of the short term forecasts (1 through 4 week-ahead targets) varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
 The model with the highest average score for the week-ahead targets across all regions and seasons was {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}.
 This model achieved a region-specific average forecast score for week-ahead targets between
 \Sexpr{specify_decimal(exp(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)} 
@@ -318,7 +319,7 @@ average score for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater score than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom).">>=
+<<results-model-region-tt, fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
 scores_by_model_targettype_region %>%
     group_by(target_type, Location) %>%
     mutate(
@@ -334,7 +335,7 @@ scores_by_model_targettype_region %>%
     facet_grid(~target_type) +
     geom_text(aes(label=specify_decimal(exp(avg_logscore), 2)), size=2) +
     scale_fill_gradient2(name="% change \nfrom baseline") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
 @
 
 
@@ -374,10 +375,10 @@ top_model_wkahead_scores <- scores_by_model_season_targettype_region %>%
     filter(Model==max_logscore_model_wkahead, target_type=="k-week-ahead") %>% 
     .$avg_logscore
 @
-Even within models, week-ahead forecast score showed large region-to-region and year-to-year variation. 
-The forecast score for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model varied from 
-\Sexpr{specify_decimal(exp(min(top_model_wkahead_scores)), 2)} to
-\Sexpr{specify_decimal(exp(max(top_model_wkahead_scores)), 2)}.
+% Even within models, week-ahead forecast score showed large region-to-region and year-to-year variation. 
+% The forecast score for specific region-seasons shown by the high-accuracy {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model varied from 
+% \Sexpr{specify_decimal(exp(min(top_model_wkahead_scores)), 2)} to
+% \Sexpr{specify_decimal(exp(max(top_model_wkahead_scores)), 2)}.
 
 % The model with the lowest variation in combined week-ahead forecast skill across region-seasons (excluding the uniform model) was 
 % \Sexpr{sanitize(min_logscorevar_model_wkahead)}, 
@@ -409,18 +410,20 @@ kde_kwkahead_worst_score <- scores_by_model_targettype_region %>%
 @
 
 Models were more consistently able to forecast week-ahead wILI in some regions than in others.
-Predictability for a target can be broken down into two components. First, what is the baseline score that a model based on historical averages can achieve? Second, how much value do other models add beyond the historical baseline? 
+Predictability for a target can be broken down into two components. 
+First, what is the baseline score that a model based on historical averages can achieve? In other words, how stable are a given regions' patterns from season to season?
+Second, by using statistical modeling approaches, how much more accuracy can other models add beyond the historical baseline? 
 Looking at results across all models,
 %from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, 
-\Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable.
+\Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable (Figure \ref{fig:results-model-region-tt}).
 
-In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast score of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} for week-ahead targets (Figure \ref{fig:map-results}). 
+The models presented show substantial improvements in accuracy compared to forecasts from the historical baseline model in all regions of the US.
+In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast score of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} for week-ahead targets (Figure \ref{fig:plot-historical-baseline-comparison}). 
 This means that in a typical season these models assigned an average of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} probability to the accurate wILI percentages.
 \Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region. 
-This resulted from having the highest score from the baseline model and having the largest improvement upon baseline predictions from the other models (Figure \ref{fig:map-results}B).  
-
+This resulted from having the highest score from the baseline model and having the largest improvement upon baseline predictions from the other models (Figure \ref{fig:plot-historical-baseline-comparison}B).  
 In \Sexpr{worst_region_wkahead} the average week-ahead score was \Sexpr{specify_decimal(worst_region_wkahead_skill, 2)}. 
-While \Sexpr{worst_region_wkahead} showed the lowest baseline model score of any region, it also showed the second highest improvement upon baseline predictions (Figure \ref{fig:map-results}B).
+While \Sexpr{worst_region_wkahead} showed the lowest baseline model score of any region, it also showed the second highest improvement upon baseline predictions (Figure \ref{fig:plot-historical-baseline-comparison}B).
 %This was just marginally better than the week-ahead forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
 
 <<region-seasonal-results>>=
@@ -603,12 +606,11 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
     geom_tile(color = "gray90") +# ylab(NULL) + 
     xlab(NULL) +
     scale_fill_brewer(palette(7)) + 
-    theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.key.size = unit(.5,"line")) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5), legend.key.size = unit(.5,"line")) +
     scale_y_discrete(name="", limits = rev(levels(dat$Target))) +
     guides(fill = guide_legend(title = "Seasons Above \nHistorical Baseline", reverse = T)) + 
     #coord_fixed(ratio = 0.7) +
     ggtitle("E: comparison to historical baseline")
-
 @
 
 
@@ -648,6 +650,8 @@ regions_above_.5_best_model <- scores_by_model_season_target_region %>%
 @
 
 Forecast score declined as the target moved further into the future relative to the last observation.
+Most models outperformed the historical baseline model in making 1-week ahead forecasts, as 15 of 22 models outperformed the historical baseline in at least 6 of the 7 seasons.
+However, only 7 out of 22 models outperformed the historical baseline in at least 6 seasons when making 4-week ahead forecasts.
 For the model with highest forecast score across all four week-ahead targets ({\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}), the average scores across region and season for 1 through 4 week-ahead forecasts were 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "2 wk ahead" )]), 2)}, 
@@ -656,16 +660,12 @@ For the model with highest forecast score across all four week-ahead targets ({\
 This mirrored an overall decline in score observed across most models.
 Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast scores from the {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
 
-**Most models outperformed the historical baseline model in making 1-week ahead forecasts, fewer models outperformed at 4 weeks-ahead.
-
-The historical baseline model showed an average forecast score of 
-\Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
-for all week-ahead targets. 
-(Performance does not decline at longer horizons for the historical baseline model, since its forecasts are always the same for a given week.)
-For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed higher scores than a historical baseline.
-For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed higher scores than the historical baseline.
-
-
+% The historical baseline model showed an average forecast score of 
+% \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
+% for all week-ahead targets. 
+% (Performance does not decline at longer horizons for the historical baseline model, since its forecasts are always the same for a given week.)
+% For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed higher scores than a historical baseline.
+% For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed higher scores than the historical baseline.
 
 \subsection{Performance in forecasting seasonal targets}
 
@@ -710,7 +710,7 @@ n_regseas_no_onset <- targets %>%
 
 Of the three seasonal targets, models showed the lowest average score in forecasting season onset, with an overall average score of 
 \Sexpr{specify_decimal(exp(mean_logscore_onset), 2)}. 
-Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season(see methods for details). 
+Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season (see Methods). 
 %, varying from XX to XX weeks per region-season .
 Of the \Sexpr{n_regions*n_seasons} region-seasons evaluated, \Sexpr{n_regseas_no_onset} had no onset. 
 The best model for onset was 
@@ -722,7 +722,8 @@ and region-season-specific scores for onset that ranged from
 \Sexpr{specify_decimal(exp(range_regseas_logscore_onset[2]), 2)}.
 The historical baseline model showed an average score of 
 \Sexpr{specify_decimal(exp(kde_logscore_onset), 2)} in forecasting onset.
-Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}\%) had higher average forecast score than the historical baseline model in the scoring period of interest.
+%Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}\%) had higher average forecast score than the historical baseline model in the scoring period of interest.
+Overall, 8 out of 22 models (\Sexpr{specify_decimal(8/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
 <<best-models-peak>>=
 
@@ -761,7 +762,8 @@ Region- and season-specific forecast score from this model for peak week ranged 
 The historical baseline model showed 
 \Sexpr{specify_decimal(exp(kde_logscore_pkwk), 2)} 
 score in forecasting peak week.
-Overall, \Sexpr{n_above_kde_pkwk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pkwk/n_models*100)}\%) had more forecast score than the historical baseline model in the scoring period of interest.
+%Overall, \Sexpr{n_above_kde_pkwk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pkwk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest.
+Overall, 15 out of 22 models (\Sexpr{specify_decimal(15/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
 Models showed an overall average score of 
 \Sexpr{specify_decimal(exp(mean_logscore_pk), 2)}
@@ -776,7 +778,8 @@ Region- and season-specific forecast scores from this model for peak intensity r
 The historical baseline model showed 
 \Sexpr{specify_decimal(exp(kde_logscore_pk), 2)} 
 score in forecasting peak intensity.
-Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had more forecast score than the historical baseline model in the scoring period of interest for peak intensity.
+%Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest for peak intensity.
+Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
 
 % \subsection{Performance of models by location}
@@ -866,7 +869,7 @@ Both the {\tt ReichLab-KCDE} and the {\tt Delphi-DeltaDensity1} model utilized k
 These models used different implementations and different input variables, but showed similarly strong performance across all seasons.
 The {\tt UTAustin-edm} and {\tt Delphi-DeltaDensity2} models also used variants of nearest-neighbors regression, although overall scores for these models were not consistent, indicating that implementation details and/or input variables can impact the performance of this approach.
 The {\tt LANL-DBM} and {\tt CU-EKF\_SIRS} models both rely on a compartmental model of influenza transmission; however the methodologies used to fit and forecast were different for these approaches.
-The CU model used an ensemble Kalman filter approach to generate forecasts, while the LANL model sampled from the posterior predictive distribution using Markov chain Monte Carlo (MCMC).
+%The CU model used an ensemble Kalman filter approach to generate forecasts, while the LANL model sampled from the posterior predictive distribution using Markov chain Monte Carlo (MCMC).
 The {\tt ReichLab-SARIMA2} model used a classical statistical time-series model, the seasonal auto-regressive integrated moving average model (SARIMA), to fit and generate forecasts. 
 Interestingly, several pairs of models, although having strongly contrasting methodological approaches, showed similar overall performance; e.g., {\tt CU-EKF\_SIRS} and {\tt ReichLab-SARIMA2}, {\tt LANL-DBM} and {\tt ReichLab-KCDE}.
 
@@ -888,13 +891,14 @@ top_models <- scores_adj %>%
 
 scores_by_modeltype <- scores_adj %>%
     filter(Model %in% top_models) %>%
+    filter(!(Target=="1 wk ahead" & grepl("CU-", Model)) ) %>%
     group_by(Target) %>%
     summarize(
         stat_model_logscore = sum(stat_model * score_adj)/sum(stat_model),
         compartment_model_logscore = sum((1-stat_model) * score_adj)/sum((1-stat_model)),
         stat_model_skill = exp(stat_model_logscore),
         compartment_model_skill = exp(compartment_model_logscore),
-        diff_model_skill = stat_model_skill - compartment_model_skill
+        diff_model_skill = stat_model_skill - compartment_model_skill, tot=n()
     )
 
 skills_to_show <- select(scores_by_modeltype, Target, stat_model_skill, compartment_model_skill, diff_model_skill)
@@ -917,12 +921,12 @@ print(
 @
 
 
-On the whole, statistical models showed the same score as compartmental models at forecasting week-ahead targets, and slightly higher score for the seasonal targets, although the differences were small and of minimal practical significance. 
+On the whole, statistical models showed similar or slightly higher scores as compartmental models at forecasting both week-ahead and seasonal targets, although the differences were small and of minimal practical significance. 
 Using the best three overall models from each category, we computed the average forecast score for each combination of region, season, and target (Table \ref{tab:score-by-model-type}). 
-For all targets, except peak intensity, the difference in model score was slight, and never greater than 
-\Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[c(1:5,7)]), 2)}.
-%For the week-ahead forecasts, the difference in model score was slight, never greater than 
-%\Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[1:4]), 2)}. 
+For all targets, except 1 week-ahead forecasts and peak intensity, the difference in model score was slight, and never greater than 
+\Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[c(2:5,7)]), 2)}.
+For 1-week-ahead forecasts, the statistical models had slightly higher scores on average than mechanistic models  
+(\Sexpr{specify_decimal(scores_by_modeltype$diff_model_skill[1], 2)}, on the probability scale). 
 %For the three seasonal targets, the difference in model skill was larger, ranging from 
 %\Sexpr{specify_decimal(min(scores_by_modeltype$diff_model_skill[5:7]), 2)} 
 %for 
@@ -933,8 +937,11 @@ For all targets, except peak intensity, the difference in model score was slight
 % for 
 % %\Sexpr{scores_by_modeltype$Target[5:7][which.max(scores_by_modeltype$diff_model_skill[5:7])]} .
 % peak intensity.
-We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven largely by a statistical ``nowcast`` model that uses data from the Google Search API.\cite{yang2014}
-Therefore, the only compartmental model making 1 week-ahead forecasts was the {\tt LANL-DBM} model. 
+We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven by a statistical ``nowcast`` model that uses data from the Google Search API.\cite{yang2014}
+Therefore, the CU models were not counted as mechanistic models for 1 week-ahead forecasts.
+For peak percentage forecasts, the statistical models had slightly higher scores on average than mechanistic models  
+(\Sexpr{specify_decimal(scores_by_modeltype$diff_model_skill[1], 2)}). 
+%Therefore, the only compartmental model making 1 week-ahead forecasts was the {\tt LANL-DBM} model. 
 
 \input{./static-figures/score-by-model-type.tex}
 
@@ -968,6 +975,12 @@ per_change_gt_20 <- lagged_truth %>%
   filter(gt_20 == TRUE) %>%
   pull(per)
 
+abs_bias_gt_.5 <- lagged_truth %>%
+  mutate(gt_5 = (abs_bias_first_report >= 0.5)) %>%
+  group_by(Location) %>%
+  summarize(big_bias = sum(gt_5), n = n(), pct_big_bias = big_bias/n*100)
+
+
 ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
     geom_point()+
     geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
@@ -976,12 +989,13 @@ ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
     geom_text(aes(x=1, y=0, label="first observation\nlower than final"), hjust="left", color="darkgray", vjust="top") +
     geom_text(aes(x=7, y=0, label="first observation\nhigher than final"), hjust="right", color="darkgray", vjust="top") +
     geom_text(aes(y=-0.4, label=count_cat.Freq))
-    ## add sample sizes!?
 
 @
 
-In the seven years examined in this study, wILI percentages were often revised after first being reported. For example, $\Sexpr{per_change_gt_20}$\% of all weekly reported wILI percentages ended up being over 20\% different than the initally reported value.
+In the seven seasons examined in this study, wILI percentages were often revised after first being reported. 
 The frequency and magnitude of revisions varies substantially by region.
+For example, in HHS Region 9, over 51\% of initially reported wILI values ended up being revised by over 0.5 percentage points while in HHS Region 5 less than 1\% of values were revised that much. % see abs_bias_gt_.5 
+Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_bias_gt_.5$n)*100)}\% of observations showed ended up being revised by more than 0.5 percentage points.
 
 When the first report of the wILI measurement for a given region-week was revised in subsequent weeks (due to incomplete or delayed reporting), we observed a corresponding strong negative impact on forecast accuracy.
 We found that larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
@@ -989,6 +1003,7 @@ Specifically, among the four top-performing models we observed an expected chang
 when the first observed wILI measurement is between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-analysis}).
 These results are based on results from four top-performing models: {\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}.
 This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there are over-reported values. 
+Additionally, we observed that some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions (data not shown).
 
 
 % \begin{figure}[htbp]
