@@ -2,7 +2,7 @@
 
 \title{Forecasting Seasonal Influenza in the U.S.: A collaborative multi-year, multi-model assessment of forecast performance}
 
-\author{Nicholas G Reich, Logan Brooks, Spencer Fox, Sasikiran Kandula, //Craig McGowan, Evan Moore, Dave Osthus, Evan Ray, Abhinav Tushar, Teresa Yamana, \\Matthew Biggerstaff, Michael Johansson, Roni Rosenfeld, Jeffrey Shaman}
+\author{Nicholas G Reich, Logan Brooks, Spencer Fox, Sasikiran Kandula, \\Craig McGowan, Evan Moore, Dave Osthus, Evan Ray, Abhinav Tushar, Teresa Yamana, \\Matthew Biggerstaff, Michael Johansson, Roni Rosenfeld, Jeffrey Shaman}
 
 \usepackage[letterpaper, margin=1in]{geometry} % margin
 \usepackage{lineno}% add line numbers
@@ -97,7 +97,10 @@ scores_adj <- scores_trimmed %>%
         score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
         Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10))),
         model_type = ifelse(Model %in% compartment_models, "compartment_model", "stat_model"),
-        stat_model = ifelse(Model %in% compartment_models, 0, 1)
+        stat_model = ifelse(Model %in% compartment_models, 0, 1),
+        Model = reorder(Model, score_adj),
+        Season = reorder(Season, score_adj),
+        Location = reorder(Location, score_adj)
         ) 
 
 scores_by_model <- scores_adj %>%
@@ -105,96 +108,84 @@ scores_by_model <- scores_adj %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup() 
 
 scores_by_model_target <- scores_adj %>%
     group_by(Model, Target) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_season <- scores_adj %>%
     group_by(Model, Season) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_targettype <- scores_adj %>%
     group_by(Model, target_type) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_region <- scores_adj %>%
     group_by(Model, Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_season_target <- scores_adj %>%
     group_by(Model, Season, Target) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_season_target_region <- scores_adj %>%
     group_by(Model, Season, Target, Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_targettype_region <- scores_adj %>%
     group_by(Model, target_type, Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_model_season_targettype_region <- scores_adj %>%
     group_by(Model, Season, target_type, Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Model = reorder(Model, avg_logscore))
+    ungroup()
 
 scores_by_region <- scores_adj %>%
     group_by(Location) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Location = reorder(Location, avg_logscore))
+    ungroup()
 
 scores_by_season <- scores_adj %>%
     group_by(Season) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Season = reorder(Season, avg_logscore))
+    ungroup() 
 
 scores_by_region_targettype <- scores_adj %>%
     group_by(Location, target_type) %>%
     summarize(
         avg_logscore = mean(score_adj)
     ) %>%
-    ungroup() %>%
-    mutate(Location = reorder(Location, avg_logscore))
+    ungroup()
 @
 
 
@@ -223,13 +214,15 @@ To our knowledge, this is the first documented comparison of multiple real-time 
 Since each season has unique dynamical structure, multi-season comparisons like this have great potential to improve our understanding of how models perform over the long term and which models may be reliable in the future.
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
-Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level influenza-like illness measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
+Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
+The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
+This wILI metric is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
 These forecasts are displayed together on a website in real-time and are evaluated for accuracy at the end of the season.\cite{PhiResearchLab} 
 This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both our technical understanding of how different forecast models perform and also how to integrate these models into decision-making.
 
 %We present a standardized comparison of a range of different forecasting models for influenza in the US, over multiple seasons.
 Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts \cite{Smith2017,Viboud2017}), a subset of FluSight participants formed a consortium in early 2017 to facilitate direct comparison and fusion of modeling approaches. 
-Our work brings together 22 models from five different institutions: Carnegie Mellon University, Columbia University, Los Alamos National Laboratory, University of Massachusetts-Amherst, and University of Texas-Austin.
+Our work brings together 22 models from five different institutions: Carnegie Mellon University, Columbia University, Los Alamos National Laboratory, University of Massachusetts-Amherst, and University of Texas-Austin (Table \ref{tab:model-list}).
 % While most groups developed more than one model for consideration, the models developed within a single group through the use of common data sources and/or methodologies often bear similarities to each other.
 % Having models from different teams enhances the diversity of the models presented.
 In this paper, we provide a detailed analysis of the performance of these different models in forecasting the targets defined by the CDC FluSight challenge organizers (Figure \ref{fig:intro-schematic}B).
@@ -247,6 +240,8 @@ Additionally, we assess whether purely statistical models show similar performan
 \label{fig:intro-schematic}
 \end{center}
 \end{figure}
+
+\input{./static-figures/model-table.tex}
 
 
 <<eval=FALSE>>=
@@ -296,6 +291,12 @@ fludata %>%
 
 
 \subsection{Performance in forecasting week-ahead incidence}
+
+Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
+Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts (see Methods). 
+The reported scores are aggregated into an average on the log scale and then exponentiated so the reported scores can in general be interpreted as the average probability assigned to the eventually observed value of each target by a particular model. 
+Therefore, higher scores reflect more accurate forecasts. 
+
 <<>>=
 max_logscore_wkahead <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "k-week-ahead")])
 max_logscore_model_wkahead <- as.character(unlist(scores_by_model_targettype[which(scores_by_model_targettype$avg_logscore == max_logscore_wkahead), "Model"]))[1] ## adding [1] in case multiple models are returned
@@ -304,13 +305,13 @@ kde_logscore_wkahead <- unlist(scores_by_model_targettype[which(scores_by_model_
 n_above_kde_wkahead <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="k-week-ahead")]>kde_logscore_wkahead)
 @
 
-Average forecast score for all four week-ahead targets varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
+Average score for all of the short term forecasts --1 through 4 week-ahead targets-- varied substantially across models and regions (Figure \ref{fig:results-model-region-tt}).
 The model with the highest average score for the week-ahead targets across all regions and seasons was {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}.
 This model achieved a region-specific average forecast score for week-ahead targets between
 \Sexpr{specify_decimal(exp(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)} 
 and 
 \Sexpr{specify_decimal(exp(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model==max_logscore_model_wkahead & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)}.
-As a comparison, the historical baseline model achieved between
+As a comparison, the historical baseline model {\tt ReichLab-KDE} achieved between
 \Sexpr{specify_decimal(exp(min(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)} and
 \Sexpr{specify_decimal(exp(max(scores_by_model_targettype_region$avg_logscore[which(scores_by_model_targettype_region$Model=="ReichLab-KDE" & scores_by_model_targettype_region$target_type == "k-week-ahead" )])), 2)}
 average score for all week-ahead targets.
@@ -443,7 +444,7 @@ kde_kseasonal_worst_score <- scores_by_model_targettype_region %>%
     .$avg_logscore %>% exp()
 @
 
-<<map-results, fig.height=4.5, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number.">>=
+<<map-results>>=
 
 ## gather data needed for plots
 data("fifty_states")
@@ -576,9 +577,48 @@ seasonal_scatter <- ggplot(kde_scores_seasonal, aes(x=exp(kde_logscore), y=exp(a
     scale_y_continuous(limits=c(0, .2), name = "score diff. w/historical model") +
     scale_x_continuous(limits=c(.1, .4),name = "score of historical model") +
     ggtitle("D: vs. historical baseline forecast") #+
+@
+
+<<seasons-above-baseline-plot>>=
+
+## these lines create a new column with the 'baseline' model score
+dat <- scores_by_model_season_target %>%   
+    group_by(Target, Season) %>%
+    mutate(
+        baseline_score = avg_logscore[Model=="ReichLab-KDE"]
+    ) %>%
+    ungroup() %>%
+    ## these lines then create the skill for the baseline model and a "% skill change over baseline" column
+    mutate(
+        over_baseline = ifelse(avg_logscore > baseline_score, 1, 0)
+    )%>%
+    group_by(Model, Target) %>% 
+    mutate(seasons = sum(over_baseline == 1)) %>%
+    ungroup() %>%
+    mutate(Target = factor(Target))
+
+palette <- colorRampPalette(c("white", "darkblue"))
+
+seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons))) +
+    geom_tile(color = "gray90") +# ylab(NULL) + 
+    xlab(NULL) +
+    scale_fill_brewer(palette(7)) + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.key.size = unit(.5,"line")) +
+    scale_y_discrete(name="", limits = rev(levels(dat$Target))) +
+    guides(fill = guide_legend(title = "Seasons Above \nHistorical Baseline", reverse = T)) + 
+    #coord_fixed(ratio = 0.7) +
+    ggtitle("E: comparison to historical baseline")
+
+@
 
 
-grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, ncol=2)
+<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number. Panel (E) shows the number of seasons each model achieved above the historical baseline.">>=
+lay <- rbind(
+    c(1,2),
+    c(3,4),
+    c(5,5)
+    )
+grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, seasons_above_baseline, layout_matrix=lay)
 @
 
 
@@ -615,12 +655,17 @@ For the model with highest forecast score across all four week-ahead targets ({\
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "4 wk ahead" )]), 2)}.
 This mirrored an overall decline in score observed across most models.
 Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the forecast scores from the {\tt \Sexpr{sanitize(max_logscore_model_wkahead)}} model for both the ``nowcast'' targets (1 and 2 weeks ahead) above 0.5.
-The historical baseline model showed average forecast score of 
+
+**Most models outperformed the historical baseline model in making 1-week ahead forecasts, fewer models outperformed at 4 weeks-ahead.
+
+The historical baseline model showed an average forecast score of 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model=="ReichLab-KDE" & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
 for all week-ahead targets. 
 (Performance does not decline at longer horizons for the historical baseline model, since its forecasts are always the same for a given week.)
 For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed higher scores than a historical baseline.
 For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed higher scores than the historical baseline.
+
+
 
 \subsection{Performance in forecasting seasonal targets}
 
@@ -733,47 +778,6 @@ The historical baseline model showed
 score in forecasting peak intensity.
 Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had more forecast score than the historical baseline model in the scoring period of interest for peak intensity.
 
-<<seasons-above-baseline-plot, eval=FALSE, fig.height=4.5>>=
-dat <- scores_adj %>%
-  group_by(Model,
-           Target, 
-           Season) %>%
-  summarise(
-    avg_score = mean(score_adj),
-    Skill = exp(avg_score),
-    min_score = min(score_adj)
-  ) %>%
-  ungroup() %>%
-  mutate(Model = reorder(Model, avg_score))
-
-## these lines create a new column with the 'baseline' model score
-dat <- dat %>%   
-  group_by(Target, Season) %>%
-  mutate(
-    baseline_score = avg_score[Model=="ReichLab-KDE"]
-  ) %>%
-  ungroup() %>%
-  ## these lines then create the skill for the baseline model and a "% skill change over baseline" column
-  mutate(
-    baseline_skill = exp(baseline_score),
-    pct_diff_baseline_skill = (Skill - baseline_skill)/baseline_skill,
-    over_baseline = ifelse(pct_diff_baseline_skill > 0, 1, 0)
-  )
-
-dat <- dat %>% 
-  group_by(Model, Target) %>% 
-  mutate(seasons = sum(over_baseline == 1))
-
-palette <- colorRampPalette(c("white", "darkblue"))
-
-ggplot(dat, aes(x=Target, y=Model, fill=factor(seasons))) +
-  geom_tile(color = "gray90") + ylab(NULL) + xlab(NULL) +
-  scale_fill_brewer(palette(7)) + 
-  theme_minimal() + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  guides(fill = guide_legend(title = "Seasons \nAbove \nBaseline", reverse = T)) + 
-  coord_fixed(ratio = 0.7)
-@
 
 % \subsection{Performance of models by location}
 % 
@@ -1056,9 +1060,9 @@ Real-time implementation and testing of forecasting methods is helpful for plann
  
 Detailed methodology and results from previous FluSight challenges have been published\cite{Biggerstaff2016,Biggerstaff2018}, and we summarize the key features of the challenge here.
 
-The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
-This is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
-During each influenza season, these data are updated each week by the CDC. When the most recent data are released, the prior weeks' reported wILI data may also be revised. 
+%The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
+%This is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
+During each influenza season, the wILI data are updated each week by the CDC. When the most recent data are released, the prior weeks' reported wILI data may also be revised. 
 The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2014/2015 season.\cite{DELPHI} 
 This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This tool facilitates more accurate assessment of how models would have performed in real-time. 
 
@@ -1093,15 +1097,12 @@ Once submitted to the central repository, the models were not updated or modifie
 (In all cases, the updates did not substantially change the performance of the updated models.)
 Re-fitting of models or tuning of model parameters was explicitly discouraged to avoid unintentional overfitting of models.
 
-\input{./static-figures/model-table.tex}
-
 \subsection{Metric Used for Evaluation and Comparison}
 
-Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
+%Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
 The log-score for a model $m$ is defined as $\log f_m(z^*|\bf{x})$ where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for target $Z$, conditional on some data $\bf{x}$, $z^*$ is the observed value of the target $Z$, and $\log$ is the natural logarithm. 
 The log-score is a ``proper`` scoring rule, which has the practical implication that linear combinations (i.e., arithmetic means) of log scores will also be proper.\cite{Gneiting2007}
 
-Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts. 
 The modified log-scores are computed for the targets on the wILI percentage scale such that predictions within $\pm$ 0.5 percentage points are considered accurate, i.e., modified log score = $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. 
 For the targets on the scale of epidemic weeks, predictions within $\pm$ 1 week are considered accurate, i.e., modified log score = $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. 
 While this modification means that the resulting score is not formally a proper scoring rule, some have suggested that improper scores derived from proper scoring rules may, with large enough sample size, have negligible differences in practice.\cite{Gneiting2007} % see especially last paragraph of section 2.3 
