@@ -455,17 +455,17 @@ data(hhs_regions)
 
 ## aggreate scores by target type for models better than KDE
 scores_for_map_wkahead <- scores_by_model_targettype_region %>% 
-    filter(Location != "US National", Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
+    filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
     group_by(Location) %>%
     summarize(avg_logscore = mean(avg_logscore)) %>% 
     ungroup() %>%
-    mutate(region_number = gsub("[^0-9]", "", Location))
+    mutate(region_number = ifelse(Location=="US National", "N", gsub("[^0-9]", "", Location)))
 scores_for_map_seasonal <- scores_by_model_targettype_region %>% 
-    filter(Location != "US National", Model %in% models_seasonal_better_than_kde, target_type=="seasonal") %>%
+    filter(Model %in% models_seasonal_better_than_kde, target_type=="seasonal") %>%
     group_by(Location) %>%
     summarize(avg_logscore = mean(avg_logscore)) %>% 
     ungroup() %>%
-    mutate(region_number = gsub("[^0-9]", "", Location))
+    mutate(region_number = ifelse(Location=="US National", "N", gsub("[^0-9]", "", Location)))
 not_50 <- c(9, 10, 12, 50:55)
 hhs_regions <- hhs_regions[-(not_50),]
 hhs_regions$state <- tolower(hhs_regions$state_or_territory)
@@ -473,7 +473,7 @@ skill_lims <- c(.1, .6)
 
 ## get KDE specific scores
 kde_scores_wkahead <- scores_by_model_targettype_region %>%
-    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead", Location != "US National") %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="k-week-ahead") %>%
     rename(kde_logscore = avg_logscore) %>% 
     left_join(scores_for_map_wkahead) %>%
     mutate(
@@ -481,7 +481,7 @@ kde_scores_wkahead <- scores_by_model_targettype_region %>%
         )
 
 kde_scores_seasonal <- scores_by_model_targettype_region %>%
-    filter(Model %in% "ReichLab-KDE", target_type=="seasonal", Location != "US National") %>%
+    filter(Model %in% "ReichLab-KDE", target_type=="seasonal") %>%
     rename(kde_logscore = avg_logscore) %>% 
     left_join(scores_for_map_seasonal) %>%
     mutate(
@@ -490,7 +490,8 @@ kde_scores_seasonal <- scores_by_model_targettype_region %>%
 
 ## make weekahead plots
 wkahead_map <- hhs_regions %>% 
-    merge(scores_for_map_wkahead, by="region_number") %>%
+    merge(filter(scores_for_map_wkahead, Location != "US National"), 
+        by="region_number") %>%
     ggplot(aes(map_id = state)) + 
     geom_map(aes(fill = exp(avg_logscore)), map = fifty_states) +
     scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims, name="skill") + 
@@ -544,6 +545,7 @@ wkahead_map <- hhs_regions %>%
 #     geom_abline(slope=1, intercept=0)
 
 wkahead_scatter <- ggplot(kde_scores_wkahead, aes(x=exp(kde_logscore), y=exp(avg_logscore)-exp(kde_logscore))) + 
+    geom_hline(aes(yintercept=mean(exp(avg_logscore)-exp(kde_logscore))), linetype=2, color="darkgrey") +
     geom_text(aes(label=region_number), fontface="bold") +
     #geom_hline(yintercept=0, linetype=2) + 
     scale_y_continuous(limits=c(0, .2), name = "score diff. w/historical model") +
@@ -553,7 +555,7 @@ wkahead_scatter <- ggplot(kde_scores_wkahead, aes(x=exp(kde_logscore), y=exp(avg
 
 ## make seasonal plots
 seasonal_map <- hhs_regions %>% 
-    merge(scores_for_map_seasonal, by="region_number") %>%
+    merge(filter(scores_for_map_seasonal, Location != "US National"), by="region_number") %>%
     ggplot(aes(map_id = state)) + 
     geom_map(aes(fill = exp(avg_logscore)), map = fifty_states) +
     scale_fill_gradient(low="#f7fbff", high="#084594", limit=skill_lims, name="skill") + 
@@ -579,6 +581,7 @@ seasonal_scatter <- ggplot(kde_scores_seasonal, aes(x=exp(kde_logscore), y=exp(a
     #geom_hline(yintercept=0, linetype=2) + 
     scale_y_continuous(limits=c(0, .2), name = "score diff. w/historical model") +
     scale_x_continuous(limits=c(.1, .4),name = "score of historical model") +
+    geom_hline(aes(yintercept=mean(exp(avg_logscore)-exp(kde_logscore))), linetype=2, color="darkgrey") +
     ggtitle("D: vs. historical baseline forecast") #+
 @
 
@@ -614,7 +617,7 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number. Panel (E) shows the number of seasons each model achieved above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel (E) shows the number of seasons each model achieved above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
