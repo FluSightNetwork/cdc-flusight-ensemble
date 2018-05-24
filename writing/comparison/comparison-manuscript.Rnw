@@ -36,12 +36,25 @@
 
 \begin{abstract}
 
-250 word limit
+% 250 word limit
+Influenza is [major source of morbidity and mortality worldwide, contributing to XXX-XXX deaths each year in the United States].
+Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occuring in colder parts of the year. 
+Real-time forecasts of influenza transmission can inform public health response to outbreaks. 
+We present the results of a multi-institution collaborative effort to standardize the collection and evaluation of forecasting models for influenza in the US for the 2010/2011 through 2016/2017 influenza seasons. 
+For these seven seasons, we assembled weekly real-time forecasts of 7 targets of public health interest from 22 different models (over 40m rows and 2.5GB of data).
+We compared forecast accuracy of each model against a historical baseline model that forecasted a simple seasonal average.
+Across all regions of the US, over half of the models showed consistently better performance than the historical baseline when forecasting incidence of influenza-like illness 1, 2 and 3 weeks ahead of available data and when forecasting the timing and magnitude of the seasonal peak.
+In some regions, timeliness of data reporting has a negative impact on forecast accuracy.
+Continued methodological and technological innovation are essential to improve timeliness and accessibility of novel and traditional data sources and to develop novel modeling frameworks that can merge biological understanding of disease transmission with statistical approaches. 
+These efforts will improve forecast accuracy and timeliness, continuing to strengthen the case for close integration of forecasts with real-time public health decision-making.
+
+
 
 \end{abstract}
 
 \subsection*{Significance Statement}
-120 word
+%120 word limit
+Being able to predict the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. In general, many of the models show more consistently accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect rapid growth and innovation to continue to spur improvements in forecasting in the coming years.
 
 %\tableofcontents
 
@@ -196,7 +209,7 @@ n_regions <- nrow(scores_by_region)
 @
 
 
-\section{Introduction}
+\section*{Introduction}
 
 Over the past 15 years, the number of published research articles on forecasting infectious diseases has tripled (Web of Science). 
 This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of information ranging from large-scale population behavior \cite{Molodecky2017} to microscopic changes in a pathogen \cite{Du2017} could lead to measurable improvements in how disease transmission is measured, forecasted, and prevented \cite{Bansal2016}. 
@@ -231,7 +244,8 @@ Drawing on the different expertise of the five teams allows us to make fine-grai
 In addition to analyzing comparative model performance over seasons, this work identifies key bottlenecks that limit the accuracy and generalizability of current forecasting efforts.
 Specifically, we present quantitative analyses of the impact that incomplete or partial case reporting has on forecast accuracy.
 Additionally, we assess whether purely statistical models show similar performance to models that consider explicit mechanistic models of disease transmission.
-[[NEED SNAPPY CLOSING SENTENCE HERE]]
+Overall, however, this work shows strong evidence that carefully crafted forecasting models consistently improve over a historical baseline model for targets of particular public health interest. 
+This collaboration from a subset of the core community of influenza forecasters in the US, and others like it, will continue to advance infectious disease forecasting capabilities globally. 
 
 \begin{figure}[htbp]
 \begin{center}
@@ -287,10 +301,10 @@ fludata %>%
 @
 
 
-\section{Results}
+\section*{Results}
 
 
-\subsection{Performance in forecasting week-ahead incidence}
+\subsection*{Performance in forecasting week-ahead incidence}
 
 Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
 Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts (see Methods). 
@@ -617,7 +631,7 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis) with one point for each region. For example, a y-value of 0.1 indicates that in the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel (E) shows the number of seasons each model achieved above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead and seasonal targets, summarized for all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel (E) shows the number of seasons each model achieved above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
@@ -670,7 +684,7 @@ Only in \Sexpr{paste(regions_above_.5_best_model, collapse=" and ")} were the fo
 % For 1 week-ahead forecasts, \Sexpr{n_models_better_than_kde_1wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_1wk/n_models*100)}\%) showed higher scores than a historical baseline.
 % For the 4 week-ahead forecasts, only \Sexpr{n_models_better_than_kde_4wk} of \Sexpr{n_models} models (\Sexpr{specify_decimal(n_models_better_than_kde_4wk/n_models*100)}\%) showed higher scores than the historical baseline.
 
-\subsection{Performance in forecasting seasonal targets}
+\subsection*{Performance in forecasting seasonal targets}
 
 <<best-models-seasonal>>=
 max_logscore_seasonal <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "seasonal")])
@@ -784,8 +798,7 @@ score in forecasting peak intensity.
 %Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest for peak intensity.
 Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
-
-% \subsection{Performance of models by location}
+% \subsection*{Performance of models by location}
 % 
 % Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
 % 
@@ -797,7 +810,7 @@ Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better o
 % Hypothesis: year-to-year variation within a region (as measured by skill -> lower skill = larger variation) is associated with skill of (top) models for that region. 
 % lower skill = larger variation --> lower component model skill
 
-\subsection{Comparing models' forecasting performance by season}
+\subsection*{Comparing models' forecasting performance by season}
 <<performance-by-season>>=
 kde_logscore <- unlist(scores_by_model[which(scores_by_model$Model=="ReichLab-KDE"), "avg_logscore"])
 max_logscore <- max(scores_by_model$avg_logscore)
@@ -877,7 +890,7 @@ The {\tt ReichLab-SARIMA2} model used a classical statistical time-series model,
 Interestingly, several pairs of models, although having strongly contrasting methodological approaches, showed similar overall performance; e.g., {\tt CU-EKF\_SIRS} and {\tt ReichLab-SARIMA2}, {\tt LANL-DBM} and {\tt ReichLab-KCDE}.
 
 
-\subsection{Comparison between statistical and compartmental models} \label{sec:stat-mech}
+\subsection*{Comparison between statistical and compartmental models} \label{sec:stat-mech}
 
 <<modeltype-comparison>>=
 top_models <- scores_adj %>%
@@ -959,12 +972,12 @@ For peak percentage forecasts, the statistical models had slightly higher scores
 % \end{itemize}
 
 
-%\subsection{Where do these models fail?}
+%\subsection*{Where do these models fail?}
 
 %In addition to examining where our models perform well, we also identified situations in which where current state-of-the-art forecast models still need improvement. 
 %We identify and quantify several of these challenges, including revisions to initially reported data, ....
 
-\subsection{Delayed case reporting impacts forecast score}\label{sec:delays}
+\subsection*{Delayed case reporting impacts forecast score}\label{sec:delays}
 <<delay-analysis, fig.height=4, fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast skill (Section \\ref{sec:delay-model}).  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within $\\pm$ 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
 fm4_coefs_fltr <- readRDS(file="./data/delay-model-coefs.rds")
 lagged_truth <- readRDS(file = "./data/lagged_truth.rds")
@@ -1035,7 +1048,7 @@ Additionally, we observed that some of the variation in region-specific performa
 
 
 
-\section{Discussion}
+\section*{Discussion}
 
 This work presents the first large-scale comparison of real-time forecasting models from different modeling teams across multiple years.
 With the rapid increase in infectious disease forecasting efforts, it can be difficult to parse the literature and understand the relative importance of different methodological advances when there is not an agreed-upon set of standard evaluations.
@@ -1045,9 +1058,10 @@ Our collaborative, team-science approach highlights the ability of multiple rese
 Seasonal influenza in the US, given the relative accessibility of historical surveillance data and recent history of coordinated forecasting `challenges', is an important testbed system for understanding the current state of the art of infectious disease forecasting models.
 Using models from some of the most experienced forecasting teams in the country, we have obtained several key observations forecasting seasonal influenza in the US. 
 \begin{itemize}
-    \item On the whole, models improved substantially on baseline forecasts, both in regions with more consistent seasonal trends and those with less consistent seasonal trends (Figure \ref{fig:results-model-region-tt}B, D);
-    \item At the presented spatial and temporal resolutions for influenza forecasts, we did not identify a meaningful difference between high-performing models that rely on an underlying mechanistic (i.e., compartmental) model and those that are more statistical in nature (Section \ref{sec:stat-mech});
-    \item A major impediment to improved forecasting is the reporting biases in initially reported real-time data (Section \ref{sec:delays}).
+    \item On the whole, models consistently showed higher accuracy than historical baseline forecasts, both in regions with more predictable seasonal trends and those with less consistent seasonal patterns (Figure \ref{fig:results-model-region-tt}B, D, E);
+    \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models were able to consistently improve on the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:results-model-region-tt}E).
+    \item At the presented spatial and temporal resolutions for influenza forecasts, we did not identify substantial and consistent differences between high-performing models that rely on an underlying mechanistic (i.e., compartmental) model of disease transmission and those that are more statistical in nature (Table \ref{tab:score-by-model-type});
+    \item A significant impediment to improved forecasting in some regions is the reporting biases in initially reported real-time data (Section \ref{sec:delays}).
 \end{itemize}
 
 As knowledge and data about a given infectious disease system improve and become more granular, a common expectation among domain-area experts is that mechanistic models will outperform more statistical approaches.
@@ -1064,17 +1078,29 @@ Additionally, while seven seasons of data and forecasts is the largest study we 
 Since each season represents a set of highly correlated dynamics across regions, this is not a lot of data from which to draw strong conclusions about comparative model performance.
 
 
-From the perspective of model evaluation, there is no external benchmark defined by the CDC (or others) as to what constitutes a `good' or `useful' forecast. 
-While relative comparisons are useful, it could be beneficial to have public health officials declare a given threshold, a forecast score of, for example, 0.7 or better as `useful'.
+% From the perspective of model evaluation, there is no external benchmark defined by the CDC (or others) as to what constitutes a `good' or `useful' forecast. 
+% While relative comparisons are useful, it could be beneficial to have public health officials declare a given threshold, a forecast score of, for example, 0.7 or better as `useful'.
 %    \item no standard methods for evaluating repeated forecasts of the same targets with the same models...
+
+What is the future of influenza forecasting in the US and globally? Given available data, what levels of model accuracy are theoretically achievable? 
+This work provides concrete evidence of model performance from a portion of the dedicated core community that will continue to advance influenza forecasting capabilities for the US and beyond. 
+Challenges like CDC's FluSight  are immensely important to the advancement of this field. 
+Infectious disease forecasting is in its infancy as a field and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
+
+To continue to advance the field, a complete enumeration and understanding of the challenges facing the field is critical.
+We have identified and quantified some of the challenges in this work (specifically, challenges with timely reporting of surveillance data). 
+Howver, other barriers may be equally or more important to continued improvement of forecasts.
+Researchers still often either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data) to the fullest extent possible. 
+More methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
+From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.s
 
 Public health officials are still learning how to best integrate forecasts into real-time decision making.
 Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
 Real-time implementation and testing of forecasting methods is helpful for planning and assessing what targets should be forecasted for maximum public health impact.
 
-\section{Methods}
+\section*{Methods}
 
-\subsection{FluSight Challenge Overview}
+\subsection*{FluSight Challenge Overview}
  
 Detailed methodology and results from previous FluSight challenges have been published\cite{Biggerstaff2016,Biggerstaff2018}, and we summarize the key features of the challenge here.
 
@@ -1097,7 +1123,7 @@ Each forecast file represented a single submission file, as would be submitted t
 Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e., fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:intro-schematic}). 
 Some data sources (e.g. wILI data prior to the 2014/2015 season) were not archived in a way that made data reliably retrievable in this ``real-time'' manner. In these situations, teams were still allowed to use these data sources with best efforts made to ensure forecasts were made using only data available at the time forecasts would have been made.
 
-\subsection{Summary of Models}
+\subsection*{Summary of Models}
 
 Five teams each submitted between 1 and 9 separate models for evaluation (Table \ref{tab:model-list}). 
 A wide range of methodological approaches and modeling paradigms are included in the set of forecast models.
@@ -1115,7 +1141,7 @@ Once submitted to the central repository, the models were not updated or modifie
 (In all cases, the updates did not substantially change the performance of the updated models.)
 Re-fitting of models or tuning of model parameters was explicitly discouraged to avoid unintentional overfitting of models.
 
-\subsection{Metric Used for Evaluation and Comparison}
+\subsection*{Metric Used for Evaluation and Comparison}
 
 %Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that enables evaluation of both the precision and accuracy of a forecast.\cite{Gneiting2007} 
 The log-score for a model $m$ is defined as $\log f_m(z^*|\bf{x})$ where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for target $Z$, conditional on some data $\bf{x}$, $z^*$ is the observed value of the target $Z$, and $\log$ is the natural logarithm. 
@@ -1161,14 +1187,14 @@ In a region-season without an onset, all weeks are scored.
 To ensure all calculated summary measures would be finite, all log scores with values of less than -10 were assigned the value -10, following CDC scoring conventions.
 All scores were based on ``ground truth'' values of wILI data obtained as of September 27, 2017.
 
-% \subsection{Formal comparisons of model performance}
+% \subsection*{Formal comparisons of model performance}
 % 
 % Model-based comparisons of forecast accuracy are hindered by the high correlation of sequential forecasts and by outlying observations. 
 % When observations assign no probability to the eventually observed outcome they have a log-score of $-\infty$.
 
 %Things to confirm: removed weeks that CDC does not score, no onset seasons and multi peak years are handled appropriately
 
-\subsection{Specific model comparisons}\label{sec:delay-model}
+\subsection*{Specific model comparisons}\label{sec:delay-model}
 
 \subsubsection*{Analysis of data revisions}
 % from fig-delay-model-coefs.R
@@ -1210,7 +1236,7 @@ We then took the top three performing compartmental models (i.e., models with so
 We excluded multi-model ensemble models (i.e., {\tt Delphi-Stat}) from this comparison.
 Separately for each target, we compared the average score of the top three compartmental models to the average score of the top three non-compartmental models.
 
-\subsection{Reproducibility and data availability}
+\subsection*{Reproducibility and data availability}
 
 To maximize the reproducibility and data availability for this project, the data and code for the entire project (excluding specific model code) are publicly available.
 The project is available on GitHub\cite{fsngithub2018}, with a permanent repository [[stored on Zotero]].
