@@ -446,22 +446,13 @@ Looking at results across all models,
 %from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, 
 \Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable (Figure \ref{fig:results-model-region-tt}).
 
-The models presented show substantial improvements in accuracy compared to forecasts from the historical baseline model in all regions of the US.
-In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast score of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} for week-ahead targets (Figure \ref{fig:plot-historical-baseline-comparison}). 
-This means that in a typical season these models assigned an average of \Sexpr{specify_decimal(best_region_wkahead_skill, 2)} probability to the accurate wILI percentages.
-\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region. 
-This resulted from having the highest score from the baseline model and having the largest improvement upon baseline predictions from the other models (Figure \ref{fig:plot-historical-baseline-comparison}B).  
-In \Sexpr{worst_region_wkahead} the average week-ahead score was \Sexpr{specify_decimal(worst_region_wkahead_skill, 2)}. 
-While \Sexpr{worst_region_wkahead} showed the lowest baseline model score of any region, it also showed the second highest improvement upon baseline predictions (Figure \ref{fig:plot-historical-baseline-comparison}B).
-%This was just marginally better than the week-ahead forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
-
 <<region-seasonal-results>>=
 kde_logscore_seasonal <- unlist(scores_by_model_targettype[which(scores_by_model_targettype$Model=="ReichLab-KDE"& scores_by_model_targettype$target_type=="seasonal"), "avg_logscore"])
 n_above_kde_seasonal <- sum(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type=="seasonal")]>kde_logscore_seasonal)
 
 ## Get models better than KDE for k-week-ahead
 scores_seasonal_better_than_kde <- scores_by_model_targettype %>%
-    filter(target_type=="k-week-ahead", avg_logscore>kde_logscore_seasonal)
+   filter(target_type=="k-week-ahead", avg_logscore>kde_logscore_seasonal)
 models_seasonal_better_than_kde <- as.character(scores_seasonal_better_than_kde$Model)
 
 ## look at region-specific, k-week-ahead scores
@@ -485,12 +476,14 @@ data(hhs_regions)
 ## aggreate scores by target type for models better than KDE
 scores_for_map_wkahead <- scores_by_model_targettype_region %>% 
     filter(Model %in% models_wkahead_better_than_kde, target_type=="k-week-ahead") %>%
+    #filter(target_type=="k-week-ahead") %>%
     group_by(Location) %>%
     summarize(avg_logscore = mean(avg_logscore)) %>% 
     ungroup() %>%
     mutate(region_number = ifelse(Location=="US National", "N", gsub("[^0-9]", "", Location)))
 scores_for_map_seasonal <- scores_by_model_targettype_region %>% 
     filter(Model %in% models_seasonal_better_than_kde, target_type=="seasonal") %>%
+    #filter(target_type=="seasonal") %>%
     group_by(Location) %>%
     summarize(avg_logscore = mean(avg_logscore)) %>% 
     ungroup() %>%
@@ -646,7 +639,7 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for all models for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for all models. Panels B \\& D compare historical baseline model score (x-axis) with the average score of all models (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model achieved above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model achieved above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
@@ -654,6 +647,31 @@ lay <- rbind(
     )
 grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, seasons_above_baseline, layout_matrix=lay)
 @
+
+
+The models presented show substantial improvements in accuracy compared to forecasts from the historical baseline model in all regions of the US.
+Results that follow are based on summaries from those models that on average showed higher forecast score than the historical baseline model.
+In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast score of 
+\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]), 2)} 
+for week-ahead targets (Figure \ref{fig:plot-historical-baseline-comparison}A). 
+This means that in a typical season these models assigned an average of 
+\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]), 2)} 
+probability to the accurate wILI percentages.
+\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region (overall average score = 
+\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(scores_by_region_wkahead$Location==best_region_wkahead)]),2)}). 
+This resulted from having the highest score from the baseline model 
+(\Sexpr{specify_decimal(exp(kde_scores_wkahead$kde_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]),2)}) 
+and having the largest improvement upon baseline predictions 
+(\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]) - exp(kde_scores_wkahead$kde_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]),2)})
+from the other models (Figure \ref{fig:plot-historical-baseline-comparison}B).  
+In \Sexpr{worst_region_wkahead} the average week-ahead score was 
+\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==worst_region_wkahead)]), 2)}. 
+While \Sexpr{worst_region_wkahead} showed the lowest baseline model score of any region
+(\Sexpr{specify_decimal(exp(kde_scores_wkahead$kde_logscore[which(kde_scores_wkahead$Location==worst_region_wkahead)]),2)}), 
+it also showed the second highest improvement
+(\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==worst_region_wkahead)]) - exp(kde_scores_wkahead$kde_logscore[which(kde_scores_wkahead$Location==worst_region_wkahead)]),2)})
+upon baseline predictions (Figure \ref{fig:plot-historical-baseline-comparison}B).
+%This was just marginally better than the week-ahead forecast skill for the historical average model in \Sexpr{worst_region_wkahead}, which was \Sexpr{specify_decimal(kde_kwkahead_worst_score,2)}.
 
 
 
@@ -1031,7 +1049,20 @@ Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_
 When the first report of the wILI measurement for a given region-week was revised in subsequent weeks (due to incomplete or delayed reporting), we observed a corresponding strong negative impact on forecast accuracy.
 We found that larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
 Specifically, among the four top-performing models we observed an expected change in forecast score of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
-when the first observed wILI measurement is between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-analysis}).
+(95\% CI: 
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}
+-
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.high[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}
+)
+when the first observed wILI measurement was between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-analysis}).
+Additionally, we observed an expected change in forecast score of 
+\Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)} 
+(95\% CI: 
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)}
+-
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.high[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)}
+)
+when the first observed wILI measurement was between 1.5 and 2.5 percentage points higher than the final observed value.
 These results are based on results from four top-performing models: {\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}.
 This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there are over-reported values. 
 Additionally, we observed that some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions (data not shown).
@@ -1073,8 +1104,8 @@ Our collaborative, team-science approach highlights the ability of multiple rese
 Seasonal influenza in the US, given the relative accessibility of historical surveillance data and recent history of coordinated forecasting `challenges', is an important testbed system for understanding the current state of the art of infectious disease forecasting models.
 Using models from some of the most experienced forecasting teams in the country, we have obtained several key observations about forecasting seasonal influenza in the US. 
 \begin{itemize}
-    \item On the whole, models consistently showed higher accuracy than historical baseline forecasts, both in regions with more predictable seasonal trends and those with less consistent seasonal patterns (Figure \ref{fig:results-model-region-tt}B, D, E);
-    \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models consistently outperformed the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:results-model-region-tt}E).
+    \item A majority of models consistently showed higher accuracy than historical baseline forecasts, both in regions with more predictable seasonal trends and those with less consistent seasonal patterns (Figure \ref{fig:plot-historical-baseline-comparison}B, D, E);
+    \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models consistently outperformed the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:plot-historical-baseline-comparison}E).
     \item At the presented spatial and temporal resolutions for influenza forecasts, we did not identify substantial and consistent differences between high-performing models that rely on an underlying mechanistic (i.e., compartmental) model of disease transmission and those that are more statistical in nature (Table \ref{tab:score-by-model-type});
     \item A significant impediment to improved forecasting in some regions is the reporting biases in initially reported real-time data (Figure \ref{fig:delay-analysis}).
 \end{itemize}
@@ -1192,6 +1223,7 @@ In this setting, this score has the intuitive interpretation of being the averag
 Throughout the manuscript, we refer to an exponentiated average log score as an average score.
 In all cases, we compute the averages arithmetically on the log scale and only exponentiate before reporting and interpreting a final number.
 Therefore, all reported average scores can be interpreted as the corresponding geometric means, or as the correponding average probabilities assigned to the true outcome.
+For some summary calculations (e.g., Figure \ref{fig:plot-historical-baseline-comparison}), we used a subset of models that had shown improved performance over the baseline model.
 
 Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average log scores for each target.
 This focuses model evaluation on periods of time that are more relevant for public health decision making.
