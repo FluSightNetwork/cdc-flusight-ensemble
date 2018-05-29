@@ -3,6 +3,9 @@ output:
   word_document: default
   html_document: default
 ---
+
+[![DOI](https://zenodo.org/badge/83746897.svg)](https://zenodo.org/badge/latestdoi/83746897)
+
 # Guidelines for a CDC FluSight ensemble (2017-2018)
 
 ## Overview of CDC FluSight
