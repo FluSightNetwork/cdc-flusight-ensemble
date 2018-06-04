@@ -1,0 +1,45 @@
+\documentclass{article}
+\title{EM Algorithm for Weighted Density Ensembles}
+
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\author{Nicholas G Reich}
+
+
+\begin{document}
+
+\maketitle
+
+The following is adapted from \url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf} and describes the use of the degnerate EM algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+
+As described in Reich et al. (see comparison manuscript from FluSight Network), we are operating in the setting where we have a set of $M$ component models that make forecasts across a set of regions ($r$), targets ($t$), seasons ($s$), and weeks ($w$). 
+A specific predictive density across each of these dimensions can be represented as $f_{m,r,t,s,w}(z|\bf{x})$ where $\bf{x}$ represents data conditioned on by the model and $z$ represents the target variable of interest.
+Our models are evaluated using the log-score which can be represented as 
+\begin{eqnarray}
+LS_{m,r,t,s,w} & = & \log f_{m,r,t,s,w}(z^*|{\bf x}). \label{eqn:logscore}
+\end{eqnarray}
+
+We aim to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting average.
+
+\section{The Algorithm}
+Assume that we have a set of fitted predictive densities evaluated at observed data $z^*$, $f_{m,r,t,s,w}(z^*|{\bf x})$. We wish to obtain a set of weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+
+\begin{algorithm}
+\caption{Euclid’s algorithm}\label{alg:euclid}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+\State $r\gets a\bmod b$
+\While{$r\not=0$}\Comment{We have the answer if r is 0}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile\label{euclidendwhile}
+\State \textbf{return} $b$\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\end{document}
