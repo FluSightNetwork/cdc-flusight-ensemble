@@ -1,7 +1,10 @@
 \documentclass{article}
+\usepackage[letterpaper, margin=1in]{geometry} % margin
+
 \title{EM Algorithm for Weighted Density Ensembles}
 
-\usepackage{hyperref}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 
@@ -12,34 +15,45 @@
 
 \maketitle
 
-The following is adapted from \url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf} and describes the use of the degnerate EM algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+The following is adapted from an online document\footnote{\url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf}} and describes the use of the degnerate EM algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+%As described in Reich et al. (see comparison manuscript from FluSight Network), we are operating in the setting where we have a set of $M$ component models that make forecasts across a set of regions ($r$), targets ($t$), seasons ($s$), and weeks ($w$). 
+%A specific predictive density across each of these dimensions can be represented as $f_{m,r,t,s,w}(z|\bf{x})$ where $\bf{x}$ represents data conditioned on by the model and $z$ represents the target variable of interest.
+%Our models are evaluated using the log-score which can be represented as 
+%\begin{eqnarray}
+%LS_{m,r,t,s,w} & = & \log f_{m,r,t,s,w}(z^*|{\bf x}). \label{eqn:logscore}
+%\end{eqnarray}
+We aim to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting model average.
 
-As described in Reich et al. (see comparison manuscript from FluSight Network), we are operating in the setting where we have a set of $M$ component models that make forecasts across a set of regions ($r$), targets ($t$), seasons ($s$), and weeks ($w$). 
-A specific predictive density across each of these dimensions can be represented as $f_{m,r,t,s,w}(z|\bf{x})$ where $\bf{x}$ represents data conditioned on by the model and $z$ represents the target variable of interest.
-Our models are evaluated using the log-score which can be represented as 
-\begin{eqnarray}
-LS_{m,r,t,s,w} & = & \log f_{m,r,t,s,w}(z^*|{\bf x}). \label{eqn:logscore}
-\end{eqnarray}
+%\section{The Algorithm}
+Assume that we have a set of $M$ fitted predictive densities ``evaluated at''\footnote{Need to add distinction about not strict evaluation but rather probability assigned to ``values deemed to be accurate''.} observed data\footnote{For now, these could be forecasts for arbitrary targets, locations, seasons, etc... } $z_i^*$ for $i=1, ..., N$. We will notate these data as  $f_{m}(z^*|{\bf x})$. There will be $M\cdot N$ total observations, as each model must have an associated value (a probability, between 0 and 1) for each observed data point.
 
-We aim to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting average.
+We wish to obtain a set of optimal weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ for combining the models such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+The weights can be used to then combine the component models into an ensemble model as
+$$f(z_i|\pi) = \sum_{m=1}^M \pi_m f_m(z_i).$$
+We define a function $\ell(\pi)$ that computes a log-likelihood\footnote{Is this assuming independence?} of the resulting ensemble as follows:
+$$\ell(\pi) = \frac{1}{N}\sum_{i=1}^N \log f(z_i|\pi).$$
 
-\section{The Algorithm}
-Assume that we have a set of fitted predictive densities evaluated at observed data $z^*$, $f_{m,r,t,s,w}(z^*|{\bf x})$. We wish to obtain a set of weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+Below, we define one procedure to obtain a set of weights for the ensemble.
 
 \begin{algorithm}
-\caption{Euclid’s algorithm}\label{alg:euclid}
+\caption{Degenerate Expectation Maximization (DEM) algorithm}\label{alg:DEM}
 \begin{algorithmic}[1]
-\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
-\State $r\gets a\bmod b$
-\While{$r\not=0$}\Comment{We have the answer if r is 0}
-\State $a\gets b$
-\State $b\gets r$
-\State $r\gets a\bmod b$
-\EndWhile\label{euclidendwhile}
-\State \textbf{return} $b$\Comment{The gcd is b}
+\Procedure{dem}{$...$}%\Comment{The g.c.d. of a and b}
+\State Initialize $\pi_m^{(0)}$ such that $\forall m$ $\pi_m^{(0)} \geq 0$ and $\sum_{m=1}^M \pi_m^{(0)}=1$ 
+\State Set $t=0$
+\State Set $\Delta=1$, or another arbitrary constant.
+\State Set $\epsilon$ to be a very small positive number strictly less than $\Delta$.
+\While{$ \Delta > \epsilon$}%\Comment{We have the answer if r is 0}
+\State Set $t=t+1$
+\State Update weights, $\forall m$, $\pi_m^{(t)} = \frac{1}{N}\sum_{i=1}^N \frac{\pi_m^{(t-1)}f_m(z_i)}{f(z_i|\pi^{(t-1)})}$
+\State Set $\Delta =  \frac{\ell(\pi^{(t)}) - \ell(\pi^{(t-1)})}{|\ell(\pi^{(t)})|}$ \label{delta-step}
+\EndWhile
+\State \textbf{return} $\tilde\pi = \tilde\pi^{(t)}$%\Comment{The gcd is b}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
 
 
 \end{document}
