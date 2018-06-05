@@ -2,7 +2,7 @@
 
 \title{Forecasting Seasonal Influenza in the U.S.: A collaborative multi-year, multi-model assessment of forecast performance}
 
-\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Spencer Fox$^3$, Sasikiran Kandula$^4$, \\Craig McGowan$^5$, Evan Moore$^1$, Dave Osthus$^6$, Evan Ray$^7$, Abhinav Tushar$^1$, Teresa Yamana$^4$, \\Matthew Biggerstaff$^5$, Michael Johansson$^8$, Roni Rosenfeld$^2$, Jeffrey Shaman$^4$}
+\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Spencer Fox$^3$, Sasikiran Kandula$^4$, \\Craig McGowan$^5$, Evan Moore$^1$, Dave Osthus$^6$, Evan Ray$^7$, Abhinav Tushar$^1$, Teresa Yamana$^4$, \\Matthew Biggerstaff$^5$, Michael A Johansson$^8$, Roni Rosenfeld$^2$, Jeffrey Shaman$^4$}
 
 \date{%
     $^1$University of Massachusetts-Amherst, Amherst, USA\\%
@@ -52,19 +52,17 @@ Influenza infects an estimated 9 to 35 million individuals each year in the Unit
 Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occuring in colder and dryer parts of the year. 
 Real-time forecasts of influenza transmission can inform public health response to outbreaks. 
 We present the results of a multi-institution collaborative effort to standardize the collection and evaluation of forecasting models for influenza in the US for the 2010/2011 through 2016/2017 influenza seasons. 
-For these seven seasons, we assembled weekly real-time forecasts of 7 targets of public health interest from 22 different models (over 40m rows and 2.5GB of data).
+For these seven seasons, we assembled weekly real-time forecasts of 7 targets of public health interest from 22 different models.
 We compared forecast accuracy of each model against a historical baseline seasonal average.
 Across all regions of the US, over half of the models showed consistently better performance than the historical baseline when forecasting incidence of influenza-like illness 1, 2 and 3 weeks ahead of available data and when forecasting the timing and magnitude of the seasonal peak.
 In some regions, delays in data reporting were strongly and negatively associated with forecast accuracy.
-Continued methodological and technological innovation are essential to enhance timely reporting and overall accessibility of novel and traditional data sources for forecasting.
-These advances will continue to improve the extent to whih influenza forecasts can be successfully integrated with real-time public health decision-making.
-
+More timely reporting and an improved overall accessibility to novel and traditional data sources are needed to improve forecasting accuracy and its integration with real-time public health decision-making.
 
 \end{abstract}
 
 \subsection*{Significance Statement}
 %120 word limit
-Being able to predict the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. In general, many of the models show more consistently accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect rapid growth and innovation to spur improvements in forecasting in the coming years.
+Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
 
 %\tableofcontents
 
@@ -227,26 +225,26 @@ With the spectre of a global pandemic looming, improving infectious disease fore
 
 Forecasts of infectious disease transmission can inform public health response to outbreaks. 
 Accurate forecasts of the timing and spatial spread of infectious disease incidence can provide valuable information about where public health interventions can be targeted.\cite{Lipsitch2011}
-Decisions about hospital staffing, resource allocation, the timing of public health communication campaigns, and the implementation of interventions designed to disrupt disease transmission, such as vector control measures, can be assisted by forecasts.
+Decisions about hospital staffing, resource allocation, the timing of public health communication campaigns, and the implementation of interventions designed to disrupt disease transmission, such as vector control measures, can be informed by forecasts.
 In part due to the growing recognition of the importance of systematically integrating forecasting into public health outbreak response, large-scale collaborations have been used in forecasting applications to develop common data standards and facilitate comparisons across multiple models.\cite{Biggerstaff2016,Smith2017,Biggerstaff2018,Viboud2017}
 %These studies serve as an important counterweight to many forecasting efforts remain one-off academic exercises focused on a single application or a single method.
 By enabling a standardized comparison in a single application, these studies greatly improve our understanding of which models perform best in certain settings, of how results can best be disseminated and used by decision-makers, and of what the bottlenecks are in terms of improving forecasts.
 
-While such multi-model comparisons exist in the literature for single-season performance \cite{Biggerstaff2016,Biggerstaff2018}, here we compare the same models over seven influenza seasons. 
+While multi-model comparisons exist in the literature for single-season performance \cite{Biggerstaff2016,Biggerstaff2018}, here we compare the same models over seven influenza seasons. 
 To our knowledge, this is the first documented comparison of multiple real-time forecasting models from different teams across multiple seasons for any infectious disease application.
-Since each season has unique dynamical structure, multi-season comparisons like this have great potential to improve our understanding of how models perform over the long term and which models may be reliable in the future.
+Since each season has a unique dynamical structure, multi-season comparisons like this have great potential to improve our understanding of how models perform over the long term and which models may be reliable in the future.
 
 Influenza is a respiratory viral infection that can cause mild or severe symptoms.
 In the US each year, influenza viruses infect an estimated 9 to 35 million individuals and cause between 12,000 and 56,000 deaths.\cite{Rolfes2016}
-Influenza typically exhibits strongly seasonal patterns in the US (and globally throughout the Northern Hemisphere), often circulating widely during colder months (i.e., November through April). 
-The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a season are not fully understood, although contributing factors may include temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, severity of the dominant influenza subtype\cite{thompson2003}, or timing of school vacations\cite{cauchemez2008}.
+Influenza incidence typically exhibits a strong annual periodicity in the US (and globally throughout the Northern Hemisphere), often circulating widely during colder months (i.e., November through April). 
+The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, severity of the dominant influenza subtype\cite{thompson2003}, or timing of school vacations\cite{cauchemez2008}.
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level weighted influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
 The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
 This wILI metric is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
 The FluSight challenge forecasts are displayed together on a website in real-time and are evaluated for accuracy at the end of the season.\cite{PhiResearchLab} 
-This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both our technical understanding of how different forecast models perform and also how to integrate these models into decision-making.
+This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both technical understanding of how different forecast models perform and also how to integrate these models into decision-making.
 
 %We present a standardized comparison of a range of different forecasting models for influenza in the US, over multiple seasons.
 Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts \cite{Smith2017,Viboud2017}), a subset of FluSight participants formed a consortium in early 2017 to facilitate direct comparison and fusion of modeling approaches. 
@@ -260,12 +258,12 @@ In addition to analyzing comparative model performance over seasons, this work i
 Specifically, we present quantitative analyses of the impact that incomplete or partial case reporting has on forecast accuracy.
 Additionally, we assess whether purely statistical models show similar performance to models that consider explicit mechanistic models of disease transmission.
 Overall, this work shows strong evidence that carefully crafted forecasting models for region-level influenza in the US consistently outperformed a historical baseline model for targets of particular public health interest. 
-This collaboration from a subset of the core community of influenza forecasters in the US, and other collaborations like it, will continue to advance infectious disease forecasting capabilities globally. 
+%This collaboration from a subset of the core community of influenza forecasters in the US, and other collaborations like it, will continue to advance infectious disease forecasting capabilities globally. 
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{static-figures/timezero-sketch.pdf}
-\caption{(A) Weighted influenza-like illness data downloaded from the CDC website from selected regions. The y-axis shows the weighted percentage of doctor's office visits where the patient had influenza-like illness for each week between September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future.}
+\caption{(A) Weighted influenza-like illness data downloaded from the CDC website from selected regions. The y-axis shows the weighted percentage of doctor's office visits in which a patient presents with influenza-like illness for each week between September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future.}
 \label{fig:intro-schematic}
 \end{center}
 \end{figure}
@@ -441,7 +439,7 @@ kde_kwkahead_worst_score <- scores_by_model_targettype_region %>%
 Models were more consistently able to forecast week-ahead wILI in some regions than in others.
 Predictability for a target can be broken down into two components. 
 First, what is the baseline score that a model based on historical averages can achieve? Or, in other words, how stable are a given regions' patterns from season to season?
-Second, by using statistical modeling approaches, how much more accuracy can other models add beyond the historical baseline? 
+Second, by using alternate modeling approaches, how much more accuracy can be achieved beyond the historical baseline? 
 Looking at results across all models,
 %from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, 
 \Sexpr{best_region_wkahead} was the most predictable and \Sexpr{worst_region_wkahead} was the least predictable (Figure \ref{fig:results-model-region-tt}).
@@ -699,7 +697,7 @@ regions_above_.5_best_model <- scores_by_model_season_target_region %>%
     filter(both_above_.5) %>% .$Location
 @
 
-Forecast score declined as the target moved further into the future relative to the last observed data.
+Forecast score declined as the target moved further into the future relative to the last observation.
 Most models outperformed the historical baseline model in making 1-week ahead forecasts, as 15 of 22 models outperformed the historical baseline in at least 6 of the 7 seasons.
 However, only 7 out of 22 models outperformed the historical baseline in at least 6 seasons when making 4-week ahead forecasts.
 For the model with highest forecast score across all four week-ahead targets ({\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}), the average scores across region and season for 1 through 4 week-ahead forecasts were 
@@ -1044,7 +1042,7 @@ ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
 In the seven seasons examined in this study, wILI percentages were often revised after first being reported. 
 The frequency and magnitude of revisions varied substantially by region.
 For example, in HHS Region 9, over 51\% of initially reported wILI values ended up being revised by over 0.5 percentage points while in HHS Region 5 less than 1\% of values were revised that much. % see abs_bias_gt_.5 
-Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_bias_gt_.5$n)*100)}\% of observations showed ended up being revised by more than 0.5 percentage points.
+Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_bias_gt_.5$n)*100)}\% of observations were ultimately revised by more than 0.5 percentage points.
 
 When the first report of the wILI measurement for a given region-week was revised in subsequent weeks (due to incomplete or delayed reporting), we observed a corresponding strong negative impact on forecast accuracy.
 We found that larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
@@ -1098,50 +1096,55 @@ Additionally, we observed that some of the variation in region-specific performa
 
 This work presents the first large-scale comparison of real-time forecasting models from different modeling teams across multiple years.
 With the rapid increase in infectious disease forecasting efforts, it can be difficult to understand the relative importance of different methodological advances in the absence of an agreed-upon set of standard evaluations.
-We have built on the foundational work of the CDC efforts to establish and evaluate models against a set of shared benchmarks which other models can use as comparisons.
-Our collaborative, team-science approach highlights the ability of multiple research groups working together to expose patterns and trends of model performance that are harder to observe in single-team studies.
+We have built on the foundational work of CDC efforts to establish and evaluate models against a set of shared benchmarks which other models can use for comparison.
+Our collaborative, team-science approach highlights the ability of multiple research groups working together to uncover patterns and trends of model performance that are harder to observe in single-team studies.
 
 Seasonal influenza in the US, given the relative accessibility of historical surveillance data and recent history of coordinated forecasting `challenges', is an important testbed system for understanding the current state of the art of infectious disease forecasting models.
-Using models from some of the most experienced forecasting teams in the country, we have obtained several key observations about forecasting seasonal influenza in the US. 
+Using models from some of the most experienced forecasting teams in the country, this work reveals several key results about forecasting seasonal influenza in the US. 
 \begin{itemize}
     \item A majority of models consistently showed higher accuracy than historical baseline forecasts, both in regions with more predictable seasonal trends and those with less consistent seasonal patterns (Figure \ref{fig:plot-historical-baseline-comparison}B, D, E);
     \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models consistently outperformed the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:plot-historical-baseline-comparison}E).
     \item At the presented spatial and temporal resolutions for influenza forecasts, we did not identify substantial and consistent differences between high-performing models that rely on an underlying mechanistic (i.e., compartmental) model of disease transmission and those that are more statistical in nature (Table \ref{tab:score-by-model-type});
-    \item A significant impediment to improved forecasting in some regions is the reporting biases in initially reported real-time data (Figure \ref{fig:delay-analysis}).
+    \item Forecast accuracy is significantly degraded in some regions due to reporting biases in initially reported real-time data (Figure \ref{fig:delay-analysis}).
 \end{itemize}
 
-As knowledge and data about a given infectious disease system improve and become more granular, a common expectation among domain-area experts is that mechanistic models will outperform more statistical approaches.
-However, the statistical vs. mechanistic model distinction is not always a clean distinction in practice.
-In the case of influenza, mechanistic models are models for a disease transmission process, while the data-generating mechanism for wILI captures much more than just disease transmission (e.g., clinical visitation behaviors, symptomatic diagnosis process, reporting process, a backfill process, etc...). 
-Therefore, a disease transmission model and the wILI data-generating model are fundamentally different, suggesting a limitation to purely mechanistic models in this context.
+As knowledge and data about a given infectious disease system improve and become more granular, a common question among domain-area experts is whether mechanistic models will outperform more statistical approaches.
+However, the statistical vs. mechanistic model dichotomy is not always a clean distinction in practice.
+In the case of influenza, mechanistic models simulate a specific disease transmission process, whereas the data-generating mechanism for influenza-like illness captures much more than just disease transmission (e.g., clinical visitation behaviors, symptomatic diagnosis process, reporting process, a data-revision process, etc...). 
+Therefore, a disease transmission model and the true underlying influenza-like illness data-generation process are fundamentally different, suggesting a limitation to purely mechanistic models in this context.
 
 
 There are several important limitations to this work as presented.
-While we have presented a range of models from experienced influenza forecasting teams, there are large gaps in the types of data and models represented in our library of models.
+While we have assembled and analyzed a range of models from experienced influenza forecasting teams, there are large gaps in the types of data and models represented in our library of models.
 For example, relatively few additional data sources have been incorporated into these models, no models are included that explicitly incorporate information about circulating strains of influenza, and no model explicitly includes spatial relationships between regions.
-Adding a broader sample of modeling approaches would be a valuable contribution.
-Additionally, while seven seasons of forecasts from 22 models is the largest study we know of that compares models from multiple teams, this remains a smaller-than-desired sample size about model performance. 
-Since each season represents a set of highly correlated dynamics across regions, this is not a lot of data from which to draw strong conclusions about comparative model performance.
+Given that several of the models rely on similar modeling frameworks, adding a broader sample of modeling approaches would be a valuable contribution.
+Additionally, while seven seasons of forecasts from 22 models is the largest study we know of that compares models from multiple teams, this remains a less-than-ideal sample size to draw strong conclusions about model performance. 
+Since each season represents a set of highly correlated dynamics across regions, there are not a lot of data from which to draw strong conclusions about comparative model performance.
 
 
 % From the perspective of model evaluation, there is no external benchmark defined by the CDC (or others) as to what constitutes a `good' or `useful' forecast. 
 % While relative comparisons are useful, it could be beneficial to have public health officials declare a given threshold, a forecast score of, for example, 0.7 or better as `useful'.
 %    \item no standard methods for evaluating repeated forecasts of the same targets with the same models...
 
-What is the future of influenza forecasting in the US and globally? Given available data, what levels of model accuracy are theoretically achievable? 
-This work provides concrete evidence of model performance from experienced forecasting. 
-Challenges like CDC's FluSight are immensely important to the advancement of this field and will continue to advance influenza forecasting capabilities for the US and beyond. 
-Infectious disease forecasting is in its infancy and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
+What is the future of influenza forecasting in the US and globally? %Given available data, what levels of model accuracy are theoretically achievable? 
+%This work provides concrete evidence of model performance from experienced forecasting. 
+%Challenges like CDC's FluSight are immensely important to the advancement of this field and will continue to advance influenza forecasting capabilities for the US and beyond. 
+%Infectious disease forecasting is in its infancy and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
+While long-run forecast accuracy for influenza will vary based on a variety of factors, including data quality and geographical scale, we expect to see continued forecast improvement through competition, collaboration, and methodological and technological innovation.
+We see particular promise in models that leverage different data sources, such as pathogen-specific and highly localized incidence or public health surveillance data.
+Additionally, building ensemble models that capitalize on the strengths of a diverse set of individual component models will be critical to improving accuracy and consistency of models in all infectious disease forecasting settings. 
+Ensemble forecasting was the motivation behind the creation of the FluSight Network and, while out of scope of this manuscript, will be the topic of future collaborative research for the group.
 
-To continue to advance the field, a complete enumeration and understanding of the challenges facing the field is critical.
-In this work, we have identified and quantified some of the key challenges (specifically, challenges with timely reporting of surveillance data). 
+
+To advance the enterprise of infectious disease forecasting broadly, a complete enumeration and understanding of the challenges facing the field is critical.
+In this work, we have identified and quantified some of these challenges, specifically focusing on timely reporting of surveillance data. 
 However, other barriers may be equally or more important to continued improvement of forecasts.
-Researchers still often either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data) to the fullest extent possible. 
-More methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
+Often, researchers either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data) to the fullest extent possible. 
+Increased methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
 From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.
 
 Public health officials are still learning how to best integrate forecasts into real-time decision making.
-Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
 Real-time implementation and testing of forecasting methods plays a central role in planning and assessing what targets should be forecasted for maximum public health impact.
 
 \section*{Methods}
@@ -1165,6 +1168,7 @@ To be included in the model comparison presented here, previous participants in 
 For each season, files were submitted for epidemic week 40 (EW40) of the first calendar year of the season through EW20 of the following calendar year. 
 (For seasons that contained an EW53, an additional file labeled EW53 was included.)
 For each model, this involved creating 233 separate forecast submission files, one for each of the weeks in the seven training seasons.
+In total, the forecasts represent over 40m rows and 2.5GB of data.
 Each forecast file represented a single submission file, as would be submitted to the CDC challenge. 
 Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e., fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:intro-schematic}). 
 Some data sources (e.g. wILI data prior to the 2014/2015 season) were not archived in a way that made data reliably retrievable in this ``real-time'' manner. 
