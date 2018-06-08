@@ -26,9 +26,9 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{amsmath, amsfonts}
 \usepackage{setspace}
-\linenumbers % line numbers
+%\linenumbers % line numbers
 \onehalfspacing
-
+ 
 
 % Overall character count must not exceed 49,000 characters for a 6-page article and 82,000 for a 10-page article; this includes text, spaces, and the number of characters displaced by figures, tables, and equations.
 % Text: When submitting tables, figures, and/or equations in addition to text, keep the text for your manuscript under 5 two-column, single-spaced pages, or under 39,000 characters for a 6-page article and 65,000 for a 10-page article (including spaces).
@@ -49,11 +49,11 @@
 
 % 250 word limit
 Influenza infects an estimated 9 to 35 million individuals each year in the United States and is a contributing cause for between 12,000 and 56,000 deaths annually.
-Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occuring in colder and dryer parts of the year. 
+Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occuring in colder and drier months of the year. 
 Real-time forecasts of influenza transmission can inform public health response to outbreaks. 
 We present the results of a multi-institution collaborative effort to standardize the collection and evaluation of forecasting models for influenza in the US for the 2010/2011 through 2016/2017 influenza seasons. 
 For these seven seasons, we assembled weekly real-time forecasts of 7 targets of public health interest from 22 different models.
-We compared forecast accuracy of each model against a historical baseline seasonal average.
+We compared forecast accuracy of each model relative to a historical baseline seasonal average.
 Across all regions of the US, over half of the models showed consistently better performance than the historical baseline when forecasting incidence of influenza-like illness 1, 2 and 3 weeks ahead of available data and when forecasting the timing and magnitude of the seasonal peak.
 In some regions, delays in data reporting were strongly and negatively associated with forecast accuracy.
 More timely reporting and an improved overall accessibility to novel and traditional data sources are needed to improve forecasting accuracy and its integration with real-time public health decision-making.
@@ -120,7 +120,7 @@ scores_adj <- scores_trimmed %>%
         model_type = ifelse(Model %in% compartment_models, "compartment_model", "stat_model"),
         stat_model = ifelse(Model %in% compartment_models, 0, 1),
         Model = reorder(Model, score_adj),
-        Season = reorder(Season, score_adj),
+        #Season = reorder(Season, score_adj),
         Location = reorder(Location, score_adj)
         ) 
 
@@ -220,7 +220,7 @@ n_regions <- nrow(scores_by_region)
 \section*{Introduction}
 
 Over the past 15 years, the number of published research articles on forecasting infectious diseases has tripled (Web of Science). 
-This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of information ranging from large-scale population behavior \cite{Molodecky2017} to microscopic changes in a pathogen \cite{Du2017} could lead to measurable improvements in how disease transmission is measured, forecasted, and prevented \cite{Bansal2016}. 
+This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of information ranging from large-scale population behavior \cite{Molodecky2017} to microscopic changes in a pathogen \cite{Du2017} could lead to measurable improvements in how disease transmission is measured, forecasted, and controlled \cite{Bansal2016}. 
 With the spectre of a global pandemic looming, improving infectious disease forecasting continues to be a central priority of global health preparedness efforts.\cite{Myers2000,WorldHealthOrganization2016,Chretien2015}
 
 Forecasts of infectious disease transmission can inform public health response to outbreaks. 
@@ -230,7 +230,7 @@ In part due to the growing recognition of the importance of systematically integ
 %These studies serve as an important counterweight to many forecasting efforts remain one-off academic exercises focused on a single application or a single method.
 By enabling a standardized comparison in a single application, these studies greatly improve our understanding of which models perform best in certain settings, of how results can best be disseminated and used by decision-makers, and of what the bottlenecks are in terms of improving forecasts.
 
-While multi-model comparisons exist in the literature for single-season performance \cite{Biggerstaff2016,Biggerstaff2018}, here we compare the same models over seven influenza seasons. 
+While multi-model comparisons exist in the literature for single-outbreak performance \cite{Biggerstaff2016,Viboud2017,Biggerstaff2018}, here we compare a consistent set of models over seven influenza seasons. 
 To our knowledge, this is the first documented comparison of multiple real-time forecasting models from different teams across multiple seasons for any infectious disease application.
 Since each season has a unique dynamical structure, multi-season comparisons like this have great potential to improve our understanding of how models perform over the long term and which models may be reliable in the future.
 
@@ -241,10 +241,10 @@ The social, biological, environmental, and demographic features that contribute 
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level weighted influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
-The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
-This wILI metric is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
+The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional and national level.
+This wILI metric is a standard measure of seasonal flu activity, for which public data are available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
 The FluSight challenge forecasts are displayed together on a website in real-time and are evaluated for accuracy at the end of the season.\cite{PhiResearchLab} 
-This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both technical understanding of how different forecast models perform and also how to integrate these models into decision-making.
+This effort has galvanized a community of scientists interested in forecasting, creating an organic testbed for improving both the technical understanding of how different forecast models perform and the integration of these models into decision-making.
 
 %We present a standardized comparison of a range of different forecasting models for influenza in the US, over multiple seasons.
 Building on the structure of the FluSight challenges (and those of other collaborative forecasting efforts \cite{Smith2017,Viboud2017}), a subset of FluSight participants formed a consortium in early 2017 to facilitate direct comparison and fusion of modeling approaches. 
@@ -254,7 +254,7 @@ Our work brings together 22 models from five different institutions: Carnegie Me
 In this paper, we provide a detailed analysis of the performance of these different models in forecasting the targets defined by the CDC FluSight challenge organizers (Figure \ref{fig:intro-schematic}B).
 Drawing on the different expertise of the five teams allows us to make fine-grained and standardized comparisons of distinct approaches to disease incidence forecasting that use different data sources and modeling frameworks.
 
-In addition to analyzing comparative model performance over seasons, this work identifies key bottlenecks that limit the accuracy and generalizability of current forecasting efforts.
+In addition to analyzing comparative model performance over multiple seasons, this work identifies key bottlenecks that limit the accuracy and generalizability of current forecasting efforts.
 Specifically, we present quantitative analyses of the impact that incomplete or partial case reporting has on forecast accuracy.
 Additionally, we assess whether purely statistical models show similar performance to models that consider explicit mechanistic models of disease transmission.
 Overall, this work shows strong evidence that carefully crafted forecasting models for region-level influenza in the US consistently outperformed a historical baseline model for targets of particular public health interest. 
@@ -321,9 +321,9 @@ fludata %>%
 
 Influenza forecasts have been evaluated by the CDC primarily using a variation of the log-score, a measure that evaluates both the precision and accuracy of a forecast.\cite{Gneiting2007} 
 Consistent with the primary evaluation performed by the CDC, we used a modified form of the log-score to evaluate forecasts (see Methods). 
-The reported scores are aggregated into an average on the log scale and then exponentiated so the reported scores can be interpreted as the average probability assigned to the eventually observed value of each target by a particular model. 
+The reported scores are aggregated into an average on the log scale and then exponentiated so the reported scores can be interpreted as the (geometric) average probability assigned to the eventually observed value of each target by a particular model. 
 Therefore, higher scores reflect more accurate forecasts. 
-We compare all models against a historical baseline model, {\tt ReichLab-KDE}, which forecasts the same historical average every week within a season and does not update based on recently observed data.
+We compare all models to a historical baseline model, {\tt ReichLab-KDE}, which forecasts the same historical average every week within a season and does not update based on recently observed data.
 
 <<>>=
 max_logscore_wkahead <- max(scores_by_model_targettype$avg_logscore[which(scores_by_model_targettype$target_type == "k-week-ahead")])
@@ -438,7 +438,7 @@ kde_kwkahead_worst_score <- scores_by_model_targettype_region %>%
 
 Models were more consistently able to forecast week-ahead wILI in some regions than in others.
 Predictability for a target can be broken down into two components. 
-First, what is the baseline score that a model based on historical averages can achieve? Or, in other words, how stable are a given regions' patterns from season to season?
+First, what is the baseline score that a model based on historical averages can achieve? Or, in other words, how stable are a given region's patterns from season to season?
 Second, by using alternate modeling approaches, how much more accuracy can be achieved beyond the historical baseline? 
 Looking at results across all models,
 %from the \Sexpr{length(models_wkahead_better_than_kde)} models that on average had more skill than the historical baseline in forecasting week-ahead targets, 
@@ -631,13 +631,13 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
     scale_fill_brewer(palette(7)) + 
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5), legend.key.size = unit(.5,"line")) +
     scale_y_discrete(name="", limits = rev(levels(dat$Target))) +
-    guides(fill = guide_legend(title = "Seasons Above \nHistorical Baseline", reverse = T)) + 
+    guides(fill = guide_legend(title = "seasons above \nhistorical baseline", reverse = T)) + 
     #coord_fixed(ratio = 0.7) +
     ggtitle("E: comparison to historical baseline")
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model achieved above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model had average performance above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
@@ -649,14 +649,14 @@ grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, seaso
 
 The models presented show substantial improvements in accuracy compared to forecasts from the historical baseline model in all regions of the US.
 Results that follow are based on summaries from those models that on average showed higher forecast score than the historical baseline model.
-In \Sexpr{best_region_wkahead}, the \Sexpr{n_models} models showed an average forecast score of 
+\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region. Here, the \Sexpr{n_models} models showed an average forecast score of 
 \Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]), 2)} 
 for week-ahead targets (Figure \ref{fig:plot-historical-baseline-comparison}A). 
 This means that in a typical season these models assigned an average of 
 \Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]), 2)} 
 probability to the accurate wILI percentages.
-\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region (overall average score = 
-\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(scores_by_region_wkahead$Location==best_region_wkahead)]),2)}). 
+%\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region (overall average score = 
+%\Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(scores_by_region_wkahead$Location==best_region_wkahead)]),2)}). 
 This resulted from having the highest score from the baseline model 
 (\Sexpr{specify_decimal(exp(kde_scores_wkahead$kde_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]),2)}) 
 and having the largest improvement upon baseline predictions 
@@ -697,10 +697,10 @@ regions_above_.5_best_model <- scores_by_model_season_target_region %>%
     filter(both_above_.5) %>% .$Location
 @
 
-Forecast score declined as the target moved further into the future relative to the last observation.
+Forecast score declined as the target moved further into the future relative to the most recent observation.
 Most models outperformed the historical baseline model in making 1-week ahead forecasts, as 15 of 22 models outperformed the historical baseline in at least 6 of the 7 seasons.
 However, only 7 out of 22 models outperformed the historical baseline in at least 6 seasons when making 4-week ahead forecasts.
-For the model with highest forecast score across all four week-ahead targets ({\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}), the average scores across region and season for 1 through 4 week-ahead forecasts were 
+For the model with highest forecast score across all four week-ahead targets ({\tt \Sexpr{sanitize(max_logscore_model_wkahead)}}), the average scores across regions and seasons for 1 through 4 week-ahead forecasts were 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "1 wk ahead" )]), 2)}, 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "2 wk ahead" )]), 2)}, 
 \Sexpr{specify_decimal(exp(scores_by_model_target$avg_logscore[which(scores_by_model_target$Model==max_logscore_model_wkahead & scores_by_model_target$Target == "3 wk ahead" )]), 2)}, and 
@@ -811,7 +811,7 @@ The historical baseline model showed
 \Sexpr{specify_decimal(exp(kde_logscore_pkwk), 2)} 
 score in forecasting peak week.
 %Overall, \Sexpr{n_above_kde_pkwk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pkwk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest.
-Overall, 15 out of 22 models (\Sexpr{specify_decimal(15/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
+Overall, 15 out of 22 models (\Sexpr{specify_decimal(15/22*100)}\%) had better overall score for peak week in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
 Models showed an overall average score of 
 \Sexpr{specify_decimal(exp(mean_logscore_pk), 2)}
@@ -827,7 +827,7 @@ The historical baseline model showed
 \Sexpr{specify_decimal(exp(kde_logscore_pk), 2)} 
 score in forecasting peak intensity.
 %Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest for peak intensity.
-Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
+Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better overall score in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
 % \subsection*{Performance of models by location}
 % 
@@ -955,7 +955,7 @@ caption_text <- paste0("Comparison of the top three statistical models ({\\tt ",
     paste(sanitize(top_models[!(top_models%in%compartment_models)]), collapse="}, {\\tt "),
     "}) and the top three compartmental models, ({\\tt ",
     paste(sanitize(top_models[top_models%in%compartment_models]), collapse="}, {\\tt "),
-    "}) based on best average region-season forecast score. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed more average score than the compartmental models.")
+    "}) based on best average region-season forecast score. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed higher average score than the compartmental models.")
 
 print(
     xtable(skills_to_show,
@@ -984,7 +984,7 @@ For 1-week-ahead forecasts, the statistical models had slightly higher scores on
 % for 
 % %\Sexpr{scores_by_modeltype$Target[5:7][which.max(scores_by_modeltype$diff_model_skill[5:7])]} .
 % peak intensity.
-We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven by a statistical ``nowcast`` model that uses data from the Google Search API.\cite{yang2014}
+We note that the 1 week-ahead forecasts from the compartmental models from the CU team are driven by a statistical ``nowcast`` model that uses data from the Google Search API.\cite{Kandula2017}
 Therefore, the CU models were not counted as mechanistic models for 1 week-ahead forecasts.
 For peak percentage forecasts, the statistical models had slightly higher scores on average than mechanistic models  
 (\Sexpr{specify_decimal(scores_by_modeltype$diff_model_skill[6], 2)}). 
@@ -1044,9 +1044,9 @@ The frequency and magnitude of revisions varied substantially by region.
 For example, in HHS Region 9, over 51\% of initially reported wILI values ended up being revised by over 0.5 percentage points while in HHS Region 5 less than 1\% of values were revised that much. % see abs_bias_gt_.5 
 Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_bias_gt_.5$n)*100)}\% of observations were ultimately revised by more than 0.5 percentage points.
 
-When the first report of the wILI measurement for a given region-week was revised in subsequent weeks (due to incomplete or delayed reporting), we observed a corresponding strong negative impact on forecast accuracy.
-We found that larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
-Specifically, among the four top-performing models we observed an expected change in forecast score of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
+When the first report of the wILI measurement for a given region-week was revised in subsequent weeks, we observed a corresponding strong negative impact on forecast accuracy.
+Larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
+Specifically, among the four top-performing models non-ensemble models ({\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}), there was an expected change in forecast score of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
 (95\% CI: 
 \Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}
 -
@@ -1061,9 +1061,8 @@ Additionally, we observed an expected change in forecast score of
 \Sexpr{specify_decimal(fm4_coefs_fltr$conf.high[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)}
 )
 when the first observed wILI measurement was between 1.5 and 2.5 percentage points higher than the final observed value.
-These results are based on results from four top-performing models: {\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}.
-This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there are over-reported values. 
-Additionally, we observed that some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions (data not shown).
+This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there were over-reported values. 
+Finally, some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions (data not shown).
 
 
 % \begin{figure}[htbp]
@@ -1103,21 +1102,21 @@ Seasonal influenza in the US, given the relative accessibility of historical sur
 Using models from some of the most experienced forecasting teams in the country, this work reveals several key results about forecasting seasonal influenza in the US. 
 \begin{itemize}
     \item A majority of models consistently showed higher accuracy than historical baseline forecasts, both in regions with more predictable seasonal trends and those with less consistent seasonal patterns (Figure \ref{fig:plot-historical-baseline-comparison}B, D, E);
-    \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models consistently outperformed the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:plot-historical-baseline-comparison}E).
+    \item A majority of the presented models showed consistent improvement over the historical baseline for 1 and 2 week-ahead forecasts, although fewer models consistently outperformed the baseline model for 3 and 4 week-ahead forecasts (Figure \ref{fig:plot-historical-baseline-comparison}E);
     \item At the presented spatial and temporal resolutions for influenza forecasts, we did not identify substantial and consistent differences between high-performing models that rely on an underlying mechanistic (i.e., compartmental) model of disease transmission and those that are more statistical in nature (Table \ref{tab:score-by-model-type});
     \item Forecast accuracy is significantly degraded in some regions due to reporting biases in initially reported real-time data (Figure \ref{fig:delay-analysis}).
 \end{itemize}
 
 As knowledge and data about a given infectious disease system improve and become more granular, a common question among domain-area experts is whether mechanistic models will outperform more statistical approaches.
 However, the statistical vs. mechanistic model dichotomy is not always a clean distinction in practice.
-In the case of influenza, mechanistic models simulate a specific disease transmission process, whereas the data-generating mechanism for influenza-like illness captures much more than just disease transmission (e.g., clinical visitation behaviors, symptomatic diagnosis process, reporting process, a data-revision process, etc...). 
+In the case of influenza, mechanistic models simulate a specific disease transmission process, whereas the data-generating mechanism for influenza-like illness captures much more than just disease transmission (e.g., clinical visitation behaviors, symptomatic diagnosis process, reporting process, a data-revision process, etc.). 
 Therefore, a disease transmission model and the true underlying influenza-like illness data-generation process are fundamentally different, suggesting a limitation to purely mechanistic models in this context.
 
 
 There are several important limitations to this work as presented.
 While we have assembled and analyzed a range of models from experienced influenza forecasting teams, there are large gaps in the types of data and models represented in our library of models.
 For example, relatively few additional data sources have been incorporated into these models, no models are included that explicitly incorporate information about circulating strains of influenza, and no model explicitly includes spatial relationships between regions.
-Given that several of the models rely on similar modeling frameworks, adding a broader sample of modeling approaches would be a valuable contribution.
+Given that several of the models rely on similar modeling frameworks, adding a more diverse set of modeling approaches would be a valuable contribution.
 Additionally, while seven seasons of forecasts from 22 models is the largest study we know of that compares models from multiple teams, this remains a less-than-ideal sample size to draw strong conclusions about model performance. 
 Since each season represents a set of highly correlated dynamics across regions, there are not a lot of data from which to draw strong conclusions about comparative model performance.
 
@@ -1138,7 +1137,7 @@ Ensemble forecasting was the motivation behind the creation of the FluSight Netw
 
 To advance the enterprise of infectious disease forecasting broadly, a complete enumeration and understanding of the challenges facing the field is critical.
 In this work, we have identified and quantified some of these challenges, specifically focusing on timely reporting of surveillance data. 
-However, other barriers may be equally or more important to continued improvement of forecasts.
+However, other barriers may be of equal or greater importance to continued improvement of forecasts.
 Often, researchers either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data) to the fullest extent possible. 
 Increased methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
 From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.
@@ -1156,7 +1155,7 @@ Detailed methodology and results from previous FluSight challenges have been pub
 %The FluSight challenge focuses on forecasts of the weighted percentage of doctor's office visits where the patient showed symptoms of an influenza-like illness in a particular region. Weighting is done by state population as the data are aggregated to the regional level.
 %This is a standard measure of seasonal flu activity, for which public data is available for the US back to the 1997/1998 influenza season (Figure \ref{fig:intro-schematic}A). 
 During each influenza season, the wILI data are updated each week by the CDC. When the most recent data are released, the prior weeks' reported wILI data may also be revised. 
-The unrevised data, available at a particular moment in time, is available via the DELPHI real-time epidemiological data API beginning in the 2014/2015 season.\cite{DELPHI} 
+The unrevised data, available at a particular moment in time, are available via the DELPHI real-time epidemiological data API beginning in the 2014/2015 season.\cite{DELPHI} 
 This API enables researchers to ``turn back the clock'' to a particular moment in time and use the data available at that time. This tool facilitates more accurate assessment of how models would have performed in real-time. 
 
 
@@ -1171,22 +1170,23 @@ For each model, this involved creating 233 separate forecast submission files, o
 In total, the forecasts represent over 40m rows and 2.5GB of data.
 Each forecast file represented a single submission file, as would be submitted to the CDC challenge. 
 Each team created their submitted forecasts in a prospective, out-of-sample fashion, i.e., fitting or training the model only on data available before the time of the forecast (see Figure \ref{fig:intro-schematic}). 
-Some data sources (e.g. wILI data prior to the 2014/2015 season) were not archived in a way that made data reliably retrievable in this ``real-time'' manner. 
 All teams used the Delphi epidata API to retrieve ILINet data.\cite{DELPHI}
+Some data sources (e.g. wILI data prior to the 2014/2015 season) were not archived in a way that made data reliably retrievable in this ``real-time'' manner. 
 In these situations, teams were still allowed to use these data sources with best efforts made to ensure forecasts were made using only data available at the time forecasts would have been made.
 
 \subsection*{Summary of Models}
 
 Five teams each submitted between 1 and 9 separate models for evaluation (Table \ref{tab:model-list}). 
 A wide range of methodological approaches and modeling paradigms are included in the set of forecast models.
-For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that directly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
-Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon directly by incorporating recent incidence and seasonal trends.
-One model, {\tt Delphi-Stat} is an ensemble model, a combination of other models from the Delphi team.
+For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that explicitly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
+Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon by incorporating recent incidence and seasonal trends.
+One model, {\tt Delphi-Stat}, is an ensemble model, a combination of other models from the Delphi team.
 Six models directly incorporate external data (i.e., not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
-Two models stand out as being reference models. 
-One shared feature of these models is that they never change based on recent data. 
+Three models stand out as being reference models. 
+One shared feature of these models is that their forecasts do not depend on observed data from the season being forecasted. 
 The {\tt Delphi-Uniform} model always provides a forecast that assigns equal probability to all possible outcomes. 
 The {\tt ReichLab-KDE} model yields predictive distributions based entirely on data from other seasons using kernel density estimation (KDE) for seasonal targets and a generalized additive model with cyclic penalized splines for weekly incidence.
+The {\tt Delphi-EmpiricalTraj} model uses KDE for all targets.
 The `historical baseline` model named throughout the manuscript refers to the {\tt ReichLab-KDE} model.
 Because this model represents a prediction that essentially summarizes historical data, we consider this model an appropriate baseline model to reflect historical trends.
 Once submitted to the central repository, the models were not updated or modified except in four cases to fix explicit bugs in the code that yielded numerical problems with the forecasts. 
@@ -1227,7 +1227,7 @@ In this setting, this score has the intuitive interpretation of being the averag
 Throughout the manuscript, we refer to an exponentiated average log score as an average score.
 In all cases, we compute the averages arithmetically on the log scale and only exponentiate before reporting and interpreting a final number.
 Therefore, all reported average scores can be interpreted as the corresponding geometric means, or as the correponding average probabilities assigned to the true outcome.
-For some summary calculations (e.g., Figure \ref{fig:plot-historical-baseline-comparison}), we used a subset of models that had shown improved performance over the baseline model.
+%For some summary calculations (e.g., Figure \ref{fig:plot-historical-baseline-comparison}), we used a subset of models that had shown improved performance over the baseline model.
 
 Following the convention of the CDC challenges, we only included certain weeks in the calculation of the average log scores for each target.
 This focuses model evaluation on periods of time that are more relevant for public health decision making.
@@ -1281,7 +1281,7 @@ However, in practice, this dichotomy is less clear than it is in theory.
 For example, statistical models for infectious disease counts may have an autoregressive term for incidence (e.g., as done by the {\tt ReichLab-SARIMA1} model).
 This could be interpreted as representing a transmission process from one time period to another.
 In another example, the {\tt LANL-DBM} model has an explicit SIR compartmental model component but also utilizes a purely statistical model for the discrepancy of the compartmental model with observed trends.
-The models from Columbia University used a statistical `now-casting' approach for their 1-week ahead forecasts, but after that relied on different variations of an SIR model.
+The models from Columbia University used a statistical `nowcasting' approach for their 1-week ahead forecasts, but after that relied on different variations of an SIR model.
 % Both approaches are commonly used and both have advantages and disadvantages in different settings.  
 
 We categorized models according to whether or not they had any explicit compartmental framework (Table \ref{tab:model-list}). 

@@ -33,8 +33,8 @@ $(TEXFILE).tex: $(TEXFILE).Rnw data/all-target-bounds.csv ../../scores/target-mu
 
 # clean up
 clean: 
-	-rm -f $(TEXFILE).aux
-	-rm -f $(TEXFILE).bbl
+#	-rm -f $(TEXFILE).aux
+#	-rm -f $(TEXFILE).bbl
 	-rm -f $(TEXFILE).blg
 	-rm -f $(TEXFILE).log
 	-rm -f $(TEXFILE).out
