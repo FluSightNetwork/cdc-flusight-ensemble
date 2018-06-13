@@ -1,9 +1,18 @@
 \documentclass{article}
 
-\title{A Collaborative, Weighted Density Ensemble Approach to Influenza Forecasting in the U.S.}
+\title{A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season}
 
-\author{Logan Brooks, Spencer Fox, Craig McGowan, Sasikiran Kandula, \\ Dave Osthus, Evan Ray, Nicholas G Reich, Roni Rosenfeld, Jeffrey Shaman, \\Abhinav Tushar, Teresa Yamana [authorship list to be finalized]}
+\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Sasikiran Kandula$^3$, Craig McGowan$^4$,\\Evan Moore$^1$, Dave Osthus$^5$, Evan Ray$^6$, Abhinav Tushar$^1$, Teresa Yamana$^3$, \\Matthew Biggerstaff$^4$, Michael A Johansson$^7$, Roni Rosenfeld$^2$, Jeffrey Shaman$^3$}
 
+\date{%
+    $^1$University of Massachusetts-Amherst, Amherst, USA\\%
+    $^2$Carnegie Mellon University, Pittsburgh, USA\\%
+    $^3$Columbia University, New York, USA\\
+    $^4$Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA\\
+    $^5$Los Alamos National Laboratory, Los Alamos, USA\\
+    $^6$Mount Holyoke College, South Hadley, USA\\
+    $^7$Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA\\
+}
 \usepackage[letterpaper, margin=1in]{geometry} % margin
 \usepackage{lineno}% add line numbers
 \usepackage{graphicx}
@@ -27,7 +36,7 @@
 
 \begin{document}
 
-\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
 
 \maketitle
 
@@ -49,6 +58,12 @@ theme_set(theme_minimal())
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
 
+
+\clearpage
+
+\begin{abstract}
+TBD.
+\end{abstract}
 
 \section{Introduction}
 
@@ -86,6 +101,47 @@ This paper describes the development of
 
 % The model selected for real-time submissions is the model that performed 
 
+
+
+
+\section{Results}
+
+\subsection{Summary of component models}
+
+\begin{itemize}
+    \item General description of models included, targets, regions, etc. 
+    \item Describe observed variation in performance across training seasons
+    \item Quantitative summaries of how much forecasting data collected and how stored/scored
+\end{itemize}
+
+\subsection{Target-type weights selected based on cross-validation}
+\begin{itemize}
+    \item Ensembles in general showed more accuracy than component models
+    \item Target-type weights achived highest cross-validated scores
+    \item Weights distributed across models from all teams
+\end{itemize}
+
+
+\subsection{Summary of ensemble real-time performance in 2017/2018 season}
+\begin{itemize}
+    \item Comparison of ensemble models to non-ensemble models in 2017/2018 and comparison within ensembles
+    \item Summary of performance (reduced accuracy) in anomalous 2017/2018 season
+    \item post-hoc analysis of other possible weighting schemes
+\end{itemize}
+
+
+\section{Discussion}
+
+Outline
+\begin{itemize}
+  \item Mostly TBD depending on results
+  \item Comparisons to unweighted average
+  \item Comparisons to component models
+  \item Strengths and weaknesses of ensemble approach
+  \item Practicality and real-world impacts
+\end{itemize}
+
+
 \section{Methods}
 
 Outline
@@ -122,36 +178,6 @@ Teams utilized a variety of methods and modeling approaches in the construction 
 
 \subsection{Ensemble Construction}
 We considered 
-
-
-
-
-
-\section{Results}
-
-Outline
-\begin{itemize}
-    \item Description of models included
-    \item Ensemble comparisons using CV data by log score
-    \item Ensemble comparisons using CV data by model rank
-    \item Prospective comparisons of 2017-2018 by log score and rank
-\end{itemize}
-
-
-
-
-
-
-\section{Discussion}
-
-Outline
-\begin{itemize}
-  \item Mostly TBD depending on results
-  \item Comparisons to unweighted average
-  \item Comparisons to component models
-  \item Strengths and weaknesses of ensemble approach
-  \item Practicality and real-world impacts
-\end{itemize}
 
 
 \bibliographystyle{unsrt}
