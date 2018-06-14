@@ -27,6 +27,12 @@ extract_point_ests <- function(filename){
     return(point_ests)
 }
 
+ew_to_seasonweek <- function(EW, year, season_start_week=30){
+  require(MMWRweek)
+  num_days <- ifelse(MMWRweek::MMWRweek(as.Date(paste0(as.character(year),"-12-28")))[2] == 53, 53, 52)
+  return(ifelse(EW > season_start_week, EW - season_start_week, (EW + num_days) - season_start_week))
+}
+
 ## get all model files without the metadata
 some_files <- list.files("model-forecasts/component-models/", full.names=TRUE, recursive = TRUE)
 some_files <- some_files[-grep("metadata.txt", some_files)]
@@ -45,9 +51,9 @@ ests_with_truth <- tmp.df %>%
     mutate(
         target_type = ifelse(Target %in% c("Season peak week", "Season onset"), "Week", "wILI"),
         obs_value = as.numeric(as.character(Valid.Bin_start_incl)),
-        # todo: fix error calculation for week targets
-        err = ifelse(target_type == "wILI", Value - obs_value, Value - obs_value)
-    )
+        err = ifelse(target_type == "wILI", abs(Value - obs_value), 
+                     abs(ew_to_seasonweek(Value) - ew_to_seasonweek(obs_value)))
+        )
+    
 
-
-write.csv(ests_with_truth, file="scores/point_ests.csv", quote = FALSE, row.names = FALSE)
+write.csv(ests_with_truth, file="scores/point_ests_adj.csv", quote = FALSE, row.names = FALSE)
