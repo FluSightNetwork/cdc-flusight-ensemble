@@ -107,7 +107,6 @@ This paper describes the development of
 \section{Results}
 
 \subsection{Summary of component models}
-
 \begin{itemize}
     \item General description of models included, targets, regions, etc. 
     \item Describe observed variation in performance across training seasons
@@ -124,10 +123,13 @@ This paper describes the development of
 
 \subsection{Summary of ensemble real-time performance in 2017/2018 season}
 \begin{itemize}
-    \item Comparison of ensemble models to non-ensemble models in 2017/2018 and comparison within ensembles
+    \item Description of general discrepancy between 2017/2018 and other seasons
+    \item Specific evaluation of TTW model's performance compared to other component models
+    \item Comparison of CV ordering vs. 2017/2018 ordering: Comparison of ensemble models to non-ensemble models in 2017/2018 and comparison within ensembles
     \item Summary of performance (reduced accuracy) in anomalous 2017/2018 season
-    \item post-hoc analysis of other possible weighting schemes
+    \item post-hoc analysis of other possible weighting schemes (discussion of NN, "follow-the-leader", ...)
 \end{itemize}
+
 
 
 \section{Discussion}
