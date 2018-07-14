@@ -196,6 +196,11 @@ save(subs_1718, full_scores_1718, submitted_scores_1718,
      eval_scores_1718, eval_submitted_scores_1718, #intensity_scores_1718, 
      file = "../scores/AllScoreFiles_1718.Rdata")
 
+# Save observed ILI and truth values for access later -----
+save(ILI_1718, truth_1718, exp_truth_1718, seasonal_eval_period_1718,
+     week_eval_period_1718, all_eval_period_1718, wks_abv_baseline_1718,
+     file = "../scores/TruthFiles_1718.Rdata")
+
 
 # Investigate overall performance
 source("score_summary.R")
