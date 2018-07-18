@@ -69,7 +69,6 @@ target_type_weights <- read.csv("../../weights/target-type-based-weights.csv") %
 <<generate-scores>>=
 scores <- read_csv("../../scores/scores-with-20172018.csv")
 models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
-targets <- read_csv("../../scores/target-multivals.csv")
 
 complete_models <- c(models$`model-id`[models$complete=="true"])
 
@@ -244,12 +243,12 @@ ggplot(tmp, aes(x=Model, y=exp(avg_logscore))) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
         #family="Courier",
         face=ifelse(
-            levels(training_scores_by_model_season$Model) == "ReichLab-KDE", 
+            levels(tmp$Model) == "ReichLab-KDE", 
             "bold",
             "plain"
         ),
         color = ifelse(
-            grepl("FSNetwork", levels(training_scores_by_model_season$Model)), 
+            grepl("FSNetwork", levels(tmp$Model)), 
             "red",
             "black"
         )
