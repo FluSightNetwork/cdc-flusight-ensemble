@@ -59,20 +59,100 @@ specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
 
 
+<<read-weights>>=
+target_type_weights <- read.csv("../../weights/target-type-based-weights.csv") %>%
+    filter(target == "1 wk ahead" | target=="Season onset") %>%
+    mutate(component_model_id = reorder(component_model_id, weight))
+@
+
+
+<<generate-scores>>=
+scores <- read_csv("../../scores/scores-with-20172018.csv")
+models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+targets <- read_csv("../../scores/target-multivals.csv")
+
+complete_models <- c(models$`model-id`[models$complete=="true"])
+
+## define column with scores of interest
+SCORE_COL <- quo(`Multi bin score`)
+
+## Create data.frame of boundary weeks of scores to keep for each target/season
+all_target_bounds <- read_csv("data/all-target-bounds.csv")
+
+## Remove scores that fall outside of evaluation period for a given target/season
+scores_trimmed <- scores %>% 
+    dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
+    dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
+## truncate lowest possible scores to -10, define target-type variable
+scores_adj <- scores_trimmed %>%
+    filter(Model != "UTAustin-edm") %>%
+    ## if NA, NaN or <-10, set score to -10
+    mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+        -10, 
+        !!SCORE_COL),
+        target_type = dplyr::if_else(Target %in% c("Season onset", "Season peak week", "Season peak percentage"),
+            "seasonal", "k-week-ahead")) %>%
+    mutate(
+        score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10))),
+        Model = reorder(Model, score_adj),
+        #Season = reorder(Season, score_adj),
+        Location = reorder(Location, score_adj)
+        ) 
+
+training_scores_by_model <- scores_adj %>%
+    filter(Season != "2017/2018") %>%
+    group_by(Model) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup()
+
+training_scores_by_model_season <- scores_adj %>%
+    filter(Season != "2017/2018") %>%
+    group_by(Model, Season) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup()
+
+test_scores_by_model <- scores_adj %>%
+    filter(Season == "2017/2018") %>%
+    group_by(Model, Season) %>%
+    summarize(
+        avg_logscore = mean(score_adj)
+    ) %>%
+    ungroup()
+
+
+test_scores_by_model_tt <- scores_adj %>%
+    filter(Season == "2017/2018") %>%
+    group_by(Model, target_type) %>%
+    summarize(
+        avg_logscore = mean(score_adj),
+        avg_score = exp(avg_logscore)
+    ) %>%
+    ungroup()
+
+@
+
+
 \clearpage
 
 \begin{abstract}
 TBD.
 \end{abstract}
 
-Table 1: model table with ensembles
-Figure 1: Flu Forecasting/Ensemble Overview
-Figure 2: Seasonal average Results figure for all models, all seasons
-Figure 3: Model weights
-Figure 4: Results for 2017/2018: by region or target?
+\begin{itemize}
+\item XX Table 1: model table with ensembles
+\item Figure 1: Flu Forecasting/Ensemble Overview
+\item XX Figure 2: Seasonal average Results figure for all models, all seasons
+\item XX Figure 3: Model weights
+\item Figure 4: Results for 2017/2018: by region or target?
 
-Suppl Figure: CV and real-time results for ensemble models, sorted by complexity
-
+\item Suppl Figure: CV and real-time results for ensemble models, sorted by complexity
+\end{itemize}
 
 \clearpage
 
@@ -137,6 +217,68 @@ The simplest ensemble took a simple equal-weight average of all models regardles
 The most complex estimated weights separately for each model, target, and location, for a total of XX weights (see Methods).
 Across the seven training seasons, all ensemble models but the simple average showed higher overall average forecast score than any single component model (Figure \ref{fig:season-average-results}). 
 
+<<season-average-results, fig.height=5, fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
+pal=c(RColorBrewer::brewer.pal(7, "Dark2"), "#000000", "#000000")
+
+ordered_models <- rbind(
+    training_scores_by_model_season#,
+    #test_scores_by_model 
+    ) %>%
+    mutate(Model = reorder(factor(Model), avg_logscore)) %>% 
+    .$Model %>% levels()
+
+tmp <- rbind(
+    training_scores_by_model_season,
+    cbind(training_scores_by_model, Season = "training average"),
+    mutate(test_scores_by_model, Season = "2017/2018 real-time")) %>%
+    mutate(Model = factor(Model, levels=ordered_models, ordered=TRUE))
+
+ggplot(tmp, aes(x=Model, y=exp(avg_logscore))) +
+    geom_point(aes(color=Season, shape=Season, alpha=Season, size=Season)) + 
+    #scale_color_brewer(palette="Dark2") +
+    scale_color_manual(name="", values=pal) +
+    scale_shape_manual(name="", values=c(rep(16, 8), 120)) +
+    scale_alpha_manual(name="", values=c(rep(.5, 7), 1, 1)) +
+    scale_size_manual(name="", values=c(rep(2, 8), 3)) +
+    ylab("average forecast score") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
+        #family="Courier",
+        face=ifelse(
+            levels(training_scores_by_model_season$Model) == "ReichLab-KDE", 
+            "bold",
+            "plain"
+        ),
+        color = ifelse(
+            grepl("FSNetwork", levels(training_scores_by_model_season$Model)), 
+            "red",
+            "black"
+        )
+        ))
+
+# ggplot(training_scores_by_model_season, aes(x=Model, y=exp(avg_logscore))) +
+#     geom_point(alpha=.5, aes(color=Season)) + 
+#     geom_point(data=training_scores_by_model, aes(color="average"), shape="x", size=1, stroke=5)+
+#     geom_point(data=test_scores_by_model_season, aes(color=Season))+
+#     #scale_color_brewer(palette="Dark2") +
+#     scale_color_manual(values=pal) +
+#     ylab("average forecast score") +
+#     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
+#         #family="Courier",
+#         face=ifelse(
+#             levels(training_scores_by_model_season$Model) == "ReichLab-KDE", 
+#             "bold",
+#             "plain"
+#         ),
+#         color = ifelse(
+#             grepl("FSNetwork", levels(training_scores_by_model_season$Model)), 
+#             "red",
+#             "black"
+#         )
+#         )) 
+
+@
+
+
 \subsubsection*{Target-type weights achived highest cross-validated scores}
 We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on leave-one-season-out cross-validated performance on the seven seasons of training data.
 The FluSightNetwork's target-type-weights ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type combination.
@@ -145,10 +287,21 @@ The {\tt FSNetwork-TTW} model outperformed all other ensemble models in the trai
 
 \subsubsection*{Weights distributed across models from all teams}
 Using performance of all component models across the seven training seasons, we estimated weights for the four ensemble models with varying weights.
-The {\tt FSNetwork-TTW} model assigned non-negligible weight to XX models for week-ahead targets and XX models for seasonal targets (Figure \ref{fig:ttw-weights}).
+The {\tt FSNetwork-TTW} model assigned non-negligible weight to XX models for week-ahead targets and XX models for seasonal targets (Figure \ref{fig:ttweights}).
 For week-ahead targets, the non-zero weights varied from 0.XX for the XX model to 0.XX for the XX model.
 For seasonal targets, the non-zero weights varied from 0.XX for the XX model to 0.XX for the XX model, with XX models being assigned above 0.10 weight.
 All four teams had at least one model with non-zero weight in the submitted model. 
+
+<<ttweights, fig.height=3, fig.cap="Model weights for the FluSight Network Target-Type Weights ({\tt FSNetwork-TTW}) model. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
+ttweights_2017 <- filter(target_type_weights, season=="2017/2018") %>%
+    mutate(tt = ifelse(target=="1 wk ahead", "week-ahead", "seasonal"))
+ggplot(ttweights_2017, 
+    aes(y=tt, fill=weight, x=component_model_id)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight, 2)), size=2) +
+    scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+@
 
 
 \subsection{Summary of ensemble real-time performance in 2017/2018 season}
@@ -167,12 +320,35 @@ Averaging across all targets and regions, the {\tt FSNetwork-TTW} model showed X
 The {\tt ReichLab-SARIMA2} and {\tt LANL-DBM} model both showed similar overall scores, of XX and XX.
 [[Make same comparison by target-types and by region?]]
 
+<<realtime-tt-scores, fig.height=3, fig.cap="Average forecast score in 2017/2018 by model target-type. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (right) to least accurate (left).">>=
+test_scores_by_model_tt %>%
+    group_by(target_type) %>%
+    mutate(
+        baseline_score = avg_logscore[Model=="ReichLab-KDE"]
+    ) %>%
+    ungroup() %>%
+    mutate(
+        baseline_skill = exp(baseline_score),
+        pct_diff_baseline_skill = (exp(avg_logscore) - baseline_skill)/baseline_skill
+    ) %>%
+ggplot(
+    aes(y=target_type, x=Model, fill=pct_diff_baseline_skill*100)) + 
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    #facet_grid(~target_type) +
+    geom_text(aes(label=specify_decimal(avg_score, 2)), size=2) +
+    scale_fill_gradient2(name="% change \nfrom baseline") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+@
+
+
 \subsubsection*{Comparison of CV ordering vs. 2017/2018 ordering: Comparison of ensemble models to non-ensemble models in 2017/2018 and comparison within ensembles}
 
 The model accuracy patterns observed in the cross-validation phase was largely preserved in the real-time phase.
 [[add model ranks to table (avg for CV years, single for 2017/2018)]]
 In the cross-validation phase, ensemble models had slightly higher average performance than all component models, and [[ranked as the top model in each season]].
 This pattern was broken in the 2017/2018 season, with [[two component models]] showing better performance than the chosen ensemble in across all locations and targets.[[although does this break down into better performance in all locations/targets or just some?]]
+
+
 
 \subsubsection*{Summary of performance (reduced accuracy) in anomalous 2017/2018 season}
 
