@@ -1298,6 +1298,11 @@ A web applet with interactive visualizations of the model evaluations is availab
 Additionally, this manuscript was dynamically generated using \Sexpr{R.version.string}, Sweave, and knitr, which are tools for intermingling manuscript text with R code that run the central analyses and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
 
 
+\section{Acknowledgments and Disclaimers}
+
+The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
+JS and Columbia University disclose partial ownership of SK Analytics.
+
 \bibliographystyle{unsrt}
 \bibliography{../flusightnetwork}
 
