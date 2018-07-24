@@ -2,7 +2,8 @@
 
 \title{A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season}
 
-\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Sasikiran Kandula$^3$, Craig McGowan$^4$,\\Evan Moore$^1$, Dave Osthus$^5$, Evan Ray$^6$, Abhinav Tushar$^1$, Teresa Yamana$^3$, \\Matthew Biggerstaff$^4$, Michael A Johansson$^7$, Roni Rosenfeld$^2$, Jeffrey Shaman$^3$}
+\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Sasikiran Kandula$^3$, Craig McGowan$^4$,\\Evan Moore$^1$, Dave Osthus$^5$, Evan Ray$^6$, Abhinav Tushar$^1$, Teresa Yamana$^3$,\\
+Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Rebecca Silva$^8$\\Matthew Biggerstaff$^4$, Michael A Johansson$^9$, Roni Rosenfeld$^2$, Jeffrey Shaman$^3$}
 
 \date{%
     $^1$University of Massachusetts-Amherst, Amherst, USA\\%
@@ -11,7 +12,9 @@
     $^4$Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA\\
     $^5$Los Alamos National Laboratory, Los Alamos, USA\\
     $^6$Mount Holyoke College, South Hadley, USA\\
-    $^7$Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA\\
+    $^7$Smith College, Northampton, USA\\
+    $^8$Amherst College, Amherst, USA\\
+    $^9$Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA\\
 }
 \usepackage[letterpaper, margin=1in]{geometry} % margin
 \usepackage{lineno}% add line numbers
@@ -52,7 +55,9 @@ library(ggplot2)
 library(MMWRweek)
 library(xtable)
 library(cdcfluview)
+library(fiftystater)
 library(gridExtra)
+library(RColorBrewer)
 
 theme_set(theme_minimal())
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
@@ -145,12 +150,13 @@ TBD.
 
 \begin{itemize}
 \item XX Table 1: model table with ensembles
-\item Figure 1: Flu Forecasting/Ensemble Overview
+\item XX Figure 1: Flu Forecasting/Ensemble Overview
 \item XX Figure 2: Seasonal average Results figure for all models, all seasons
 \item XX Figure 3: Model weights
 \item Figure 4: Results for 2017/2018: by region or target?
 
 \item Suppl Figure: CV and real-time results for ensemble models, sorted by complexity
+\item Suppl Figure: PIT histogram for TTW in 2017/2018 by target
 \end{itemize}
 
 \clearpage
@@ -175,6 +181,116 @@ Given the success of a simple ensemble that incorporated no information about th
 This paper describes the development of 
 
 
+<<region-overview-map, eval=FALSE>>=
+## gather data needed for plots
+data("fifty_states")
+data(hhs_regions)
+
+not_50 <- c(9, 10, 12, 50:55)
+hhs_regions <- hhs_regions[-(not_50),]
+hhs_regions$state <- tolower(hhs_regions$state_or_territory)
+hhs_regions$region <- factor(hhs_regions$region, levels=paste("Region", 1:10), 
+    ordered = TRUE)
+
+hhs_region_plot <- hhs_regions %>% 
+    ggplot(aes(map_id = state)) + 
+    geom_map(aes(fill = region), map = fifty_states) +
+    expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+    scale_fill_manual(values=cls) +
+    coord_map() +
+    annotate("text", x = -118, y =  45, label = "10", fontface="bold") +
+    annotate("text", x = -119.48333, y =  40, label = "9", fontface="bold") +
+    annotate("text", x = -105.48333, y =  44, label = "8", fontface="bold") +
+    annotate("text", x = -92.1, y =  45, label = "5", fontface="bold") +
+    annotate("text", x = -97, y =  40, label = "7", fontface="bold") +
+    annotate("text", x = -101, y =  35, label = "6", fontface="bold") +
+    annotate("text", x = -85, y =  35, label = "4", fontface="bold") +
+    annotate("text", x = -78.4, y =  38.5, label = "3", fontface="bold") +
+    annotate("text", x = -75, y =  43.5, label = "2", fontface="bold") +
+    annotate("text", x = -69.5, y =  44.95, label = "1", fontface="bold") +
+    scale_x_continuous(breaks = NULL) + 
+    scale_y_continuous(breaks = NULL) +
+    labs(x = NULL, y = NULL, tag="A") +
+    theme(legend.position="none")
+@
+
+<<overview-figure, fig.height=9, fig.width=9, eval=FALSE>>=
+## code for plot in Figure 1
+regionflu <- get_flu_data("hhs", sub_region=1:10, data_source="ilinet", years=2009:2018)
+usflu <- get_flu_data("national", sub_region=NA, data_source="ilinet", years=2009:2018)
+
+## make AGE cols in usflu integer data type
+cols <- grepl('^AGE', colnames(regionflu))
+regionflu[,cols] <- sapply(regionflu[,cols], as.integer)
+cols <- grepl('^AGE', colnames(usflu))
+usflu[,cols] <- sapply(usflu[,cols], as.integer)
+
+
+fludata <- bind_rows(regionflu, usflu)
+
+fludata <- dplyr::transmute(fludata,
+    region.type = `REGION TYPE`,
+    region = REGION,
+    year = YEAR,
+    week = WEEK,
+    caldate = MMWRweek2Date(YEAR, WEEK),
+    weighted_ili = as.numeric(`% WEIGHTED ILI`))
+
+fludata$region[fludata$region == "X"] <- "National"
+fludata$region <- factor(fludata$region, 
+    levels=rev(c("National", paste("Region", 1:10))),
+    labels=rev(c("National", paste("HHS Region", 1:10))))
+
+cls <- brewer.pal(n=11, "Paired")
+#cls <- c("black", "darkgrey", "forestgreen", "orange", "blue", "lightblue")
+
+top_ts <- fludata %>%
+    filter(
+        region %in% c("National"),
+        caldate > as.Date("2010-09-01"),
+        caldate < as.Date("2018-08-01")) %>%
+    ggplot(aes(x=caldate, y=weighted_ili)) +
+    xlab(NULL) + ylab("weighted ILI (%)") + labs(tag="C") +
+    scale_x_date(expand = c(0, 0), date_breaks = "1 year" , date_labels = "%Y")+
+    scale_y_continuous(limits=c(0,8))+
+    geom_line() +
+    theme(plot.margin=unit(c(5.5,5.5,5.5,50),"pt"), axis.ticks.x = element_blank()) +
+    geom_vline(xintercept=as.numeric(as.Date("2017-10-01")), linetype=2) +
+    geom_text(x=as.numeric(as.Date("2010-10-01")), y=8, hjust=0, label="Training Data") +
+    geom_text(x=as.numeric(as.Date("2017-10-15")), y=8, hjust=0, label="Testing") 
+
+bottom_heatmap <- fludata %>%
+    filter(
+        #region %in% c("National", paste("HHS Region", c(1,5,6,7,9))),
+        caldate > as.Date("2010-09-01"),
+        caldate < as.Date("2018-08-01")) %>%
+    ggplot(aes(x=caldate, fill=weighted_ili, y=region)) + 
+    xlab(NULL) + ylab(NULL) + labs(tag="D") +
+    geom_tile() +
+    scale_fill_gradient(low="#fff5f0", high = "#67000d", breaks=c(0,5, 10, 15), limits=c(0,15), name="Weighted ILI (%)") +
+    scale_x_date(expand = c(0, 0), date_breaks = "1 year", date_labels = "%Y")+
+    theme(legend.position = "bottom", axis.ticks.x = element_blank())+
+    geom_vline(xintercept=as.numeric(as.Date("2017-10-01")), linetype=2)
+
+blank_plot <- grid.rect(gp=gpar(col="white")) 
+
+lay <- rbind(c(1,2,2),
+             c(3,3,3),
+             c(4,4,4))
+
+pdf("static-content/overview-figure.pdf", width = 9, height=9)
+grid.arrange(hhs_region_plot, blank_plot, top_ts, bottom_heatmap, layout_matrix=lay)
+dev.off()
+@
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{static-content/overview-figure-edited.pdf}
+\caption{(A) Map of the 10 U.S. Health and Human Services regions. Influenza forecasts are made at this scale. (B) A figure showing the structure of a single forecast. Seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future. This figure has appeared previously in \cite{Reich2018}. (C) Publicly available weighted influenza-like illness (wILI) data from the CDC website for the national level. The y-axis shows the weighted percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2018, which is the time period for which the models presented in this paper made seasonal forecasts. (D) Publicly available wILI data for each of the 10 HHS regions. Darker colors indicate higher wILI.}
+\label{fig:overview-schematic}
+\end{center}
+\end{figure}
+
 \section{Results}
 
 \subsection{Summary of component models}
@@ -183,10 +299,12 @@ This paper describes the development of
 We assembled 21 component models to be evaluated for inclusion in our ensemble models (Table \ref{tab:models}).
 These models encompassed a variety of different modeling philosophies, including Bayesian hierarchical models, mechanistic models of infectious disease transmission, statistical learning methodologies, and classical statistical models for time-series data.
 As a pre-requisite for inclusion in the ensemble, every model submitted seven seasons of out-of-sample forecasts.
-As the goal was to submit our ensemble forecast to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
-A season consists of forecast files generated weekly for 33 or 34 weeks, starting with epidemic week 40 (EW40) of one calendar year and ending with EW20 of the following year.
-A model's weekly submission contained probabilistic and point forecasts for seven targets in each of 11 regions in the U.S. (national-level plus the 10 Health and Human Services (HHS) regions).
-Targets can be thought of as being of two types: four of the targets are weekly incidence targets that change every week and the three remaining targets are the seasonal targets that do not change over the course of the season (see Methods).
+As the goal was to submit our ensemble forecast in real-time to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
+A season typically consists of forecast files generated weekly for 33, starting with epidemic week 40 (EW40) of one calendar year and ending with EW20 of the following year.
+A model's weekly submission contained probabilistic and point forecasts for seven targets in each of 11 regions in the U.S. (national-level plus the 10 Health and Human Services (HHS) regions, Figure \ref{fig:overview-schematic}A).
+Targets can be thought of as being of two types: ``week-ahead'' and ``seasonal''.
+``Week ahead'' targets refer to the four weekly incidence targets that are different for each week of the season.
+``Seasonal'' targets refer to quantities that do not change for a region within a season (see Figure \ref{fig:overview-schematic}B and Methods).
 
 \input{./static-content/model-table.tex}
 
@@ -194,26 +312,28 @@ Targets can be thought of as being of two types: four of the targets are weekly 
 
 Individual component model forecast performance in the seven training seasons (2010/2011 - 2016/2017) varied widely across region, season, and target.
 A detailed comparative analysis of component model forecast performance can be found elsewhere,\cite{FluSightNetwork2018} however we summarize a few key insights from model performance here.
-Using the average log-score as a measure of forecast performance (again, following CDC challenge convention), we observed that around 2/3 of the component models reliably out-performed a seasonal average model on all targets. 
-[[Explain metric here!]]
+To evaluate model accuracy, we followed CDC convention and used a metric that takes the geometric average of the probabilities assigned to the eventually observed value. 
+This measure, which we refer to as ``forecast score'', can be interpreted as the average probability a given forecast model assigned to the true value.
+As such, higher values, on a scale of 0 to 1, indicate more accurate models. 
+In the seven training seasons, we observed that around 2/3 of the component models reliably out-performed a seasonal average model on all targets. 
 Over 50\% of the component models out-performed the seasonal baseline model in forecasting 1- and 2-week ahead incidence as well as season peak percentage and season peak week.
 
 \subsubsection*{Quantitative summaries of how much forecasting data collected and how stored/scored}
 
 Each component model's weekly forecasts were submitted in real-time to a central data repository throughout the 2017/2018 influenza season.\cite{FSNGithub2018}
 The season began with submissions for epidemic week 43, 2017 (EW43-2017) on Monday, November 6, 2017 and ended with submissions for EW18-2018 on Monday, May 18, 2018.
-In all, the seven seasons of training data consisted of about 95GMB of data per model and about 2GB of forecast data for all models combined.
+For each of the 33 weeks of the 2017/2018 season, each of 21 models submitted weekly probabilistic forecasts for 7 targets in each of 11 regions. 
+In all, the seven seasons of training data consisted of about 95GMB and over 1.5m rows of data per model and about 2GB of forecast data for all models combined.
 The real-time forecasts for the 2017/2018 season added about 300MB of data.
-
 
 \subsection{Target-type weights selected based on cross-validation}
 
 \subsubsection*{Ensembles in general showed more accuracy than component models}
 Prior to any systematic evaluation of component model performance and prior to the 2017/2018 season, we pre-specified five ensemble models and evaluated their performance in the seven training seaons.
-The five pre-specified ensemble models all were built using weighted model averages of the component models.
-Each ensemble was defined by the number of weights estimated. 
+The five pre-specified ensemble models all were built using weighted model averages of the component models, using a predictive density stacking approach (see Methods).
+Each ensemble can be defined by the number of weights estimated. 
 The simplest ensemble took a simple equal-weight average of all models regardless of past performance.
-The most complex estimated weights separately for each model, target, and location, for a total of XX weights (see Methods).
+The most complex ensemble estimated weights separately for each model, target, and location, for a total of \Sexpr{21*11*7} weights (see Methods).
 Across the seven training seasons, all ensemble models but the simple average showed higher overall average forecast score than any single component model (Figure \ref{fig:season-average-results}). 
 
 <<season-average-results, fig.height=5, fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
@@ -253,42 +373,51 @@ ggplot(tmp, aes(x=Model, y=exp(avg_logscore))) +
             "black"
         )
         ))
-
-# ggplot(training_scores_by_model_season, aes(x=Model, y=exp(avg_logscore))) +
-#     geom_point(alpha=.5, aes(color=Season)) + 
-#     geom_point(data=training_scores_by_model, aes(color="average"), shape="x", size=1, stroke=5)+
-#     geom_point(data=test_scores_by_model_season, aes(color=Season))+
-#     #scale_color_brewer(palette="Dark2") +
-#     scale_color_manual(values=pal) +
-#     ylab("average forecast score") +
-#     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
-#         #family="Courier",
-#         face=ifelse(
-#             levels(training_scores_by_model_season$Model) == "ReichLab-KDE", 
-#             "bold",
-#             "plain"
-#         ),
-#         color = ifelse(
-#             grepl("FSNetwork", levels(training_scores_by_model_season$Model)), 
-#             "red",
-#             "black"
-#         )
-#         )) 
-
 @
 
 
+<<top-models-training>>=
+top_training_models <- as.character(arrange(training_scores_by_model, desc(avg_logscore))$Model[1:4])
+top_training_scores <- as.numeric(arrange(training_scores_by_model, desc(avg_logscore))$avg_logscore[1:4])
+@
+
+ 
 \subsubsection*{Target-type weights achived highest cross-validated scores}
 We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on leave-one-season-out cross-validated performance on the seven seasons of training data.
-The FluSightNetwork's target-type-weights ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type combination.
-The {\tt FSNetwork-TTW} model outperformed all other ensemble models in the training phase by a slim margin, achieving an average forecast score of XX, compared with XX, XX and XX.
+The FluSightNetwork's target-type-weights ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type (week-ahead and seasonal) combination.
+The {\tt \Sexpr{top_training_models[1]}} model outperformed all other ensemble and component models in the training phase by a slim margin, achieving an average forecast score of 
+\Sexpr{specify_decimal(exp(top_training_scores[1]),2)}, 
+compared with 
+the {\tt \Sexpr{top_training_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[2]),2)}, 
+the {\tt \Sexpr{top_training_models[3]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[3]),2)}, and 
+the {\tt \Sexpr{top_training_models[4]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[4]),2)}.
+
+<<weight-summaries>>=
+test_weights_seasonal <- target_type_weights %>%
+    filter(season=="2017/2018", target=="Season onset") 
+n_nonzero_seasonal <- test_weights_seasonal %>%
+    mutate(nonzero = weight>=.001) %>%
+    .$nonzero %>% 
+    sum()
+
+test_weights_weekahead <- target_type_weights %>%
+    filter(season=="2017/2018", target=="1 wk ahead") 
+n_nonzero_weekahead <- test_weights_weekahead %>%
+    mutate(nonzero = weight>=.001) %>%
+    .$nonzero %>% 
+    sum()
+@
 
 
 \subsubsection*{Weights distributed across models from all teams}
-Using performance of all component models across the seven training seasons, we estimated weights for the four ensemble models with varying weights.
-The {\tt FSNetwork-TTW} model assigned non-negligible weight to XX models for week-ahead targets and XX models for seasonal targets (Figure \ref{fig:ttweights}).
-For week-ahead targets, the non-zero weights varied from 0.XX for the XX model to 0.XX for the XX model.
-For seasonal targets, the non-zero weights varied from 0.XX for the XX model to 0.XX for the XX model, with XX models being assigned above 0.10 weight.
+Using out-of-sample cross-validated performance of all component models across the seven training seasons, we estimated weights for the four ensemble models with varying weights.
+The {\tt FSNetwork-TTW} model assigned non-negligible weight (greater than 0.001) to \Sexpr{n_nonzero_weekahead} models for week-ahead targets and \Sexpr{n_nonzero_seasonal} models for seasonal targets (Figure \ref{fig:ttweights}).
+For week-ahead targets, the highest non-zero weight 
+(\Sexpr{specify_decimal(as.numeric(test_weights_weekahead[which.max(test_weights_weekahead$weight),"weight"]),2)}) 
+was given to the {\tt \Sexpr{as.character(test_weights_weekahead[which.max(test_weights_weekahead$weight),"component_model_id"])}} model.
+For seasonal targets, the highest non-zero weight 
+(\Sexpr{specify_decimal(as.numeric(test_weights_seasonal[which.max(test_weights_seasonal$weight),"weight"]),2)}) 
+was given to the {\tt \Sexpr{as.character(test_weights_seasonal[which.max(test_weights_seasonal$weight),"component_model_id"])}} model.
 All four teams had at least one model with non-zero weight in the submitted model. 
 
 <<ttweights, fig.height=3, fig.cap="Model weights for the FluSight Network Target-Type Weights ({\tt FSNetwork-TTW}) model. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
@@ -303,14 +432,29 @@ ggplot(ttweights_2017,
 @
 
 
-\subsection{Summary of ensemble real-time performance in 2017/2018 season}
 
-\subsubsection*{Description of general discrepancy between 2017/2018 and other seasons}
+<<top-models-test-season>>=
+top_models <- as.character(arrange(test_scores_by_model, desc(avg_logscore))$Model[1:4])
+top_scores <- as.numeric(arrange(test_scores_by_model, desc(avg_logscore))$avg_logscore[1:4])
+@
+
+\subsection{Summary of ensemble real-time performance in 2017/2018 season}
 
 The 2017/2018 influenza season in the U.S. showed dynamics that were unlike that of any season in the past 15 years.
 As measured by wILI percent at the national level, the 2017/2018 season was on par with the other two highest peaks on record: the 2003/2004 season and the 2009 H1N1 outbreak in June.
 In some regions, for example HHS Region 2 (New York and New Jersey) and HHS Region 4 (southeastern states), the highest reported wILI percent for the 2017/2018 season was more than two percentage points higher than had ever been observed before, an increase of over 20\% above previously observed peaks.
 Because all forecasting models rely, to some extent, on future trends mimicing observed patterns in the past, the anomalous dynamics in 2017/2018 posed a challenging ``test season'' for all models, including the new ensembles.
+Indeed, some of the models that saw the largest drop in performance (e.g., {\tt Delphi-DeltaDensity1}, {\tt ReichLab-KCDE}, and {\tt Delphi-DeltaDensity2}) are ones that explicity rely on using kernel conditional density estimation to find previously observed regions of the time-series that bear a similarity to current trends.
+
+In spite of these unusual dynamics impacting strongly the performance of some of the top-performing component models, the {\tt FSNetwork-TTW} ensemble model that varied weights by model and target-type was tied for the best performance among all component and ensemble models in 2017/2018.
+The {\tt \Sexpr{top_models[1]}} model outperformed all other ensemble and component models in the training phase by a slim margin, achieving an average forecast score of 
+\Sexpr{specify_decimal(exp(top_scores[1]),2)}, 
+compared with 
+the {\tt \Sexpr{top_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[2]),2)}, 
+the {\tt \Sexpr{top_models[3]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[3]),2)}, and 
+the {\tt \Sexpr{top_models[4]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[4]),2)}.
+
+[Describe additional performance metrics: bias and PIT results]
 
 \subsubsection*{Specific evaluation of TTW model's performance compared to other component models}
 
