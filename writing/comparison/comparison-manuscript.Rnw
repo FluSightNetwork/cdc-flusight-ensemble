@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{Forecasting Seasonal Influenza in the U.S.: A collaborative multi-year, multi-model assessment of forecast performance}
+\title{Forecasting seasonal influenza in the U.S.: A collaborative multi-year, multi-model assessment of forecast performance}
 
 \author{Nicholas G Reich$^1$, Logan Brooks$^2$, Spencer Fox$^3$, Sasikiran Kandula$^4$, \\Craig McGowan$^5$, Evan Moore$^1$, Dave Osthus$^6$, Evan Ray$^7$, Abhinav Tushar$^1$, Teresa Yamana$^4$, \\Matthew Biggerstaff$^5$, Michael A Johansson$^8$, Roni Rosenfeld$^2$, Jeffrey Shaman$^4$}
 
@@ -649,7 +649,7 @@ grid.arrange(wkahead_map, wkahead_scatter, seasonal_map, seasonal_scatter, seaso
 
 The models presented show substantial improvements in accuracy compared to forecasts from the historical baseline model in all regions of the US.
 Results that follow are based on summaries from those models that on average showed higher forecast score than the historical baseline model.
-\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region. Here, the \Sexpr{n_models} models showed an average forecast score of 
+\Sexpr{best_region_wkahead} showed the best overall week-ahead predictability of any region. Here, the models showed an average forecast score of 
 \Sexpr{specify_decimal(exp(kde_scores_wkahead$avg_logscore[which(kde_scores_wkahead$Location==best_region_wkahead)]), 2)} 
 for week-ahead targets (Figure \ref{fig:plot-historical-baseline-comparison}A). 
 This means that in a typical season these models assigned an average of 
@@ -760,7 +760,7 @@ Of the three seasonal targets, models showed the lowest average score in forecas
 \Sexpr{specify_decimal(exp(mean_logscore_onset), 2)}. 
 Due to the variable timing of season onset, different numbers of weeks were included in the final scoring for each region-season (see Methods). 
 %, varying from XX to XX weeks per region-season .
-Of the \Sexpr{n_regions*n_seasons} region-seasons evaluated, \Sexpr{n_regseas_no_onset} had no onset, i.e., the wILI did not remain above a fixed region-specific threshold of influenza activity for three or more weeks, see Methods for details). 
+Of the \Sexpr{n_regions*n_seasons} region-seasons evaluated, \Sexpr{n_regseas_no_onset} had no onset, i.e., the wILI did not remain above a fixed region-specific threshold of influenza activity for three or more weeks (see Methods for details). 
 The best model for onset was 
 {\tt \Sexpr{max_logscore_model_onset}}, 
 with an overall average score of 
@@ -955,7 +955,7 @@ caption_text <- paste0("Comparison of the top three statistical models ({\\tt ",
     paste(sanitize(top_models[!(top_models%in%compartment_models)]), collapse="}, {\\tt "),
     "}) and the top three compartmental models, ({\\tt ",
     paste(sanitize(top_models[top_models%in%compartment_models]), collapse="}, {\\tt "),
-    "}) based on best average region-season forecast score. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed higher average score than the compartmental models.")
+    "}) based on best average region-season forecast score. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed higher average score than the top compartmental models.")
 
 print(
     xtable(skills_to_show,
@@ -968,7 +968,7 @@ print(
 @
 
 
-On the whole, statistical models showed similar or slightly higher scores as compartmental models at forecasting both week-ahead and seasonal targets, although the differences were small and of minimal practical significance. 
+On the whole, statistical models achieved similar or slightly higher scores as compartmental models when forecasting both week-ahead and seasonal targets, although the differences were small and of minimal practical significance. 
 Using the best three overall models from each category, we computed the average forecast score for each combination of region, season, and target (Table \ref{tab:score-by-model-type}). 
 For all targets, except 1 week-ahead forecasts and peak intensity, the difference in model score was slight, and never greater than 
 \Sexpr{specify_decimal(max(scores_by_modeltype$diff_model_skill[c(2:5,7)]), 2)}.
@@ -1046,18 +1046,16 @@ Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_
 
 When the first report of the wILI measurement for a given region-week was revised in subsequent weeks, we observed a corresponding strong negative impact on forecast accuracy.
 Larger revisions to the initially reported data were strongly associated with a decrease in the forecast score for the forecasts made using the initial, unrevised data.
-Specifically, among the four top-performing models non-ensemble models ({\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}), there was an average change in forecast score of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
+Specifically, among the four top-performing non-ensemble models ({\tt ReichLab-KCDE}, {\tt LANL-DBM}, {\tt Delphi-DeltaDensity1}, and {\tt CU-EKF\_SIRS}), there was an average change in forecast score of \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)} 
 (95\% CI: 
-\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}
--
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)},
 \Sexpr{specify_decimal(fm4_coefs_fltr$conf.high[fm4_coefs_fltr$bias_range == "(-3.5,-2.5]"], 2)}
 )
 when the first observed wILI measurement was between 2.5 and 3.5 percentage points lower than the final observed value, adjusting for model, week-of-year, and target (Figure \ref{fig:delay-analysis}, see Methods for details on regression model).
 Additionally, we observed an expected change in forecast score of 
 \Sexpr{specify_decimal(fm4_coefs_fltr$estimate[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)} 
 (95\% CI: 
-\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)}
--
+\Sexpr{specify_decimal(fm4_coefs_fltr$conf.low[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)},
 \Sexpr{specify_decimal(fm4_coefs_fltr$conf.high[fm4_coefs_fltr$bias_range == "(1.5,2.5]"], 2)}
 )
 when the first observed wILI measurement was between 1.5 and 2.5 percentage points higher than the final observed value.
@@ -1223,7 +1221,7 @@ Using the example from equation (\ref{eqn:logscore}) above, we then have that
 S_{m,\cdot,t,\cdot,\cdot} = \exp \left ( LS_{m,\cdot,t,\cdot,\cdot} \right ) & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log f_{m,r,t,s,w}(z^*|{\bf x}) \right ) \\
  & = & \left ( \prod_{r,s,w}  f_{m,r,t,s,w}(z^*|{\bf x}) \right ) ^{1/N} 
 \end{eqnarray}
-In this setting, this score has the intuitive interpretation of being the average probability assigned to the true outcome (where average is considered to be a geometric average).
+In this setting, this score $S$ has the intuitive interpretation of being the average probability assigned to the true outcome (where average is considered to be a geometric average).
 Throughout the manuscript, we refer to an exponentiated average log score as an average score.
 In all cases, we compute the averages arithmetically on the log scale and only exponentiate before reporting and interpreting a final number.
 Therefore, all reported average scores can be interpreted as the corresponding geometric means, or as the correponding average probabilities assigned to the true outcome.
@@ -1293,12 +1291,12 @@ Separately for each target, we compared the average score of the top three compa
 
 To maximize the reproducibility and data availability for this project, the data and code for the entire project (excluding specific model code) are publicly available.
 The project is available on GitHub\cite{fsngithub2018}, with a permanent repository stored on Zenodo\cite{fsnzenodo2018}.
-All of the forecasts may be interactively browsed on the website http://flusightnetwork.io.
-A web applet with interactive visualizations of the model evaluations is available at \url{https://ermoore.shinyapps.io/FSN\_Model\_Comparison/}. 
+All of the forecasts may be interactively browsed on the website \url{http://flusightnetwork.io}.
+A web applet with interactive visualizations of the model evaluations is available at \url{https://reichlab.shinyapps.io/FSN-Model-Comparison/}. 
 Additionally, this manuscript was dynamically generated using \Sexpr{R.version.string}, Sweave, and knitr, which are tools for intermingling manuscript text with R code that run the central analyses and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
 
 
-\section{Acknowledgments and Disclaimers}
+\section*{Acknowledgments and Disclaimers}
 
 The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
 JS and Columbia University disclose partial ownership of SK Analytics.
