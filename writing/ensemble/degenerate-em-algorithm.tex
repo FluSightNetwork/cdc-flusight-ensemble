@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[letterpaper, margin=1in]{geometry} % margin
+
+\title{EM Algorithm for Weighted Density Ensembles}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\author{Nicholas G Reich}
+
+
+\begin{document}
+
+\maketitle
+
+The following is adapted from online documents\footnote{\url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf} and \url{http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/11761-s97/WWW/tex/EM.ps}} and describes the use of the Expectation Maximization (EM) algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+Our goal is to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting model average.
+%As described in Reich et al. (see comparison manuscript from FluSight Network), we are operating in the setting where we have a set of $M$ component models that make forecasts across a set of regions ($r$), targets ($t$), seasons ($s$), and weeks ($w$). 
+%A specific predictive density across each of these dimensions can be represented as $f_{m,r,t,s,w}(z|\bf{x})$ where $\bf{x}$ represents data conditioned on by the model and $z$ represents the target variable of interest.
+%Our models are evaluated using the log-score which can be represented as 
+%\begin{eqnarray}
+%LS_{m,r,t,s,w} & = & \log f_{m,r,t,s,w}(z^*|{\bf x}). \label{eqn:logscore}
+%\end{eqnarray}
+The EM algorithm is a commonly used optimization algorithm in statistics that is particularly useful in situations that can be formulated as a missing data problem.  
+
+\section{Background}
+We can think of $f(z)$ as a true distribution that we are trying to estimate. This distribution is a linear combination of component distributions, $f_m(z)$. However, we do not know the mixing weights. We can think of this in two ways. The first is that the final distribtion $f(z)$ is a weighted combination of all other components, with each component contributing fractionally to the final distribution. A second related way of thinking of this is that each realization from this distribution is chosen from one of the component distributions with probability $\pi_m$. For example, if you were simulating from $f_m$ you could select of the $M$ component distributions according to the $\pi_m$ probabilities and then make a draw from that distribution.
+
+The central question can be formulated as follows. Suppose we have 
+\begin{equation}
+f(z) = \sum_{m=1}^M \pi_m f_m(z)
+\end{equation}
+where  $\sum_m \pi_m = 1$ and $\forall m$, $\pi_m > 0$. If we are given data, $z_1^*, z_2^*, \dots, z_N^*$ and are given $\forall m$, $f_m(z_1^*), f_m(z_2^*), \dots, f_m(z_n^*)$, what are the weights $\pi_m$ that maximize the likelihood of $f(z)$. 
+Our observed data could contain, for each $i$, an indicator of which component distribution was chosen to generate the $z_i$, say $y_{i,m} = 1$ if component $m$ generated $z_i$ and 0 otherwise.
+If this data is present, then our likelihood is
+
+We note that the likelihood of $f(z)$ can be written as:
+\begin{eqnarray}
+L(\pi|{\bf z}, {\bf y}) &=& f(z_1, \dots, z_N, y_{1,1}, \dots, y_{M,N}|\pi)  \\
+&=& \prod_{i=1}^N f(z_i, y_{i,1}, \dots, y_{i,N}|\pi)  \mbox{\ \ \ \ \[assuming iid\]} \\
+&=& \prod_{i=1}^N \sum_{m=1}^M \pi_m f_m(z_i)\cdot y_{i,m}
+\end{eqnarray}
+
+{\bf Compute the log-likelihood function and find the value of $\pi_m$ that maximizes the likelihood given the data.}
+
+To use the EM algorithm, we need to formulate the problem in a missing data fashion. Again, data could be generated from $f(z)$ by choosing one of the $f_m(z)$ component distributions and then simulating from this distribution. Our problem is that we do not know, for each datapoint $z_i$, which model was chosen. However, we can make a best guess, conditional on the data and our current estimates of $\pi_m$, of how often each model was chosen. This is the `E step'. Then, based on these guesses, we can update our estimate of $\pi_m$. This is the `M-step'.
+
+The ``E step'' of the EM algorithm we can think of as determining, for each component model $m$, the expected number of times for each of our observed $N$ datapoints that model $m$ was chosen as the contributor to $f(z)$. In math:
+\begin{eqnarray}
+{\mathbf E}[ {\mbox model}_m |data ]  & = & \sum_i Pr(Model_m | z_i^*) \\ 
+ & = & \sum_i \frac{Pr(Model_m, z_i^*)}{Pr(z_i^*)} \\ 
+ & = & \sum_i \frac{Pr(Model_m) Pr(z_i^*|model_m)}{f(z_i^*)} \\ 
+ & = & \sum_i \frac{\pi_m f_m(z_i^*)}{f(z_i^*)} 
+\end{eqnarray}
+Heuristically, we can think of the expression $f_m(z)$ equivalently as $Pr(z| model m)$ or in words the likelihood of seeing the value z given that model m is the ``chosen'' model. 
+
+
+The ``M step'' of the EM algorithm simply calculates, conditional on the ``complete data'', i.e. the $z^*_i$ and the estimated number of times each model was chosen, the fraction of times each method was chosen. I.e. 
+\begin{eqnarray}
+\pi_m^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ {\mbox model}_m |data ] \\
+& = & \frac{1}{N} \sum_i \frac{\pi_m f_m(z_i^*)}{f(z_i^*)} 
+\end{eqnarray}
+
+\section{Simple Example}
+
+Take the following simple example with two models and two data points:
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccc}
+$m$ & $z$ & $f_m(z)$ \\ 
+  \hline
+1 & 0 & 0.2  \\ 
+1 & 1 & 0.8  \\ 
+2 & 0 & 0.2  \\ 
+2 & 1 & 0.8  
+\end{tabular}
+\end{table}
+
+{\bf Interpret in words what the .02 in the top row signifies.}
+
+{\bf Without doing any calculations, what do you expect $\pi_1$ and $\pi_2$ to be and why?}
+
+{\bf Using a computer, calculate the likelihood of a set of a grid of values for $\pi_1$ and $\pi_2$. What is the value of $(\pi_1, \pi_2)$ where the likelihood is maximized? Plot the likelihood surface.}
+
+{\bf Implement the EM algorithm from scratch and use the data above to find the maximum.}
+
+{\bf Create a more complex example with two models but more datapoints. Calculate the likelihood for a set of values on a grid and plot the result.}
+
+{\bf Think about theoretical properties of the EM estimator in this situation. Logan claims it will find a global maximum.}
+% \begin{verbatim}
+% Yes, we can be sure that there are no local optima that are globally suboptimal, because we can formulate the weight optimization as a convex minimization problem:
+%   argmin_{wvec in J-simplex} [ - sum_i log (sum_j wvec_j p_{ij}) ]
+% where
+% - wvec is a candidate weight vector
+% - J is the number of forecasters
+% - p_{ij} is the probability that the j'th forecaster assigned to the i-th observed event
+% 
+% There could be multiple local optima of the log-likelihood, but they will all be globally optimal.  (Another interesting fact: all these optima will be "connected"; more precisely, the set of all local optimizers (= the set of all global optimizers) will be a convex set.)
+% \end{verbatim}
+
+
+%\section{The Algorithm}
+Assume that we have a set of $M$ fitted predictive densities ``evaluated at''\footnote{Need to add distinction about not strict evaluation but rather probability assigned to ``values deemed to be accurate''.} observed data\footnote{For now, these could be forecasts for arbitrary targets, locations, seasons, etc... } $z_i^*$ for $i=1, ..., N$. We will notate these data as  $f_{m}(z^*|{\bf x})$. There will be $M\cdot N$ total observations, as each model must have an associated value (a probability, between 0 and 1) for each observed data point.
+
+We wish to obtain a set of optimal weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ for combining the models such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+The weights can be used to then combine the component models into an ensemble model as
+$$f(z_i|\pi) = \sum_{m=1}^M \pi_m f_m(z_i).$$
+We define a function $\ell(\pi)$ that computes a log-likelihood\footnote{Is this assuming independence?} of the resulting ensemble as follows:
+$$\ell(\pi) = \frac{1}{N}\sum_{i=1}^N \log f(z_i|\pi).$$
+
+Below, we define one procedure to obtain a set of weights for the ensemble.
+
+\begin{algorithm}
+\caption{Degenerate Expectation Maximization (DEM) algorithm}\label{alg:DEM}
+\begin{algorithmic}[1]
+\Procedure{dem}{$...$}%\Comment{The g.c.d. of a and b}
+\State Initialize $\pi_m^{(0)}$ such that $\forall m$ $\pi_m^{(0)} \geq 0$ and $\sum_{m=1}^M \pi_m^{(0)}=1$ 
+\State Set $t=0$
+\State Set $\Delta=1$, or another arbitrary constant.
+\State Set $\epsilon$ to be a very small positive number strictly less than $\Delta$.
+\While{$ \Delta > \epsilon$}%\Comment{We have the answer if r is 0}
+\State Set $t=t+1$
+\State Update weights, $\forall m$, $\pi_m^{(t)} = \frac{1}{N}\sum_{i=1}^N \frac{\pi_m^{(t-1)}f_m(z_i)}{f(z_i|\pi^{(t-1)})}$
+\State Set $\Delta =  \frac{\ell(\pi^{(t)}) - \ell(\pi^{(t-1)})}{|\ell(\pi^{(t)})|}$ \label{delta-step}
+\EndWhile
+\State \textbf{return} $\tilde\pi = \tilde\pi^{(t)}$%\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
+
+
+\end{document}

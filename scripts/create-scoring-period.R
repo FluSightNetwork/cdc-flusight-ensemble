@@ -13,11 +13,12 @@ create_scoring_period <- function(
     select(Location = location, Season, base = value)
   
   # Fetch ILINet data from CDC
-  ILI <- get_flu_data(region = "national", data_source = "ilinet", years = 2010:2016) %>%
+  years_to_get <- 2010:as.numeric(format(Sys.Date(), "%Y"))
+  ILI <- get_flu_data(region = "national", data_source = "ilinet", years = years_to_get) %>%
     mutate(REGION = "US National") %>%
     bind_rows(
       get_flu_data(region = "hhs", sub_region = 1:10, data_source = "ilinet",
-                   years = 2010:2016) %>%
+                   years = years_to_get) %>%
         mutate(REGION = paste("HHS", REGION))
     ) %>%
     mutate(Season = if_else(WEEK < 40, 
