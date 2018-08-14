@@ -38,6 +38,7 @@ Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Rebecca Silva$^8$\\Matthew
 
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 %\SweaveOpts{concordance=TRUE}
 
@@ -56,6 +57,7 @@ library(MMWRweek)
 library(xtable)
 library(cdcfluview)
 library(fiftystater)
+library(grid)
 library(gridExtra)
 library(RColorBrewer)
 
@@ -76,6 +78,39 @@ scores <- read_csv("../../scores/scores-with-20172018.csv")
 models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
 
 complete_models <- c(models$`model-id`[models$complete=="true"])
+
+## create data frame matching model name to abbreviation
+model_name_abv <- data.frame(
+  Model = sort(unique(scores$Model)),
+  Name = c("CU Bayesian Model Averaging",
+           "CU Ensemble Adjustment Kalman Filter SEIRS",
+           "CU Ensemble Adjustment Kalman Filter SIRS",
+           "CU Ensemble Kalman Filter SEIRS",
+           "CU Ensemble Kalman Filter SIRS",
+           "CU Rank Histogram Filter SEIRS",
+           "CU Rank Histogram Filter SIRS",
+           "Delphi Basis Regression",
+           "Delphi Delta Density",
+           "Delphi Empirical Bayes (conditioning on past four weeks)",
+           "Delphi Empirical Bayes ({\tt epiforecast} defaults)",
+           "Delphi Empirical Futures",
+           "Delphi Empirical Trajectories",
+           "Delphi Markovian Delta Density",
+           "Delphi Uniform Distribution",
+           "Delphi Stat Ensemble",
+           "FSNetwork Constant Weights",
+           "FSNetwork Equal Weights",
+           "FSNetwork Target-Region Weights",
+           "FSNetwork Target-Type Weights",
+           "FSNetwork Target Weights",
+           "LANL Dynamic Bayesian SIR",
+           "ReichLab Kernel Conditional Density Estimation",
+           "ReichLab Kernel Density Estimation and penalized splines",
+           "SARIMA without seasonal differencing",
+           "SARIMA with seasonal differencing",
+           "UT Austin"),
+  stringsAsFactors = FALSE
+)
 
 ## define column with scores of interest
 SCORE_COL <- quo(`Multi bin score`)
@@ -170,11 +205,11 @@ TBD.
 %     \item Overview of goals, methods, etc.
 % \end{itemize}
 
-[Background paragraph on flu, forecasting, and public health outbreak response]
+Seasonal influenza results in a substantial, annual public health burden in the United States with an estimated 30 million cases and 600,000 hospitalizations during the 2016-2017 influenza season.\cite{CDC2018} The United States Centers for Disease Control and Prevention (CDC) utilizes a variety of surveillance methods to assess the severity of an influenza season, including monitoring outpatient visits for influenza-like illness (ILI), influenza-related hospitalizations, and virologic characteristics\cite{surv2017}. However, like all surveillance systems, these are constrained to describing events that have already taken place, and the total burden, along with the timing of the epidemic, can vary substantially from season to season.\cite{CDC2018} Forecasts of an influenza season offer the possibility of providing actionable information to improve public health responses, and recent years have seen a large number of efforts in the literature describing efforts to predict season influenza.\cite{Shaman2013,Yang2014,Yang2015,Chretien2016,Kandula2017,Osthus2017,Brooks2018,Pei2018}
 
 Ensemble models, or models that fuse together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. Second, combining signals from models with different biases may allow those biases to offset and result in an ensemble that is more accurate than the individual component models. Weather and climate models have utilized ensemble systems for these very purposes, and recent work has extended ensemble forecasting to forecasts of infectious diseases, including influenza , dengue fever, and Ebola hemorrhagic fever.\cite{Yamana2017,Ray2018,Viboud2018}
 
-Since the 2013/2014 influenza season, the Centers for Disease Control and Prevention (CDC) has run an annual prospective influenza forecasting competition, known as the FluSight challenge, in collaboration with outside researchers. Participating teams submit probabalistic forecasts for a variety of influenza targets weekly from early November through mid May (Figure \ref{fig:overview-schematic}). During the 2015/2016 and 2016/2017 challenges, analysts at the CDC built a simple ensemble model by taking the arithmetic mean of submitted models. This model was one of the top performing models each season (cite McGowan et al when accepted).
+Since the 2013/2014 influenza season, the CDC has run an annual prospective influenza forecasting competition, known as the FluSight challenge, in collaboration with outside researchers. Participating teams submit probabalistic forecasts for a variety of influenza targets weekly from early November through mid May (Figure \ref{fig:overview-schematic}). During the 2015/2016 and 2016/2017 challenges, analysts at the CDC built a simple ensemble model by taking the arithmetic mean of submitted models. This model was one of the top performing models each season (cite McGowan et al when accepted).
 
 Given the success of a simple ensemble that incorporated no information about the relative performace of component models, an ensemble taking component model performance into account has the potential for further improvments. In March 2017 the FluSight Network, a collaborative group of influenza forecasters who have worked with the CDC in the past, was established to facilitate the pooling of resources to develop an ensemble that could incorporate past performance of models. This group worked throughout 2017 to create a set of guidelines and an experimental design that would enable submission of a publicly available, multi-team, real-time submission of an ensemble model with validated and performance-based weights for each model. 
 
@@ -342,9 +377,9 @@ pal=c(RColorBrewer::brewer.pal(7, "Dark2"), "#000000", "#000000")
 
 ordered_models <- rbind(
     training_scores_by_model_season#,
-    #test_scores_by_model 
+    #test_scores_by_model
     ) %>%
-    mutate(Model = reorder(factor(Model), avg_logscore)) %>% 
+    mutate(Model = reorder(factor(Model), avg_logscore)) %>%
     .$Model %>% levels()
 
 tmp <- rbind(
@@ -354,24 +389,24 @@ tmp <- rbind(
     mutate(Model = factor(Model, levels=ordered_models, ordered=TRUE))
 
 ggplot(tmp, aes(x=Model, y=exp(avg_logscore))) +
-    geom_point(aes(color=Season, shape=Season, alpha=Season, size=Season)) + 
+    geom_point(aes(color=Season, shape=Season, alpha=Season, size=Season)) +
     #scale_color_brewer(palette="Dark2") +
     scale_color_manual(name="", values=pal) +
     scale_shape_manual(name="", values=c(rep(16, 8), 120)) +
     scale_alpha_manual(name="", values=c(rep(.5, 7), 1, 1)) +
     scale_size_manual(name="", values=c(rep(2, 8), 3)) +
     ylab("average forecast score") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5,
         #family="Courier",
         face=ifelse(
-            levels(tmp$Model) == "ReichLab-KDE", 
+            levels(tmp$Model) == "ReichLab-KDE",
             "bold.italic",
-            ifelse(grepl("FSNetwork", levels(tmp$Model)), 
+            ifelse(grepl("FSNetwork", levels(tmp$Model)),
             "bold",
             "plain")
             ),
         color = ifelse(
-            grepl("FSNetwork", levels(tmp$Model)), 
+            grepl("FSNetwork", levels(tmp$Model)),
             "red",
             "black"
         )
@@ -384,16 +419,16 @@ top_training_models <- as.character(arrange(training_scores_by_model, desc(avg_l
 top_training_scores <- as.numeric(arrange(training_scores_by_model, desc(avg_logscore))$avg_logscore[1:4])
 @
 
- 
+
 %\subsubsection*{Target-type weights achived highest cross-validated scores}
 We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on leave-one-season-out cross-validated performance on the seven seasons of training data.
-The FluSightNetwork's target-type-weights ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type (week-ahead and seasonal) combination (Figure \ref{fig:ttweights}).
+The \Sexpr{model_name_abv$Name[model_name_abv$Model == "FSNetwork-TTW"]} ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type (week-ahead and seasonal) combination (Figure \ref{fig:ttweights}).
 The {\tt \Sexpr{top_training_models[1]}} model outperformed all other ensemble and component models in the training phase by a slim margin, achieving an average forecast score of 
 \Sexpr{specify_decimal(exp(top_training_scores[1]),2)}, 
 compared with 
-the {\tt \Sexpr{top_training_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[2]),2)}, 
-the {\tt \Sexpr{top_training_models[3]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[3]),2)}, and 
-the {\tt \Sexpr{top_training_models[4]}} model with a score of \Sexpr{specify_decimal(exp(top_training_scores[4]),2)} (Figure \ref{fig:season-average-results}).
+the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[2]]} ({\tt \Sexpr{top_training_models[2]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[2]),2)}, 
+the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[3]]} ({\tt \Sexpr{top_training_models[3]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[3]),2)}, and 
+the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[4]]} ({\tt \Sexpr{top_training_models[4]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[4]),2)} (Figure \ref{fig:season-average-results}).
 
 <<weight-summaries>>=
 test_weights_seasonal <- target_type_weights %>%
@@ -539,11 +574,39 @@ Teams utilized a variety of methods and modeling approaches in the construction 
 
 \subsection{Ensemble Construction}
 
+All ensemble models can be represented with the same notation. Let $f_c(y_{t, r, w})$ represent the predictive density of ensemble component $c$ for the value of the target $Y_{t, r, w}$, where $t$ indexes the particular target, $r$ indexes the region, and $w$ indexes the week. We combine these components together into an ensemble model $f(y_t)$ as follows:
+
+\begin{equation}
+f(y_{t,r,w})  = \sum^C_{c = 1} \pi_{c,t,r} f_c(y_{t,r,w})
+\label{enseq}
+\end{equation}
+
+where $\pi_{c, t, r, w}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$ on week $w$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(y_{t,r,w})$ remains a valid probability distribution. 
+
+A total of five weighted ensemble models were considered, with varying complexity and number of estimated weights (Table \ref{tab:model-list}).
+\begin{itemize}
+\item 
+Equal Weight ({\tt FSNetwork-EW}): $\pi_{c,t,r} = 1/C$. This model consisted of assigning all components the same weight regardless of performance and is equivalent to the arithmetic mean of the components. 
+
+\item
+Constant Weight model ({\tt FSNetwork-CW}): $\pi_{c,t,r}$ varies across components but has the same value for all targets and regions, for a total of 21 weights.
+
+\item
+Target Type Weight model ({\tt FSNetwork-TTW}): $\pi_{c,t,r}$ is estimated separately for short-term targets and seasonal targets with no variation across regions, resulting in a total of 42 weights.
+
+\item
+Target Weight model ({\tt FSNetwork-TW}): $\pi_{c,t,r}$ is estimated separately for each of the seven targets for each component with no variation across regions, resulting in \Sexpr(21*7) weights
+
+\item
+Target-Region Weight model ({\tt FSNetwork-TRW}): The most complex model considered, which involved estimating $\pi_{c,t,r} separately for each component-target-region combination, resulting in \Sexpr(21*7*11) unique weights.
+
+\end{itemize}
+
 [EM algorithm/weighting/density stacking]
 
-[detailed explanation of the 5 models]
+Component weights were trained using a leave-one-season out cross-validation approach on component forecasts from the 2010/2011 through 2016/2017 seasons. Given the limited number of seasons, we used data from all other seasons as training data to estimate weights for a given test season, even if the training season occured chronologically after the test season of interest. 
 
-[cross-validation/real-time data]
+Based on the results of the cross-validation study, we selected one ensemble model as the official FluSight Network entry to the CDC's 2017/2018 influenza forecasting challenge. Component weights for that model were estimated using all seven seasons of training data. Over the course of the 2017/2018 influenza season, participating teams submitted weekly forecasts from each component, which were combined using the estimated weights into the FluSight Network model and submitted to the CDC. The component weights for the submitted model were unchanged throughout the course of the season.
 
 
 
