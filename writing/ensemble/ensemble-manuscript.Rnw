@@ -2,14 +2,14 @@
 
 \title{A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season}
 
-\author{(working author list subject to re-ordering pending final contributions)\\Nicholas G Reich$^1$, Logan Brooks$^2$, Sasikiran Kandula$^3$, Craig McGowan$^4$,\\Evan Moore$^1$, Dave Osthus$^5$, Evan Ray$^6$, Abhinav Tushar$^1$, Teresa Yamana$^3$,\\
-Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Rebecca Silva$^8$\\Matthew Biggerstaff$^4$, Michael A Johansson$^9$, Roni Rosenfeld$^2$, Jeffrey Shaman$^3$}
+\author{(working author list subject to re-ordering pending final contributions)\\Nicholas G Reich$^1$, Craig McGowan$^2$, Logan Brooks$^3$, Sasikiran Kandula$^4$,\\Evan Moore$^1$, Dave Osthus$^5$, Evan Ray$^6$, Abhinav Tushar$^1$, Teresa Yamana$^4$,\\
+Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Rebecca Silva$^8$\\Matthew Biggerstaff$^2$, Michael A Johansson$^9$, Roni Rosenfeld$^3$, Jeffrey Shaman$^4$}
 
 \date{%
     $^1$University of Massachusetts-Amherst, Amherst, USA\\%
-    $^2$Carnegie Mellon University, Pittsburgh, USA\\%
-    $^3$Columbia University, New York, USA\\
-    $^4$Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA\\
+    $^2$Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA\\
+    $^3$Carnegie Mellon University, Pittsburgh, USA\\%
+    $^4$Columbia University, New York, USA\\
     $^5$Los Alamos National Laboratory, Los Alamos, USA\\
     $^6$Mount Holyoke College, South Hadley, USA\\
     $^7$Smith College, Northampton, USA\\
@@ -206,13 +206,13 @@ TBD.
 
 Seasonal influenza results in a substantial, annual public health burden in the United States with an estimated 30 million cases and 600,000 hospitalizations during the 2016-2017 influenza season.\cite{CDC2018} The United States Centers for Disease Control and Prevention (CDC) utilizes a variety of surveillance methods to assess the severity of an influenza season, including monitoring outpatient visits for influenza-like illness (ILI), influenza-related hospitalizations, and virologic characteristics\cite{surv2017}. However, like all surveillance systems, these are constrained to describing events that have already taken place, and the total burden, along with the timing of the epidemic, can vary substantially from season to season.\cite{CDC2018} Forecasts of an influenza season offer the possibility of providing actionable information to improve public health responses, and recent years have seen a large number of efforts in the literature describing efforts to predict season influenza.\cite{Shaman2013,Yang2014,Yang2015,Chretien2016,Kandula2017,Osthus2017,Brooks2018,Pei2018}
 
-Ensemble models, or systematic methods that bring together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. Second, combining signals from models with different biases may allow those biases to offset and result in an ensemble that is more accurate than the individual component models. Weather and climate models have utilized ensemble systems for these very purposes, and recent work has extended ensemble forecasting to forecasts of infectious diseases, including influenza , dengue fever, and Ebola hemorrhagic fever.\cite{Yamana2017,Ray2018,Viboud2017}
+Ensemble models, or systematic methods that bring together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. Second, combining signals from models with different biases may allow those biases to offset and result in an ensemble that is more accurate than the individual ensemble components. Weather and climate models have utilized ensemble systems for these very purposes, and recent work has extended ensemble forecasting to forecasts of infectious diseases, including influenza , dengue fever, and Ebola hemorrhagic fever.\cite{Yamana2017,Ray2018,Viboud2017}
 
 Since the 2013/2014 influenza season, the CDC has run an annual prospective influenza forecasting competition, known as the FluSight challenge, in collaboration with outside researchers. Participating teams submit probabalistic forecasts for various influenza-related targets of interest to public health officials weekly from early November through mid May (Figure \ref{fig:overview-schematic}). During the 2015/2016 and 2016/2017 challenges, analysts at the CDC built a simple ensemble model by taking the arithmetic mean of submitted models. This model was one of the top performing models each season (cite McGowan et al when accepted).
 
 In March 2017, a group of influenza forecasters from different institutions who have worked with the CDC in the past, established the FluSight Network.
 This research consortium worked collaboratively throughout 2017 and 2018 to build and implement in real-time a multi-institution ensemble, with the goal of outperforming the ``simple average'' ensemble that CDC uses to inform decision making and situational awareness during the annual influenza season. 
-Given the success in previous years of a simple ensemble that incorporated no prior information about the relative performace of component models, the FluSight Network's main goal was to show that an ensemble that uses validated weights based on models' past performance could outperform this simple averaging approach. 
+Given the success in previous years of a simple ensemble that incorporated no prior information about the relative performace of ensemble components, the FluSight Network's main goal was to show that an ensemble that uses validated weights based on models' past performance could outperform this simple averaging approach. 
 This research is an important example of a collaboration between government and academic public health experts to systematically test if information for decision making during a high severity influenza season can be improved..  
 
 [This paper describes the development of ...]
@@ -330,10 +330,10 @@ dev.off()
 
 \section{Results}
 
-\subsection{Summary of component models} \label{subsec:comp-models}
+\subsection{Summary of ensemble components} \label{subsec:comp-models}
 
 %\subsubsection*{General description of models included, targets, regions, etc. }
-We assembled 21 component models to be evaluated for inclusion in our ensemble models (Table \ref{tab:model-list}).
+We assembled 21 ensemble components to be evaluated for inclusion in our ensemble models (Table \ref{tab:model-list}).
 These models encompassed a variety of different modeling philosophies, including Bayesian hierarchical models, mechanistic models of infectious disease transmission, statistical learning methodologies, and classical statistical models for time-series data.
 As a pre-requisite for inclusion in the ensemble, every model submitted seven seasons of out-of-sample forecasts.
 As the goal was to submit our ensemble forecast in real-time to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
@@ -348,23 +348,17 @@ There are two classes of targets: ``week-ahead'' and ``seasonal''.
 
 %\subsubsection*{Describe observed variation in performance across training seasons}
 
-Individual component model forecast performance in the seven training seasons (2010/2011 - 2016/2017) varied widely across region, season, and target.
-A detailed comparative analysis of component model forecast performance can be found elsewhere (Reich et al, under review), however we summarize a few key insights from model performance here.
+Individual component forecast performance in the seven training seasons (2010/2011 - 2016/2017) varied widely across region, season, and target.
+A detailed comparative analysis of component forecast performance can be found elsewhere (Reich et al, under review), however we summarize a few key insights from model performance here.
 To evaluate model accuracy, we followed CDC convention and used a metric that takes the geometric average of the probabilities assigned to the eventually observed value. 
 This measure, which we refer to as ``forecast score'', can be interpreted as the average probability a given forecast model assigned to the eventually observed value.
 As such, higher values, on a scale of 0 to 1, indicate more accurate models.
 A seasonal baseline model, whose forecasts for a particular target are based on data from previous seasons and do not update based on data from the current season, was used as a reference point for other models.
-Over 50\% of the component models out-performed the seasonal baseline model in forecasting 1- and 2-week ahead incidence as well as season peak percentage and season peak week.
+Over 50\% of the ensemble components out-performed the seasonal baseline model in forecasting 1- and 2-week ahead incidence as well as season peak percentage and season peak week.
 
 %\subsubsection*{Quantitative summaries of how much forecasting data collected and how stored/scored}
 
-It is important to distinguish ensemble components from standalone forecasting models.  
-Standalone models are optimized to be as accurate as possible on their own by, among other things, using proper smoothing.
-Ensemble components might be designed to be accurate on their own, or else they may be included merely to complement weak spots in other components, i.e. to reduce the ensemble’s variance.  
-Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose.  
-Such components may perform poorly on their own, yet their contribution to overall ensemble accuracy may still be significant.
-
-Each component model's weekly forecasts were submitted in real-time to a central data repository throughout the 2017/2018 influenza season.\cite{FSNGithub2018}
+Each ensemble component's weekly forecasts were submitted in real-time to a central data repository throughout the 2017/2018 influenza season.\cite{FSNGithub2018}
 The season began with submissions for epidemic week 43, 2017 (EW43-2017) on Monday, November 6, 2017 and ended with submissions for EW18-2018 on Monday, May 18, 2018.
 For each of the 33 weeks of the 2017/2018 season, each of 21 models submitted real-time weekly probabilistic forecasts for 7 targets in each of 11 regions. 
 In all, the seven seasons of training data consisted of about 95MB and over 1.5m rows of data per model and about 2GB of forecast data for all models combined.
@@ -372,13 +366,7 @@ The real-time forecasts for the 2017/2018 season added about 300MB of data.
 
 \subsection{Choice of ensemble model based on cross-validation}
 
-%\subsubsection*{Ensembles in general showed more accuracy than component models}
-Prior to any systematic evaluation of component model performance and prior to the 2017/2018 season, we pre-specified five ensemble models and evaluated their performance in the seven previous training seaons.
-The five pre-specified ensemble models all were built using weighted model averages of the component models, using a predictive density stacking approach (see Methods).
-Each ensemble can be defined by the number of weights estimated. 
-The simplest ensemble took an average of all models regardless of past performance, assigning all models the same weight.
-The most complex ensemble estimated weights separately for each model, target, and location, for a total of \Sexpr{21*11*7} weights (see Methods).
-Across the seven training seasons, all ensemble models but the simple average showed higher overall average forecast score (i.e., averaged across all targets) than any single component model (Figure \ref{fig:season-average-results}). 
+%\subsubsection*{Ensembles in general showed more accuracy than ensemble components}
 
 <<season-average-results, fig.height=5, fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The black dot represents the average score for the prospective, real-time forecasts from the 2017/2018 season. The {\\tt ReichLab-KDE} model (bold, italicized font) is considered the historical baseline model. The models highlighted in red, boldface font are the FluSight Network ensemble models. Note that a component’s standalone accuracy does not necessarily correlate to its contribution to the overall ensemble accuracy.  See discussion at end of Section \ref{subsec:comp-models}.">>=
 pal=c(RColorBrewer::brewer.pal(7, "Dark2"), "#000000", "#000000")
@@ -427,17 +415,25 @@ top_training_models <- as.character(arrange(training_scores_by_model, desc(avg_l
 top_training_scores <- as.numeric(arrange(training_scores_by_model, desc(avg_logscore))$avg_logscore[1:4])
 @
 
+% Prior to any systematic evaluation of ensemble component performance and prior to the 2017/2018 season, we pre-specified five ensemble models and evaluated their performance in the seven previous training seaons.
+% %The five pre-specified ensemble models all were built using weighted model averages of the ensemble components, using a predictive density stacking approach (see Methods).
+% Each ensemble can be defined by the number of weights estimated. 
+% The simplest ensemble took an average of all models regardless of past performance, assigning all models the same weight.
+% The most complex ensemble estimated weights separately for each model, target, and location, for a total of \Sexpr{21*11*7} weights (see Methods).
+% Across the seven training seasons, all ensemble models but the simple average showed higher overall average forecast score (i.e., averaged across all targets) than any single ensemble component (Figure \ref{fig:season-average-results}). 
+
 
 %\subsubsection*{Target-type weights achived highest cross-validated scores}
-The {\tt \Sexpr{top_training_models[1]}} model outperformed all other ensemble and component models in the training phase by a slim margin. 
-This model achieved an average forecast score of 
+The \Sexpr{model_name_abv$Name[model_name_abv$Model == "FSNetwork-TTW"]} ({\tt FSNetwork-TTW}) ensemble model outperformed all other ensemble and ensemble components in the training phase by a slim margin. 
+This model was one of five pre-specified ensemble approaches defined prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season.
+Using 42 estimated weights, one for each model and target-type (week-ahead and seasonal) combination, the {\tt FSNetwork-TTW} model built a weighted model average using a predictve density stacking approach (see Figure \ref{fig:ttweights} and Methods).
+In the training period consisting of the seven influenza seasons prior to 2017/2018, this model achieved a leave-one-season-out cross-validated average forecast score of 
 \Sexpr{specify_decimal(exp(top_training_scores[1]),2)}, 
 compared with 
 the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[2]]} ({\tt \Sexpr{top_training_models[2]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[2]),2)}, 
 the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[3]]} ({\tt \Sexpr{top_training_models[3]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[3]),2)}, and 
 the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[4]]} ({\tt \Sexpr{top_training_models[4]}}) model with a score of \Sexpr{specify_decimal(exp(top_training_scores[4]),2)} (Figure \ref{fig:season-average-results}).
-The \Sexpr{model_name_abv$Name[model_name_abv$Model == "FSNetwork-TTW"]} ({\tt FSNetwork-TTW}) model estimated 42 weights, one for each model and target-type (week-ahead and seasonal) combination (Figure \ref{fig:ttweights}).
-We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on leave-one-season-out cross-validated performance on the seven seasons of training data.
+We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on it having the highest score of any approach in the cross-validated training phase.
 
 <<weight-summaries>>=
 test_weights_seasonal <- target_type_weights %>%
@@ -457,7 +453,7 @@ n_nonzero_weekahead <- test_weights_weekahead %>%
 
 
 %\subsubsection*{Weights distributed across models from all teams}
-Using out-of-sample cross-validated performance of all component models across the seven training seasons, we estimated weights for the chosen {\tt FSNetwork-TTW} ensemble model that would be used for the 2017/2018 real-time forecasting.
+Using out-of-sample cross-validated performance of all ensemble components across the seven training seasons, we estimated weights for the chosen {\tt FSNetwork-TTW} ensemble model that would be used for the 2017/2018 real-time forecasting.
 The {\tt FSNetwork-TTW} model assigned non-negligible weight (greater than 0.001) to \Sexpr{n_nonzero_weekahead} models for week-ahead targets and \Sexpr{n_nonzero_seasonal} models for seasonal targets (Figure \ref{fig:ttweights}).
 For week-ahead targets, the highest non-zero weight 
 (\Sexpr{specify_decimal(as.numeric(test_weights_weekahead[which.max(test_weights_weekahead$weight),"weight"]),2)}) 
@@ -467,16 +463,17 @@ For seasonal targets, the highest weight
 was given to the {\tt \Sexpr{as.character(test_weights_seasonal[which.max(test_weights_seasonal$weight),"component_model_id"])}} model.
 In the weights for the seasonal targets, 6 models shared fairly equal weights, with none of the 6 having less than 0.11 weight.
 All four teams had at least one model with non-negligible weight in the chosen model. 
+Ensemble weights themselves are not a measure of a component's standalone accuracy nor its contribution to the overall accuracy of the ensemble.
 
 <<ttweights, fig.height=3, fig.cap="Model weights for the FluSight Network Target-Type Weights ({\\tt FSNetwork-TTW}) model. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
-ttweights_2017 <- filter(target_type_weights, season=="2017/2018") %>%
+ttweights_2017 <- filter(target_type_weights, season=="2018/2019", target %in% c("1 wk ahead", "Season onset")) %>% #filter(target_type_weights, season=="2017/2018") %>%
     mutate(tt = ifelse(target=="1 wk ahead", "week-ahead", "seasonal"))
 ggplot(ttweights_2017, 
     aes(y=tt, fill=weight, x=component_model_id)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
     geom_text(aes(label=round(weight, 2)), size=2) +
     scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
 @
 
 
@@ -494,10 +491,10 @@ In some regions, for example HHS Region 2 (New York and New Jersey) and HHS Regi
 Because all forecasting models rely, to some extent, on future trends mimicking observed patterns in the past, the anomalous dynamics in 2017/2018 posed a challenging ``test season'' for all models, including the new ensembles.
 Indeed, some of the models that saw the largest drop in performance (e.g., {\tt Delphi-DeltaDensity1}, {\tt ReichLab-KCDE}, and {\tt Delphi-DeltaDensity2}) are ones that explicity rely on using kernel conditional density estimation to find previously observed regions of the time-series that bear a similarity to current trends.
 
-In spite of these unusual dynamics negatively impacting the forecast accuracy of the top-performing component models, the {\tt FSNetwork-TTW} ensemble model that varied weights by model and target-type was tied for the best performance among all component and ensemble models in 2017/2018.
+In spite of these unusual dynamics negatively impacting the forecast accuracy of the top-performing ensemble components, the {\tt FSNetwork-TTW} ensemble model that varied weights by model and target-type was tied for the best performance among all component and ensemble models in 2017/2018.
 The {\tt \Sexpr{top_models[1]}} model tied  with the  {\tt \Sexpr{top_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[1]),2)}. 
-These results from 2017/2018 were consistent with and confirmed conclusions drawn from the training period, where these same models outperformed all other ensemble and component models.
-This strong and consistent performance by the ensemble models is a particularly noteworthy achievement given that just matching the single model that happens to do best in a particular season (without being a pre-specified comparison) is difficult. 
+These results from 2017/2018 were consistent with and confirmed conclusions drawn from the training period, where these same models outperformed all other ensemble and ensemble components.
+This strong and consistent performance by the ensemble models is a particularly noteworthy achievement given that just matching the single model that happens to do best in a particular season (without being a pre-specified comparison) is a high standard to hold a model to. 
 %The {\tt \Sexpr{top_models[2]}}, {\tt \Sexpr{top_models[3]}}, and {\tt \Sexpr{top_models[4]}} models achieved scores of \Sexpr{specify_decimal(exp(top_scores[2]),2)}, \Sexpr{specify_decimal(exp(top_scores[3]),2)}, and  \Sexpr{specify_decimal(exp(top_scores[4]),2)}, respectively.
 
 
@@ -516,9 +513,23 @@ ggplot(
     aes(y=target_type, x=Model, fill=pct_diff_baseline_skill*100)) + 
     geom_tile() + ylab(NULL) + xlab(NULL) +
     #facet_grid(~target_type) +
-    geom_text(aes(label=specify_decimal(avg_score, 2)), size=1.8) +
+    geom_text(aes(label=specify_decimal(avg_score, 2)), size=1.8, color="darkgrey") +
     scale_fill_gradient2(name="% change \nfrom baseline") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5,
+        #family="Courier",
+        face=ifelse(
+            levels(tmp$Model) == "ReichLab-KDE",
+            "bold.italic",
+            ifelse(grepl("FSNetwork", levels(tmp$Model)),
+            "bold",
+            "plain")
+            ),
+        color = ifelse(
+            grepl("FSNetwork", levels(tmp$Model)),
+            "red",
+            "black"
+        )
+        ))
 @
 
 
@@ -531,11 +542,49 @@ ggplot(
 
 The model accuracy patterns observed in the cross-validation phase was largely preserved in the real-time phase.
 [[add model ranks to table (avg for CV years, single for 2017/2018)]]
-In the cross-validation phase, ensemble models had slightly higher average performance than all component models, and [[ranked as the top model in each season]].
-%This pattern was broken in the 2017/2018 season, with [[two component models]] showing better performance than the chosen ensemble in across all locations and targets.[[although does this break down into better performance in all locations/targets or just some?]]
+In the cross-validation phase, ensemble models had slightly higher average performance than all ensemble components, and [[ranked as the top model in each season]].
+%This pattern was broken in the 2017/2018 season, with [[two ensemble components]] showing better performance than the chosen ensemble in across all locations and targets.[[although does this break down into better performance in all locations/targets or just some?]]
 
+
+<<updated-weights>>=
+## using adapted code from Logan's calculate-weights.R script...
+new_scores_wkahead <- scores_adj %>%   
+    dplyr::filter(!grepl('FSNetwork', Model), target_type=="k-week-ahead") %>% ## drop ensemble models!
+    mutate(Model = as.character(Model)) %>%
+    dplyr::select(Model, score_adj) %>%
+    group_by(Model) %>% mutate(idx=1:n()) %>% ungroup() %>%
+    #spread(Model, score_adj)
+    reshape2::acast(idx~Model, value.var="score_adj")
+
+new_scores_seasonal <- scores_adj %>%   
+    dplyr::filter(!grepl('FSNetwork', Model), target_type=="seasonal") %>% ## drop ensemble models!
+    mutate(Model = as.character(Model)) %>%
+    dplyr::select(Model, score_adj) %>%
+    group_by(Model) %>% mutate(idx=1:n()) %>% ungroup() %>%
+    #spread(Model, score_adj)
+    reshape2::acast(idx~Model, value.var="score_adj")
+
+dem_weights_wkahead <- epiforecast:::degenerate_em_weights(exp(new_scores_wkahead))
+dem_weights_seasonal <- epiforecast:::degenerate_em_weights(exp(new_scores_seasonal))
+
+new_ttws <- data.frame(
+    component_model_id = c(names(dem_weights_wkahead), names(dem_weights_seasonal)),
+    updated_weight = c(dem_weights_wkahead, dem_weights_seasonal),
+    target_type = rep(c("week-ahead", "seasonal"), times=c(length(dem_weights_wkahead), length(dem_weights_seasonal)))
+    ) %>% 
+    mutate(component_model_id = reorder(component_model_id, updated_weight))
+
+# ggplot(new_ttws, 
+#     aes(y=target_type, fill=updated_weight, x=component_model_id)) + 
+#     geom_tile() + ylab(NULL) + xlab(NULL) +
+#     geom_text(aes(label=round(updated_weight, 2)), size=2) +
+#     scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
+#     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
+
+@
 
 [Could also present/describe updated weights that incorporate 2017/2018 performance.]
+
 
 
 \section{Discussion}
@@ -545,8 +594,8 @@ Outline
   \item something about CDC using these data to decide whether or not to recommend the new ensemble approach for the 2018-19 season and how the weights will be updated going forward. 
   \item something about how this is a collaboration between CDC and outside partners and how we were able to accomplish more by collaboration in real time on a common problem.
   \item ensembles hold promise for giving decision makers the ability to use "one answer" that combines the strength of many different approaches. highlight that no one model was ever used by the ensemble as the best answer and instead it relied on a combination of models to give the best answer.   \item i do a think limitation or a something to consider working on is how to adapt these methods when there aren't historic analogous (e.g. ebola, pandemic flu)
-  \item Overall, the ensemble methods outperform component models. There are some specific situations where the component models do better, but that is to be expected when testing a lot of situations.
-  \item Even in a very unusual season, the ensemble approach holds steady and was high-performing. This bodes well for its long-term robustness, compared to single component models. In this way, the relative simplicity of CW or TTW is a strength, as there is not too much danger of these models being "overfit" to the data.
+  \item Overall, the ensemble methods outperform ensemble components. There are some specific situations where the ensemble components do better, but that is to be expected when testing a lot of situations.
+  \item Even in a very unusual season, the ensemble approach holds steady and was high-performing. This bodes well for its long-term robustness, compared to single ensemble components. In this way, the relative simplicity of CW or TTW is a strength, as there is not too much danger of these models being "overfit" to the data.
   \item Important limitation/opportunity: not an obvious way to incorporate new models that, say, rely on a new data source and don't have 7 years of training. Could be important to include such a model, but how to do it is not trivial, and won't have a good sense about how the long run performance of this model is.
   \item places where we could improve: dynamic weighting over the course of a season, increasing diversity in models, model calibration, consideration of other ways to combine models.
   \item We did not explore the use of more complex regularization schemes for estimation in this work, but in future work penalized estimation procedures could be employed for the more complex models, yielding an intermediate number of effective parameters.  Opportunity to cite awes.
@@ -575,12 +624,20 @@ While a true log score only evaluates the probability assigned to the exact obse
 
 Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Formally, each model $m$ has a large number of region-, target-, season-, and week-specific log scores, and we represent a specific scalar log score as $\log f_{m,r,t,s,w}(z^*|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
 
-\subsection{Component models}
-To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 component models. *(NOTE: Could refer to comparison manuscript here if it's out)* Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. Teams constructed their forecasts in a prospective fashioon, using only data that were available at the time of the forecast. For some data sources (i.e. wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making efforts to only use data available at the time forecasts would have been made.
+\subsection{Ensemble components}
+To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. *(NOTE: Could refer to comparison manuscript here if it's out)* Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. Teams constructed their forecasts in a prospective fashioon, using only data that were available at the time of the forecast. For some data sources (i.e. wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making efforts to only use data available at the time forecasts would have been made.
 
 For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week (citation). If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances were explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
 
 Teams utilized a variety of methods and modeling approaches in the construction of their submissions. Seven of the models used a compartmental structure in their models (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process in some way, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporate additional data sources beyond previous wILI data, including weather data and Google search data.  
+
+\subsection{Distinction between standalone models and ensemble components}
+It is important to distinguish ensemble components from standalone forecasting models.  
+Standalone models are optimized to be as accurate as possible on their own by, among other things, using proper smoothing.
+Ensemble components might be designed to be accurate on their own, or else they may be included merely to complement weak spots in other components, i.e. to reduce the ensemble's variance.  
+Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose.  
+Such components may perform poorly on their own, yet their contribution to overall ensemble accuracy may still be significant.
+
 
 \subsection{Ensemble Construction}
 
@@ -618,6 +675,11 @@ Component weights were trained using a leave-one-season out cross-validation app
 
 Based on the results of the cross-validation study, we selected one ensemble model as the official FluSight Network entry to the CDC's 2017/2018 influenza forecasting challenge. Component weights for that model were estimated using all seven seasons of training data. Over the course of the 2017/2018 influenza season, participating teams submitted weekly forecasts from each component, which were combined using the estimated weights into the FluSight Network model and submitted to the CDC. The component weights for the submitted model were unchanged throughout the course of the season.
 
+It should be noted that ensemble weights are not a measure of ensemble components' standalone accuracy nor do they measure the overall contribution of a particular model to the ensemble accuracy.
+For example, consider a setting where a duplicate of a identical (or highly similar) ensemble component with weight $\pi^*$ is added to a given ensemble. 
+The accuracy of the original ensemble can be maintained in a number of ways, including (a) assigning each copy a weight of $\pi^*/2$, or (b) assigning the first copy a weight of $\pi^*$ and the second copy a weight of $0$. 
+In both of these weightings, at least one high accuracy ensemble component would be assigned significantly lower weight based on the presence of another identical or similar component.
+Additionally, components can be assigned small weights but have a large impact on ensemble accuracy compared to an ensemble excluding it. 
 
 
 \bibliographystyle{unsrt}
