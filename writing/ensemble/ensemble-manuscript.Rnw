@@ -466,7 +466,7 @@ All four teams had at least one model with non-negligible weight in the chosen m
 Ensemble weights themselves are not a measure of a component's standalone accuracy nor its contribution to the overall accuracy of the ensemble.
 
 <<ttweights, fig.height=3, fig.cap="Model weights for the FluSight Network Target-Type Weights ({\\tt FSNetwork-TTW}) model. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
-ttweights_2017 <- filter(target_type_weights, season=="2018/2019", target %in% c("1 wk ahead", "Season onset")) %>% #filter(target_type_weights, season=="2017/2018") %>%
+ttweights_2017 <- filter(target_type_weights, season=="2017/2018") %>%
     mutate(tt = ifelse(target=="1 wk ahead", "week-ahead", "seasonal"))
 ggplot(ttweights_2017, 
     aes(y=tt, fill=weight, x=component_model_id)) + 
@@ -570,17 +570,32 @@ dem_weights_seasonal <- epiforecast:::degenerate_em_weights(exp(new_scores_seaso
 new_ttws <- data.frame(
     component_model_id = c(names(dem_weights_wkahead), names(dem_weights_seasonal)),
     updated_weight = c(dem_weights_wkahead, dem_weights_seasonal),
-    target_type = rep(c("week-ahead", "seasonal"), times=c(length(dem_weights_wkahead), length(dem_weights_seasonal)))
+    tt = rep(c("week-ahead", "seasonal"), times=c(length(dem_weights_wkahead), length(dem_weights_seasonal)))
     ) %>% 
     mutate(component_model_id = reorder(component_model_id, updated_weight))
 
 # ggplot(new_ttws, 
-#     aes(y=target_type, fill=updated_weight, x=component_model_id)) + 
+#     aes(y=tt, fill=updated_weight, x=component_model_id)) + 
 #     geom_tile() + ylab(NULL) + xlab(NULL) +
 #     geom_text(aes(label=round(updated_weight, 2)), size=2) +
 #     scale_fill_gradient(low = "white", high="dodgerblue4", limits=c(0,1)) +
 #     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
 
+
+all_ttws <- ttweights_2017 %>%
+    select(-season, -target) %>%
+    left_join(new_ttws) %>%
+    mutate(weight_diff = updated_weight-weight,
+        component_model_id = reorder(component_model_id, weight))
+
+max_weight_diff <- max(abs(all_ttws$weight_diff))
+
+ggplot(all_ttws,
+    aes(y=tt, fill=weight_diff, x=component_model_id)) +
+    geom_tile() + ylab(NULL) + xlab(NULL) +
+    geom_text(aes(label=round(weight_diff, 3)), size=2) +
+    scale_fill_gradient2(limits=c(-.12,.12)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5))
 @
 
 [Could also present/describe updated weights that incorporate 2017/2018 performance.]
