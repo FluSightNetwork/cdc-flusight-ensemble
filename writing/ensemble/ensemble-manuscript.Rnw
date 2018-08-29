@@ -545,13 +545,13 @@ ggplot(
 @
 
 
-<<rmse, fig.height=4, fig.cap="RMSE by model and target, for targets on ILI \\% scale.">>=
+<<rmse, fig.height=4, fig.cap="RMSE by model and target, 2017-2018 season.">>=
 point_ests <- read_csv("../../scores/point_ests_adj-w20172018.csv")
 names(point_ests) <- tolower(names(point_ests))
 
 ### analysis by season
 ests_summaries <- tbl_df(point_ests) %>% 
-    filter(model_name != "UTAustin_edm") %>%
+    filter(model_name != "UTAustin_edm", season == "2017/2018") %>%
     dplyr::left_join(
         all_target_bounds, 
         by = c("season"="Season", "target"="Target", "location"="Location")
@@ -566,9 +566,12 @@ ests_summaries <- tbl_df(point_ests) %>%
         mse = mean(err^2, na.rm=TRUE),
         rmse = sqrt(mse)) %>%
     ungroup() %>%
+    group_by(model_name) %>%
+    mutate(rmse_order = mean(rmse)) %>% # Create average rmse to order plot by
+    ungroup() %>%
     left_join(models, by = c("model_name" = "model-dir")) %>%
     mutate(
-        model_id = reorder(`model-id`, X=-rmse),
+        model_id = reorder(`model-id`, X=-rmse_order),
         target_type = ifelse(target %in% c("Season onset", "Season peak week"),
                              "Week targets", "ILI% targets")
         ) 
@@ -576,7 +579,7 @@ ests_summaries <- tbl_df(point_ests) %>%
 
 ggplot(ests_summaries, aes(x=model_id, y=rmse, color=target)) + 
     geom_point() + 
-    scale_color_brewer(palette = "Dark2", name = "Target") +
+    scale_color_brewer(name = "Target", palette = "Dark2") +
     facet_grid(target_type~.) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5,
         face=ifelse(
@@ -596,7 +599,7 @@ ggplot(ests_summaries, aes(x=model_id, y=rmse, color=target)) +
 
 @
 
-[MSE is lower for ensembles Figure \ref{fig:rmse}, etc...]
+Using RMSE as a performance metric, the ensemble performance was similarly strong (Figure \ref{fig:rmse}). Of the FSNetwork ensembles, the {\tt FSNetwork-EW} ensemble that assigned the same weight to all components generally had the lowest RMSE, though the other FSNetwork models had similar performance for all targets. Almost all components had better performance than the {\tt ReichLab-KDE} model and, compared to the log score, there was less relative variability between the different models. Even though the ensembles were not constructed to optimize RMSE, the strong performance of the ensemble models further validates the ensemble approach.
 
 
 [Score breakdown by target-types and by region?]
@@ -736,7 +739,7 @@ While a true log score only evaluates the probability assigned to the exact obse
 
 Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Formally, each model $m$ has a large number of region-, target-, season-, and week-specific log scores, and we represent a specific scalar log score as $\log f_{m,r,t,s,w}(z^*|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
 
-[MSE evaluation of point predictions. median of probabilistic distribution used for ensemble models.]
+As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,r,t,w}$ for each region $r$, target $t$, and week $w$ as $RMSE_{m,r,t,w} = \sqrt((\hat y_{m,r,t,w} - y_{r,t,w})^2)$, where $\hat y_{m,r,t,w}$ is the point prediction of model $m$ for observed value $y_{r,t,w}$.
 
 \subsection{Ensemble components}
 To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. *(NOTE: Could refer to comparison manuscript here if it's out)* Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. Teams constructed their forecasts in a prospective fashioon, using only data that were available at the time of the forecast. For some data sources (i.e. wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making efforts to only use data available at the time forecasts would have been made.
@@ -762,7 +765,7 @@ f(y_{t,r,w})  = \sum^C_{c = 1} \pi_{c,t,r} f_c(y_{t,r,w})
 \label{enseq}
 \end{equation}
 
-where $\pi_{c, t, r, w}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$ on week $w$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(y_{t,r,w})$ remains a valid probability distribution. 
+where $\pi_{c, t, r}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(y_{t,r,w})$ remains a valid probability distribution. 
 
 A total of five weighted ensemble models were considered, with varying complexity and number of estimated weights (Table \ref{tab:model-list}).
 \begin{itemize}
