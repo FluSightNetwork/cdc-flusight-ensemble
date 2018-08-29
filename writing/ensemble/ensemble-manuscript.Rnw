@@ -218,7 +218,7 @@ TBD.
 %     \item Overview of goals, methods, etc.
 % \end{itemize}
 
-Seasonal influenza results in a substantial, annual public health burden in the United States with an estimated 30 million cases and 600,000 hospitalizations during the 2016-2017 influenza season.\cite{CDC2018} The United States Centers for Disease Control and Prevention (CDC) utilizes a variety of surveillance methods to assess the severity of an influenza season, including monitoring outpatient visits for influenza-like illness (ILI), influenza-related hospitalizations, and virologic characteristics\cite{surv2017}. However, like all surveillance systems, these are constrained to describing events that have already taken place, and the total burden, along with the timing of the epidemic, can vary substantially from season to season.\cite{CDC2018} Forecasts of an influenza season offer the possibility of providing actionable information to improve public health responses, and recent years have seen a large number of efforts in the literature describing efforts to predict season influenza.\cite{Shaman2013,Yang2014,Yang2015,Chretien2016,Kandula2017,Osthus2017,Brooks2018,Pei2018}
+Seasonal influenza results in a substantial, annual public health burden in the United States with an estimated 30 million cases and 600,000 hospitalizations during the 2016-2017 influenza season.\cite{CDC2018} The United States Centers for Disease Control and Prevention (CDC) utilizes a variety of surveillance methods to assess the severity of an influenza season, including monitoring outpatient visits for influenza-like illness (ILI), influenza-related hospitalizations, and virologic characteristics.\cite{surv2017} However, like all surveillance systems, these are constrained to describing events that have already taken place, and the total burden, along with the timing of the epidemic, can vary substantially from season to season.\cite{CDC2018} Forecasts of an influenza season offer the possibility of providing actionable information to improve public health responses, and recent years have seen a large number of efforts in the literature describing efforts to predict season influenza.\cite{Shaman2013,Yang2014,Yang2015,Chretien2016,Kandula2017,Osthus2017,Brooks2018,Pei2018}
 
 Ensemble models, or systematic methods that bring together predictions from multiple different models, have long been seen as a valuable method for improving predictions over any single model. This "wisdom of the crowd" approach has both theoretical and practical advantages. First, it allows for an ensemble forecast to incorporate signals from different data sources and models that may highlight different features of a system. Second, combining signals from models with different biases may allow those biases to offset and result in an ensemble that is more accurate than the individual ensemble components. Weather and climate models have utilized ensemble systems for these very purposes, and recent work has extended ensemble forecasting to forecasts of infectious diseases, including influenza, dengue fever, and Ebola hemorrhagic fever.\cite{Yamana2017,Ray2018,Viboud2017}
 
@@ -227,7 +227,7 @@ Since the 2013/2014 influenza season, the CDC has run an annual prospective infl
 In March 2017, a group of influenza forecasters from different institutions who have worked with the CDC in the past, established the FluSight Network.
 This research consortium worked collaboratively throughout 2017 and 2018 to build and implement in real-time a multi-institution ensemble, with the goal of outperforming the ``simple average'' ensemble that CDC uses to inform decision making and situational awareness during the annual influenza season. 
 Given the success in previous years of a simple ensemble that incorporated no prior information about the relative performace of ensemble components, the FluSight Network's main goal was to show that an ensemble that uses validated weights based on models' past performance could outperform this simple averaging approach. 
-This research is an important example of a collaboration between government and academic public health experts to systematically test if information for decision making during a high severity influenza season can be improved..  
+This research is an important example of a collaboration between government and academic public health experts to systematically test if information for decision making during a high severity influenza season can be improved.  
 
 [This paper describes the development of ...]
 
@@ -532,12 +532,12 @@ ggplot(
         face=ifelse(
             levels(tmp$Model) == "ReichLab-KDE",
             "bold.italic",
-            ifelse(grepl("FSNetwork", levels(tmp$Model)),
+            ifelse(grepl("FSNetwork", levels(test_scores_by_model_tt$Model)),
             "bold",
             "plain")
             ),
         color = ifelse(
-            grepl("FSNetwork", levels(tmp$Model)),
+            grepl("FSNetwork", levels(test_scores_by_model_tt$Model)),
             "red",
             "black"
         )
@@ -558,7 +558,7 @@ ests_summaries <- tbl_df(point_ests) %>%
     ) %>%
     dplyr::filter(model.week >= start_week_seq, model.week <= end_week_seq) %>%
     group_by(model_name, target) %>%
-    dplyr::filter(!(target %in% c("Season onset", "Season peak week"))) %>%
+    # dplyr::filter(!(target %in% c("Season onset", "Season peak week"))) %>%
     dplyr::filter(!is.na(season)) %>% ## removes a late weeks in 2017/2018 for KDE included by accident
     summarize(
         nobs = n(),
@@ -569,14 +569,15 @@ ests_summaries <- tbl_df(point_ests) %>%
     left_join(models, by = c("model_name" = "model-dir")) %>%
     mutate(
         model_id = reorder(`model-id`, X=-rmse),
-        target_type = ifelse(grepl("Season", target), "seasonal", "weekahead")
+        target_type = ifelse(target %in% c("Season onset", "Season peak week"),
+                             "Week targets", "ILI% targets")
         ) 
 
 
 ggplot(ests_summaries, aes(x=model_id, y=rmse, color=target)) + 
     geom_point() + 
-    scale_color_brewer(palette = "Dark2") +
-    #facet_grid(target_type~.) +
+    scale_color_brewer(palette = "Dark2", name = "Target") +
+    facet_grid(target_type~.) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5,
         face=ifelse(
             levels(ests_summaries$model_id) == "ReichLab-KDE",
