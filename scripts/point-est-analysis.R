@@ -7,7 +7,7 @@ library(ggplot2)
 theme_set(theme_minimal())
 
 
-ests <- read_csv("scores/point_ests.csv")
+ests <- read_csv("scores/point_ests_adj-w20172018.csv")
 names(ests) <- tolower(names(ests))
 
 ### check how many observations for each location/season
@@ -22,11 +22,12 @@ tbl_df(ests) %>%
 
 ### analysis by season
 tab1 <- tbl_df(ests) %>% group_by(model_name, target, season) %>%
-    dplyr::filter(!(target %in% c("Season onset", "Season peak week"))) %>%
+    dplyr::filter(!(target %in% c("Season onset", "Season peak week")), !is.na(season)) %>%
     summarize(
         nobs = n(),
         bias = mean(err, na.rm=TRUE),
-        mse = mean(err^2, na.rm=TRUE))
+        mse = mean(err^2, na.rm=TRUE),
+        rmse = sqrt(mse))
 
 ggplot(tab1, aes(x=reorder(model_name, X = abs(bias)), y=bias, color=factor(season))) + 
     geom_point() + 
@@ -40,6 +41,12 @@ ggplot(tab1, aes(x=reorder(model_name, X=mse), y=mse, color=factor(season))) +
     scale_y_log10() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5)) +
     ggtitle("MSE for ILI targets")
+
+ggplot(tab1, aes(x=reorder(model_name, X=rmse), y=rmse, color=factor(season))) + 
+    geom_point() + 
+    facet_wrap(~target) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5)) +
+    ggtitle("RMSE for ILI targets")
 
 
 ### analysis by region
