@@ -62,7 +62,7 @@ More timely reporting and an improved overall accessibility to novel and traditi
 
 \subsection*{Significance Statement}
 %120 word limit
-Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
+Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. Decreases in forecast accuracy were associated with delays in final data being available for analysis. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
 
 %\tableofcontents
 
@@ -237,7 +237,7 @@ Since each season has a unique dynamical structure, multi-season comparisons lik
 Influenza is a respiratory viral infection that can cause mild or severe symptoms.
 In the US each year, influenza viruses infect an estimated 9 to 35 million individuals and cause between 12,000 and 56,000 deaths.\cite{Rolfes2016}
 Influenza incidence typically exhibits a strong annual periodicity in the US (and in other global regions with temperate climates), often circulating widely during colder months (i.e., November through April). 
-The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
+The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, pre-existing population immunity due to prior infections or vaccination\cite{Woolthuis2017,Zarnitsyna2018}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level weighted influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
