@@ -59,10 +59,10 @@ In some regions, delays in data reporting were strongly and negatively associate
 More timely reporting and an improved overall accessibility to novel and traditional data sources are needed to improve forecasting accuracy and its integration with real-time public health decision-making.
 
 \end{abstract}
-% 
-% \subsection*{Significance Statement}
-% %120 word limit
-% Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
+
+\subsection*{Significance Statement}
+%120 word limit
+Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. Decreases in forecast accuracy were associated with delays in final data being available for analysis. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
 
 %\tableofcontents
 
@@ -237,7 +237,7 @@ Since each season has a unique dynamical structure, multi-season comparisons lik
 Influenza is a respiratory viral infection that can cause mild or severe symptoms.
 In the US each year, influenza viruses infect an estimated 9 to 35 million individuals and cause between 12,000 and 56,000 deaths.\cite{Rolfes2016}
 Influenza incidence typically exhibits a strong annual periodicity in the US (and in other global regions with temperate climates), often circulating widely during colder months (i.e., November through April). 
-The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
+The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, pre-existing population immunity due to prior infections or vaccination\cite{Woolthuis2017,Zarnitsyna2018}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level weighted influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
@@ -773,6 +773,8 @@ The historical baseline model showed an average score of
 %Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}\%) had higher average forecast score than the historical baseline model in the scoring period of interest.
 Overall, 8 out of 22 models (\Sexpr{specify_decimal(8/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
+Accuracy in forecasting season onset was also impacted by revisions to wILI data. In some region-seasons current data led models to be highly confident that onset had occurred in one week, only to have revised data later in the season change the week that was considered to be the onset. One good example of this is HHS Region 2 in 2015/2016. Here, data in early 2016 showed season onset to be EW2 of 2016. Revisions to the data around EW12, led the models to identify EW51 as the onset. A further revision, occuring in EW21 of 2016, showed the onset actually occured on EW4 of 2016.
+
 <<best-models-peak>>=
 
 ## PEAK WEEK
@@ -1128,6 +1130,7 @@ What is the future of influenza forecasting in the US and globally? %Given avail
 %Challenges like CDC's FluSight are immensely important to the advancement of this field and will continue to advance influenza forecasting capabilities for the US and beyond. 
 %Infectious disease forecasting is in its infancy and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
 While long-run forecast accuracy for influenza will vary based on a variety of factors, including data quality and geographical scale, we expect to see continued forecast improvement through competition, collaboration, and methodological and technological innovation.
+Further analyses that help elucidate factors that drive forecast accuracy in specific settings will be particularly instructive. 
 We see particular promise in models that leverage different data sources, such as pathogen-specific and highly localized incidence data.
 Additionally, building ensemble models that capitalize on the strengths of a diverse set of individual component models will be critical to improving accuracy and consistency of models in all infectious disease forecasting settings. 
 Ensemble forecasting was the motivation behind the creation of the FluSight Network and, while out of scope of this manuscript, will be the topic of future collaborative research for the group.
@@ -1139,9 +1142,11 @@ However, other barriers may be of equal or greater importance to continued impro
 Often, researchers either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data). 
 Increased methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
 From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.
+Continuing to refine forecasting targets to more closely align with public health activities will improve integration of forecasts with decision-making. 
+Recent work from the CDC has developed standardized algorithms to classify the severity of influenza seasons\cite{biggerstaff2018systematic} which could be used to inform the development of new forecasting targets.
 
 Public health officials are still learning how to best integrate forecasts into real-time decision making.
-Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community.  
 Real-time implementation and testing of forecasting methods plays a central role in planning and assessing what targets should be forecasted for maximum public health impact.
 
 \section*{Methods}
