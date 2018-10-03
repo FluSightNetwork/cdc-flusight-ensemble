@@ -2,7 +2,9 @@
 
 This repository is the central nervous system for the FluSight Network, a consortium of researchers and public health officials working together to create real-time forecasts for influenza in the US.
 
-There is a lot of data and code in this repository. We have over 20 models' forecasts for the past eight flu seasons. To help you navigate it, here are some quick links to relevant information and files:
+There is a lot of data and code in this repository. We have over 20 models' forecasts for the past eight flu seasons. To help you navigate it, here are some quick links to relevant information and files.
+
+**Useful Links**
 
  - This collaboration is currently centered around participation in the [CDC FluSight challenge](https://predict.phiresearchlab.org/) which has run since the 2013/2014 season.
  - In the fall of 2017, [Nick](http://reichlab.io) wrote a [blog post describing the new FluSight Network effort effort](http://reichlab.io/2017/11/28/flusight-ensemble.html). This is a good place to start to get an overview of this collaborative effort.
