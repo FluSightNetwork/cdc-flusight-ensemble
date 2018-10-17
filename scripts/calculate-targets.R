@@ -13,7 +13,9 @@ if (!dir.exists(epidata.cache.dir)) {
 fluview.baseline.info = fetchUpdatingResource(
   function() {
     LICENSE=RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/LICENSE")
-    wILI_Baseline=read.csv(textConnection(RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv")), row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
+    ## wILI_Baseline=read.csv(textConnection(RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv")), row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
+    ## xxx extra comma in current file (2018-10-17) misaligns data! use fixup file for now & force cache invalidation:
+    wILI_Baseline=read.csv("wILI_Baseline_fixup.csv", row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
     cat("LICENSE for wILI_Baseline.csv:")
     cat(LICENSE)
     return (list(
@@ -25,7 +27,8 @@ fluview.baseline.info = fetchUpdatingResource(
     return ()
   },
   cache.file.prefix=file.path(epidata.cache.dir,"fluview_baselines"),
-  cache.invalidation.period=as.difftime(1L, units="weeks")
+  cache.invalidation.period=as.difftime(1L, units="weeks"),
+  force.cache.invalidation=TRUE # xxx remove when reading from net again
 )
 fluview.baseline.ls.mat =
   fluview.baseline.info[["wILI_Baseline"]] %>>%
@@ -84,12 +87,12 @@ flusight2016_settings = function(forecast.epiweek, forecast.Location) {
     with(baseline[Location==forecast.Location])
   n.weeks.in.season = epiforecast::lastWeekNumber(forecast.smw[["season"]], 3L)
   is.inseason = usa_flu_inseason_flags(n.weeks.in.season)
-  mimicked.time.of.forecast = model_week_to_time(forecast.smw[["model.week"]],
+  mimicked.forecast.time = model_week_to_time(forecast.smw[["model.week"]],
                                                  usa.flu.first.week.of.season)
   flusight2016.settings = list(
     baseline=mimicked.baseline,
     is.inseason=is.inseason,
-    target.time.of.forecast=mimicked.time.of.forecast
+    forecast.time=mimicked.forecast.time
   )
   return (flusight2016.settings)
 }
@@ -102,7 +105,7 @@ input.epiweeks = 2010:2016 %>>%
   dplyr::filter(! week %>>% dplyr::between(21L,39L)) %>>%
   with(year*100L+week)
 input.Locations = fluview.location.spreadsheet.names
-input.targets = epiforecast:::flusight2016.targets
+input.target.specs = epiforecast:::flusight2016.target.specs
 
 ## This is slow for some reason, so set up parallelism:
 options(mc.cores=parallel::detectCores()-1L)
@@ -129,14 +132,14 @@ target.multival.df =
         target.settings = flusight2016_settings(input.epiweek, input.Location)
         ## calculate the valid target values, convert to Bin_start_incl string
         ## representations with some indexing information:
-        input.targets %>>%
-          lapply(function(input.target) {
+        input.target.specs %>>%
+          lapply(function(input.target.spec) {
             ## multival: list of valid value(s) using target-specific class:
-            multival = do.call(input.target[["for_processed_trajectory"]],
+            multival = do.call(input.target.spec[["for_processed_trajectory"]],
                                c(list(rounded.trajectory),
                                  target.settings))
             ## valid.bin.starts: corresponding Bin_start_incl string(s)
-            valid.bin.starts = do.call(input.target[["unit"]][["to_string"]],
+            valid.bin.starts = do.call(input.target.spec[["unit"]][["to_binlabelstart"]],
                                        c(list(multival),
                                          target.settings))
             ## put in tibble with some indexing information
