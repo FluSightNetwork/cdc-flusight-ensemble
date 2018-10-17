@@ -17,7 +17,7 @@
 \author[d]{Teresa Yamana}
 \author[e]{Matthew Biggerstaff}
 \author[h]{Michael A Johansson}
-\author[b]{Roni Rosenfeld}
+\author[i]{Roni Rosenfeld}
 \author[d]{Jeffrey Shaman}
 
 \affil[a]{Department of Biostatistics and Epidemiology, University of Massachusetts-Amherst, Amherst, 01003, USA}
@@ -28,10 +28,11 @@
 \affil[f]{Los Alamos National Laboratory, Los Alamos, USA}
 \affil[g]{Mount Holyoke College, South Hadley, USA}
 \affil[h]{Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA}
+\affil[i]{Department of Machine Learning, Carnegie Mellon University, Pittsburgh,  USA}
 
-\leadauthor{Reich}
+\leadauthor{Reich} 
 
-\significancestatement{Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. Decreases in forecast accuracy were associated with delays in final data being available for analysis. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.}
+\significancestatement{Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. A major impediment to predictive ability was the real-time accuracy of available data. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.}
 
 \authorcontributions{All authors designed the research; N.G.R., L.B., S.F., S.K., C.M., E.M., D.O., E.R., A.T., T.Y. performed research by implementing the models; N.G.R., C.M., E.M. analyzed data; N.G.R. wrote the paper; all authors provided editorial feedback on the paper.}
 \authordeclaration{JS and Columbia University disclose partial ownership of SK Analytics.}
@@ -269,18 +270,19 @@ Additionally, we assess whether purely statistical models show similar performan
 Overall, this work shows strong evidence that carefully crafted forecasting models for region-level influenza in the US consistently outperformed a historical baseline model for targets of particular public health interest. 
 %This collaboration from a subset of the core community of influenza forecasters in the US, and other collaborations like it, will continue to advance infectious disease forecasting capabilities globally. 
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=11.4cm]{static-figures/timezero-sketch.pdf}
+\includegraphics[width=\linewidth]{static-figures/timezero-sketch.pdf}
 \caption{(A) Weighted influenza-like illness data downloaded from the CDC website from selected regions. The y-axis shows the weighted percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future.}
 \label{fig:intro-schematic}
-\end{figure*}
+\end{figure}
 
 \input{./static-figures/model-table.tex}
 
 
 <<eval=FALSE>>=
 ## code for plot in Figure 1
+## using old deprecated syntax
 regionflu <- get_flu_data("hhs", sub_region=1:10, data_source="ilinet", years=1997:2017)
 usflu <- get_flu_data("national", sub_region=NA, data_source="ilinet", years=1997:2017)
 
@@ -354,7 +356,7 @@ average score for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater score than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.env="figure*", fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
+<<results-model-region-tt, fig.env="figure", out.width = "\\linewidth", fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
 scores_by_model_targettype_region %>%
     group_by(target_type, Location) %>%
     mutate(
@@ -645,7 +647,7 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.env="figure*", fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model had average performance above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.env="figure", fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model had average performance above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
@@ -781,7 +783,8 @@ The historical baseline model showed an average score of
 %Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}\%) had higher average forecast score than the historical baseline model in the scoring period of interest.
 Overall, 8 out of 22 models (\Sexpr{specify_decimal(8/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
-Accuracy in forecasting season onset was also impacted by revisions to wILI data. In some region-seasons current data led models to be highly confident that onset had occurred in one week, only to have revised data later in the season change the week that was considered to be the onset. One good example of this is HHS Region 2 in 2015/2016. Here, data in early 2016 showed season onset to be EW2 of 2016. Revisions to the data around EW12, led the models to identify EW51 as the onset. A further revision, occuring in EW21 of 2016, showed the onset actually occured on EW4 of 2016.
+Accuracy in forecasting season onset was also impacted by revisions to wILI data. In some region-seasons current data led models to be highly confident that onset had occurred in one week, only to have revised data later in the season change the week that was considered to be the onset. One good example of this is HHS Region 2 in 2015/2016. Here, data in early 2016 showed season onset to be EW2 of 2016. Revisions to the data around EW12, led the models to identify EW51 as the onset. A further revision, occurring in EW21 of 2016, showed the onset actually occurred on EW4 of 2016.
+Networked metapopulation models that take advantage of observed activity in one location to inform forecasts of other locations have shown promise for improving forecasts of season onset.\cite{Pei2018}
 
 <<best-models-peak>>=
 
@@ -839,6 +842,116 @@ score in forecasting peak intensity.
 %Overall, \Sexpr{n_above_kde_pk} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_pk/n_models*100)}\%) had higher overall forecast score than the historical baseline model in the scoring period of interest for peak intensity.
 Overall, 12 out of 22 models (\Sexpr{specify_decimal(12/22*100)}\%) had better overall score in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
+% For example, the peak intensity and peak week scores for each model could also be reported (a) early in the season; (b) in the 4-6 weeks prior to the peak; (c) in the 4-6 weeks following the peak, and (d) at the end of the season. 
+
+<<accuracy-around-peak, out.width = "\\linewidth", fig.cap="Average forecast score by model and week relative to peak. Scores for each location-season were aligned to summarize average performance relative to the peak week On the x-axis, zero indicates the peak week and positive values represent weeks after the peak week. In general, models that were updating forecasts based on current data showed improved accuracy for peak targets once the peak had passed. Only several of the models consistently assigned probabilities greater than .2 to the eventually observed values prior to the peak week.">>=
+## calculate weeks to keep around peak weeks
+peak_weeks <- targets %>%
+    filter(Target == "Season peak week", `Model Week`==50) %>%
+    mutate(
+        model_weeks_in_year = ifelse(Season == "2014/2015", 53, 52), 
+        model_week = ifelse(`Valid Bin_start_incl`>26, `Valid Bin_start_incl`, `Valid Bin_start_incl`+model_weeks_in_year)
+        ) %>%
+    ## note: some location-season combos may have more than one model_week if the same peak value occurred at two times
+    group_by(Location, Season) %>%
+    summarize(
+        pre_peak_start_week = min(model_week)-6,
+        pre_peak_end_week = min(model_week)-1,
+        post_peak_start_week = max(model_week)+1,
+        post_peak_end_week = max(model_week)+6,
+        peak_week = round(mean(model_week))
+        )
+
+## all scores to use
+scores_for_peak_accuracy <- scores %>%
+    dplyr::filter(Model %in% complete_models, Target %in% c("Season peak week", "Season peak percentage")) %>%
+    dplyr::left_join(peak_weeks, by = c("Season", "Location")) %>%
+    dplyr::filter(`Model Week` >= peak_week-6, `Model Week` <= peak_week+6) %>%
+    #dplyr::filter((`Model Week` >= pre_peak_start_week & `Model Week` <= pre_peak_end_week) | (`Model Week` >= post_peak_start_week & `Model Week` <= post_peak_end_week)) %>%
+    ## if NA, NaN or <-10, set score to -10
+    mutate(score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+        -10, 
+        !!SCORE_COL)) %>%
+    mutate(
+        score_adj = dplyr::if_else(score_adj < -10 , -10, score_adj),
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10))),
+        Model = factor(Model, levels=levels(scores_by_model$Model), ordered=TRUE),
+        Location = reorder(Location, score_adj),
+        pre_post_peak = ifelse(`Model Week` <= pre_peak_end_week, "pre-peak", "post-peak"),
+        pre_post_peak = factor(pre_post_peak, levels=c("pre-peak", "post-peak"), ordered = TRUE)
+        ) %>%
+    group_by(Model, Target, Season) %>%
+    mutate(week_rel_to_peak = `Model Week` - peak_week) %>%
+    ungroup() %>%
+    group_by(Model, Target, week_rel_to_peak) %>%
+    summarize(
+        avg_logscore = mean(score_adj),
+        avg_logscore_cat = cut(exp(avg_logscore), breaks=seq(0,1, by=.1))
+    ) %>%
+    ungroup() %>%
+    group_by(Target, week_rel_to_peak) %>%
+    mutate(
+        baseline_score = avg_logscore[Model=="ReichLab-KDE"]
+    ) %>%
+    ungroup() %>%
+    mutate(
+        baseline_skill = exp(baseline_score),
+        pct_diff_baseline_skill = (exp(avg_logscore) - baseline_skill)/baseline_skill
+    )
+
+# ggplot(scores_for_peak_accuracy, aes(x=week_rel_to_peak, fill=exp(avg_logscore), y=Model)) + 
+#     geom_tile() + ylab(NULL) + xlab("week relative to peak") +
+#     facet_grid(~Target) +
+#     scale_x_continuous(breaks=-6:6) +
+#     scale_fill_gradient(name="forecast score", limits=c(0,1), low = "#f7fbff", high="#08306b") +
+#     geom_text(aes(label=specify_decimal(exp(avg_logscore), 2)), size=2) 
+
+ggplot(scores_for_peak_accuracy, aes(x=week_rel_to_peak, fill=avg_logscore_cat, y=Model)) + 
+    geom_tile() + ylab(NULL) + xlab("week relative to peak") +
+    facet_grid(~Target) +
+    scale_x_continuous(breaks=-6:6) +
+    scale_fill_brewer(type="seq", name="average forecast score") +
+    geom_vline(xintercept=c(.5, -.5), linetype=2)
+
+### point estimates ###
+# comp_models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+# point_ests <- read_csv("../../scores/point_ests_adj-w20172018.csv")
+# names(point_ests) <- tolower(names(point_ests))
+# 
+# ### analysis by season
+# ests_summaries <- tbl_df(point_ests) %>% 
+#     left_join(comp_models, by=c("model_name" = "model-dir")) %>%
+#     filter(
+#         `model-id` %in% complete_models, 
+#         target %in% c("Season peak week", "Season peak percentage"),
+#         season != "2017/2018"
+#         ) %>%
+#     dplyr::left_join(peak_weeks, by = c("season"="Season", "location"="Location")) %>%
+#     dplyr::filter(model.week >= peak_week-6, model.week <= peak_week+6) %>%
+#     group_by(model_name, target, season) %>%
+#     mutate(week_rel_to_peak = model.week - peak_week) %>%
+#     ungroup() %>%
+#     group_by(model_name, target, week_rel_to_peak) %>%
+#     summarize(nobs = n(),
+#         bias = mean(err, na.rm=TRUE),
+#         mse = mean(err^2, na.rm=TRUE),
+#         rmse = sqrt(mse),
+#         avg_logscore_cat = cut(exp(avg_logscore), breaks=seq(0,1, by=.1))
+# ) %>%
+#     ungroup()
+# 
+# ggplot(ests_summaries, aes(y=model_name, x=week_rel_to_peak, fill=bias)) +
+#     geom_tile() +
+#     facet_grid(~target) +
+#     scale_x_continuous(breaks=-6:6) +
+#     scale_fill_gradient2()
+#     scale_fill_brewer(type="seq", name="average forecast score") +
+@
+
+While models for peak week and peak percentage converged on the observed values after the peak occurred, prior to the peak occurring all models showed substantial uncertainty (Figure \ref{fig:accuracy-around-peak}). 
+For peak percentage, only one model ({\tt LANL-DBM}) assigned on average more than 0.3 probability to within 0.5 wILI units of the eventual value (the criteria used by the CDC for evaluating model accuracy) prior to the peak occurring. At the peak week of the season, four models assigned on average 0.3 or more probability to the eventually observed values. In forecasting peak week, the models were able to forecast the truth with slightly more certainty earlier than for peak percentage. One week prior to the peak, three models assigned 0.3 or more probability to within 1 week of the observed peak week while at the peak week, 14 models assigned on average 0.3 or more probability to the eventually observed peak week.
+
+
 % \subsection*{Performance of models by location}
 % 
 % Consider adding map that averages across all models, or shows max skill per region, as it varies quite a bit.
@@ -885,7 +998,7 @@ models having at least one season with greater average forecast score than the
 {\tt \Sexpr{sanitize(max_logscore_model)}}
 model did.
 
-<<results-model-season, fig.height=5, fig.env="figure*", fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
+<<results-model-season, fig.height=5, fig.env="figure", out.width = "\\linewidth", fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
 ggplot(scores_by_model_season, aes(x=Model, y=exp(avg_logscore))) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
@@ -959,18 +1072,21 @@ scores_by_modeltype <- scores_adj %>%
     )
 
 skills_to_show <- select(scores_by_modeltype, Target, stat_model_skill, compartment_model_skill, diff_model_skill)
-colnames(skills_to_show) <- c("target", "stat. model score", "compartmental model score", "difference")
+colnames(skills_to_show) <- c("target", "stat. model", "comp. model", "diff.")
 
 caption_text <- paste0("Comparison of the top three statistical models ({\\tt ",
     paste(sanitize(top_models[!(top_models%in%compartment_models)]), collapse="}, {\\tt "),
     "}) and the top three compartmental models, ({\\tt ",
     paste(sanitize(top_models[top_models%in%compartment_models]), collapse="}, {\\tt "),
-    "}) based on best average region-season forecast score. The difference column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed higher average score than the top compartmental models.")
+    "}) based on best average region-season forecast score. The diff. column represents the difference in the average probability assigned to the eventual outcome for the target in each row. Positive values indicate the top statistical models showed higher average score than the top compartmental models.")
 
 print(
     xtable(skills_to_show,
-        caption=caption_text, 
+        caption = caption_text, 
         label = "tab:score-by-model-type"), 
+    floating.environment = "table",
+    add.to.row = list(pos=list(-1), command=" \\hline \n & \\multicolumn{2}{c}{score} &  \\\\\n"),
+    hline.after = c(0,nrow(skills_to_show)),
     file="./static-figures/score-by-model-type.tex",
     include.rownames = FALSE
     )
@@ -1019,7 +1135,7 @@ For peak percentage forecasts, the statistical models had slightly higher scores
 %We identify and quantify several of these challenges, including revisions to initially reported data, ....
 
 \subsection*{Delayed case reporting impacts forecast score}\label{sec:delays}
-<<delay-analysis, fig.height=4, fig.env="figure*", fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast score.  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within $\\pm$ 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
+<<delay-analysis, fig.height=4, fig.env="figure", out.width = "\\linewidth", fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast score.  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within $\\pm$ 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
 fm4_coefs_fltr <- readRDS(file="./data/delay-model-coefs.rds")
 lagged_truth <- readRDS(file = "./data/lagged_truth.rds")
 
@@ -1050,7 +1166,7 @@ ggplot(fm4_coefs_fltr, aes(bias_range, estimate))+
 @
 
 In the seven seasons examined in this study, wILI percentages were often revised after first being reported. 
-The frequency and magnitude of revisions varied by region.
+The frequency and magnitude of revisions varied by region, and the majority of initial values (nearly 90\%) are within +/- 0.5\% of the final observed value.
 For example, in HHS Region 9, over 51\% of initially reported wILI values ended up being revised by over 0.5 percentage points while in HHS Region 5 less than 1\% of values were revised that much. % see abs_bias_gt_.5 
 Across all regions, \Sexpr{specify_decimal(sum(abs_bias_gt_.5$big_bias)/sum(abs_bias_gt_.5$n)*100)}\% of observations were ultimately revised by more than 0.5 percentage points.
 
@@ -1137,7 +1253,7 @@ What is the future of influenza forecasting in the US and globally? %Given avail
 %This work provides concrete evidence of model performance from experienced forecasting. 
 %Challenges like CDC's FluSight are immensely important to the advancement of this field and will continue to advance influenza forecasting capabilities for the US and beyond. 
 %Infectious disease forecasting is in its infancy and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
-While long-run forecast accuracy for influenza will vary based on a variety of factors, including data quality and geographical scale, we expect to see continued forecast improvement through competition, collaboration, and methodological and technological innovation.
+While long-run forecast accuracy for influenza will vary based on a variety of factors (including, e.g. data quality, the geographical scale of forecasts, population density of forecasted areas, and consistency of weather patterns over time\cite{dalziel2018urbanization}), we expect to see continued forecast improvement through competition, collaboration, and methodological and technological innovation.
 Further analyses that help elucidate factors that drive forecast accuracy in specific settings will be particularly instructive. 
 We see particular promise in models that leverage different data sources, such as pathogen-specific and highly localized incidence data.
 Additionally, building ensemble models that capitalize on the strengths of a diverse set of individual component models will be critical to improving accuracy and consistency of models in all infectious disease forecasting settings. 
@@ -1151,7 +1267,7 @@ Often, researchers either lack access to or do not know how best to make use of 
 Increased methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
 From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.
 Continuing to refine forecasting targets to more closely align with public health activities will improve integration of forecasts with decision-making. 
-Recent work from the CDC has developed standardized algorithms to classify the severity of influenza seasons\cite{biggerstaff2018systematic} which could be used to inform the development of new forecasting targets.
+Recent work from the CDC has developed standardized algorithms to classify the severity of influenza seasons\cite{biggerstaff2018systematic}, which could be used to inform the development of new forecasting targets.
 
 Public health officials are still learning how to best integrate forecasts into real-time decision making.
 Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community.  
@@ -1194,7 +1310,7 @@ Other less directly mechanistic models use statistical approaches to model the o
 One model, {\tt Delphi-Stat}, is an ensemble model, a combination of other models from the Delphi team.
 %Six models directly incorporate external data (i.e., not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
 The Columbia University team used data from Google Extended Health Trends API to nowcast for the 1-week ahead target in all of its models. In their six mechanistic models, the nowcast was also used as an observation i.e. as if it were CDC surveillance data. An analysis of results from the 2016/2017 season showed that the forecast quality of these models improved by about 7\%.\cite{Kandula2018} 
-Additionally, the Columbia team used XX average humidity data in all models.
+Additionally, the Columbia team used daily specific humidity averaged over 24 years (1979–2002) in their 6 mechanistic models. These climatological estimates were calculated from the National Land Data Assimilation System (NLDAS) project-2 dataset.
 
 Three models stand out as being reference models. 
 One shared feature of these models is that their forecasts do not depend on observed data from the season being forecasted. 
@@ -1203,6 +1319,8 @@ The {\tt ReichLab-KDE} model yields predictive distributions based entirely on d
 The {\tt Delphi-EmpiricalTraj} model uses KDE for all targets.
 The `historical baseline` model named throughout the manuscript refers to the {\tt ReichLab-KDE} model.
 Because this model represents a prediction that essentially summarizes historical data, we consider this model an appropriate baseline model to reflect historical trends.
+
+We note that some of the models presented here were developed as standalone forecasting models whereas others were developed as merely components of a larger ensemble system. We define a standalone model as one that is rigorously validated to show optimal performance on its own. Component models could also be optimized, although they could also be developed solely to provide a specific or supplemental signal as part of a larger system. All of the Delphi group’s models except for {\tt Delphi-Stat} were developed as components rather than standalone models. Despite this, some of the Delphi models, in particular, {\tt Delphi-DeltaDensity1}, performed quite well relative to other standalone models. Component models can also provide useful baselines for comparison, e.g. the {\tt Delphi-Uniform} model, which assigns uniform probability to all possible outcomes, and the {\tt Delphi-EmpiricalTraj} model, which creates a seasonal average model that is not updated based on current data.
 
 Once submitted to the central repository, the models were not updated or modified except in four cases to fix explicit bugs in the code that yielded numerical problems with the forecasts. 
 (In all cases, the updates did not substantially change the performance of the updated models.)
@@ -1235,7 +1353,8 @@ Exponentiating an average log score yields a forecast score equivalent to the ge
 The geometric mean is an alternative measure of central tendency to an arithmetic mean, representing the $N^{th}$ root of a product of $N$ numbers. 
 Using the example from equation (\ref{eqn:logscore}) above, we then have that
 \begin{eqnarray}
-S_{m,\cdot,t,\cdot,\cdot} = \exp \left ( LS_{m,\cdot,t,\cdot,\cdot} \right ) & = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log f_{m,r,t,s,w}(z^*|{\bf x}) \right ) \\
+S_{m,\cdot,t,\cdot,\cdot} &=& \exp \left ( LS_{m,\cdot,t,\cdot,\cdot} \right ) \nonumber \\
+& = & \exp \left ( \frac{1}{N} \sum_{r,s,w} \log f_{m,r,t,s,w}(z^*|{\bf x}) \right ) \nonumber \\
  & = & \left ( \prod_{r,s,w}  f_{m,r,t,s,w}(z^*|{\bf x}) \right ) ^{1/N} 
 \end{eqnarray}
 In this setting, this score $S$ has the intuitive interpretation of being the average probability assigned to the true outcome (where average is considered to be a geometric average).
@@ -1253,6 +1372,7 @@ Peak week and peak intensity forecasts were scored for all weeks in a specific r
 Week-ahead forecasts are evaluated using forecasts received four weeks prior to the onset week through forecasts received three weeks after the weighted ILI goes below the regional baseline for the final time.
 In a region-season without an onset, all weeks are scored.
 To ensure all calculated summary measures would be finite, all log scores with values of less than -10 were assigned the value -10, following CDC scoring conventions.
+This rule was invoked for \Sexpr{sum(filter(scores_trimmed, Model %in% complete_models)$`Multi bin score`< -10)} scores, or \Sexpr{specify_decimal(sum(filter(scores_trimmed, Model %in% complete_models)$`Multi bin score`< -10)/nrow(scores_trimmed)*100, 1)}\% of all scores that fell within the scoring period.
 All scores were based on ``ground truth'' values of wILI data obtained as of September 27, 2017.
 
 % \subsection*{Formal comparisons of model performance}

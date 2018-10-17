@@ -1,4 +1,4 @@
-\begin{table}
+\begin{table*}
 \setlength{\tabcolsep}{4pt} 
 \begin{tabular}{p{1.6cm} l p{7.5cm} l  p{1cm}  p{1cm} p{1cm}}
 \hline
@@ -13,17 +13,17 @@ CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS & \cite{
 ~        & RHF\_SIRS          & Rank Histogram Filter SIRS & \cite{Yang2014}     & x             & x       &             \\
 ~        & BMA                & Bayesian Model Averaging & \cite{Yamana2017}      & ~             & ~          &          \\
 \hline
-Delphi   & BasisRegression    & Basis Regression ({\tt epiforecast} defaults) & \cite{Brooks2015a} & ~             & ~     &               \\ 
-~        & DeltaDensity1      & Delta Density ({\tt epiforecast} defaults)   & \cite{Brooks2018} & ~             & ~       &             \\ 
-~        & EmpiricalBayes1    & Empirical Bayes (conditioning on past four weeks) & \cite{Brooks2015,Brooks2015a} & ~             & ~  &                  \\ 
-~        & EmpiricalBayes2    & Empirical Bayes ({\tt epiforecast} defaults) & \cite{Brooks2015,Brooks2015a} & ~             & ~            &        \\ 
-~        & EmpiricalFuture    & Empirical Futures ({\tt epiforecast} defaults) &  \cite{Brooks2015a} & ~             & ~         &           \\ 
-~        & EmpiricalTraj      & Empirical Trajectories ({\tt epiforecast} defaults)& \cite{Brooks2015a} & ~             & ~         &           \\ 
-~        & DeltaDensity2      & Markovian Delta Density ({\tt epiforecast} defaults)& \cite{Brooks2018} & ~             & ~          &          \\ 
-~        & Uniform            & Uniform Distribution&  & ~             & ~   &                 \\ 
+Delphi   & BasisRegression*    & Basis Regression ({\tt epiforecast} defaults) & \cite{Brooks2015a} & ~             & ~     &               \\ 
+~        & DeltaDensity1*      & Delta Density ({\tt epiforecast} defaults)   & \cite{Brooks2018} & ~             & ~       &             \\ 
+~        & EmpiricalBayes1*    & Empirical Bayes (conditioning on past four weeks) & \cite{Brooks2015,Brooks2015a} & ~             & ~  &                  \\ 
+~        & EmpiricalBayes2*    & Empirical Bayes ({\tt epiforecast} defaults) & \cite{Brooks2015,Brooks2015a} & ~             & ~            &        \\ 
+~        & EmpiricalFuture*    & Empirical Futures ({\tt epiforecast} defaults) &  \cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & EmpiricalTraj*      & Empirical Trajectories ({\tt epiforecast} defaults)& \cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & DeltaDensity2*      & Markovian Delta Density ({\tt epiforecast} defaults)& \cite{Brooks2018} & ~             & ~          &          \\ 
+~        & Uniform*            & Uniform Distribution&  & ~             & ~   &                 \\ 
 ~        & Stat               & Ensemble (combination of 8 Delphi models)& \cite{Brooks2018} & ~             & ~  & x                 \\
 \hline
-LANL     & DBM                & Dynamic Bayesian SIR Model with discrepancy & \cite{Osthus2017} & ~             & x      &              \\ 
+LANL     & DBM                & Dynamic Bayesian SIR Model with discrepancy & \cite{osthus2018dynamic} & ~             & x      &              \\ 
 \hline
 ReichLab & KCDE               & Kernel Conditional Density Estimation & \cite{Ray2017}  & ~             & ~            &        \\ 
 ~        & KDE                & Kernel Density Estimation and penalized splines & \cite{Ray2018}  & ~             & ~     &               \\ 
@@ -32,6 +32,6 @@ ReichLab & KCDE               & Kernel Conditional Density Estimation & \cite{Ra
 \hline
 UTAustin & EDM                & Empirical Dynamic Model, or method of analogues & \cite{Sugihara1990} & ~             & ~         &           \\ 
 \end{tabular}
-\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratories, ReichLab = University of Massachusetts Amherst, UTAustin = University of Texas Austin.  The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on an mechanistic or compartmental model formulation. The `Ens. model' column notes models that are ensemble models.}
+\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratories, ReichLab = University of Massachusetts Amherst, UTAustin = University of Texas Austin.  The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on an mechanistic or compartmental model formulation. The `Ens. model' column notes models that are ensemble models. Note that some of these components (marked with *) were not designed as standalone models, so their performance may not reflect the full potential of the method’s accuracy (see Methods and Materials).}
 \label{tab:model-list}
-\end{table}
+\end{table*}
