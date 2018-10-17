@@ -1,19 +1,24 @@
 model-id,model-dir,complete
-CU-BMA,CUBMA,true
-CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,true
-CU-EAKFC_SIRS,CU_EAKFC_SIRS,true
-CU-EKF_SEIRS,CU_EKF_SEIRS,true
-CU-EKF_SIRS,CU_EKF_SIRS,true
-CU-RHF_SEIRS,CU_RHF_SEIRS,true
-CU-RHF_SIRS,CU_RHF_SIRS,true
-Delphi-BasisRegression,Delphi_BasisRegression,true
-Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,true
-Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,true
-Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,true
-Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,true
-Delphi-Uniform,Delphi_Uniform,true
-LANL-DBM,LANL_DBM,true
-ReichLab-KCDE,ReichLab_kcde,true
-ReichLab-KDE,ReichLab_kde,true
-ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,true
-ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,true
+CU-BMA,CUBMA,false
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,false
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,false
+CU-EKF_SEIRS,CU_EKF_SEIRS,false
+CU-EKF_SIRS,CU_EKF_SIRS,false
+CU-RHF_SEIRS,CU_RHF_SEIRS,false
+CU-RHF_SIRS,CU_RHF_SIRS,false
+Delphi-BasisRegression,Delphi_BasisRegression,false
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,false
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,false
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,false
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,false
+Delphi-Uniform,Delphi_Uniform,false
+LANL-DBM,LANL_DBM,false
+LANL-DBMplus,LANL_DBMplus,true
+Protea Analytics-Cheetah,Protea_Cheetah,true
+Protea Analytics-Kudu,Protea_Kudu,true
+Protea Analytics-Springbok,Protea_Springbok,true
+ReichLab-KCDE,ReichLab_kcde,false
+ReichLab-KDE,ReichLab_kde,false
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,false
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,false
+UTAustin-edm,UTAustin_edm,false

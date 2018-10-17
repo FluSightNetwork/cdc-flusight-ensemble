@@ -1,0 +1,24 @@
+model-id,model-dir,to-use
+CU-BMA,CUBMA,TRUE
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,TRUE
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,TRUE
+CU-EKF_SEIRS,CU_EKF_SEIRS,TRUE
+CU-EKF_SIRS,CU_EKF_SIRS,TRUE
+CU-RHF_SEIRS,CU_RHF_SEIRS,TRUE
+CU-RHF_SIRS,CU_RHF_SIRS,TRUE
+Delphi-BasisRegression,Delphi_BasisRegression,TRUE
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,TRUE
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,TRUE
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,TRUE
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,TRUE
+Delphi-Uniform,Delphi_Uniform,TRUE
+LANL-DBM,LANL_DBM,FALSE
+LANL-DBMplus,LANL_DBMplus,TRUE
+Protea Analytics-Cheetah,Protea_Cheetah,TRUE
+Protea Analytics-Kudu,Protea_Kudu,TRUE
+Protea Analytics-Springbok,Protea_Springbok,TRUE
+ReichLab-KCDE,ReichLab_kcde,TRUE
+ReichLab-KDE,ReichLab_kde,TRUE
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,TRUE
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,TRUE
+UTAustin-edm,UTAustin_edm,FALSE

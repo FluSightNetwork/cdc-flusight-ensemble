@@ -11,7 +11,7 @@ const models = require('./modules/models')
 const util = require('./modules/util')
 
 const truthFile = './scores/target-multivals-20172018.csv'
-const outputFile = './scores/scores-with-20172018.csv'
+const outputFile = './scores/scores-20181017.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
