@@ -4,7 +4,7 @@ model_name: Dynamic Bayesian Model plus
 model_abbr: DBMplus
 anonymity: named
 data_source1: ILI Net
-data_source2: Google Trends 
+data_source2: Google Trends
 this_model_is_an_ensemble: FALSE
 mmethods: >
   DBMplus (DBM+) is partitioned into two parts: the DBM part and the '+' part. 
@@ -27,4 +27,3 @@ mmethods: >
   forecast date). For seasons 2010/2011 through 2013/2014,  historical ILI data
   from 1997, EW 40 through 2008, EW 25 was pulled on 2013,  EW 52 (i.e., NOT
   strictly obeying the backfill issue).
-

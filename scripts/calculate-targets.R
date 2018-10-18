@@ -98,7 +98,7 @@ flusight2016_settings = function(forecast.epiweek, forecast.Location) {
 }
 
 ## Set weeks & locations & targets for which to perform calculations:
-input.epiweeks = 2010:2016 %>>%
+input.epiweeks = 2010:2017 %>>%
   epiforecast::DatesOfSeason(40L,0L,3L) %>>%
   dplyr::combine() %>>%
   epiforecast::DateToYearWeekWdayDF(0L,3L) %>>%
@@ -159,4 +159,4 @@ target.multival.df =
   {.}
 
 ## write the results:
-readr::write_csv(target.multival.df, "../scores/target-multivals-20181017.csv")
+readr::write_csv(target.multival.df, "../scores/target-multivals-20172018-update.csv")
