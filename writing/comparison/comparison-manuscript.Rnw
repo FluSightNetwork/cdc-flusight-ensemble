@@ -12,7 +12,7 @@
 \author[e]{Craig McGowan}
 \author[a]{Evan Moore}
 \author[f]{Dave Osthus}
-\author[g]{Evan Ray}
+\author[g]{Evan L Ray}
 \author[a]{Abhinav Tushar}
 \author[d]{Teresa Yamana}
 \author[e]{Matthew Biggerstaff}
@@ -34,7 +34,7 @@
 
 \significancestatement{Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. A major impediment to predictive ability was the real-time accuracy of available data. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.}
 
-\authorcontributions{All authors designed the research; N.G.R., L.B., S.F., S.K., C.M., E.M., D.O., E.R., A.T., T.Y. performed research by implementing the models; N.G.R., C.M., E.M. analyzed data; N.G.R. wrote the paper; all authors provided editorial feedback on the paper.}
+\authorcontributions{All authors designed the research; N.G.R., L.B., S.F., S.K., C.M., E.M., D.O., E.L.R., A.T., T.Y. performed research by implementing the models; N.G.R., C.M., E.M. analyzed data; N.G.R. wrote the paper; all authors provided editorial feedback on the paper.}
 \authordeclaration{JS and Columbia University disclose partial ownership of SK Analytics.}
 %\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
 \correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: nick\@schoolph.umass.edu}
@@ -356,7 +356,7 @@ average score for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater score than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.env="figure", out.width = "\\linewidth", fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
+<<results-model-region-tt, fig.env="figure", out.width = "\\linewidth", fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target- and region-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
 scores_by_model_targettype_region %>%
     group_by(target_type, Location) %>%
     mutate(
@@ -949,7 +949,7 @@ ggplot(scores_for_peak_accuracy, aes(x=week_rel_to_peak, fill=avg_logscore_cat, 
 @
 
 While models for peak week and peak percentage converged on the observed values after the peak occurred, prior to the peak occurring all models showed substantial uncertainty (Figure \ref{fig:accuracy-around-peak}). 
-For peak percentage, only one model ({\tt LANL-DBM}) assigned on average more than 0.3 probability to within 0.5 wILI units of the eventual value (the criteria used by the CDC for evaluating model accuracy) prior to the peak occurring. At the peak week of the season, four models assigned on average 0.3 or more probability to the eventually observed values. In forecasting peak week, the models were able to forecast the truth with slightly more certainty earlier than for peak percentage. One week prior to the peak, three models assigned 0.3 or more probability to within 1 week of the observed peak week while at the peak week, 14 models assigned on average 0.3 or more probability to the eventually observed peak week.
+For peak percentage, only one model ({\tt LANL-DBM}) assigned on average more than 0.3 probability to within 0.5 wILI units of the eventual value (the criteria used by the CDC for evaluating model accuracy) prior to the peak occurring. At the peak week of the season, four models assigned on average 0.3 or more probability to the eventually observed values. In forecasting peak week, the models were able to forecast the eventual observed value with slightly more certainty earlier than for peak percentage. One week prior to the peak, three models assigned 0.3 or more probability to within 1 week of the observed peak week while at the peak week, 14 models assigned on average 0.3 or more probability to the eventually observed peak week.
 
 
 % \subsection*{Performance of models by location}
@@ -1320,7 +1320,7 @@ The {\tt Delphi-EmpiricalTraj} model uses KDE for all targets.
 The `historical baseline` model named throughout the manuscript refers to the {\tt ReichLab-KDE} model.
 Because this model represents a prediction that essentially summarizes historical data, we consider this model an appropriate baseline model to reflect historical trends.
 
-We note that some of the models presented here were developed as standalone forecasting models whereas others were developed as merely components of a larger ensemble system. We define a standalone model as one that is rigorously validated to show optimal performance on its own. Component models could also be optimized, although they could also be developed solely to provide a specific or supplemental signal as part of a larger system. All of the Delphi group’s models except for {\tt Delphi-Stat} were developed as components rather than standalone models. Despite this, some of the Delphi models, in particular, {\tt Delphi-DeltaDensity1}, performed quite well relative to other standalone models. Component models can also provide useful baselines for comparison, e.g. the {\tt Delphi-Uniform} model, which assigns uniform probability to all possible outcomes, and the {\tt Delphi-EmpiricalTraj} model, which creates a seasonal average model that is not updated based on current data.
+We note that some of the models presented here were developed as standalone forecasting models whereas others were developed as components of a larger ensemble system. We define a standalone model as one that is rigorously validated to show optimal performance on its own. Component models could also be optimized, although they could also be developed solely to provide a specific or supplemental signal as part of a larger system. All of the Delphi group’s models except for {\tt Delphi-Stat} were developed as components rather than standalone models. Despite this, some of the Delphi models, in particular, {\tt Delphi-DeltaDensity1}, performed quite well relative to other standalone models. Component models can also provide useful baselines for comparison, e.g. the {\tt Delphi-Uniform} model, which assigns uniform probability to all possible outcomes, and the {\tt Delphi-EmpiricalTraj} model, which creates a seasonal average model that is not updated based on current data.
 
 Once submitted to the central repository, the models were not updated or modified except in four cases to fix explicit bugs in the code that yielded numerical problems with the forecasts. 
 (In all cases, the updates did not substantially change the performance of the updated models.)
