@@ -1,6 +1,6 @@
 ---
 title: "Preliminary Model Score Analysis"
-author: "Nicholas G Reich, Tom McAndrew"
+author: "Nicholas G Reich, Tom McAndrew, Nutcha Wattanachit"
 date: "10/17/2017"
 output:
   pdf_document: default
@@ -18,10 +18,10 @@ theme_set(theme_minimal())
 ```
 
 ```{r}
-scores <- read_csv("../scores/scores-20181018.csv")
-models <- read_csv("../model-forecasts/component-models/models-for-2017-2018.csv")
-complete_models <- c(models$`model-id`)# , models$`model-id`[models$`to-use`],
-                     #paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
+scores <- read_csv("../scores/scores.csv")
+models <- read_csv("../model-forecasts/component-models/model-id-map.csv")
+complete_models <- c(models$`model-id`,# ) , models$`model-id`[models$`to-use`],
+                     paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
 
 ## define column with scores of interest
 SCORE_COL <- quo(`Multi bin score`)
@@ -209,11 +209,11 @@ max_avg_scores_target <- scores_by_target %>%
 ```
 
 ```{r, eval=FALSE}
-ggplot(scores_by_target_season, aes(x=Model, y=avg_score)) +
+ggplot(scores_by_target_season, aes(x=Model, y=exp(avg_score))) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_target, shape="x", size=1, stroke=5)+
     facet_wrap(~Target, ncol=4) +
-    geom_hline(data=max_avg_scores_target, aes(yintercept=max_score), linetype=2) +
+    geom_hline(data=max_avg_scores_target, aes(yintercept=exp(max_score)), linetype=2) +
     scale_color_brewer(palette="Dark2") +
     ylab("average multi-bin log score") + 
     #ylab("geometric mean of probabilities assigned to multi-bin correct value") + 
@@ -229,7 +229,7 @@ ggplot(scores_by_target_season, aes(x=Model, y=avg_score)) +
 
 ```
 
-```{r, eval=FALSE}
+```{r}
 ensemble_scores <- scores_by_target_season %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
@@ -246,7 +246,7 @@ ggplot(ensemble_scores, aes(x=Model, y=avg_score)) +
     ggtitle("Average log-scores for ensemble models, by target and season")
 ```
 
-```{r, eval=FALSE}
+```{r}
 ensemble_scores_season <- scores_by_season %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
@@ -262,7 +262,7 @@ ggplot(ensemble_scores_season, aes(x=Model, y=exp(avg_score))) +
 
 ```
 
-```{r, eval=FALSE}
+```{r}
 ggplot(scores_by_season, aes(x=Model, y=avg_score)) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
