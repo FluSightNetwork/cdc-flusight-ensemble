@@ -88,11 +88,11 @@ ens_models <- data_frame(
                   "target-based-weights"),
     complete = rep(TRUE, 5)
 )
-models <- rbind(comp_models, ens_models)
+models <- rbind(comp_models, ens_models) ## currently doesn't include FluSight-FluSight_unweighted_avg
 
-complete_models <- c(models$`model-id`[models$complete=="true"])
+#complete_models <- c(models$`model-id`[models$complete=="true"])
 
-selected_models <- c("FSNetwork-TTW", "LANL-DBM", "Delphi-Stat", "ReichLab-KCDE", "CU-EKF_SIRS")
+selected_models <- c("FSNetwork-TTW", "Delphi-Stat", "ReichLab-KCDE", "LANL-DBM", "CU-EKF_SIRS")
 
 ## create data frame matching model name to abbreviation
 model_name_abv <- data.frame(
@@ -111,8 +111,9 @@ model_name_abv <- data.frame(
            "Delphi Empirical Futures",
            "Delphi Empirical Trajectories",
            "Delphi Markovian Delta Density",
-           "Delphi Uniform Distribution",
            "Delphi Stat Ensemble",
+           "Delphi Uniform Distribution",
+           "FluSight Unweighted Average",
            "FSNetwork Constant Weights",
            "FSNetwork Equal Weights",
            "FSNetwork Target-Region Weights",
@@ -428,7 +429,7 @@ the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[4]]} 
 We chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season, based on the pre-specified criteria of it having the highest score of any approach in the cross-validated training phase.
 %% prespecified, see: https://github.com/FluSightNetwork/cdc-flusight-ensemble/commit/eadf553fcf85d89e16322ef1b44bc9990fc9e0a7#diff-04c6e90faac2675aa89e2176d2eec7d8R96
 
-<<ensemble-model-comparison, fig.cap="Comparison of five ensemble models during the training phase. In both panels, the models are sorted from simplest (left) to most complex (right), with the number of estimated weights for each model shown at the top of Panel A.  (A) forecast scores by season, with overall average given by the X. (B) Model Rank within each season and average forecast score (across weeks, targets, and regions). ">>=
+<<ensemble-model-comparison, fig.height=5, fig.cap="Comparison of five ensemble models during the training phase. In both panels, the models are sorted from simplest (left) to most complex (right), with the number of estimated weights for each model shown at the top of Panel A.  (A) forecast scores by season, with overall average given by the X. (B) Model Rank within each season and average forecast score (across weeks, targets, and regions). ">>=
 pal=c(RColorBrewer::brewer.pal(7, "Dark2"), "#000000", "#000000")
 
 ordered_models <- training_scores_by_model_season %>%
@@ -538,9 +539,10 @@ Indeed, some of the models that saw the largest drop in performance (e.g., {\tt 
 
 In spite of these unusual dynamics negatively impacting the forecast accuracy of the top-performing ensemble components, the {\tt FSNetwork-TTW} ensemble model that varied weights by model and target-type showed the best performance among all selected models in the 2017/2018 season (Figure \ref{fig:season-average-results}).
 
- - compare all ensembles with single best model from each team in CV stage and with unweighted average from FSN from 2015/2016 - 2017/2018
- - 
-
+\begin{itemize}
+ \item compare all ensembles with single best model from each team in CV stage and with unweighted average from FSN from 2015/2016 - 2017/2018
+ \item also, consider comparison with ensemble from limited set from each team, i.e. the single standalone or best model.
+\end{itemize}
 
 % The {\tt \Sexpr{top_models[1]}} model tied  with the  {\tt \Sexpr{top_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[1]),2)}. 
 % These results from 2017/2018 were consistent with and confirmed conclusions drawn from the training period, where these same models outperformed all other ensemble and ensemble components.
@@ -559,8 +561,8 @@ tmp <- rbind(
     training_scores_by_model_season,
     cbind(training_scores_by_model, Season = "training average"),
     mutate(test_scores_by_model, Season = "2017/2018 real-time")) %>%
-    mutate(Model = factor(Model, levels=ordered_models, ordered=TRUE)) %>%
     filter(Model %in% selected_models) %>%
+    mutate(Model = factor(Model, levels=ordered_models, ordered=TRUE)) %>%
     dplyr::arrange(Season, desc(avg_logscore)) %>%
     group_by(Season) %>%
     mutate(season_rank = row_number()) %>%
@@ -632,7 +634,7 @@ ggplot(
  
 <<rt-scores-region-target, fig.height=6, fig.show=FALSE, fig.cap="Model scores and ranks by target and region for 2017/2018. Only selected models are shown. Regions are sorted with the most predictable region overall (i.e. highest forecast scores) at the top. Color indicates model rank in the 2017/2018 season. The average forecast score is printed.">>=
 tmp <- test_scores_by_model_tt_region %>%
-    mutate(Model = factor(Model, levels=ordered_models, ordered=TRUE)) %>%
+    mutate(Model = factor(Model, levels=c("FluSight-FluSight_unweighted_avg", ordered_models), ordered=TRUE)) %>%
     filter(Model %in% selected_models) %>%
     dplyr::arrange(Location, Target, desc(avg_logscore)) %>%
     group_by(Location, Target) %>%
@@ -644,7 +646,9 @@ ggplot(tmp, aes(x=Model, y=Location, fill=factor(loc_rank))) +
     geom_tile() +
     geom_text(aes(label = specify_decimal(exp(avg_logscore),2))) +
     scale_fill_brewer(name="rank") + 
-    xlab(NULL) + ylab(NULL) 
+    xlab(NULL) + ylab(NULL) + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 @
  
  
