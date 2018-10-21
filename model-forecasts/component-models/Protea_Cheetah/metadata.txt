@@ -13,8 +13,8 @@ methods: >-
   densities based on previously observed data from the 2001/2001 season onwards,
   excluding the 2009/2010 pandemic season. The second component is the Protea
   Kudu model, described in more detail there. The final component is the Protea
-  Springbok model, described in  more detail there. Models are combined using
-  monthly target-type weights, and the  weighting scheme was chosen using
+  Springbok model, described in more detail there. Models are combined using
+  monthly target-type weights, and the weighting scheme was chosen using
   leave-one-season-out cross validation in a similar  method to the FluSight
   Network ensemble.  For prospective forecasts, only ILINet data known at the
   time of the forecast are  used, as retrieved from the CMU-Epidata API. For
