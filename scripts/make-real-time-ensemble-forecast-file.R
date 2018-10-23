@@ -15,7 +15,7 @@ args <- commandArgs(TRUE)
 
 source("scripts/stack_forecasts.R")
 
-THIS_SEASON <- "2017/2018"
+THIS_SEASON <- "2018/2019"
 THIS_EW <- as.numeric(args[1])
 cat(paste0("Generating ensemble files for week ", THIS_EW))
 

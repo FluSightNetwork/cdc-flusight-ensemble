@@ -6,7 +6,7 @@ anonymity: named
 data_source1: ILI Net
 data_source2: Google Trends
 this_model_is_an_ensemble: FALSE
-mmethods: >
+methods: >
   DBMplus (DBM+) is partitioned into two parts: the DBM part and the '+' part. 
   The dynamic Bayesian model (DBM) part is the probabilistic model It combines 
   an SIR model with a flexible discrepancy model in a Bayesian framework. 
