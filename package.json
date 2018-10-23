@@ -13,10 +13,13 @@
     "array-equal": "^1.0.0",
     "chai": "^4.1.1",
     "d3": "^4.10.2",
+    "fsevents": "^1.2.4",
     "js-yaml": "^3.9.1",
     "mmwr-week": "^1.1.0",
-    "mocha": "^3.5.0",
+    "mocha": "^5.2.0",
     "moment": "^2.18.1",
+    "nan": "^2.11.1",
+    "node-sass": "^4.9.4",
     "papaparse": "^4.3.5",
     "progress": "^2.0.0"
   }
