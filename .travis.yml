@@ -4,6 +4,10 @@ dist: trusty
 git:
   depth: 1
 
+before_install:
+  # Key for cran trusty ppa
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9
+
 addons:
   apt:
     sources:
