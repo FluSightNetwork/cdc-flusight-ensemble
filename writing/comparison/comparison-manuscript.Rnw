@@ -280,7 +280,7 @@ Overall, this work shows strong evidence that carefully crafted forecasting mode
 \input{./static-figures/model-table.tex}
 
 
-<<eval=FALSE>>=
+<<plot-flu-data, eval=FALSE>>=
 ## code for plot in Figure 1
 ## using old deprecated syntax
 regionflu <- get_flu_data("hhs", sub_region=1:10, data_source="ilinet", years=1997:2017)
@@ -1186,7 +1186,7 @@ Additionally, we observed an expected change in forecast score of
 )
 when the first observed wILI measurement was between 1.5 and 2.5 percentage points higher than the final observed value.
 This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there were over-reported values. 
-Finally, some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions (data not shown).
+Finally, some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions.
 
 
 % \begin{figure}[htbp]
