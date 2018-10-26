@@ -5,12 +5,12 @@
 set -e
 
 # Change branding and metadata of website
-rm ./flusight-master/config.yaml
-mv ./config.yaml ./flusight-master
+#rm ./flusight-master/config.yaml
+#mv ./config.yaml ./flusight-master
 
 # Change statcounter snippet
-rm ./flusight-master/src/assets/analytics.js
-mv ./analytics.js ./flusight-master/src/assets/analytics.js
+#rm ./flusight-master/src/assets/analytics.js
+#mv ./analytics.js ./flusight-master/src/assets/analytics.js
 
 cd ./flusight-master
 
