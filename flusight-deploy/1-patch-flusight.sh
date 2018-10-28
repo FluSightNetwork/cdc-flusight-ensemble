@@ -1,16 +1,18 @@
-
 #!/usr/bin/env bash
 
-# Build flusight
+# Script for patching metadata files in flusight.
+# Mostly we are adding information about the FluSightNetwork ensemble to show
+# up in the website.
+# NOTE: This script is only run once on the cloned flusight repo.
 set -e
 
 # Change branding and metadata of website
-#rm ./flusight-master/config.yaml
-#mv ./config.yaml ./flusight-master
+rm ./flusight-master/config.yaml -f
+cp ./config.yaml ./flusight-master
 
 # Change statcounter snippet
-#rm ./flusight-master/src/assets/analytics.js
-#mv ./analytics.js ./flusight-master/src/assets/analytics.js
+rm ./flusight-master/src/assets/analytics.js -f
+cp ./analytics.js ./flusight-master/src/assets/analytics.js
 
 cd ./flusight-master
 
@@ -40,8 +42,4 @@ sed -i 's/reichlab\/flusight\/wiki\/Scoring#3-log-score-multi-bin/FluSightNetwor
 # Change max heap size
 sed -i 's/node build\/build.js/node --max_old_space_size=6000 build\/build.js/' ./package.json
 
-# Build the site
-yarn run build
-cp -r ./dist/* ../../ # Copy to repo root
-cd .. # in ./flusight-deploy
-rm -rf ./flusight-master
+cd ..
