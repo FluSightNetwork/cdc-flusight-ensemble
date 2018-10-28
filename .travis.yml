@@ -24,6 +24,6 @@ cache: yarn
 
 env:
   global:
-  - ENCRYPTION_LABEL: "ae5ecd417952"
+  - ENCRYPTION_LABEL: dce9ae5740a9
 
 script: bash ./travis-main.sh

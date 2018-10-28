@@ -36,6 +36,9 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
+# Deleting the private key so that we don't accidentally push it back
+rm deploy_key
+
 if [[ "$TRAVIS_COMMIT_MESSAGE" == "[TRAVIS] Generate scores" ]]; then
     source ./travis/score.sh
 fi
