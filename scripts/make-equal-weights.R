@@ -2,9 +2,9 @@
 
 library(dplyr)
 
-model_names <- read.csv("../model-forecasts/component-models/model-id-map.csv",
+model_names <- read.csv("model-forecasts/component-models/model-id-map.csv",
     stringsAsFactors = FALSE)
-seasons <- paste0(2010:2017, "/", 2011:2018)
+seasons <- paste0(2010:2018, "/", 2011:2019)
 
 equal_weights <- expand.grid(
     component_model_id = model_names$model.id,
@@ -12,5 +12,5 @@ equal_weights <- expand.grid(
     weight = 1/nrow(model_names)
     ) # Season * Model
 
-write.csv(equal_weights, file="../weights/equal-weights.csv", 
+write.csv(equal_weights, file="weights/equal-weights.csv", 
     quote = FALSE, row.names = FALSE)
