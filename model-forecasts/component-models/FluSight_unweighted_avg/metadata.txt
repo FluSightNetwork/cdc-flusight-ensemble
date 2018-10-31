@@ -1,0 +1,11 @@
+team_name: FluSight
+team_members: FluSight all members
+model_name: FluSight unweighted average
+model_abbr: unweighted_avg
+anonymity: named
+data_source1: other forecasts
+data_source2: NULL
+this_model_is_an_ensemble: TRUE
+methods: >-
+  Unweighted average of all models submitted to FluSight.
+  https://github.com/cdcepi/FluSight-forecasts
