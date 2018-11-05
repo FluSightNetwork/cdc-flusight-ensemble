@@ -11,6 +11,7 @@ set -e
 #rm ./flusight-master/src/assets/analytics.js
 #mv ./analytics.js ./flusight-master/src/assets/analytics.js
 
+
 cd ./flusight-master
 
 # Clean footer
