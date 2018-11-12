@@ -11,7 +11,7 @@ set -e
 #rm ./flusight-master/src/assets/analytics.js
 #mv ./analytics.js ./flusight-master/src/assets/analytics.js
 
-# adding comment to test pushing to travis
+# Adding comment to trigger travis build
 cd ./flusight-master
 
 # Clean footer
