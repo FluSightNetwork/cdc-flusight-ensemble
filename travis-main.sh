@@ -49,6 +49,8 @@ elif [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then
     source ./travis/ensemble.sh
 fi
 
-source ./travis/viz.sh
+if [[ "$TRAVIS_COMMIT_MESSAGE" == *"trigger build"* ]]; then
+	source ./travis/viz.sh
+fi
 
 ssh-agent -k
