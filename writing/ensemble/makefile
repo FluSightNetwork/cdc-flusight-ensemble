@@ -27,6 +27,20 @@ $(TEXFILE).tex: $(TEXFILE).Rnw data/all-target-bounds.csv ../../scores/target-mu
 	Rscript \
 	  -e "library(knitr)" \
 	  -e "knitr::knit('$<','$@')"
+  
+
+## build supplement
+ensemble-supplement.tex: ensemble-supplement.Rnw
+	Rscript \
+	  -e "library(knitr)" \
+	  -e "knitr::knit('$<','$@')"
+
+ensemble-supplement.pdf: ensemble-supplement.tex ../flusightnetwork.bib
+	pdflatex ensemble-supplement
+	bibtex ensemble-supplement
+	pdflatex ensemble-supplement
+	pdflatex ensemble-supplement
+
 
 # clean up
 clean: 
@@ -40,8 +54,8 @@ clean:
 ### end main PDF make ###
 
 # the file defining weekly bounds for evaluation
-data/all-target-bounds.csv:  $(RDIR)/create-target-bounds.R ../../baselines/wILI_Baseline.csv ../../scripts/create-scoring-period.R
-	R CMD BATCH $< 
+#data/all-target-bounds.csv:  $(RDIR)/create-target-bounds.R ../../baselines/wILI_Baseline.csv ../../scripts/create-scoring-period.R
+#	R CMD BATCH $< 
 
 ## the master scores table - not included in this build
 ## instructions for running the script: https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Code-Documentation

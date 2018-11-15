@@ -1,0 +1,352 @@
+\documentclass{article}
+\usepackage[letterpaper, margin=1in]{geometry} % margin
+
+\title{Supplement for ``A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season''}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage[noend]{algpseudocode}
+
+\author{Nicholas G Reich et al.}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Additional evaluation metrics}
+
+% \subsection{Bias and MSE}
+% 
+% \begin{figure}[htbp]
+% \begin{center}
+% \includegraphics{figure/rmse-and-bias-1.pdf}
+% \caption{Root mean squared error (RMSE) and bias by target for selected models (with rank) in the 2017/2018 season. Evaluations are for all weeks in the 2017/2018 season. Models are sorted with lowest RMSE on right.}
+% \label{fig:bias-rmse}
+% \end{center}
+% \end{figure}
+
+
+
+\subsection{Probability integral transform}
+
+The Probability Integral Transform (PIT) is an evaluation metric that can be used to assess the calibration of a predictive model.
+A common application of PIT is testing whether a set of values from an unknown target distribution can be accurately modeled by one or more predictive distributions. 
+In brief, statistical theory tells us that if we plug the set of observed values (which come from the unknown target distribution) into the cumulative distribution function of the predicted distribution, the output, otherwise known as the PIT values, should be uniformly distributed if the predicted distribution matches the true distribution.\cite{angus1994probability,diebold1997evaluating}
+Therefore, looking at the PIT values provides a quantitative and qualitative assessment of the predictive model calibration by comparing the shape of the histogram of PIT values to a uniform distribution. 
+Intuitively, the PIT measures how often a model's probabilistic assessment is true, i.e. does an event that the model says has a 10\% chance of occuring really only occur 10\% of the time.
+Systematic deviations from the expected uniform distribution may indicate lack of calibration in some aspects of the predictive model.
+
+In our application, we evaluate the set of all probabilistic forecasts of the five targets on the wILI scale (1 through 4 week-ahead wILI percent and the peak percentage) from the {\tt FSNetwork-TTW} model using PIT. For the 2017/2018 influenza season, we obtained a PIT value from each predictive distribution based on region, target, and week of season. 
+We rounded each PIT value to the nearest tenth of a decimal place and plotted them on a historgram with ten bars, one for each decile of the Uniform(0,1) distribution.
+We computed a Monte Carlo confidence interval under the null hypothesis that the PIT values are independent and identical draws from a Uniform(0,1) distribution, conditional on the number of PIT values. 
+
+<<setup, echo=FALSE, warning=FALSE, message=FALSE>>=
+knitr::opts_chunk$set(
+  echo = FALSE, cache = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
+)
+library(readr)
+library(dplyr)
+library(reshape2)
+
+specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
+@
+
+<<pit-2017-2018, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in the 2017/2018 season.", cache=TRUE>>=
+#1. data loading (applying code in data loading .Rmd to season 2017-2018) 
+#ie use some predefined vectors and 'make_tidy()' function in previous Rmd
+
+#new vectors 
+valid_weeks_new<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
+later_weeks_new<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18')
+first_weeks_new<- c('43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
+#seasons<- c('2010/2011', '2011/2012', '2012/2013', '2013/2014', '2014/2015', '2015/2016', '2016/2017')
+weeks_as_ints_new<- c(1:18, 43:52)
+
+
+import_new<- function(path, start_wk, start_yr){     
+  data<- rbind()
+  for(week in valid_weeks_new){
+    for (year in 2017:2018){
+      if (!(week %in% later_weeks_new & year =='2017') & !(week %in% first_weeks_new & year =='2018')){
+        str<- sprintf(path, week, year)
+        new<- read_csv(str)
+        new$week<- rep(as.numeric(substr(str,start_wk,start_wk+1)), nrow(new)) #adds column: week 
+        new$year<- rep(as.numeric(substr(str,start_yr, start_yr+3)),nrow(new)) #adds column: year 
+        data<- rbind(data, new)}
+    }
+  }
+  return(data)
+}
+
+make_tidy<- function(ensemble){
+  tidy<- ensemble %>% filter(location !=  'US National', target != 'week') %>% mutate(Season = ifelse(week > 30, paste(year, year+1, sep = "/"), paste(year-1, year, sep= "/")))
+  return(tidy)
+}
+
+## 80, 83 based on character start of week and year in filename.
+target_type_weights17_18<-import_new('../../model-forecasts/real-time-ensemble-models/target-type-based-weights/EW%s-%s-target-type-based-weights.csv', 77, 80)
+
+target_type_weights_tidy17_18<- make_tidy(target_type_weights17_18)
+
+#load true values from Season17-18
+true_with_17_18<- read_csv('../../scores/target-multivals-20172018.csv')
+names(true_with_17_18) <- gsub(" ", "_", names(true_with_17_18))
+true_tidy_with_17_18<- true_with_17_18 %>% 
+  filter(Season == '2017/2018', Location != 'US National', Target %in% c('1 wk ahead', '2 wk ahead', '3 wk ahead', '4 wk ahead', 'Season peak percentage'))
+
+#gets true observation from dataframe true_tidy_with_17_18 (get_true_new is same as get_true w/o accounting for various seasons) 
+get_true_new<- function(CW, Loca, Tar){   
+  obs <- true_tidy_with_17_18 %>% filter(Calendar_Week == CW, Location == Loca, Target==Tar) %>% select(Valid_Bin_start_incl)
+  return(as.numeric(obs))
+}
+
+#empirical cdf function
+ecdf_round<- function(q, values){ 
+  d<- round(q,1)
+  bin<- d*10
+  return(cumsum(values)[bin])
+} 
+
+#uses empirical cdf function to find PIT val for each week, target, and region
+generate_pit_vals<- function(ensemble_data){
+  regions <- unique(ensemble_data$location)
+  targets <- unique(ensemble_data$target)
+  pit_values<- c()
+    #for (s in seasons){
+      for (w in weeks_as_ints_new){
+        for (r in regions){
+          for(t in targets){
+            df<- ensemble_data %>% filter(location== r, target== t, week==w) 
+            percents <- df$value[1:length(df$value)-1]
+            q<-get_true_new(w,r,t)
+            pit_values<- c(pit_values,ecdf_round(q, percents))
+          #}
+        }
+      }
+    }
+  return(pit_values)
+}
+
+get_CI<- function(N, breaks){
+  set.seed(2)
+  m<- c()
+  for(i in 1:1000){
+    r<- rnorm(N, 0, 1)
+    z<- pnorm(r)
+    list_hist<-hist(z, breaks=breaks, freq=F, plot=F)
+    m<- c(m, max(list_hist$density))
+  }
+  max(m)
+  m_alpha<- max(m)*(1-.05/2)
+  return(m_alpha)
+}
+  
+#all pit for season: 28 weeks * 10 regions * 5 targets = 1,400
+upper_all<- get_CI(1400,10)[1] #1.330179
+lower_all<- 1- (upper_all- 1)
+
+#by target: 28 weeks *10 regions= 280
+upper_tar<- get_CI(280,10)[1] 
+lower_tar<- 1- (upper_tar- 1)
+
+#by region: 28 weeks * 5 targets = 140
+upper_reg<- get_CI(140,10)[1] 
+lower_reg<- 1- (upper_reg- 1)
+
+#target-type
+# all_ttw_s1718<- generate_pit_vals(target_type_weights_tidy17_18)
+# par(mfrow=c(1,2))
+# hist(all_ttw_s1718, freq=F, main= "Target-type Weights\n PIT Histogram", xlab= "PIT values", breaks=10)
+# abline(h=c(upper_all, lower_all), col= 2, lty= 5)
+
+
+target_pit_values_new2<- function(model, tar){ 
+    #takes various seasons out of 'target_pit_values_new'
+    regions <- unique(model$location)
+    pit_values<- c()
+    for (w in weeks_as_ints_new){
+        for (r in regions){
+          df<- model %>% filter(location== r, target== tar, week==w) 
+          percents <- df$value[1:length(df$value)-1]
+          q<-get_true_new(w,r,tar)
+          pit_values<- c(pit_values,ecdf_round(q, percents))
+      }
+    }
+  return(pit_values)
+}
+
+tar_type_new2<- list()
+
+targets<- c('1 wk ahead', '2 wk ahead','3 wk ahead','4 wk ahead','Season peak percentage')
+i<- 1
+for (t in targets){
+    tar_type_new2[[i]]<- target_pit_values_new2(target_type_weights_tidy17_18, t)
+    i<- i+1
+}
+
+par(mfrow=c(2,3))
+for(i in 1:5){
+  hist(tar_type_new2[[i]], freq=F, ylim= c(0, 2.0), main= (paste(targets[i])), xlab='PIT values')
+  abline(h=c(upper_tar, lower_tar), col= 2, lty= 5)
+}
+@
+
+
+
+The 10th PIT bar exceeds the confidence interval, showing there is a high number of PIT values ranging from .9 to 1.0 which signifies that there were more observed values than expected in the end right tail of their respective predictive distributions. In theory, if each predictive distribution was the same or similar enough to the true predictive distribution, the bars should be or equal height around 1.  (More values in the upper-most tail might support the fact that the season had higher values than expected generally?) 
+
+
+
+<<pit-all-seasons, cache=TRUE>>=
+
+valid_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
+later_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20')
+first_weeks<- c('43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
+seasons<- c('2010/2011', '2011/2012', '2012/2013', '2013/2014', '2014/2015', '2015/2016', '2016/2017')
+regions<- c('HHS Region 1', 'HHS Region 2','HHS Region 3','HHS Region 4','HHS Region 5','HHS Region 6','HHS Region 7','HHS Region 8','HHS Region 9','HHS Region 10')
+targets<- c('1 wk ahead', '2 wk ahead','3 wk ahead','4 wk ahead','Season peak percentage')
+weeks_as_ints<- c(1:20, 43:52)
+
+
+import<- function(path, start_wk, start_yr){     
+  data<- rbind()
+  for(week in valid_weeks){
+    for (year in 2010:2017){
+      if (!(week %in% later_weeks & year =='2010') & !(week %in% first_weeks & year =='2017')){
+        str<- sprintf(path, week, year)
+        new<- read_csv(str)
+        new$week<- rep(as.numeric(substr(str,start_wk,start_wk+1)), nrow(new)) #adds column: week 
+        new$year<- rep(as.numeric(substr(str,start_yr, start_yr+3)),nrow(new)) #adds column: year 
+        data<- rbind(data, new)}
+    }
+  }
+  return(data)
+}
+
+target_type_weights_for_pit <- import('../../model-forecasts/cv-ensemble-models/target-type-based-weights/EW%s-%s-target-type-based-weights.csv', 70, 73)
+
+make_tidy<- function(ensemble){
+  tidy<- ensemble %>% filter(location !=  'US National', target != 'week') %>% mutate(Season = ifelse(week > 30, paste(year, year+1, sep = "/"), paste(year-1, year, sep= "/")))
+  return(tidy)
+}
+
+target_type_weights_tidy <- make_tidy(target_type_weights_for_pit)
+
+#load true values from Season17-18
+true<- read_csv('../../scores/target-multivals.csv')
+names(true) <- gsub(" ", "_", names(true))
+true_tidy<- true %>% 
+  filter(Location != 'US National', Target %in% c('1 wk ahead', '2 wk ahead', '3 wk ahead', '4 wk ahead', 'Season peak percentage'))
+
+
+get_true<- function(CW, Seas, Loca, Tar){   
+  obs <- true_tidy %>% filter(Calendar_Week == CW,Season== Seas, Location == Loca, Target==Tar) %>% select(Valid_Bin_start_incl)
+  return(as.numeric(obs))
+}
+
+
+target_pit_values <- function(model, tar){
+    #takes various seasons out of 'target_pit_values_new'
+    regions <- unique(model$location)
+    seasons <- unique(model$Season)
+    pit_values<- c()
+    for (w in weeks_as_ints_new){
+        for (r in regions){
+            for(s in seasons) {
+                df<- model %>% filter(location== r, target== tar, week==w, Season==s)
+                percents <- df$value[1:length(df$value)-1]
+                q<-get_true(w, s, r, tar)
+                pit_values<- c(pit_values,ecdf_round(q, percents))
+            }
+        }
+    }
+  return(pit_values)
+}
+
+
+#by target: 210 weeks *10 regions= 2100
+upper_tar_all <- get_CI(2100, 10)[1] 
+lower_tar_all <- 1- (upper_tar_all- 1)
+
+tar_type <- list()
+
+for (i in 1:length(targets)){
+    tar_type[[i]]<- target_pit_values(target_type_weights_tidy, targets[i])
+}
+
+par(mfrow=c(2,3))
+for(i in 1:5){
+  hist(tar_type[[i]], freq=F, ylim= c(0, 2.0), main= (paste(targets[i])), xlab='PIT values')
+  abline(h=c(upper_tar_all, lower_tar_all), col= 2, lty= 5)
+}
+
+@
+
+
+\section{EM Algorithm for Weighted Density Ensembles}
+
+The following is adapted from online documents\footnote{\url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf} and \url{http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/11761-s97/WWW/tex/EM.ps}} and describes the use of the Expectation Maximization (EM) algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+Our goal is to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting model average.
+
+
+To use the EM algorithm to find optimal weights, we formulate the problem in a missing data fashion. 
+We consider a data generating process in which an observed target is generated from $f(z)$ by choosing one of the $f_c(z)$ component distributions as a random draw from a multinomial distribution with probabilities $\pi_c$. 
+(Here we supress the subscripts $t$, $r$, and $w$ for simplicity.)
+The problem is that we do not know, for each observed datapoint $z_i^*$, which component was chosen. 
+However, we can make a best guess, conditional on the data and our current estimates of $\pi_c$, of how often each component was chosen. 
+This is the `E step'. Then, based on these guesses, we can update our estimate of $\pi_c$. This is the `M-step'.
+
+The ``E step'' of the EM algorithm we can think of as determining, for each component  $c$, the expected number of times for each of our observed $N$ datapoints that component $c$ was chosen as the contributor to $f(z)$:
+\begin{eqnarray}
+{\mathbf E}[ {\mbox model}_c |data ] % & = & \sum_i Pr(Model_c | z_i^*) \\ 
+ %& = & \sum_i \frac{Pr(Model_c, z_i^*)}{Pr(z_i^*)} \\ 
+ %& = & \sum_i \frac{Pr(Model_c) Pr(z_i^*|model_c)}{f(z_i^*)} \\ 
+ & = & \sum_i \frac{\pi_c f_c(z_i^*)}{f(z_i^*)} 
+\end{eqnarray}
+Heuristically, we can think of the expression $f_c(z)$ equivalently as $Pr(z| model c)$ or in words the likelihood of seeing the value $z$ given that component $c$ is the ``chosen'' model. 
+
+The ``M step'' of the EM algorithm simply calculates, conditional on the ``complete data'', i.e. the $z^*_i$ and the estimated number of times each component was chosen, the fraction of times each method was chosen. Therefore, if we 
+\begin{eqnarray}
+\pi_c^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ {\mbox model}_m |data ] \\
+& = & \frac{1}{N} \sum_i \frac{\pi_m f_m(z_i^*)}{f(z_i^*)} 
+\end{eqnarray}
+
+Assume that we have a set of $M$ fitted predictive densities ``evaluated at''\footnote{Need to add distinction about not strict evaluation but rather probability assigned to ``values deemed to be accurate''.} observed data\footnote{For now, these could be forecasts for arbitrary targets, locations, seasons, etc... } $z_i^*$ for $i=1, ..., N$. We will notate these data as  $f_{m}(z^*|{\bf x})$. There will be $M\cdot N$ total observations, as each model must have an associated value (a probability, between 0 and 1) for each observed data point.
+
+We wish to obtain a set of optimal weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ for combining the models such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+The weights can be used to then combine the component models into an ensemble model as
+$$f(z_i|\pi) = \sum_{m=1}^M \pi_m f_m(z_i).$$
+We define a function $\ell(\pi)$ that computes a log-likelihood\footnote{Is this assuming independence?} of the resulting ensemble as follows:
+$$\ell(\pi) = \frac{1}{N}\sum_{i=1}^N \log f(z_i|\pi).$$
+
+Below, we define one procedure to obtain a set of weights for the ensemble.
+
+\begin{algorithm}
+\caption{Degenerate Expectation Maximization (DEM) algorithm}\label{alg:DEM}
+\begin{algorithmic}[1]
+\Procedure{dem}{$...$}%\Comment{The g.c.d. of a and b}
+\State Initialize $\pi_m^{(0)}$ such that $\forall m$ $\pi_m^{(0)} \geq 0$ and $\sum_{m=1}^M \pi_m^{(0)}=1$ 
+\State Set $t=0$
+\State Set $\Delta=1$, or another arbitrary constant.
+\State Set $\epsilon$ to be a very small positive number strictly less than $\Delta$.
+\While{$ \Delta > \epsilon$}%\Comment{We have the answer if r is 0}
+\State Set $t=t+1$
+\State Update weights, $\forall m$, $\pi_m^{(t)} = \frac{1}{N}\sum_{i=1}^N \frac{\pi_m^{(t-1)}f_m(z_i)}{f(z_i|\pi^{(t-1)})}$
+\State Set $\Delta =  \frac{\ell(\pi^{(t)}) - \ell(\pi^{(t-1)})}{|\ell(\pi^{(t)})|}$ \label{delta-step}
+\EndWhile
+\State \textbf{return} $\tilde\pi = \tilde\pi^{(t)}$%\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
+
+
+\bibliographystyle{unsrt}
+\bibliography{../flusightnetwork.bib}
+
+
+\end{document}
