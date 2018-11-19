@@ -3,7 +3,7 @@ STATICFILEDIR= ./static-content
 RDIR= ./code
 
 ## define the full make, explicitly referencing all targets
-all: view clean 
+all: view clean ensemble-supplement.pdf
 
 ###########################
 ### begin main PDF make ###

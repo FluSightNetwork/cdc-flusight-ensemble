@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[letterpaper, margin=1in]{geometry} % margin
 
-\title{Supplement for ``A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season''}
+\title{Supplement for\\``A Collaborative Ensemble Approach to Real-Time Influenza Forecasting in the U.S.: Results from the 2017/2018 Season''}
 
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
@@ -9,24 +9,49 @@
 \usepackage{graphicx}
 \usepackage[noend]{algpseudocode}
 
-\author{Nicholas G Reich et al.}
+\author{Nicholas G Reich, Craig McGowan, Logan Brooks, Sasikiran Kandula,\\Evan Moore, Dave Osthus, Evan Ray, Abhinav Tushar, Teresa Yamana,\\
+Willow Crawford-Crudell, Graham Casey Gibson, Rebecca Silva\\Matthew Biggerstaff, Michael A Johansson, Roni Rosenfeld, Jeffrey Shaman}
 
 
 \begin{document}
 
 \maketitle
 
-\section{Additional evaluation metrics}
 
-% \subsection{Bias and MSE}
-% 
-% \begin{figure}[htbp]
-% \begin{center}
-% \includegraphics{figure/rmse-and-bias-1.pdf}
-% \caption{Root mean squared error (RMSE) and bias by target for selected models (with rank) in the 2017/2018 season. Evaluations are for all weeks in the 2017/2018 season. Models are sorted with lowest RMSE on right.}
-% \label{fig:bias-rmse}
-% \end{center}
-% \end{figure}
+<<setup, echo=FALSE, warning=FALSE, message=FALSE>>=
+knitr::opts_chunk$set(
+  echo = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
+)
+library(readr)
+library(dplyr)
+library(reshape2)
+
+specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
+@
+
+
+\section{Supplemental evaluation metrics}
+
+\subsection{Bias and MSE}
+
+We compared the {\tt FSNetwork-TTW} ensemble model's accuracy in 2017/2018 to the top-performing models from each team in the training phase. 
+We used the metrics of root mean-squared error (RMSE) and average bias to measure accuracy of point estimates.
+Note that the ensemble weights were optimized solely to maximize log-score, so these accuracy scores are not an indicator of how well the ensemble could do if it were optimized to minimize point-estimate error.
+Consistent with the CDC scoring rules, we only evaluated point estimates within the ``scoring bounds'' specific to each target, region, and season (see Methods in main manuscript).
+
+Overall, the {\tt FSNetwork-TTW} model ranked second in both RMSE and average bias, behind the {\tt LANL-DBM} model (Figure \ref{fig:bias-rmse}).
+All selected models showed a negative bias (i.e. underestimation, on average) of the targets on the wILI scale (week-ahead incidence and peak percentage).
+The {\tt CU−EKF\_SIRS} model showed particularly low bias for 1- and 2-week-ahead foreacasts, although greater variability led to lower ranks for RMSE.
+
+In general, these results suggest that using separate weighting schemes for point estimates and predictive distributions may be valuable.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{figure/rmse-and-bias-1.pdf}
+\caption{Root mean squared error (RMSE, panel A) and bias (panel B) by target for selected models (with rank) in the 2017/2018 season. Evaluations are for all weeks in the 2017/2018 season. Models are sorted with lowest RMSE on right.}
+\label{fig:bias-rmse}
+\end{center}
+\end{figure}
 
 
 
@@ -40,19 +65,9 @@ Intuitively, the PIT measures how often a model's probabilistic assessment is tr
 Systematic deviations from the expected uniform distribution may indicate lack of calibration in some aspects of the predictive model.
 
 In our application, we evaluate the set of all probabilistic forecasts of the five targets on the wILI scale (1 through 4 week-ahead wILI percent and the peak percentage) from the {\tt FSNetwork-TTW} model using PIT. For the 2017/2018 influenza season, we obtained a PIT value from each predictive distribution based on region, target, and week of season. 
+As in other evaluations presented here, we only considered forecasts from the time-period of interest for the CDC, depending on the timing of the peak for each region-season.
 We rounded each PIT value to the nearest tenth of a decimal place and plotted them on a historgram with ten bars, one for each decile of the Uniform(0,1) distribution.
 We computed a Monte Carlo confidence interval under the null hypothesis that the PIT values are independent and identical draws from a Uniform(0,1) distribution, conditional on the number of PIT values. 
-
-<<setup, echo=FALSE, warning=FALSE, message=FALSE>>=
-knitr::opts_chunk$set(
-  echo = FALSE, cache = FALSE, cache.path = './cache', message = FALSE, warning = FALSE
-)
-library(readr)
-library(dplyr)
-library(reshape2)
-
-specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
-@
 
 <<pit-2017-2018, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in the 2017/2018 season.", cache=TRUE>>=
 #1. data loading (applying code in data loading .Rmd to season 2017-2018) 
@@ -189,18 +204,14 @@ for (t in targets){
 
 par(mfrow=c(2,3))
 for(i in 1:5){
-  hist(tar_type_new2[[i]], freq=F, ylim= c(0, 2.0), main= (paste(targets[i])), xlab='PIT values')
+  hist(tar_type_new2[[i]], freq=F, ylim= c(0, 2.7), main= (paste(targets[i])), xlab='PIT values')
   abline(h=c(upper_tar, lower_tar), col= 2, lty= 5)
+  abline(h=1, col=4, lty=3)
 }
 @
 
 
-
-The 10th PIT bar exceeds the confidence interval, showing there is a high number of PIT values ranging from .9 to 1.0 which signifies that there were more observed values than expected in the end right tail of their respective predictive distributions. In theory, if each predictive distribution was the same or similar enough to the true predictive distribution, the bars should be or equal height around 1.  (More values in the upper-most tail might support the fact that the season had higher values than expected generally?) 
-
-
-
-<<pit-all-seasons, cache=TRUE>>=
+<<pit-all-seasons, cache=TRUE, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in all training seasons: 2010/2011 through 2016/2017.">>=
 
 valid_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
 later_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20')
@@ -279,25 +290,38 @@ for (i in 1:length(targets)){
 
 par(mfrow=c(2,3))
 for(i in 1:5){
-  hist(tar_type[[i]], freq=F, ylim= c(0, 2.0), main= (paste(targets[i])), xlab='PIT values')
+  hist(tar_type[[i]], freq=F, ylim= c(0, 2.5), main= (paste(targets[i])), xlab='PIT values')
   abline(h=c(upper_tar_all, lower_tar_all), col= 2, lty= 5)
+  abline(h=1, col=4, lty=3)
 }
 
 @
 
+In the 2017/2018 season, the {\tt FSNetwork-TTW} model showed good calibration for all week-ahead targets (Figure \ref{fig:pit-all-seasons}). 
+The models appeared to be slightly better calibrated for shorter forecast horizons (i.e. 1- and 2-week ahead) than for longer horizons. 
+Forecasts for the peak percentage were less well calibrated, with more forecasts than expected occuring in both low and high tails of the predictive distribution.
+
+Across all training seasons, the {\tt FSNetwork-TTW} model showed some lack of calibration for all targets considered (Figure \ref{fig:pit-2017-2018}).
+In particular, the predictive distributions appeared to be too wide, with eventually observed values falling in the central region of the distribution more than expected. 
+A slight negative bias is evident as well, from the skewness of the PIT figures, with the observed values more likely to fall under the median of the distribution for 2-, 3-, and 4-week-ahead forecasts.
+However, these forecasts were evaluated on only seven seasons worth of data, and given that the forecasts were better calibrated in a larger-than-usual season such as 2017/2018 (Figure \ref{fig:pit-all-seasons}) suggests that the model in the training phase may have been appropriately allowing for the possibility of such a large season.
+
+All in all, there could be some improvement in model calibration as measured by PIT. 
+However, to date, this has not been designated as an explicit target for optimization of the ensemble weighting schemes.
+
 
 \section{EM Algorithm for Weighted Density Ensembles}
 
-The following is adapted from online documents\footnote{\url{https://www.cs.cmu.edu/~roni/11761/Presentations/degenerateEM.pdf} and \url{http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/11761-s97/WWW/tex/EM.ps}} and describes the use of the Expectation Maximization (EM) algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
+The following is adapted from \cite{Rosenfeld1997,Rosenfeld2007} and describes the use of the Expectation Maximization (EM) algorithm for constructing weighted average ensemble models in the context of infectious disease forecasting.  
 Our goal is to develop a weighted density ensemble that combines the full predictive distributions in such a way as to optimize the score of the resulting model average.
 
 
-To use the EM algorithm to find optimal weights, we formulate the problem in a missing data fashion. 
+To use the EM algorithm to find optimal weights, we formulate the question as a missing data problem. 
 We consider a data generating process in which an observed target is generated from $f(z)$ by choosing one of the $f_c(z)$ component distributions as a random draw from a multinomial distribution with probabilities $\pi_c$. 
-(Here we supress the subscripts $t$, $r$, and $w$ for simplicity.)
-The problem is that we do not know, for each observed datapoint $z_i^*$, which component was chosen. 
+Here we supress the subscripts for target, region and week ($t$, $r$, and $w$) for simplicity.
+The problem is that we do not know, for each observed datapoint $z_i^*$, which component this observation was drawn from. 
 However, we can make a best guess, conditional on the data and our current estimates of $\pi_c$, of how often each component was chosen. 
-This is the `E step'. Then, based on these guesses, we can update our estimate of $\pi_c$. This is the `M-step'.
+This is the ``E step''. Then, based on these guesses, we can update our estimate of $\pi_c$. This is the ``M-step''.
 
 The ``E step'' of the EM algorithm we can think of as determining, for each component  $c$, the expected number of times for each of our observed $N$ datapoints that component $c$ was chosen as the contributor to $f(z)$:
 \begin{eqnarray}
@@ -308,18 +332,21 @@ The ``E step'' of the EM algorithm we can think of as determining, for each comp
 \end{eqnarray}
 Heuristically, we can think of the expression $f_c(z)$ equivalently as $Pr(z| model c)$ or in words the likelihood of seeing the value $z$ given that component $c$ is the ``chosen'' model. 
 
-The ``M step'' of the EM algorithm simply calculates, conditional on the ``complete data'', i.e. the $z^*_i$ and the estimated number of times each component was chosen, the fraction of times each method was chosen. Therefore, if we 
+The ``M step'' of the EM algorithm simply calculates, conditional on the ``complete data'', i.e. the $z^*_i$ and the estimated number of times each component was chosen, the fraction of times each method was chosen. Therefore, if we simply divide the quantity from the ``E-step'' by $N$, our total number of observations, we obtain a new estimate of this probability: 
 \begin{eqnarray}
-\pi_c^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ {\mbox model}_m |data ] \\
-& = & \frac{1}{N} \sum_i \frac{\pi_m f_m(z_i^*)}{f(z_i^*)} 
+\pi_c^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ {\mbox model}_c |data ] \\
+& = & \frac{1}{N} \sum_i \frac{\pi^{(k)}_c f_c(z_i^*)}{f(z_i^*)} 
 \end{eqnarray}
 
-Assume that we have a set of $M$ fitted predictive densities ``evaluated at''\footnote{Need to add distinction about not strict evaluation but rather probability assigned to ``values deemed to be accurate''.} observed data\footnote{For now, these could be forecasts for arbitrary targets, locations, seasons, etc... } $z_i^*$ for $i=1, ..., N$. We will notate these data as  $f_{m}(z^*|{\bf x})$. There will be $M\cdot N$ total observations, as each model must have an associated value (a probability, between 0 and 1) for each observed data point.
+Assume that we have a set of $C$ fitted predictive densities ``evaluated at'' observed data  $z_i^*$ for $i=1, ..., N$.
+In our application, we let the $f_c(z_i^*)$ be computed as the probabilities associated with the modified scores as described in the main manuscript.
+As an example, for season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified score becomes $f_c(z_i^*) = \int_{z_i^* -.5}^{z_i^* + .5} f_c(z|{\bf{x}})dz$.
+We will notate these scores as  $f_{c}(z_i^*|{\bf x})$. There will be $C\cdot N$ total observations, as each model must have an associated score (a probability, between 0 and 1) for each observed data point.
 
-We wish to obtain a set of optimal weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_M\}$ for combining the models such that $\forall m$ $\tilde\pi_m \geq 0$ and $\sum_{m=1}^M \tilde\pi_m=1$.
+We wish to obtain a set of optimal weights $\tilde\pi = \{\tilde\pi_1, \tilde\pi_2, ..., \tilde\pi_C\}$ for combining the models such that $\forall c$ $\tilde\pi_c \geq 0$ and $\sum_{c=1}^C \tilde\pi_c=1$.
 The weights can be used to then combine the component models into an ensemble model as
-$$f(z_i|\pi) = \sum_{m=1}^M \pi_m f_m(z_i).$$
-We define a function $\ell(\pi)$ that computes a log-likelihood\footnote{Is this assuming independence?} of the resulting ensemble as follows:
+$$f(z|\pi) = \sum_{c=1}^C \pi_c f_c(z).$$
+We define a function $\ell(\pi)$ that computes a log-likelihood of the resulting ensemble as follows:
 $$\ell(\pi) = \frac{1}{N}\sum_{i=1}^N \log f(z_i|\pi).$$
 
 Below, we define one procedure to obtain a set of weights for the ensemble.
@@ -328,13 +355,13 @@ Below, we define one procedure to obtain a set of weights for the ensemble.
 \caption{Degenerate Expectation Maximization (DEM) algorithm}\label{alg:DEM}
 \begin{algorithmic}[1]
 \Procedure{dem}{$...$}%\Comment{The g.c.d. of a and b}
-\State Initialize $\pi_m^{(0)}$ such that $\forall m$ $\pi_m^{(0)} \geq 0$ and $\sum_{m=1}^M \pi_m^{(0)}=1$ 
+\State Initialize $\pi_c^{(0)}$ such that $\forall c$ $\pi_c^{(0)} \geq 0$ and $\sum_{c=1}^C \pi_c^{(0)}=1$ 
 \State Set $t=0$
 \State Set $\Delta=1$, or another arbitrary constant.
 \State Set $\epsilon$ to be a very small positive number strictly less than $\Delta$.
 \While{$ \Delta > \epsilon$}%\Comment{We have the answer if r is 0}
 \State Set $t=t+1$
-\State Update weights, $\forall m$, $\pi_m^{(t)} = \frac{1}{N}\sum_{i=1}^N \frac{\pi_m^{(t-1)}f_m(z_i)}{f(z_i|\pi^{(t-1)})}$
+\State Update weights, $\forall c$, $\pi_c^{(t)} = \frac{1}{N}\sum_{i=1}^N \frac{\pi_c^{(t-1)}f_c(z_i)}{f(z_i|\pi^{(t-1)})}$
 \State Set $\Delta =  \frac{\ell(\pi^{(t)}) - \ell(\pi^{(t-1)})}{|\ell(\pi^{(t)})|}$ \label{delta-step}
 \EndWhile
 \State \textbf{return} $\tilde\pi = \tilde\pi^{(t)}$%\Comment{The gcd is b}
@@ -343,6 +370,9 @@ Below, we define one procedure to obtain a set of weights for the ensemble.
 \end{algorithm}
 
 And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
+
+We note that the this application of the EM algorithm is a very simple example of the standard EM, which in general does not guarantee a global maximum. 
+However, in this particular application we are in fact guaranteed a global maximum because there is only one maximum of this particular log-likelihood function (a product of the log of a weighted sum), which is due to the fact that it is a convex function of its parameters, the $pi_c$.
 
 
 \bibliographystyle{unsrt}
