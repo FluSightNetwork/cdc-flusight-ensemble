@@ -9,8 +9,15 @@
 \usepackage{graphicx}
 \usepackage[noend]{algpseudocode}
 
-\author{Nicholas G Reich, Craig McGowan, Logan Brooks, Sasikiran Kandula,\\Evan Moore, Dave Osthus, Evan Ray, Abhinav Tushar, Teresa Yamana,\\
-Willow Crawford-Crudell, Graham Casey Gibson, Rebecca Silva\\Matthew Biggerstaff, Michael A Johansson, Roni Rosenfeld, Jeffrey Shaman}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{lineno}% add line numbers
+\linenumbers % line numbers
+
+
+\author{Nicholas G Reich, Craig McGowan, Logan Brooks, Sasikiran Kandula,\\Dave Osthus, Evan Ray, Abhinav Tushar, Teresa Yamana,\\
+Willow Crawford-Crudell, Graham Casey Gibson, Evan Moore, Rebecca Silva\\Matthew Biggerstaff, Michael A Johansson, Roni Rosenfeld, Jeffrey Shaman}
+
 
 
 \begin{document}
@@ -309,6 +316,33 @@ However, these forecasts were evaluated on only seven seasons worth of data, and
 All in all, there could be some improvement in model calibration as measured by PIT. 
 However, to date, this has not been designated as an explicit target for optimization of the ensemble weighting schemes.
 
+
+\section{Foreast accuracy by region and target}
+
+See Figure \ref{fig:regional-performance}.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{figure/rt-scores-region-target-1.pdf}
+\caption{Average performanace in the 2017/2018 season by target and region.}
+\label{fig:regional-performance}
+\end{center}
+\end{figure}
+
+
+
+\section{Updated weights by including 2017/2018 performance}
+
+See Figure \ref{fig:updated-weights}.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{figure/updated-weights-1.pdf}
+\caption{The change in the estimated weight for each model after including the 2017/2018 performance results.}
+\label{fig:updated-weights}
+\end{center}
+\end{figure}
+
+\clearpage
 
 \section{EM Algorithm for Weighted Density Ensembles}
 

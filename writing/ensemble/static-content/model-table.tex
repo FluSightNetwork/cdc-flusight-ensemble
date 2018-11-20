@@ -5,13 +5,11 @@
 Team     & Model Abbr& Model Description & & Ext. Data & Mech. Model & Ens. Model \\ 
 \hline
 
-FSNetwork & EW       & Equal Weights (number of unique weights = 1) & ~ & ~  & x\\
- & CW       & Constant Weights (21) &  & x & \\
- & TTW      & Target-Type Weights (42) & & x & \\ 
- & TW       & Target Weights (147) & &  x & \\ 
- & TRW      & Target-Region Weights (1,617) & & x & \\ 
-\hline
-FluSight & unweighted\_avg       & Average of all models submitted to the CDC & \cite{McGowan2018}  &   & x\\
+FSNetwork & EW       & Equal Weights (number of estimated weights = 0) & ~ & ~  & x\\
+ & CW       & Constant Weights (20) &  & x & \\
+ & TTW      & Target-Type Weights (40) & & x & \\ 
+ & TW       & Target Weights (140) & &  x & \\ 
+ & TRW      & Target-Region Weights (1,540) & & x & \\ 
 \hline
 CU       & EAKFC\_SEIRS       & Ensemble Adjustment Kalman Filter SEIRS & \cite{Pei2017}  & x & x & \\ 
 
@@ -39,8 +37,8 @@ ReichLab & KCDE               & Kernel Conditional Density Estimation & \cite{Ra
 ~        & SARIMA1            & SARIMA model without seasonal differencing & \cite{Ray2018} & ~             & ~      &              \\ 
 ~        & SARIMA2            & SARIMA model with seasonal differencing & \cite{Ray2018} & ~             & ~           &         \\ 
 \hline
-UTAustin & EDM                & Empirical Dynamic Model, or method of analogues & \cite{Sugihara1990} & ~             & ~         &           \\ 
+FluSight & unweighted\_avg       & Average of all models submitted to the CDC & \cite{McGowan2018}  &   &  &  x\\
 \end{tabular}
-\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratories, ReichLab = University of Massachusetts Amherst, UTAustin = University of Texas Austin.  The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on an mechanistic or compartmental model formulation. The `Ens. model' column notes models that are ensemble models. Note that some of these components (marked with *) were not designed as standalone models, so their performance may not reflect the full potential of the method's accuracy (see Methods and Materials).}
+\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratories, ReichLab = University of Massachusetts Amherst, UTAustin = University of Texas Austin. The FluSight model was not included in the collaborative ensemble, but is used as a reference ensemble model in the analysis. The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on an mechanistic or compartmental model formulation. The `Ens. model' column notes models that are ensemble models. Note that some of these components (marked with *) were not designed as standalone models, so their performance may not reflect the full potential of the method's accuracy (see Methods and Materials).}
 \label{tab:model-list}
 \end{table*}

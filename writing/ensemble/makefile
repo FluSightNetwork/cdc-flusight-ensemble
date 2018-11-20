@@ -11,6 +11,7 @@ all: view clean ensemble-supplement.pdf
 
 view: pdf
 	open $(TEXFILE).pdf &
+	open ensemble-supplement.pdf
 
 pdf: $(TEXFILE).pdf
 
