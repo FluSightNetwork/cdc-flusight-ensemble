@@ -967,7 +967,7 @@ all_pk_scores <- bind_rows(
     cbind(scores_for_peak_accuracy_1718, Location="2017/18 avg"),
     cbind(scores_for_peak_accuracy_allyrs, Location="prior yrs avg")
 ) %>%
-    mutate(Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10), "2018/19 avg", "prior yrs avg")))
+    mutate(Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10), "2017/18 avg", "prior yrs avg")))
 
 scores_for_peak_accuracy_allyrs_allreg <- scores_for_peak_accuracy %>%
     group_by(Target, Location, Season, week_rel_to_peak) %>%
@@ -978,6 +978,7 @@ scores_for_peak_accuracy_allyrs_allreg <- scores_for_peak_accuracy %>%
 
 
 pal=c(RColorBrewer::brewer.pal(11, "Set3"), "#000000", "grey")
+
 
 ggplot(data=all_pk_scores, 
     aes(x=week_rel_to_peak, y=exp(avg_logscore), color=Location)) + 
@@ -1154,7 +1155,7 @@ Weights were estimated using the EM algorithm (see Supplement). Weights for comp
 \subsection{Ensemble evaluation}
 
 Based on the results of the cross-validation study, we selected one ensemble model as the official FluSight Network entry to the CDC's 2017/2018 influenza forecasting challenge.
-This criteria for this choice were pre-specified in September of 2017, prior to conducting the cross-valitation experiments.\cite{Reich2017github} 
+This criteria for this choice were pre-specified in September of 2017, prior to conducting the cross-validation experiments.\cite{Reich2017github} 
 Component weights for the {\tt FSNetwork-TTW} model were estimated using all seven seasons of training data. In real-time over the course of the 2017/2018 influenza season, participating teams submitted weekly forecasts from each component, which were combined using the estimated weights into the FluSight Network model and submitted to the CDC. The component weights for the submitted model remained unchanged throughout the course of the season.
 
 It should be noted that ensemble weights are not a measure of ensemble components' standalone accuracy nor do they measure the overall contribution of a particular model to the ensemble accuracy.
