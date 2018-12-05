@@ -91,13 +91,6 @@
 
 \keywords{} 
 
- 
-
-% Overall character count must not exceed 49,000 characters for a 6-page article and 82,000 for a 10-page article; this includes text, spaces, and the number of characters displaced by figures, tables, and equations.
-% Text: When submitting tables, figures, and/or equations in addition to text, keep the text for your manuscript under 5 two-column, single-spaced pages, or under 39,000 characters for a 6-page article and 65,000 for a 10-page article (including spaces).
-% Figures: Calculated at 180 characters per cm in height for one column and 360 characters per cm in height for two columns.
-% Tables and equations: Calculated at 60 characters per line for one column and 120 characters per line for two columns.
-
 \begin{abstract}
 
 % 250 word limit
@@ -176,12 +169,12 @@ Additionally, we assess whether purely statistical models show similar performan
 Overall, this work shows strong evidence that carefully crafted forecasting models for region-level influenza in the US consistently outperformed a historical baseline model for targets of particular public health interest. 
 %This collaboration from a subset of the core community of influenza forecasters in the US, and other collaborations like it, will continue to advance infectious disease forecasting capabilities globally. 
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
-\includegraphics[width=\linewidth]{static-figures/timezero-sketch.pdf}
+\includegraphics[width=.8\linewidth]{static-figures/timezero-sketch.pdf}
 \caption{(A) Weighted influenza-like illness data downloaded from the CDC website from selected regions. The y-axis shows the weighted percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future.}
 \label{fig:intro-schematic}
-\end{figure}
+\end{figure*}
 
 \input{./static-figures/model-table.tex}
 
@@ -222,15 +215,6 @@ average score for all week-ahead targets.
 
 
 \end{knitrout}
-
-
-% \begin{figure}[htbp]
-% \begin{center}
-% \includegraphics[width=\textwidth]{figures/fig-results-region.pdf}
-% \caption{Average forecast skill by model region and target-type, averaged over weeks and seasons. The white midpoint of the color scale is set to be the overall average of the historical baseline model, {\tt ReichLab-KDE}.}
-% \label{fig:results-region}
-% \end{center}
-% \end{figure}
 
 
 
@@ -544,7 +528,7 @@ Additionally, we observed an expected change in forecast score of
 )
 when the first observed wILI measurement was between 1.5 and 2.5 percentage points higher than the final observed value.
 This pattern is similar for under- and over-reported values, although there were more extreme under-reported values than there were over-reported values. 
-Finally, some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions.
+Some of the variation in region-specific performance could be attributed to the frequency and magnitude of data revisions.
 
 
 % \begin{figure}[htbp]
