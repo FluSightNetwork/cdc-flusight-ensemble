@@ -49,7 +49,7 @@ Consistent with the CDC scoring rules, we only evaluated point estimates within 
 
 Overall, the {\tt FSNetwork-TTW} model ranked second in both RMSE and average bias, behind the {\tt LANL-DBM} model (Figure \ref{fig:bias-rmse}).
 All selected models showed a negative bias (i.e. underestimation, on average) of the targets on the wILI scale (week-ahead incidence and peak percentage).
-The {\tt CU−EKF\_SIRS} model showed particularly low bias for 1- and 2-week-ahead foreacasts, although greater variability led to lower ranks for RMSE.
+The {\tt CU-EKF\_SIRS} model showed particularly low bias for 1- and 2-week-ahead foreacasts, although greater variability led to lower ranks for RMSE.
 
 In general, these results suggest that using separate weighting schemes for point estimates and predictive distributions may be valuable.
 
@@ -77,7 +77,7 @@ As in other evaluations presented here, we only considered forecasts from the ti
 We rounded each PIT value to the nearest tenth of a decimal place and plotted them on a historgram with ten bars, one for each decile of the Uniform(0,1) distribution.
 We computed a Monte Carlo confidence interval under the null hypothesis that the PIT values are independent and identical draws from a Uniform(0,1) distribution, conditional on the number of PIT values. 
 
-<<pit-2017-2018, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in the 2017/2018 season.", cache=TRUE>>=
+<<pit-2017-2018, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in the 2017/2018 season. If the model is well-calibrated, the histogram should resemble a uniform distribution, i.e. all the bars should be level at $y$=1. The red dashed lines represent a Monte Carlo confidence interval under the null hypothesis that the PIT values follow a Uniform(0,1) distribution. The fact that some of the bars for the season peak percentage target lie outside the CI bounds suggest that the model shows significantly weak calibration for that particular target.", cache=TRUE>>=
 #1. data loading (applying code in data loading .Rmd to season 2017-2018) 
 #ie use some predefined vectors and 'make_tidy()' function in previous Rmd
 
@@ -219,7 +219,7 @@ for(i in 1:5){
 @
 
 
-<<pit-all-seasons, cache=TRUE, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in all training seasons: 2010/2011 through 2016/2017.">>=
+<<pit-all-seasons, cache=TRUE, fig.cap="Probability integral transform histograms by target for the FSNetwork-TTW model in all training seasons: 2010/2011 through 2016/2017. If the model is well-calibrated, the histogram should resemble a uniform distribution, i.e. all the bars should be level at $y$=1. The red dashed lines represent a Monte Carlo confidence interval under the null hypothesis that the PIT values follow a Uniform(0,1) distribution. The intervals are narrower here than in Figure \\ref{fig:pit-2017-2018} because there are more observations from all the training seasons combined than in the one testing season. The model is showing some significant lack of calibration for all targets. In particular for the season peak percentage, substantially more observations were in the lowest 10\\% of the predictive distributions than would have been expected due to chance.">>=
 
 valid_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52')
 later_weeks<- c('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20')
@@ -318,7 +318,7 @@ All in all, there could be some improvement in model calibration as measured by 
 However, to date, this has not been designated as an explicit target for optimization of the ensemble weighting schemes.
 
 
-\section{Foreast accuracy by region and target}
+\section{Forecast accuracy by region and target}
 
 See Figure \ref{fig:regional-performance}.
 \begin{figure}[htbp]
@@ -331,7 +331,7 @@ See Figure \ref{fig:regional-performance}.
 
 
 
-\section{Updated weights by including 2017/2018 performance}
+\section{Updated weights incorporating 2017/2018 performance}
 
 See Figure \ref{fig:updated-weights}.
 
@@ -406,8 +406,9 @@ Below, we define one procedure to obtain a set of weights for the ensemble.
 
 And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
 
-We note that the this application of the EM algorithm is a very simple example of the standard EM, which in general does not guarantee a global maximum. 
-However, in this particular application we are in fact guaranteed a global maximum because there is only one maximum of this particular log-likelihood function (a product of the log of a weighted sum), which is due to the fact that it is a convex function of its parameters, the $pi_c$.
+We note that this application of the EM algorithm is a very simple example of the standard EM, which in general does not guarantee a global maximum. 
+However, this particular log-likelihood function (a sum of logarithms of weighted sums) is a concave function of its parameters, the $\pi_c$, and concavity ensures that any local maximum is a global maximum.  
+In particular, we can ensure that there is a global, finite maximum and that the EM finds it by including a uniform component and making the algorithm start with all nonzero weights.
 
 
 \bibliographystyle{unsrt}
