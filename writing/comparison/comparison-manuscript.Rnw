@@ -1220,7 +1220,7 @@ However, the statistical vs. mechanistic model dichotomy is not always a clean d
 In the case of influenza, mechanistic models simulate a specific disease transmission process governed by the assumed parameters and structure of the model. 
 But observed ``influenza-like illness'' data is driven by many factors that have little to do with influenza transmission (e.g., clinical visitation behaviors, the symptomatic diagnosis process, the case reporting process, a data-revision process, etc.). 
 Since influenza-like illness data represent an impure measure of actual influenza transmission, purely mechanistic models may be at a disadvantage in comparison to more structurally flexible statistical approaches when attempting to model and forecast influenza-like illness.
-To counteract this potential limitation of mechanistic models in modeling noisy surveillance data, many forecasting models that have a mechanistic core also utilize statistical approaches to explicitly or implicitly account for unexplained discrepancies from the underlying model.\cite{Pei2017,osthus2018dynamic}
+To counteract this potential limitation of mechanistic models in modeling noisy surveillance data, many forecasting models that have a mechanistic core also utilize statistical approaches that explicitly or implicitly account for unexplained discrepancies from the underlying model.\cite{Pei2017,osthus2018dynamic}
 
 There are several important limitations to this work as presented.
 While we have assembled and analyzed a range of models from experienced influenza forecasting teams, there are large gaps in the types of data and models represented in our library of models.
@@ -1295,7 +1295,7 @@ For example, seven of the models utilize a compartmental structure (e.g. Suscept
 Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon by incorporating recent incidence and seasonal trends.
 One model, {\tt Delphi-Stat}, is an ensemble model, a combination of other models from the Delphi team.
 %Six models directly incorporate external data (i.e., not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
-No team had early access to CDC surveillance data. Every team accessed the data using same API and baseline datasets.
+No team had early access to CDC surveillance data  or any other data from sentinel surveillance sites. Every team accessed the data using same API and baseline datasets.
 The Columbia University team used data from Google Extended Health Trends API to nowcast for the 1-week ahead target in all of its models. In their six mechanistic models, the nowcast was also used as an observation i.e. as if it were CDC surveillance data. An analysis of results from the 2016/2017 season showed that the forecast quality of these models improved by about 7\%.\cite{Kandula2018} 
 Additionally, the Columbia team used daily specific humidity averaged over 24 years (1979–2002) in their 6 mechanistic models. These climatological estimates were calculated from the National Land Data Assimilation System (NLDAS) project-2 dataset.
 
