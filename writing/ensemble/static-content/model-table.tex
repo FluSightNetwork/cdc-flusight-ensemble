@@ -1,44 +1,44 @@
 \begin{table*}
 \setlength{\tabcolsep}{4pt} 
-\begin{tabular}{p{1.6cm} l p{7.5cm} l  p{1cm}  p{1cm} p{1cm}}
+\begin{tabular}{p{1.6cm} l p{8.2cm} p{.6cm}  p{.8cm} p{.8cm}}
 \hline
-Team     & Model Abbr& Model Description & & Ext. Data & Mech. Model & Multi-Model Ens. \\ 
+Team     & Model Abbr& Model Description & Ext. Data & Mech. Model & MM Ens. \\ 
 \hline
 
-FSNetwork & EW       & Equal Weights (number of estimated weights = 0) & ~ & ~  & & x\\
- & CW       & Constant Weights (20) & & & & x  \\
- & TTW      & Target-Type Weights (40) & & & & x \\ 
- & TW       & Target Weights (140) & & & & x \\ 
- & TRW      & Target-Region Weights (1,540) & & & & x \\ 
+FSNetwork & EW       & Equal Weights (number of estimated weights = 0) & ~  & & x\\
+ & CW       & Constant Weights (20)& & & x  \\
+ & TTW      & Target-Type Weights (40) & & & x \\ 
+ & TW       & Target Weights (140) & & & x \\ 
+ & TRW      & Target-Region Weights (1,540) & & & x \\ 
 \hline
-CU       & EAKFC\_SEIRS$^\dagger$       & Ensemble Adjustment Kalman Filter SEIRS & \cite{Pei2017}  & x & x & \\ 
+CU       & EAKFC\_SEIRS$^\dagger$       & Ensemble Adjustment Kalman Filter SEIRS\cite{Pei2017}  & x & x & \\ 
 
-~        & EAKFC\_SIRS$^\dagger$        & Ensemble Adjustment Kalman Filter SIRS & \cite{Pei2017}  & x & x & \\
-~        & EKF\_SEIRS$^\dagger$         & Ensemble Kalman Filter SEIRS & \cite{Yang2014}    & x             & x &                    \\
-~        & EKF\_SIRS$^\dagger$          & Ensemble Kalman Filter SIRS & \cite{Yang2014}     & x             & x   &                 \\
-~        & RHF\_SEIRS$^\dagger$         & Rank Histogram Filter SEIRS & \cite{Yang2014}    & x             & x     &               \\
-~        & RHF\_SIRS$^\dagger$          & Rank Histogram Filter SIRS & \cite{Yang2014}     & x             & x       &             \\
-~        & BMA                & Bayesian Model Averaging & \cite{Yamana2017}      & ~             & ~          &          \\
+~        & EAKFC\_SIRS$^\dagger$        & Ensemble Adjustment Kalman Filter SIRS\cite{Pei2017}  & x & x & \\
+~        & EKF\_SEIRS$^\dagger$         & Ensemble Kalman Filter SEIRS\cite{Yang2014}    & x             & x &                    \\
+~        & EKF\_SIRS$^\dagger$          & Ensemble Kalman Filter SIRS\cite{Yang2014}     & x             & x   &                 \\
+~        & RHF\_SEIRS$^\dagger$         & Rank Histogram Filter SEIRS\cite{Yang2014}    & x             & x     &               \\
+~        & RHF\_SIRS$^\dagger$          & Rank Histogram Filter SIRS\cite{Yang2014}     & x             & x       &             \\
+~        & BMA                & Bayesian Model Averaging\cite{Yamana2017}      & ~             & ~          &          \\
 \hline
-Delphi   & BasisRegression*    & Basis Regression ({\tt epiforecast} defaults) & \cite{Brooks2015a} & ~             & ~     &               \\ 
-~        & DeltaDensity1*      & Delta Density ({\tt epiforecast} defaults)   & \cite{Brooks2018} & ~             & ~       &             \\ 
-~        & EmpiricalBayes1*    & Empirical Bayes (conditioning on past four weeks) & \cite{Brooks2015,Brooks2015a} & ~             & ~  &                  \\ 
-~        & EmpiricalBayes2*    & Empirical Bayes ({\tt epiforecast} defaults) & \cite{Brooks2015,Brooks2015a} & ~             & ~            &        \\ 
-~        & EmpiricalFuture*    & Empirical Futures ({\tt epiforecast} defaults) &  \cite{Brooks2015a} & ~             & ~         &           \\ 
-~        & EmpiricalTraj*      & Empirical Trajectories ({\tt epiforecast} defaults)& \cite{Brooks2015a} & ~             & ~         &           \\ 
-~        & DeltaDensity2*      & Markovian Delta Density ({\tt epiforecast} defaults)& \cite{Brooks2018} & ~             & ~          &          \\ 
-~        & Uniform*            & Uniform Distribution&  & ~             & ~   &                 \\ 
-~        & Stat               & Ensemble (combination of 8 Delphi models)& \cite{Brooks2018} & ~             & ~  & x                 \\
+Delphi   & BasisRegression*    & Basis Regression ({\tt epiforecast} defaults)\cite{Brooks2015a} & ~             & ~     &               \\ 
+~        & DeltaDensity1*      & Delta Density ({\tt epiforecast} defaults)\cite{Brooks2018} & ~             & ~       &             \\ 
+~        & EmpiricalBayes1*    & Empirical Bayes (conditioning on past 4 weeks)\cite{Brooks2015,Brooks2015a} & ~             & ~  &                  \\ 
+~        & EmpiricalBayes2*    & Empirical Bayes ({\tt epiforecast} defaults)\cite{Brooks2015,Brooks2015a} & ~             & ~            &        \\ 
+~        & EmpiricalFuture*    & Empirical Futures ({\tt epiforecast} defaults)\cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & EmpiricalTraj*      & Empirical Trajectories ({\tt epiforecast} defaults)\cite{Brooks2015a} & ~             & ~         &           \\ 
+~        & DeltaDensity2*      & Markovian Delta Density ({\tt epiforecast} defaults)\cite{Brooks2018} & ~             & ~          &          \\ 
+~        & Uniform*            & Uniform Distribution& & ~   &                 \\ 
+~        & Stat               & Ensemble (combination of 8 Delphi models)\cite{Brooks2018} & ~             & ~  & x                 \\
 \hline
-LANL     & DBM                & Dynamic Bayesian SIR Model with discrepancy & \cite{osthus2018dynamic} & ~             & x      &              \\ 
+LANL     & DBM                & Dynamic Bayesian SIR Model with discrepancy\cite{osthus2018dynamic} & ~             & x      &              \\ 
 \hline
-ReichLab & KCDE               & Kernel Conditional Density Estimation & \cite{Ray2017}  & ~             & ~            &        \\ 
-~        & KDE                & Kernel Density Estimation and penalized splines & \cite{Ray2018}  & ~             & ~     &               \\ 
-~        & SARIMA1            & SARIMA model without seasonal differencing & \cite{Ray2018} & ~             & ~      &              \\ 
-~        & SARIMA2            & SARIMA model with seasonal differencing & \cite{Ray2018} & ~             & ~           &         \\ 
+ReichLab & KCDE               & Kernel Conditional Density Estimation\cite{Ray2017}  & ~             & ~            &        \\ 
+~        & KDE                & Kernel Density Estimation and penalized splines\cite{Ray2018}  & ~             & ~     &               \\ 
+~        & SARIMA1            & SARIMA model without seasonal differencing\cite{Ray2018} & ~             & ~      &              \\ 
+~        & SARIMA2            & SARIMA model with seasonal differencing\cite{Ray2018} & ~             & ~           &         \\ 
 \hline
-FluSight & unweighted\_avg       & Average of all models submitted to the CDC & \cite{McGowan2018}  &   &  &  x\\
-\end{tabular}
-\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratory, ReichLab = University of Massachusetts Amherst, FluSight = CDC challenge organizers. The FluSight model was not included in the collaborative multi-model ensemble, but is used as a reference multi-model ensemble in the analysis. The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on a mechanistic or compartmental model of infectious disease transmission.\cite{keeling2011modeling} The `Multi-Model Ens.' column indicates models that are multi-model ensembles. Note that some of the components were not designed as standalone models (marked with *) and others used single-model ensemble methodologies (marked with $\dagger$) (see Methods for more details).}
+FluSight & unweighted\_avg       & Average of all models submitted to the CDC\cite{McGowan2018}  &   &  &  x\\
+\end{tabular} 
+\caption{List of models, with key characteristics. Team abbreviations are translated as: CU = Columbia University, Delphi = Carnegie Mellon, LANL = Los Alamos National Laboratory, ReichLab = University of Massachusetts Amherst, FluSight = CDC challenge organizers. The FluSight model was not included in the collaborative multi-model ensemble, but is used as a reference multi-model ensemble in the analysis. The `Ext data' column notes models that use data external to the ILINet data from CDC. The `Mech. model' column notes models that rely to some extent on a mechanistic or compartmental model of infectious disease transmission.\cite{keeling2011modeling} The `MM Ens.' column indicates models that are multi-model ensembles. Note that some of the components were not designed as standalone models (marked with *) and others used single-model ensemble methodologies (marked with $\dagger$) (see Methods for more details).}
 \label{tab:model-list}
 \end{table*}
