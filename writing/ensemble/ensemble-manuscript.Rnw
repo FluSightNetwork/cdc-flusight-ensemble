@@ -1074,7 +1074,8 @@ However, at this point, collaborative efforts that consist of pooling results to
 We built a highly customized solution that relied on GitHub, Travis Continuous Integration server, unix scripts, and model code in R, python, and MatLab. 
 In all, the seven seasons of training data consisted of about 95MB and over 1.5m rows of data per model and about 2GB of forecast data for all models combined.
 The real-time forecasts for the 2017/2018 season added about 300MB of data.
-To move ensemble infectious disease forecasting into a more generalizable, operational phase, technological advancements are necessary to both standardize data sources, model structures, and forecast formats as well as develop modeling tools that can facilitate the development and implementation of component and ensemble models.
+The framework developed by CDC directly facilitated this work by identifying targets, establishing common formats, and establishing a space for this collaboration. To build on this success
+and move ensemble infectious disease forecasting into a more generalizable, operational phase, technological advancements are necessary to both standardize data sources, model structures, and forecast formats as well as develop modeling tools that can facilitate the development and implementation of component and ensemble models.
 
 This effort shows that collaborations between research teams to develop ensemble forecasting approaches bring measurable improvements in accuracy and reductions in variability.
 We therefore are moving substantially closer to forecasts that can and should be used to inform routine, ongoing public health surveillance of infectious diseases.
@@ -1152,7 +1153,7 @@ There are several different ways that the term ensemble has be used in practice.
 In this paper, we use the phrases `multi-model ensemble' or `ensemble model' interchangably to refer to models that represent mixtures of separate component models. 
 However, a clear taxonomy of ensemble modeling might distinguish three distinct tiers of ensemble models. 
 First, single-model ensemble methodologies can be used to fit models and make predictions. 
-Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of "particles" to form predictive distributions (Table \ref{tab:model-list}).
+Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Table \ref{tab:model-list}).
 Second, multi-model ensembles combine component models through techniques such as model stacking (see Section \ref{sec:stacking}).
 Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Table \ref{tab:model-list}).
 Third, the term superensemble has been used for models that combine components that are themselves ensembles (either multi-model or single-model)\cite{krishnamurti1999improved,Yamana2016}.
