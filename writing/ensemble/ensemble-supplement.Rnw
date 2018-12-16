@@ -37,6 +37,16 @@ library(reshape2)
 specify_decimal <- function(x, k=0) trimws(format(round(x, k), nsmall=k))
 @
 
+\section{Forecast accuracy by region and target}
+
+See Figure \ref{fig:regional-performance}.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{figure/rt-scores-region-target-1.pdf}
+\caption{Average forecast scores and ranks by target and region for 2017/2018. Only selected models are shown. Regions are sorted with the most predictable region overall (i.e. highest forecast scores) at the top. Color indicates model rank in the 2017/2018 season (darker color indicates better average score). The average forecast score is printed.}
+\label{fig:regional-performance}
+\end{center}
+\end{figure}
 
 \section{Supplemental evaluation metrics}
 
@@ -316,18 +326,6 @@ However, these forecasts were evaluated on only seven seasons worth of data, and
 
 All in all, there could be some improvement in model calibration as measured by PIT. 
 However, to date, this has not been designated as an explicit target for optimization of the ensemble weighting schemes.
-
-
-\section{Forecast accuracy by region and target}
-
-See Figure \ref{fig:regional-performance}.
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics{figure/rt-scores-region-target-1.pdf}
-\caption{Average performanace in the 2017/2018 season by target and region.}
-\label{fig:regional-performance}
-\end{center}
-\end{figure}
 
 
 
