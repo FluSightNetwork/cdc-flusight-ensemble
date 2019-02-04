@@ -221,6 +221,7 @@ test_scores_by_model_tt_region <- scores_adj %>%
     ungroup()
 @
 
+The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
 
 \begin{abstract}
 Seasonal influenza results in substantial annual morbidity and mortality in the United States and worldwide.
@@ -420,7 +421,7 @@ dev.off()
 
 %\subsubsection*{Describe observed variation in performance across training seasons}
 
-Twenty-one individual component models were fit to historical data and used to make prospective forecasts during seven training seasons (2010/2011 - 2016/2017). 
+Twenty-one individual component models were fit to historical data and used to make prospective forecasts during seven training seasons (2010/2011 - 2016/2017, Table \ref{tab:model-list}). 
 Their forecast accuracy varied widely across region, season, and target.
 A detailed comparative analysis of component model forecast performance can be found elsewhere\cite{Reich2018}; however, here we summarize a few key insights.
 A seasonal baseline model, whose forecasts for a particular target are based on data from previous seasons and do not update based on data from the current season, was used as a reference point for all component models.
@@ -456,7 +457,7 @@ top_training_scores <- as.numeric(arrange(training_scores_by_model, desc(avg_log
 
 
 %\subsubsection*{Target-type weights achived highest cross-validated scores}
-We pre-specified five candidate ensemble approaches prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season.\cite{Reich2017github} 
+We pre-specified five candidate ensemble approaches prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season (Table \ref{tab:model-list}).\cite{Reich2017github} 
 The pre-specified ensemble aproaches all relied on taking weighted averages of the component models using a predictve density stacking approach (see Methods).
 They ranged in complexity from simple (every component is assigned a single weight) to more complex (components have different weights depending on the target and region being forecasted, see Methods).
 The \Sexpr{model_name_abv$Name[model_name_abv$Model == "FSNetwork-TTW"]} ({\tt FSNetwork-TTW}) ensemble model, a medium-complexity approach, outperformed all other multi-model ensembles and components in the training phase by a slim margin (Figure \ref{fig:ensemble-model-comparison}). 
@@ -556,7 +557,7 @@ In the weights for the seasonal targets, six models shared over 99.9\% of the we
 All four research teams had at least one model with non-negligible weight in the chosen model. 
 %Ensemble weights themselves are not a measure of a component's standalone accuracy nor its contribution to the overall accuracy of the ensemble.
 
-<<ttweights, fig.height=3, fig.cap="Model weights for the FluSight Network Target-Type Weights ({\\tt FSNetwork-TTW}) model in the 2017/2018 season. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
+<<ttweights, fig.height=3, fig.cap="Component model weights for the FluSight Network Target-Type Weights ({\\tt FSNetwork-TTW}) ensemble model in the 2017/2018 season. Weights were estimated using cross-validated forecast performance in the 2010/2011 through the 2016/2017 seasons.">>=
 ttweights_2017 <- filter(target_type_weights, season=="2017/2018") %>%
     mutate(tt = ifelse(target=="1 wk ahead", "week-ahead", "seasonal"))
 ttweights_plot <- ggplot(ttweights_2017, 
@@ -584,14 +585,15 @@ Because all forecasting models rely, to some extent, on future trends mimicking 
 %Indeed, some of the models that saw the largest drop in performance (e.g., {\tt Delphi-DeltaDensity1}, {\tt ReichLab-KCDE}, and {\tt Delphi-DeltaDensity2}) are ones that explicity rely on using kernel conditional density estimation to find previously observed regions of the time-series that bear a similarity to current trends.
 
 In spite of these unusual dynamics, the chosen {\tt FSNetwork-TTW} ensemble showed the best performance among all component and ensemble models during the 2017/2018 season.
-In particular, we selected the single best model from each team in the training phase stage and the {\tt FluSight-unweighted\_avg} model (the unweighted average of all models submitted to the CDC) to compare with the {\tt FSNetwork-TTW} model (Figure \ref{fig:season-average-results}).
+In particular, we selected the single best component model from each team in the training phase stage and the {\tt FluSight-unweighted\_avg} model (the unweighted average of all models submitted to the CDC) to compare with the {\tt FSNetwork-TTW} model (Figure \ref{fig:season-average-results}).
 The results from 2017/2018 were consistent with and confirmed conclusions drawn from the training period, where the {\tt FSNetwork-TTW} model outperformed all other ensemble models and components.
 The {\tt FSNetwork-TTW} model had the highest average score in the training period 
 (\Sexpr{specify_decimal(exp(as.numeric(training_scores_by_model[which(training_scores_by_model=="FSNetwork-TTW"),"avg_logscore"])), 3)}) 
 as well as the highest average score in the 2017/2018 test season 
 (\Sexpr{specify_decimal(exp(as.numeric(test_scores_by_model[which(test_scores_by_model=="FSNetwork-TTW"),"avg_logscore"])), 3)}).
 % The {\tt \Sexpr{top_models[1]}} model tied  with the  {\tt \Sexpr{top_models[2]}} model with a score of \Sexpr{specify_decimal(exp(top_scores[1]),2)}. 
-This strong and consistent performance by the chosen ensemble model is a noteworthy achievement given that the best performing single model was identified in hindsight after the season ended while the {\tt FSNetwork-TTW} model was the single model identified prospectively, before the season began. 
+This strong and consistent performance by the chosen {\tt FSNetwork-TTW} ensemble model is a noteworthy achievement given that our team identified this model prospectively, before the season began, essentially wagering that this ensemble model would have the best performance of any model in the 2017/2018 season, which it did.
+%This model was chosen before the 2017/2018 season began, without the benefit of hindsight after the season ends.
 %The {\tt \Sexpr{top_models[2]}}, {\tt \Sexpr{top_models[3]}}, and {\tt \Sexpr{top_models[4]}} models achieved scores of \Sexpr{specify_decimal(exp(top_scores[2]),2)}, \Sexpr{specify_decimal(exp(top_scores[3]),2)}, and  \Sexpr{specify_decimal(exp(top_scores[4]),2)}, respectively.
 
 The {\tt FSNetwork-TTW} model showed a higher performance in both training and testing phase than the CDC baseline ensemble model, {\tt FluSight-unweighted\_avg}.
@@ -1129,7 +1131,7 @@ S_{m,\cdot,\cdot,s,\cdot} = \exp \left ( \frac{1}{N} \sum_{r,t,w} \log f_{m,r,t,
   =  \left ( \prod_{r,t,w}  f_{m,r,t,s,w}(z^*_{r,t,s,w}|{\bf x}) \right ) ^{1/N}. 
 \end{equation}
 
-As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) of point predictions as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,t}$ for target $t$, averaging over all weeks $w$ in the $s=$2017/2018 season and all regions $r$, as $RMSE_{m,t} = \sqrt{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})^2}$, where $\hat z_{m,r,t,w}$ is the point prediction of model $m$ for observed value $z^*_{r,t,w}$.
+As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) of point predictions as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,t}$ for target $t$, averaging over all weeks $w$ in the $s=$2017/2018 season and all regions $r$, as $RMSE_{m,t} = \sqrt{\frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})^2}{N}}$, where $\hat z_{m,r,t,w}$ is the point prediction of model $m$ for observed value $z^*_{r,t,w}$. Average bias is calculated as $bias_{m,t} = \frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})}{N}$
 
 \subsection{Ensemble components}
 To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. These models and their performance are evaluated in separate work.\cite{Reich2018} Teams constructed their forecasts in a prospective fashion, using only data that were available at the time of the forecast. For some data sources (e.g., wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making best efforts to only use data available at the time forecasts would have been made.
