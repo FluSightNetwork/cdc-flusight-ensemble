@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{A Collaborative Multi-Model Ensemble for Real-Time Influenza Forecasting in the U.S.}
+\title{A Collaborative Multi-Model Ensemble for Real-Time Influenza Season Forecasting in the U.S.}
 
 \author{Nicholas G Reich$^1$, Craig McGowan$^2$, Teresa Yamana$^3$, Abhinav Tushar$^1$, Evan L Ray$^4$,\\
 Dave Osthus$^5$, Sasikiran Kandula$^3$, Logan Brooks$^6$,\\
@@ -221,7 +221,7 @@ test_scores_by_model_tt_region <- scores_adj %>%
     ungroup()
 @
 
-The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
+Disclaimer: The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
 
 \begin{abstract}
 Seasonal influenza results in substantial annual morbidity and mortality in the United States and worldwide.
@@ -234,7 +234,7 @@ This approach creates a weighted average of predictive densities where the weigh
 In the 2017/2018 influenza season, one of the largest seasonal outbreaks in the last 15 years, this multi-model ensemble performed better on average than all individual component models and placed second overall in the CDC challenge.
 It also outperformed the baseline multi-model ensemble created by the CDC that took a simple average of all models submitted to the forecasting challenge.
 This project shows that collaborative efforts between research teams to develop ensemble forecasting approaches can bring measurable improvements in forecast accuracy and important reductions in the variability of performance from year to year.
-Efforts such as this, that emphasize real-time testing and evaluation of forecasting models and facilitate the close collaboration between public health officials and modeling researchers, are critical to improving our understanding of how best to use forecasts to improve public health response to seasonal and emerging epidemic threats.
+Efforts such as this, that emphasize real-time testing and evaluation of forecasting models and facilitate the close collaboration between public health officials and modeling researchers, are essential to improving our understanding of how best to use forecasts to improve public health response to seasonal and emerging epidemic threats.
 \end{abstract}
 
 % \begin{itemize}
@@ -298,7 +298,7 @@ The FluSight Network assembled 21 component forecasting systems to build multi-m
 These components encompassed a variety of different modeling philosophies, including Bayesian hierarchical models, mechanistic models of infectious disease transmission, statistical learning methodologies, and classical statistical models for time-series data.
 We show that using multi-model ensembles informed by past performance consistently improved forecast accuracy over using any single model and over multi-model ensembles that do not take past performance into account.
 %Given the success in previous years of a simple ensemble that incorporated no prior information about the relative performace of ensemble components, the FluSight Network's main goal was to show that an ensemble that uses validated weights based on models' past performance could outperform this simple averaging approach. 
-Given the timing of this experiment, during one of the most severe seasonal influenza seasons on record, this work also provides the first evidence from a real-time forecasting study that performance-based weights can improve ensemble forecast accuracy during a high severity infectious disease outbreak. 
+Given the timing of this experiment, during a particularly severe influenza season, this work also provides the first evidence from a real-time forecasting study that performance-based weights can improve ensemble forecast accuracy during a high severity infectious disease outbreak. 
 This research is an important example of collaboration between government and academic public health experts, setting a precedent and prototype for real-time collaboration in future outbreaks, such as a global influenza pandemic.
 % As a pre-requisite for inclusion in the ensemble, every model submitted seven seasons of out-of-sample forecasts.
 
@@ -471,7 +471,7 @@ the \Sexpr{model_name_abv$Name[model_name_abv$Model == top_training_models[4]]} 
 Prior to the start of the 2017-18 FluSight Challenge, we chose the target-type weights model as the model that would be submitted in real-time to the CDC during the 2017/2018 season. 
 This choice was based on the pre-specified criteria of the chosen model having the highest score of any approach in the cross-validated training phase.\cite{Reich2017github}
 
-<<ensemble-model-comparison, fig.height=4, fig.cap="Training phase performance of the five pre-specified multi-model ensembles. The models are sorted from simplest (left) to most complex (right), with the number of estimated weights (see Methods) for each model shown at the top. Each point represents the average forecast score for a particular season, with overall average across all seasons shown by the X. ">>=
+<<ensemble-model-comparison, fig.height=4, fig.cap="Training phase performance of the five pre-specified multi-model ensembles: Equal Weights (EW), Constant Weights (CW), Target-Type Weights (TTW), Target Weights (TW), and Target-Region Weights (TRW). The models are sorted from simplest (left) to most complex (right), with the number of estimated weights (see Methods) for each model shown at the top. Each point represents the average forecast score for a particular season, with overall average across all seasons shown by the X. ">>=
 pal=c(RColorBrewer::brewer.pal(7, "Dark2"), "#000000", "#000000")
 
 ordered_models <- training_scores_by_model_season %>%
@@ -1047,7 +1047,7 @@ Of the 29 models submitted to the CDC in 2017/2018 as part of their annual FluSi
 The top scoring model was an ensemble of human judgment forecasts.\cite{farrow2017human}
 
 By working across disciplines and research groups and by incorporating experts from government, academia and industry, this collaborative effort showed success in bringing measurable improvements in forecast accuracy and reductions in variability.
-We therefore are moving substantially closer to forecasts that can and should be used to inform routine, ongoing public health surveillance of infectious diseases.
+We therefore are moving substantially closer to forecasts that can and should be used to complement routine, ongoing public health surveillance of infectious diseases.
 In the 2018/2019 influenza season, based on results from this study, the CDC used forecasts from the FluSight Network ensemble model in internal and external communication and planning reports.
 
 Even in a very unusual influenza season, the multi-model ensemble approach presented here outperformed all components overall and did not see a large reduction in overall performance compared to performance during the training seasons. 
@@ -1057,7 +1057,7 @@ This bodes well for the long-term robustness of models such as this one, compare
 During the training and test phases, the weighted ensemble approaches outperformed two equal weight ensembles: one constructed based on FluSight Network models presented here (Table \ref{tab:model-list}) and one constructed by the CDC using a wider array of models.\cite{McGowan2018}. 
 This clearly illustrates the value of incorporating information on prior performance of component models when constructing a multi-model ensemble.
 
-As shown by the FluSight Network Target-Type Weights component weighting structure presented above (Figure \ref{fig:ttweights}), no one model was ever used by the ensemble as the best answer and it instead relied on a combination of components to optimize performance. 
+As shown by the FluSight Network Target-Type Weights component weighting structure presented above (Figure \ref{fig:ttweights}), no one model was ever used by the multi-model ensemble as the best answer and the ensemble instead relied on a combination of components to optimize performance. 
 The ensemble assigned non-negligible weight to 11 of the 21 models available and the updated ensemble weights including the 2017/2018 performance would have added one model to that list. 
 This work highlights the importance of incorporating different models into a single forecast based on past performance.
 Moving forward, it will be vital to develop and sustain a robust ecosystem of forecasting models for infectious disease that represent many different methods, data sources, and model structures.
@@ -1106,12 +1106,14 @@ ILINet is a syndromic surveillance system that publishes the weekly percentage o
 Estimates of wILI are reported weekly by the CDC's Influenza Division for the United States as a whole as well as for each of the 10 Health and Human Services (HHS) regions. 
 Reporting of `current' wILI is typically delayed by approximately one to two weeks from the calendar date of a doctor's office visit as data are collected and processed, and each weekly publication can also include revisions to prior reported values if new data become available. 
 Larger revisions have been shown to be associated with decreased forecast accuracy.\cite{Reich2018}
-For the U.S. and each HHS Region, CDC publishes an annual baseline level of ILI activity based on off-season ILI levels.\cite{surv2017} 
+For the US and each HHS Region, CDC publishes an annual baseline level of ILI activity based on off-season ILI levels.\cite{surv2017} 
 
 \subsection{Forecast Targets and Structure}
 As the goal was to submit our ensemble forecast in real-time to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
 A season typically consists of forecast files generated weekly for 33 weeks, starting with epidemic week 43 (EW43) of one calendar year and ending with EW18 of the following year.
-Forecasts for the CDC FluSight challenge consist of seven targets: three seasonal targets and four short-term or `week-ahead' targets (Figure \ref{fig:overview-schematic}B). The seasonal targets consist of season onset (defined as the first MMWR week where wILI is at or above baseline and remains above it for three consecutive weeks), season peak week (defined as the MMWR week of maximum wILI), and season peak percentage (defined as the maximum wILI value for the season). The short-term targets consist of forecasts for wILI values 1, 2, 3, and 4 weeks ahead of the most recently published data. With the two-week reporting delay in the publication of ILINet, these short-term forecasts are for the level of wILI occurring 1 week prior to the week the forecast is made, the current week, and the two weeks after the forecast is made (Figure \ref{fig:overview-schematic}B). Forecasts are created for all targets for the US as a whole and for each of the 10 HHS Regions (Figure \ref{fig:overview-schematic}A,C,D).
+Every week in a year is classified into an ``MMWR week'' (ranging from 1 to 52 or 53, depending on the year) using a standard definition established by the National Notifiable Diseases Surveillance System.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018}
+Forecasts for the CDC FluSight challenge consist of seven targets: three seasonal targets and four short-term or `week-ahead' targets (Figure \ref{fig:overview-schematic}B). 
+The seasonal targets consist of season onset (defined as the first MMWR week where wILI is at or above baseline and remains above it for three consecutive weeks), season peak week (defined as the MMWR week of maximum wILI), and season peak percentage (defined as the maximum wILI value for the season). The short-term targets consist of forecasts for wILI values 1, 2, 3, and 4 weeks ahead of the most recently published data. With the two-week reporting delay in the publication of ILINet, these short-term forecasts are for the level of wILI occurring 1 week prior to the week the forecast is made, the current week, and the two weeks after the forecast is made (Figure \ref{fig:overview-schematic}B). Forecasts are created for all targets for the US as a whole and for each of the 10 HHS Regions (Figure \ref{fig:overview-schematic}A,C,D).
 
 For all targets, forecasts consist of probability distributions over bins of possible values for the target. For season onset and peak week, forecast bins consist of individual weeks within the influenza season, with an additional bin for onset week corresponding to a forecast of no onset. For short-term targets and peak intensity, forecast bins consist of levels of observed wILI rounded to the nearest 0.1\% (the level of resolution for ILINet publicly reported by the CDC) up to 13\%. Formally, the bins are defined as $[0.00, 0.05),\ [0.05, 0.15),\ \dots,\ [12.85, 12.95),\ [12.95, 100]$. 
 
