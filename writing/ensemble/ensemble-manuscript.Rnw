@@ -221,7 +221,6 @@ test_scores_by_model_tt_region <- scores_adj %>%
     ungroup()
 @
 
-Disclaimer: The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
 
 \begin{abstract}
 Seasonal influenza results in substantial annual morbidity and mortality in the United States and worldwide.
@@ -249,7 +248,6 @@ Efforts such as this, that emphasize real-time testing and evaluation of forecas
 % \end{itemize}
 
 
-\section{Introduction}
 
 % Outline
 % \begin{itemize}
@@ -1216,6 +1214,9 @@ Code for specific models are either publicly available or available upon request
 Retrospective and real-time forecasts from the FluSight Network may be interactively browsed on the website \url{http://flusightnetwork.io}.
 Additionally, this manuscript was dynamically generated using \Sexpr{R.version.string}, Sweave, knitr, and make.
 These tools enable the intermingling of manuscript text with R code that run the central analyses, automatically regenerate parts of the analysis that have changed, and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
+
+\section*{Acknowledgments}
+The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention, Defense Advanced Research Projects Agency, Defense Threat Reduction Agency, the National Institutes of Health, National Science Foundation, or Uptake Technologies.
 
 
 \bibliographystyle{plos2015}
