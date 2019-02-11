@@ -2,8 +2,8 @@
 
 \title{A Collaborative Multi-Model Ensemble for Real-Time Influenza Season Forecasting in the U.S.}
 
-\author{Nicholas G Reich$^1$, Craig McGowan$^2$, Teresa Yamana$^3$, Abhinav Tushar$^1$, Evan L Ray$^4$,\\
-Dave Osthus$^5$, Sasikiran Kandula$^3$, Logan Brooks$^6$,\\
+\author{Nicholas G Reich$^1$, Craig J McGowan$^2$, Teresa K Yamana$^3$, Abhinav Tushar$^1$, Evan L Ray$^4$,\\
+Dave Osthus$^5$, Sasikiran Kandula$^3$, Logan C Brooks$^6$,\\
 Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Evan Moore$^1$, Rebecca Silva$^8$\\Matthew Biggerstaff$^2$, Michael A Johansson$^9$, Roni Rosenfeld$^6$, Jeffrey Shaman$^3$}
 
 \date{%
@@ -56,7 +56,7 @@ library(ggplot2)
 library(MMWRweek)
 library(xtable)
 library(cdcfluview)
-library(fiftystater)
+#library(fiftystater)
 library(grid)
 library(gridExtra)
 library(RColorBrewer)
@@ -406,7 +406,7 @@ dev.off()
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\textwidth]{static-content/overview-figure-edited.pdf}
-\caption{(A) Map of the 10 U.S. Health and Human Services regions. Influenza forecasts are made at this geographic scale. (B) The structure of a single forecast. Seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., they describe events that occurred at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future. This panel has been adapted from previous work.\cite{Reich2018} (C) Publicly available wILI data from the CDC website for the national level. The y-axis shows the estimated percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2018. The dashed vertical line indicates the separation of the data used by the models presented here for the training (retrospective) and testing (prospective) phases of analysis. (D) Publicly available wILI data for National level and each of the 10 HHS regions. Darker colors indicate higher wILI.}
+\caption{(A) Map of the 10 U.S. Health and Human Services regions. Influenza forecasts are made at this geographic scale. (B) The structure of a single forecast. Seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., they describe events that occurred at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future. This panel has been adapted from previous work.\cite{reich2019collaborative} (C) Publicly available wILI data from the CDC website for the national level. The y-axis shows the estimated percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2018. The dashed vertical line indicates the separation of the data used by the models presented here for the training (retrospective) and testing (prospective) phases of analysis. (D) Publicly available wILI data for National level and each of the 10 HHS regions. Darker colors indicate higher wILI.}
 \label{fig:overview-schematic}
 \end{center}
 \end{figure}
@@ -421,7 +421,7 @@ dev.off()
 
 Twenty-one individual component models were fit to historical data and used to make prospective forecasts during seven training seasons (2010/2011 - 2016/2017, Table \ref{tab:model-list}). 
 Their forecast accuracy varied widely across region, season, and target.
-A detailed comparative analysis of component model forecast performance can be found elsewhere\cite{Reich2018}; however, here we summarize a few key insights.
+A detailed comparative analysis of component model forecast performance can be found elsewhere\cite{reich2019collaborative}; however, here we summarize a few key insights.
 A seasonal baseline model, whose forecasts for a particular target are based on data from previous seasons and do not update based on data from the current season, was used as a reference point for all component models.
 Over 50\% of the individual component models out-performed the seasonal baseline model in forecasting 1-, 2-, and 3-week ahead incidence as well as season peak percentage and season peak week.
 However, season-to-season variability in relative forecast performance was large.
@@ -1103,7 +1103,7 @@ Forecasting targets for the CDC FluSight challenge are based on the U.S. Outpati
 ILINet is a syndromic surveillance system that publishes the weekly percentage of outpatient visits due to influenza-like illness, weighted based on state populations (wILI) from a network of more than 2,800 providers. 
 Estimates of wILI are reported weekly by the CDC's Influenza Division for the United States as a whole as well as for each of the 10 Health and Human Services (HHS) regions. 
 Reporting of `current' wILI is typically delayed by approximately one to two weeks from the calendar date of a doctor's office visit as data are collected and processed, and each weekly publication can also include revisions to prior reported values if new data become available. 
-Larger revisions have been shown to be associated with decreased forecast accuracy.\cite{Reich2018}
+Larger revisions have been shown to be associated with decreased forecast accuracy.\cite{reich2019collaborative}
 For the US and each HHS Region, CDC publishes an annual baseline level of ILI activity based on off-season ILI levels.\cite{surv2017} 
 
 \subsection{Forecast Targets and Structure}
@@ -1134,7 +1134,7 @@ S_{m,\cdot,\cdot,s,\cdot} = \exp \left ( \frac{1}{N} \sum_{r,t,w} \log f_{m,r,t,
 As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) of point predictions as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,t}$ for target $t$, averaging over all weeks $w$ in the $s=$2017/2018 season and all regions $r$, as $RMSE_{m,t} = \sqrt{\frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})^2}{N}}$, where $\hat z_{m,r,t,w}$ is the point prediction of model $m$ for observed value $z^*_{r,t,w}$. Average bias is calculated as $bias_{m,t} = \frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})}{N}$
 
 \subsection{Ensemble components}
-To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. These models and their performance are evaluated in separate work.\cite{Reich2018} Teams constructed their forecasts in a prospective fashion, using only data that were available at the time of the forecast. For some data sources (e.g., wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making best efforts to only use data available at the time forecasts would have been made.
+To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. These models and their performance are evaluated in separate work.\cite{reich2019collaborative} Teams constructed their forecasts in a prospective fashion, using only data that were available at the time of the forecast. For some data sources (e.g., wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making best efforts to only use data available at the time forecasts would have been made.
 
 For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018} If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances where explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
 
@@ -1217,7 +1217,7 @@ These tools enable the intermingling of manuscript text with R code that run the
 
 \section*{Acknowledgments}
 The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention, Defense Advanced Research Projects Agency, Defense Threat Reduction Agency, the National Institutes of Health, National Science Foundation, or Uptake Technologies.
-
+JS and Columbia University disclose partial ownership of SK Analytics.
 
 \bibliographystyle{plos2015}
 \bibliography{../flusightnetwork.bib}
