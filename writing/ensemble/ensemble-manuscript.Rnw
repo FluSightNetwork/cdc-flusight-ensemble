@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{A Collaborative Multi-Model Ensemble for Real-Time Influenza Season Forecasting in the U.S.}
+\title{Accuracy of Real-Time Multi-Model Ensemble Forecasts for the Influenza Season in the U.S.}
 
 \author{Nicholas G Reich$^1$, Craig J McGowan$^2$, Teresa K Yamana$^3$, Abhinav Tushar$^1$, Evan L Ray$^4$,\\
 Dave Osthus$^5$, Sasikiran Kandula$^3$, Logan C Brooks$^6$,\\
@@ -18,7 +18,6 @@ Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Evan Moore$^1$, Rebecca Si
     $^9$Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, San Juan, USA\\
 }
 \usepackage[letterpaper, margin=1in]{geometry} % margin
-\usepackage{lineno}% add line numbers
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
@@ -28,8 +27,10 @@ Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Evan Moore$^1$, Rebecca Si
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{amsmath, amsfonts}
 \usepackage{setspace}
-\linenumbers % line numbers
 \onehalfspacing
+
+%\usepackage{lineno}% add line numbers
+%\linenumbers % line numbers
 
 
 
@@ -292,7 +293,7 @@ The CDC used this project to evaluate in real-time the feasibility and accuracy 
 Based on the forecast accuracy shown in this experiment, the CDC decided to adopt the approach described here as its main forecasting approach for the 2018/2019 influenza season. 
 
 In this paper, we describe the development of this collaborative multi-model ensemble and present forecasting results from seven retrospective seasons and one prospective season.
-The FluSight Network assembled 21 component forecasting systems to build multi-model ensembles for seasonal influenza outbreaks (Table \ref{tab:model-list}).
+The FluSight Network assembled 21 component forecasting systems to build multi-model ensembles for seasonal influenza outbreaks (Supplemental Table 1).
 These components encompassed a variety of different modeling philosophies, including Bayesian hierarchical models, mechanistic models of infectious disease transmission, statistical learning methodologies, and classical statistical models for time-series data.
 We show that using multi-model ensembles informed by past performance consistently improved forecast accuracy over using any single model and over multi-model ensembles that do not take past performance into account.
 %Given the success in previous years of a simple ensemble that incorporated no prior information about the relative performace of ensemble components, the FluSight Network's main goal was to show that an ensemble that uses validated weights based on models' past performance could outperform this simple averaging approach. 
@@ -415,11 +416,11 @@ dev.off()
 
 \subsection{Summary of ensemble components} \label{subsec:comp-models}
 
-\input{./static-content/model-table.tex}
+%\input{./static-content/model-table.tex}
 
 %\subsubsection*{Describe observed variation in performance across training seasons}
 
-Twenty-one individual component models were fit to historical data and used to make prospective forecasts during seven training seasons (2010/2011 - 2016/2017, Table \ref{tab:model-list}). 
+Twenty-one individual component models were fit to historical data and used to make prospective forecasts during seven training seasons (2010/2011 - 2016/2017, Supplemental Table 1). 
 Their forecast accuracy varied widely across region, season, and target.
 A detailed comparative analysis of component model forecast performance can be found elsewhere\cite{reich2019collaborative}; however, here we summarize a few key insights.
 A seasonal baseline model, whose forecasts for a particular target are based on data from previous seasons and do not update based on data from the current season, was used as a reference point for all component models.
@@ -455,7 +456,7 @@ top_training_scores <- as.numeric(arrange(training_scores_by_model, desc(avg_log
 
 
 %\subsubsection*{Target-type weights achived highest cross-validated scores}
-We pre-specified five candidate ensemble approaches prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season (Table \ref{tab:model-list}).\cite{Reich2017github} 
+We pre-specified five candidate ensemble approaches prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season (Supplemental Table 1).\cite{Reich2017github} 
 The pre-specified ensemble aproaches all relied on taking weighted averages of the component models using a predictve density stacking approach (see Methods).
 They ranged in complexity from simple (every component is assigned a single weight) to more complex (components have different weights depending on the target and region being forecasted, see Methods).
 The \Sexpr{model_name_abv$Name[model_name_abv$Model == "FSNetwork-TTW"]} ({\tt FSNetwork-TTW}) ensemble model, a medium-complexity approach, outperformed all other multi-model ensembles and components in the training phase by a slim margin (Figure \ref{fig:ensemble-model-comparison}). 
@@ -602,7 +603,7 @@ In 2017/2018, the {\tt FSNetwork-TTW} model earned an average forecast score of
 while the {\tt FluSight-unweighted\_avg} model earned an average forecast score of
 \Sexpr{specify_decimal(exp(as.numeric(test_scores_by_model[which(training_scores_by_model=="FluSight-unweighted_avg"),"avg_logscore"])), 3)} (Figure \ref{fig:season-average-results}).
 
-In the 2017/2018 season, the top models from each contributing research team showed considerable variation in performance across the different prediction targets and regions (see Appendix). 
+In the 2017/2018 season, the top models from each contributing research team showed considerable variation in performance across the different prediction targets and regions (Figure \ref{fig:rt-scores-region-target}). 
 However, the {\tt FSNetwork-TTW} model showed lower variability in performance than other methods. 
 Across all 77 pairs of targets and regions, the {\tt FSNetwork-TTW} model was the only one of the six selected models that never had the lowest forecast score.
 Additionally, it only had the second lowest score twice. 
@@ -714,7 +715,7 @@ ggplot(
 % [Score breakdown by target-types and by region?]
 % - 2017/2018 results only for selected models (TTW + best models from each team + FS-average)
  
-<<rt-scores-region-target, fig.height=8, fig.show="hide">>=
+<<rt-scores-region-target, fig.height=8, fig.cap="Average forecast scores and ranks by target and region for 2017/2018. Models shown include the {\\tt FSNetwork-TTW} model, the top performing model from each team during the training phase and the unweighted average of all FluSight models received by CDC. Color indicates model rank in the 2017/2018 season (darker colors indicates higher rank and more accurate forecasts) and the forecast score (rounded to two decimal places) is printed in each cell. Regions are sorted with the most predictable region overall (i.e. highest forecast scores) at the top.">>=
 tmp <- test_scores_by_model_tt_region %>%
     mutate(Model = factor(Model, levels=c("FluSight-FluSight_unweighted_avg", ordered_models), ordered=TRUE)) %>%
     filter(Model %in% selected_models) %>%
@@ -729,8 +730,7 @@ ggplot(tmp, aes(x=Model, y=Location, fill=factor(loc_rank))) +
     geom_text(aes(label = specify_decimal(exp(avg_logscore),2)), size=3) +
     scale_fill_brewer(name="rank", direction = -1) + 
     xlab(NULL) + ylab(NULL) + 
-    theme(axis.text.x = element_text(angle = 90, hjust=1))
-
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 @
  
  
@@ -1052,13 +1052,14 @@ Even in a very unusual influenza season, the multi-model ensemble approach prese
 This bodes well for the long-term robustness of models such as this one, compared to single components that show higher variability in performance across specific years, regions, and targets. 
 % There were some specific regions where certain component models did better than the ensemble in the test season, but this is unsurprising given the number of models being compared.
 % An important consideration in this study was that we only used and evaluated a single pre-specified multi-model ensemble in the testing phase.% and did not pre-specify any comparisons with ensemble components. 
-During the training and test phases, the weighted ensemble approaches outperformed two equal weight ensembles: one constructed based on FluSight Network models presented here (Table \ref{tab:model-list}) and one constructed by the CDC using a wider array of models.\cite{McGowan2018}. 
+During the training and test phases, the weighted ensemble approaches outperformed two equal weight ensembles: one constructed based on FluSight Network models presented here (Supplemental Table 1) and one constructed by the CDC using a wider array of models.\cite{McGowan2018}. 
 This clearly illustrates the value of incorporating information on prior performance of component models when constructing a multi-model ensemble.
 
 As shown by the FluSight Network Target-Type Weights component weighting structure presented above (Figure \ref{fig:ttweights}), no one model was ever used by the multi-model ensemble as the best answer and the ensemble instead relied on a combination of components to optimize performance. 
 The ensemble assigned non-negligible weight to 11 of the 21 models available and the updated ensemble weights including the 2017/2018 performance would have added one model to that list. 
 This work highlights the importance of incorporating different models into a single forecast based on past performance.
 Moving forward, it will be vital to develop and sustain a robust ecosystem of forecasting models for infectious disease that represent many different methods, data sources, and model structures.
+In particular, we see opportunities in developing incorporating pathogen-specific data into models\cite{Kandula2017type} and using more spatially structured and multi-scale approaches\cite{Pei2018,held2017probabilistic}. 
 The inclusion of mutiple forecasting approaches and use of past performance in determining an ensemble structure reduces the risk of relying on a single probabilistic forecast and therefore strengthens the case for incorporating forecasts into real-time decision-making.
 % This will encourage diversity and improve performance in future ensemble forecasting efforts for infectious disease.
 
@@ -1120,7 +1121,7 @@ The CDC has developed a structured format for weekly influenza forecasts. All fo
 \subsection{Forecast Evaluation}
 Submitted forecasts were evaluated using the modified log score used by the CDC in their forecasting challenge, which provides a simultaneous measure of forecast accuracy and precision. The log score for a probabalistic forecast $m$ is defined as $\log f_m(z^*|\bf{x})$, where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for some target $Z$, conditional on some data $\bf{x}$ and $z^*$ is the observed value of the target $Z$. 
 
-While a true log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. We refer to these modified log scores as simply log scores hereafter.
+While a true log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. In practice, and following CDC scoring convention, we truncate modified log scores to be no lower than -10. We refer to these modified log scores as simply log scores hereafter.
 
 Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Each model $m$ has an associated predictive density for each combination of region ($r$), target ($t$), season ($s$), and week ($w$). Each of these densities has an accompanying scalar log score, which could be represented as $\log f_{m,r,t,s,w}(z^*_{r,t,s,w}|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
 
@@ -1138,14 +1139,14 @@ To provide training data for the ensemble, four teams submitted between 1 and 9 
 
 For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018} If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances where explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
 
-Teams utilized a variety of methods and modeling approaches in the construction of their submissions (Table \ref{tab:model-list}). Seven of the models used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data.  
+Teams utilized a variety of methods and modeling approaches in the construction of their submissions (Supplemental Table 1). Seven of the models used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data.  
 
 Additionally, we obtained the predictive distributions from the CDC-created ``unweighted average'' model. This ensemble combined all forecast models received by the CDC in real-time in the 2015/2016 (14 models), 2016/2017 (28 models), and 2017/2018 (28 models) seasons.\cite{McGowan2018} These included models that are not part of the collaborative ensemble effort described in this manuscript, although some variations on the components presented here were also submitted to the CDC. Including this model allowed us to compare our ensemble accuracy to the model used by the CDC in real-time during these three seasons.
 
 It is important to distinguish ensemble components from standalone forecasting models.  
 Standalone models are optimized to be as accurate as possible on their own by, among other things, using proper smoothing.
 Ensemble components might be designed to be accurate on their own, or else they may be included merely to complement weak spots in other components, i.e. to reduce the ensemble's variance.  
-Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose (Table \ref{tab:model-list}).  
+Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose (Supplemental Table 1).  
 Such components may perform poorly on their own, yet their contribution to overall ensemble accuracy may still be significant.
 
 It should be noted that ensemble weights are not a measure of ensemble components' standalone accuracy nor do they measure the overall contribution of a particular model to the ensemble accuracy.
@@ -1159,13 +1160,13 @@ Additionally, inclusion of components with small weights can have a large impact
 
 \subsection{Ensemble Nomenclature}
 
-There are several different ways that the term ensemble has be used in practice. 
+There are several different ways that the term ensemble has been used in practice. 
 In this paper, we use the phrases `multi-model ensemble' or `ensemble model' interchangably to refer to models that represent mixtures of separate component models. 
 However, a clear taxonomy of ensemble modeling might distinguish three distinct tiers of ensemble models. 
 First, single-model ensemble methodologies can be used to fit models and make predictions. 
-Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Table \ref{tab:model-list}).
+Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Supplemental Table 1).
 Second, multi-model ensembles combine component models through techniques such as model stacking (see Section \ref{sec:stacking}).
-Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Table \ref{tab:model-list}).
+Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Supplemental Table 1).
 Third, the term superensemble has been used for models that combine components that are themselves ensembles (either multi-model or single-model)\cite{krishnamurti1999improved,Yamana2016}.
 Since not all of the components in our approach are ensembles themselves, we chose the term multi-model ensemble to refer to our approach.
 
@@ -1179,7 +1180,7 @@ f(z_{t,r,w})  = \sum^C_{c = 1} \pi_{c,t,r} f_c(z_{t,r,w})
 \end{equation}
 where $\pi_{c, t, r}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(z_{t,r,w})$ remains a valid probability distribution. 
 
-A total of five ensemble weighting schemes were considered, with varying complexity and number of estimated weights (Table \ref{tab:model-list}).
+A total of five ensemble weighting schemes were considered, with varying complexity and number of estimated weights (Supplemental Table 1).
 \begin{itemize}
 \item 
 Equal Weight ({\tt FSNetwork-EW}): This model consisted of assigning all components the same weight regardless of performance and is equivalent to an equally weighted probability density mixture of the components: $\pi_{c,t,r} = 1/C$. 
@@ -1210,13 +1211,15 @@ Component weights for the {\tt FSNetwork-TTW} model were estimated using all sev
 
 To maximize the reproducibility and data availability for this project, the data and code for the entire project are publicly available.
 The project is available on GitHub\cite{fsngithub2018}, with a permanent repository stored on Zenodo\cite{fsnzenodo2018}.
-Code for specific models are either publicly available or available upon request from the modeling teams, with more model-specific details available at the related citations (see Table \ref{tab:model-list}).
+Code for specific models are either publicly available or available upon request from the modeling teams, with more model-specific details available at the related citations (see Supplemental Table 1).
 Retrospective and real-time forecasts from the FluSight Network may be interactively browsed on the website \url{http://flusightnetwork.io}.
 Additionally, this manuscript was dynamically generated using \Sexpr{R.version.string}, Sweave, knitr, and make.
 These tools enable the intermingling of manuscript text with R code that run the central analyses, automatically regenerate parts of the analysis that have changed, and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
 
 \section*{Acknowledgments}
-The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention, Defense Advanced Research Projects Agency, Defense Threat Reduction Agency, the National Institutes of Health, National Science Foundation, or Uptake Technologies.
+The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention, Defense Advanced Research Projects Agency, Defense Threat Reduction Agency, the National Institutes of Health, National Institute for General Medical Sciences, National Science Foundation, or Uptake Technologies.
+
+\section*{Competing Interests}
 JS and Columbia University disclose partial ownership of SK Analytics.
 
 \section*{Author Contributions}

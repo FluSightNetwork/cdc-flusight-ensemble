@@ -76,16 +76,21 @@ Willow Crawford-Crudell, Graham Casey Gibson, Evan Moore, Rebecca Silva\\Matthew
 
 
 
-\section{Forecast accuracy by region and target}
+\section{Component models}
+See Table \ref{tab:model-list}.
 
-See Figure \ref{fig:regional-performance}.
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics{figure/rt-scores-region-target-1.pdf}
-\caption{Average forecast scores and ranks by target and region for 2017/2018. Only selected models are shown. Regions are sorted with the most predictable region overall (i.e. highest forecast scores) at the top. Color indicates model rank in the 2017/2018 season (darker color indicates better average score). The average forecast score is printed.}
-\label{fig:regional-performance}
-\end{center}
-\end{figure}
+\input{./static-content/model-table.tex}
+
+% \section{Forecast accuracy by region and target}
+% 
+% See Figure \ref{fig:regional-performance}.
+% \begin{figure}[htbp]
+% \begin{center}
+% \includegraphics{figure/rt-scores-region-target-1.pdf}
+% \caption{Average forecast scores and ranks by target and region for 2017/2018. Only selected models are shown. Regions are sorted with the most predictable region overall (i.e. highest forecast scores) at the top. Color indicates model rank in the 2017/2018 season (darker color indicates better average score). The average forecast score is printed.}
+% \label{fig:regional-performance}
+% \end{center}
+% \end{figure}
 
 \section{Supplemental evaluation metrics}
 
@@ -233,7 +238,7 @@ Below, we define one procedure to obtain a set of weights for the ensemble.
 And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
 
 We note that this application of the EM algorithm is a very simple example of the standard EM, which in general does not guarantee a global maximum. 
-However, this particular log-likelihood function (a sum of logarithms of weighted sums) is a concave function of its parameters, the $\pi_c$, and concavity ensures that any local maximum is a global maximum.  
+However, this particular log-likelihood function (a sum of logarithms of weighted sums) is a convex function of its parameters, the $\pi_c$, and convexity ensures that any local maximum is a global maximum.  
 In particular, we can ensure that there is a global, finite maximum and that the EM finds it by including a uniform component and making the algorithm start with all nonzero weights.
 
 
