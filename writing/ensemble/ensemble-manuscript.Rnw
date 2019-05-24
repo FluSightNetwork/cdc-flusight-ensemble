@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{Accuracy of Real-Time Multi-Model Ensemble Forecasts for the Influenza Season in the U.S.}
+\title{Accuracy of Real-Time Multi-Model Ensemble Forecasts for Seasonal Influenza in the U.S.}
 
 \author{Nicholas G Reich$^1$, Craig J McGowan$^2$, Teresa K Yamana$^3$, Abhinav Tushar$^1$, Evan L Ray$^4$,\\
 Dave Osthus$^5$, Sasikiran Kandula$^3$, Logan C Brooks$^6$,\\
@@ -29,8 +29,8 @@ Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Evan Moore$^1$, Rebecca Si
 \usepackage{setspace}
 \onehalfspacing
 
-%\usepackage{lineno}% add line numbers
-%\linenumbers % line numbers
+\usepackage{lineno}% add line numbers
+\linenumbers % line numbers
 
 
 
@@ -1223,7 +1223,7 @@ The findings and conclusions in this report are those of the authors and do not 
 JS and Columbia University disclose partial ownership of SK Analytics.
 
 \section*{Author Contributions}
-N.G.R., C.J.M., L.C.B., S.K., D.O., E.L.R., A.T., T.K.Y., M.B, M.A.J, R.R., J.S. designed the research; N.G.R., L.C.B., S.K., C.J.M., E.M., D.O., E.L.R., A.T., T.K.Y. performed research by implementing the models; N.G.R., C.M., W.C-C., G.C.G., E.M., R.S. analyzed data; N.G.R., C.M. wrote the paper; all authors provided editorial feedback on the paper.
+N.G.R., C.J.M., L.C.B., S.K., D.O., E.L.R., A.T., T.K.Y., M.B, M.A.J, R.R., J.S. designed the research; N.G.R., L.C.B., S.K., C.J.M., E.M., D.O., E.L.R., A.T., T.K.Y. performed research by implementing the models; N.G.R., C.J.M., W.C-C., G.C.G., E.M., R.S. analyzed data; N.G.R., C.J.M. wrote the paper; all authors provided editorial feedback on the paper.
 
 \bibliographystyle{plos2015}
 \bibliography{../flusightnetwork.bib}
