@@ -15,6 +15,7 @@ df_retro = pd.read_csv('retroactive-forecasts.csv')
 directory = 'master'
 cdc_project_name = 'TEST cdc flusight network'
 
+# for loop to find all csvs in forecasts
 for first_path in glob.iglob(my_path + '**/**/', recursive=False):
     for csv_file in glob.iglob(first_path + '*.csv', recursive=False):
         
