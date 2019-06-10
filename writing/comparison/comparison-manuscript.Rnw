@@ -1,33 +1,45 @@
-\documentclass{article}
+\documentclass[9pt,twocolumn,twoside]{pnas-new}
+% Use the lineno option to display guide line numbers if required.
+
+\templatetype{pnasresearcharticle} % Choose template 
 
 \title{Forecasting seasonal influenza in the U.S.: A collaborative multi-year, multi-model assessment of forecast performance}
 
-\author{Nicholas G Reich$^1$, Logan Brooks$^2$, Spencer Fox$^3$, Sasikiran Kandula$^4$, \\Craig McGowan$^5$, Evan Moore$^1$, Dave Osthus$^6$, Evan Ray$^7$, Abhinav Tushar$^1$, Teresa Yamana$^4$, \\Matthew Biggerstaff$^5$, Michael A Johansson$^8$, Roni Rosenfeld$^2$, Jeffrey Shaman$^4$}
+\author[a]{Nicholas G Reich}
+\author[b]{Logan Brooks}
+\author[c]{Spencer Fox}
+\author[d]{Sasikiran Kandula}
+\author[e]{Craig McGowan}
+\author[a]{Evan Moore}
+\author[f]{Dave Osthus}
+\author[g]{Evan Ray}
+\author[a]{Abhinav Tushar}
+\author[d]{Teresa Yamana}
+\author[e]{Matthew Biggerstaff}
+\author[h]{Michael A Johansson}
+\author[b]{Roni Rosenfeld}
+\author[d]{Jeffrey Shaman}
 
-\date{%
-    $^1$University of Massachusetts-Amherst, Amherst, USA\\%
-    $^2$Carnegie Mellon University, Pittsburgh, USA\\%
-    $^3$University of Texas at Austin, Austin, USA\\
-    $^4$Columbia University, New York, USA\\
-    $^5$Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA\\
-    $^6$Los Alamos National Laboratory, Los Alamos, USA\\
-    $^7$Mount Holyoke College, South Hadley, USA\\
-    $^8$Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA\\
-}
+\affil[a]{Department of Biostatistics and Epidemiology, University of Massachusetts-Amherst, Amherst, 01003, USA}
+\affil[b]{Department of Computer Science, Carnegie Mellon University, Pittsburgh,  USA}
+\affil[c]{University of Texas at Austin, Austin, USA}
+\affil[d]{Columbia University, New York, USA}
+\affil[e]{Influenza Division, Centers for Disease Control and Prevention, Atlanta, USA}
+\affil[f]{Los Alamos National Laboratory, Los Alamos, USA}
+\affil[g]{Mount Holyoke College, South Hadley, USA}
+\affil[h]{Division of Vector-Borne Diseases, Centers for Disease Control and Prevention, Atlanta, USA}
 
-\usepackage[letterpaper, margin=1in]{geometry} % margin
-\usepackage{lineno}% add line numbers
-\usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage{parskip}        % for spacing after paragraphs http://ctan.org/pkg/parskip
-\usepackage{url}            % simple URL typesetting
-\usepackage{booktabs}       % professional-quality tables
-\usepackage{amsfonts}       % blackboard math symbols
-\usepackage{nicefrac}       % compact symbols for 1/2, etc.
-\usepackage{amsmath, amsfonts}
-\usepackage{setspace}
-%\linenumbers % line numbers
-\onehalfspacing
+\leadauthor{Reich}
+
+\significancestatement{Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. Decreases in forecast accuracy were associated with delays in final data being available for analysis. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.}
+
+\authorcontributions{All authors designed the research; N.G.R., L.B., S.F., S.K., C.M., E.M., D.O., E.R., A.T., T.Y. performed research by implementing the models; N.G.R., C.M., E.M. analyzed data; N.G.R. wrote the paper; all authors provided editorial feedback on the paper.}
+\authordeclaration{JS and Columbia University disclose partial ownership of SK Analytics.}
+%\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
+\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: nick\@schoolph.umass.edu}
+
+\keywords{} 
+
  
 
 % Overall character count must not exceed 49,000 characters for a 6-page article and 82,000 for a 10-page article; this includes text, spaces, and the number of characters displaced by figures, tables, and equations.
@@ -35,21 +47,11 @@
 % Figures: Calculated at 180 characters per cm in height for one column and 360 characters per cm in height for two columns.
 % Tables and equations: Calculated at 60 characters per line for one column and 120 characters per line for two columns.
 
-
-% For computer modern sans serif
-\usepackage[T1]{fontenc}
-\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
-
-
-\begin{document}
-
-\maketitle
-
 \begin{abstract}
 
 % 250 word limit
 Influenza infects an estimated 9 to 35 million individuals each year in the United States and is a contributing cause for between 12,000 and 56,000 deaths annually.
-Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occuring in colder and drier months of the year. 
+Seasonal outbreaks of influenza are common in temperate regions of the world, with highest incidence typically occurring in colder and drier months of the year. 
 Real-time forecasts of influenza transmission can inform public health response to outbreaks. 
 We present the results of a multi-institution collaborative effort to standardize the collection and evaluation of forecasting models for influenza in the US for the 2010/2011 through 2016/2017 influenza seasons. 
 For these seven seasons, we assembled weekly real-time forecasts of 7 targets of public health interest from 22 different models.
@@ -60,9 +62,18 @@ More timely reporting and an improved overall accessibility to novel and traditi
 
 \end{abstract}
 
-\subsection*{Significance Statement}
-%120 word limit
-Accurate prediction of the size and timing of infectious disease outbreaks could help public health officials in planning an appropriate response. This paper compares approaches developed by five different research groups to forecast seasonal influenza outbreaks in real-time in the US. Many of the models show more accurate forecasts than a historical baseline. The field of infectious disease forecasting is in its infancy and we expect that innovation will spur improvements in forecasting in the coming years.
+\dates{This manuscript was compiled on \today}
+\doi{\url{www.pnas.org/cgi/doi/10.1073/pnas.XXXXXXXXXX}}
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+
+
 
 %\tableofcontents
 
@@ -217,9 +228,7 @@ n_regions <- nrow(scores_by_region)
 @
 
 
-\section*{Introduction}
-
-Over the past 15 years, the number of published research articles on forecasting infectious diseases has tripled (Web of Science). 
+\dropcap{O}ver the past 15 years, the number of published research articles on forecasting infectious diseases has tripled (Web of Science). 
 This increased interest has been fueled in part by the promise of `big data', that near real-time data streams of information ranging from large-scale population behavior \cite{Molodecky2017} to microscopic changes in a pathogen \cite{Du2017} could lead to measurable improvements in how disease transmission is measured, forecasted, and controlled \cite{Bansal2016}. 
 With the spectre of a global pandemic looming, improving infectious disease forecasting continues to be a central priority of global health preparedness efforts.\cite{Myers2000,WorldHealthOrganization2016,Chretien2015}
 
@@ -237,7 +246,7 @@ Since each season has a unique dynamical structure, multi-season comparisons lik
 Influenza is a respiratory viral infection that can cause mild or severe symptoms.
 In the US each year, influenza viruses infect an estimated 9 to 35 million individuals and cause between 12,000 and 56,000 deaths.\cite{Rolfes2016}
 Influenza incidence typically exhibits a strong annual periodicity in the US (and in other global regions with temperate climates), often circulating widely during colder months (i.e., November through April). 
-The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
+The social, biological, environmental, and demographic features that contribute to higher-than-usual incidence in a particular season are not fully understood, although contributing factors may include severity of the dominant influenza subtype\cite{thompson2003}, pre-existing population immunity due to prior infections or vaccination\cite{Woolthuis2017,Zarnitsyna2018}, temperature and humidity\cite{lowen2007}, vaccine effectiveness\cite{Rolfes2016}, or timing of school vacations\cite{cauchemez2008}.
 
 %This work relies on the forecasting structure developed by existing public forecasting challenges.
 Starting in the 2013/2014 influenza season, the U.S. Centers for Disease Control and Prevention (CDC) has run the ``Forecast the Influenza Season Collaborative Challenge'' (a.k.a. FluSight) each influenza season, soliciting prospective, real-time weekly forecasts of regional-level weighted influenza-like illness (wILI) measures from teams across the world (Figure \ref{fig:intro-schematic}).\cite{Biggerstaff2016,Biggerstaff2018}
@@ -260,13 +269,12 @@ Additionally, we assess whether purely statistical models show similar performan
 Overall, this work shows strong evidence that carefully crafted forecasting models for region-level influenza in the US consistently outperformed a historical baseline model for targets of particular public health interest. 
 %This collaboration from a subset of the core community of influenza forecasters in the US, and other collaborations like it, will continue to advance infectious disease forecasting capabilities globally. 
 
-\begin{figure}[htbp]
-\begin{center}
-\includegraphics[width=\textwidth]{static-figures/timezero-sketch.pdf}
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=11.4cm]{static-figures/timezero-sketch.pdf}
 \caption{(A) Weighted influenza-like illness data downloaded from the CDC website from selected regions. The y-axis shows the weighted percentage of doctor's office visits in which a patient presents with influenza-like illness for each week from September 2010 through July 2017, which is the time period for which the models presented in this paper made seasonal forecasts. (B) A diagram showing the anatomy of a single forecast. The seven forecasting targets are illustrated with a point estimate (dot) and interval (uncertainty bars). The five targets on the wILI scale are shown with uncertainty bars spanning the vertical wILI axis, while the two targets for a time-of-year outcome are illustrated with horizontal uncertainty bars along the temporal axis. The onset is defined relative to a region- and season-specific baseline wILI percentage defined by the CDC.\cite{biggerstaff2018systematic} Arrows illustrate the timeline for a typical forecast for the CDC FluSight challenge, assuming that forecasts are generated or submitted to the CDC using the most recent reported data. These data include the first reported observations of wILI\% from two weeks prior. Therefore, 1 and 2 week-ahead forecasts are referred to as nowcasts, i.e., at or before the current time. Similarly, 3 and 4 week-ahead forecasts are forecasts, or estimates about events in the future.}
 \label{fig:intro-schematic}
-\end{center}
-\end{figure}
+\end{figure*}
 
 \input{./static-figures/model-table.tex}
 
@@ -346,7 +354,7 @@ average score for all week-ahead targets.
 % Of the \Sexpr{n_models} models available for comparison to the historical baseline, \Sexpr{n_above_kde_wkahead}
 % (\Sexpr{specify_decimal(n_above_kde_wkahead/n_models*100)}\%) showed greater score than the historical baseline across all region-seasons.
 
-<<results-model-region-tt, fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
+<<results-model-region-tt, fig.env="figure*", fig.cap="Average forecast score by model region and target-type, averaged over weeks and seasons. The text within the grid shows the score itself. The white midpoint of the color scale is set to be the target-specific average of the historical baseline model, {\\tt ReichLab-KDE}, with darker blue colors representing models that have better scores than the baseline and darker red scores representing models that have worse scores than the baseline. The models are sorted in descending order from most accurate (top) to least accurate (bottom) and regions are sorted from high scores (right) to low scores (left).">>=
 scores_by_model_targettype_region %>%
     group_by(target_type, Location) %>%
     mutate(
@@ -637,7 +645,7 @@ seasons_above_baseline <- ggplot(dat, aes(y=Target, x=Model, fill=factor(seasons
 @
 
 
-<<plot-historical-baseline-comparison, fig.height=8, fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model had average performance above the historical baseline.">>=
+<<plot-historical-baseline-comparison, fig.height=8, fig.env="figure*", fig.cap="Absolute and relative forecast performance for week-ahead (top row) and seasonal (middle row) targets, summarized across all models that on average performed better than the historical baseline. Panels A \\& C show maps of the U.S. that illustrate spatial patterns of average forecast accuracy for week-ahead (A) and seasonal (C) targets. Color shading indicates average forecast score for this model subset. Panels B \\& D compare historical baseline model score (x-axis) with the average score (y-axis, horizontal dashed line at average across regions) with one point for each region. For example, a y-value of 0.1 indicates that the models on average assigned 10\\% more probability to the eventually observed value than the historical baseline model. The digits in the plot refer to the corresponding HHS Region number, with N indicating the US National region. Panel E shows the number of seasons each model had average performance above the historical baseline.">>=
 lay <- rbind(
     c(1,2),
     c(3,4),
@@ -773,6 +781,8 @@ The historical baseline model showed an average score of
 %Overall, \Sexpr{n_above_kde_onset} of \Sexpr{n_models} models (\Sexpr{round(n_above_kde_onset/n_models*100)}\%) had higher average forecast score than the historical baseline model in the scoring period of interest.
 Overall, 8 out of 22 models (\Sexpr{specify_decimal(8/22*100)}\%) had better overall score for onset in at least 6 out of the 7 seasons evaluated (Figure \ref{fig:plot-historical-baseline-comparison}E).
 
+Accuracy in forecasting season onset was also impacted by revisions to wILI data. In some region-seasons current data led models to be highly confident that onset had occurred in one week, only to have revised data later in the season change the week that was considered to be the onset. One good example of this is HHS Region 2 in 2015/2016. Here, data in early 2016 showed season onset to be EW2 of 2016. Revisions to the data around EW12, led the models to identify EW51 as the onset. A further revision, occuring in EW21 of 2016, showed the onset actually occured on EW4 of 2016.
+
 <<best-models-peak>>=
 
 ## PEAK WEEK
@@ -875,7 +885,7 @@ models having at least one season with greater average forecast score than the
 {\tt \Sexpr{sanitize(max_logscore_model)}}
 model did.
 
-<<results-model-season, fig.height=5, fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
+<<results-model-season, fig.height=5, fig.env="figure*", fig.cap="Average forecast score, aggregated across targets, regions, and weeks, plotted separately for each model and season. Models are sorted from lowest scores (left) to highest scores (right). Higher scores indicate better performance. Dots show average scores across all targets, regions, and weeks within a given season. The `x' marks the geometric mean of the seven seasons. The names of compartmental models are shown in bold face. The {\\tt ReichLab-KDE} model (italicized red font) is considered the historical baseline model.">>=
 ggplot(scores_by_model_season, aes(x=Model, y=exp(avg_logscore))) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
@@ -1009,7 +1019,7 @@ For peak percentage forecasts, the statistical models had slightly higher scores
 %We identify and quantify several of these challenges, including revisions to initially reported data, ....
 
 \subsection*{Delayed case reporting impacts forecast score}\label{sec:delays}
-<<delay-analysis, fig.height=4, fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast score.  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within $\\pm$ 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
+<<delay-analysis, fig.height=4, fig.env="figure*", fig.cap="Model-estimated changes in forecast skill due to bias in initial reports of wILI \\%. The figure shows estimated coefficient values (and 95\\% confidence intervals) from a multivariable linear regression using model, week-of-year, target, and a categorized version of the bias in the first reported wILI \\% to predict forecast score.  The x-axis labels show the range of bias (e.g. ``(-0.5,0.5]'' represents all observations whose first observations were within $\\pm$ 0.5 percentage points of the final reported value). Values to the left of the dashed grey line are observations whose first reported value were lower than the final. Y-axis values of less than zero (the reference category) represent decreases in expected forecast skill. The total number of observations in each category are shown above the x-axis labels.">>=
 fm4_coefs_fltr <- readRDS(file="./data/delay-model-coefs.rds")
 lagged_truth <- readRDS(file = "./data/lagged_truth.rds")
 
@@ -1128,6 +1138,7 @@ What is the future of influenza forecasting in the US and globally? %Given avail
 %Challenges like CDC's FluSight are immensely important to the advancement of this field and will continue to advance influenza forecasting capabilities for the US and beyond. 
 %Infectious disease forecasting is in its infancy and we expect to see continued model improvement through competition, collaboration, and methodological and technological innovation.
 While long-run forecast accuracy for influenza will vary based on a variety of factors, including data quality and geographical scale, we expect to see continued forecast improvement through competition, collaboration, and methodological and technological innovation.
+Further analyses that help elucidate factors that drive forecast accuracy in specific settings will be particularly instructive. 
 We see particular promise in models that leverage different data sources, such as pathogen-specific and highly localized incidence data.
 Additionally, building ensemble models that capitalize on the strengths of a diverse set of individual component models will be critical to improving accuracy and consistency of models in all infectious disease forecasting settings. 
 Ensemble forecasting was the motivation behind the creation of the FluSight Network and, while out of scope of this manuscript, will be the topic of future collaborative research for the group.
@@ -1139,12 +1150,14 @@ However, other barriers may be of equal or greater importance to continued impro
 Often, researchers either lack access to or do not know how best to make use of novel data streams (e.g., Internet data, electronic medical health record data). 
 Increased methodological innovation in models that merge together an understanding of biological drivers of disease transmission (e.g., strain-specific dynamics and vaccination effectiveness) with statistical approaches to combine data hierarchically at different spatial and temporal scales will be critical to moving this field forward.
 From a technological perspective, additional efforts to standardize data collection, format, storage, and access will increase interoperability between groups with different modeling expertise, improve accessibility of novel data streams, and continue to provide critical benchmarks and standards for the field.
+Continuing to refine forecasting targets to more closely align with public health activities will improve integration of forecasts with decision-making. 
+Recent work from the CDC has developed standardized algorithms to classify the severity of influenza seasons\cite{biggerstaff2018systematic} which could be used to inform the development of new forecasting targets.
 
 Public health officials are still learning how to best integrate forecasts into real-time decision making.
-Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure that forecasts have maximum impact and are appropriately communicated to the public and the broader public health community.  
 Real-time implementation and testing of forecasting methods plays a central role in planning and assessing what targets should be forecasted for maximum public health impact.
 
-\section*{Methods}
+\matmethods{
 
 \subsection*{FluSight Challenge Overview}
  
@@ -1179,7 +1192,10 @@ A wide range of methodological approaches and modeling paradigms are included in
 For example, seven of the models utilize a compartmental structure (e.g. Susceptible-Infectious-Recovered), a model framework that explicitly encodes both the transmission and the susceptible-limiting dynamics of infectious disease outbreaks.
 Other less directly mechanistic models use statistical approaches to model the outbreak phenomenon by incorporating recent incidence and seasonal trends.
 One model, {\tt Delphi-Stat}, is an ensemble model, a combination of other models from the Delphi team.
-Six models directly incorporate external data (i.e., not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
+%Six models directly incorporate external data (i.e., not just the wILI measurements from the CDC ILINet dataset), including historical humidity data and Google search data.
+The Columbia University team used data from Google Extended Health Trends API to nowcast for the 1-week ahead target in all of its models. In their six mechanistic models, the nowcast was also used as an observation i.e. as if it were CDC surveillance data. An analysis of results from the 2016/2017 season showed that the forecast quality of these models improved by about 7\%.\cite{Kandula2018} 
+Additionally, the Columbia team used XX average humidity data in all models.
+
 Three models stand out as being reference models. 
 One shared feature of these models is that their forecasts do not depend on observed data from the season being forecasted. 
 The {\tt Delphi-Uniform} model always provides a forecast that assigns equal probability to all possible outcomes. 
@@ -1187,6 +1203,7 @@ The {\tt ReichLab-KDE} model yields predictive distributions based entirely on d
 The {\tt Delphi-EmpiricalTraj} model uses KDE for all targets.
 The `historical baseline` model named throughout the manuscript refers to the {\tt ReichLab-KDE} model.
 Because this model represents a prediction that essentially summarizes historical data, we consider this model an appropriate baseline model to reflect historical trends.
+
 Once submitted to the central repository, the models were not updated or modified except in four cases to fix explicit bugs in the code that yielded numerical problems with the forecasts. 
 (In all cases, the updates did not substantially change the performance of the updated models.)
 Re-fitting of models or tuning of model parameters was explicitly discouraged to avoid unintentional overfitting of models.
@@ -1295,13 +1312,15 @@ All of the forecasts may be interactively browsed on the website \url{http://flu
 A web applet with interactive visualizations of the model evaluations is available at \url{https://reichlab.shinyapps.io/FSN-Model-Comparison/}. 
 Additionally, this manuscript was dynamically generated using \Sexpr{R.version.string}, Sweave, and knitr, which are tools for intermingling manuscript text with R code that run the central analyses and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
 
+}
 
-\section*{Acknowledgments and Disclaimers}
+\showmatmethods{}
 
-The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.
-JS and Columbia University disclose partial ownership of SK Analytics.
+\acknow{The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention.}
 
-\bibliographystyle{unsrt}
+\showacknow{}
+
+
 \bibliography{../flusightnetwork}
 
 \end{document}

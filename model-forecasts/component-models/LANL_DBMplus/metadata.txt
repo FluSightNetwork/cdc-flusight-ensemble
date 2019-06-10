@@ -1,0 +1,29 @@
+team_name: LANL
+team_members: Dave Osthus (PI) and Reid Priedhorsky
+model_name: Dynamic Bayesian Model plus
+model_abbr: DBMplus
+anonymity: named
+data_source1: ILI Net
+data_source2: Google Trends
+this_model_is_an_ensemble: FALSE
+methods: >
+  DBMplus (DBM+) is partitioned into two parts: the DBM part and the '+' part. 
+  The dynamic Bayesian model (DBM) part is the probabilistic model It combines 
+  an SIR model with a flexible discrepancy model in a Bayesian framework. 
+  Methodological details can be found here: 
+  https://projecteuclid.org/download/pdfview_1/euclid.ba/1533866670. The '+'
+  part refers to Google-based nowcasts. DBM+ uses internet-based  nowcasts
+  (1-week-ahead) appended to available ILI data and treats the nowcast  exactly
+  as if it were CDC-released ILI data. To our knowledge, Google data  does not
+  have backfill issues. Google data were pulled after the forecast  dates, but
+  we do not believe that is an issue. Google data is based on a  random sample,
+  thus reproducing the pulls exactly is not possible. To produce forecasts, DBM+
+  requires historical data, ideally from EW 40 of  1997 through the forecast
+  date, sans the H1N1 2008/2009 and 2009/2010 seasons.  To our knowledge, the
+  earliest date on which all historical data are available  is EW 52 of 2013
+  through the DELPHI API. For flu seasons 2014/2015, 2015/2016,  and 2016/2017,
+  all ILI data used in the forecasts strictly respect the  backfill issue (i.e.,
+  all ILI data used in the fitting of the DBM was pulled  on or before the
+  forecast date). For seasons 2010/2011 through 2013/2014,  historical ILI data
+  from 1997, EW 40 through 2008, EW 25 was pulled on 2013,  EW 52 (i.e., NOT
+  strictly obeying the backfill issue).

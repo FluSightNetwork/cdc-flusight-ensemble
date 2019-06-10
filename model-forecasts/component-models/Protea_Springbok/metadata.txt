@@ -1,0 +1,38 @@
+team_name: Protea
+team_members: 'Craig J. McGowan (contact), Alysse J. Kowalski'
+model_name: Dynamic Harmonic Model with ARIMA errors
+model_abbr: Springbok
+anonymity: named
+data_source1: ilinet
+data_source2: google trends
+data_source3: who-nrevss lab data
+this_model_is_an_ensemble: FALSE
+methods: >-
+  A dynamic harmonic regression model is fit separately for each region in 
+  sequential steps, with Fourier terms to capture seasonality and multiple
+  possible covariates. At each sequential step, cross-validated models are fit 
+  using each of the seasons from 2010/2011 through 2017/2018 and scored using 
+  CDC scoring rules. First, either a log or Box Cox transformation (from the 
+  BoxCox.lambda function in the forecast package for R) is selected for each 
+  region. Second, the number of Fourier terms (ranging from 1 to 12) is
+  selected. The non-seasonal ARIMA structure of the error terms is selected
+  third, and potential covariates are tested for inclusion last. Covariates
+  include influenza virus subtype cumulative percentage, national Google Trends
+  data, regional Google Trends data (using the most populous state in a given
+  HHS region), and previously observed ILINet backfill, along with combinations
+  of those covariates. Final CV model scores were examined and the top
+  performing model structure was chosen for each location. Forecasts are
+  simulated from iterating one-step-ahead preditions for the remainder of the
+  season, and the occurence of seasonal targets is calculated from these
+  predictions. Predicted probabilities are calculated from the observed values
+  across multiple simulations. For making prospective predictions, models were
+  fit using only data from prior seasons, and forecasts were made using data
+  that would have been available at the time of the forecast. In the case of
+  covariates, predicted values of the covariates based on prior data were used
+  to generate forecasts. For Google Trends data, no information on backfill is
+  available and the data are assumed to be free of backfill. For influenza
+  subtypes, no information on backfill is available, so we use cumulative
+  percentages of each influenza subtype up to a given week in  the season, which
+  is less susceptible to backfill effects than weekly measures.  All code used
+  in estimation and prediction is available at 
+  https://github.com/craigjmcgowan/FluForecast

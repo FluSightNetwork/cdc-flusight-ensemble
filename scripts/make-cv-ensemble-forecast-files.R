@@ -1,10 +1,14 @@
 ## script to generate CV ensemble files
+## Oct 2018: updated by Nick Reich and Nutcha Wattanachit for 2018/2019 season
+
+CURRENT_SEASON <- "2018/2019"
+
 
 ## devtools::install_github("jarad/FluSight")
 library(FluSight) 
 library(dplyr)
 library(doMC)
-registerDoMC(3)
+registerDoMC(12)
 
 source("scripts/stack_forecasts.R")
 
@@ -31,8 +35,8 @@ for(j in 1:length(weight_files)){
     #####
     
     seasons <- unique(stacking_weights$season)
-    if("2017/2018" %in% seasons)
-        seasons <- seasons[-which(seasons=="2017/2018")]
+    if(CURRENT_SEASON %in% seasons)
+        seasons <- seasons[-which(seasons==CURRENT_SEASON)]
     ## loop through each season and each season-week to make stacked forecasts
     for(i in 1:length(seasons)){
         loso_season =  seasons[i]
@@ -48,7 +52,7 @@ for(j in 1:length(weight_files)){
         )
         
         foreach(k=1:length(week_names)) %dopar% {
-        ## for(this_week in 1:length(week_names)) {
+        ## for(k in 1:length(week_names)) {
             this_week <- week_names[k]
             message(paste(stacked_name, "::", this_week, "::", Sys.time()))
             ## stack models, save ensemble file

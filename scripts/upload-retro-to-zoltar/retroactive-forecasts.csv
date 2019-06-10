@@ -1,0 +1,220 @@
+﻿model-id,model-dir,team-name,zoltar-name,directory,season
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2010/2011
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2010/2011
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2010/2011
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2010/2011
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2010/2011
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2010/2011
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2010/2011
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2010/2011
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2010/2011
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2010/2011
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2010/2011
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2010/2011
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2010/2011
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2010/2011
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2010/2011
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2010/2011
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2010/2011
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2010/2011
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2010/2011
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2010/2011
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2010/2011
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2010/2011
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2010/2011
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2010/2011
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2010/2011
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2011/2012
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2011/2012
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2011/2012
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2011/2012
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2011/2012
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2011/2012
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2011/2012
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2011/2012
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2011/2012
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2011/2012
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2011/2012
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2011/2012
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2011/2012
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2011/2012
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2011/2012
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2011/2012
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2011/2012
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2011/2012
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2011/2012
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2011/2012
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2011/2012
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2011/2012
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2011/2012
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2011/2012
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2011/2012
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2012/2013
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2012/2013
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2012/2013
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2012/2013
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2012/2013
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2012/2013
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2012/2013
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2012/2013
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2012/2013
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2012/2013
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2012/2013
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2012/2013
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2012/2013
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2012/2013
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2012/2013
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2012/2013
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2012/2013
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2012/2013
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2012/2013
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2012/2013
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2012/2013
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2012/2013
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2012/2013
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2012/2013
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2012/2013
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2013/2014
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2013/2014
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2013/2014
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2013/2014
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2013/2014
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2013/2014
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2013/2014
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2013/2014
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2013/2014
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2013/2014
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2013/2014
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2013/2014
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2013/2014
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2013/2014
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2013/2014
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2013/2014
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2013/2014
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2013/2014
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2013/2014
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2013/2014
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2013/2014
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2013/2014
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2013/2014
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2013/2014
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2013/2014
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2014/2015
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2014/2015
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2014/2015
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2014/2015
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2014/2015
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2014/2015
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2014/2015
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2014/2015
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2014/2015
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2014/2015
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2014/2015
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2014/2015
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2014/2015
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2014/2015
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2014/2015
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2014/2015
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2014/2015
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2014/2015
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2014/2015
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2014/2015
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2014/2015
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2014/2015
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2014/2015
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2014/2015
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2014/2015
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2015/2106
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2015/2106
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2015/2106
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2015/2106
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2015/2106
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2015/2106
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2015/2106
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2015/2106
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2015/2106
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2015/2106
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2015/2106
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2015/2106
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2015/2106
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2015/2106
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2015/2106
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2015/2106
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2015/2106
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2015/2106
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2015/2106
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2015/2106
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2015/2106
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2015/2106
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2015/2106
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2015/2106
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2015/2106
+CU-BMA,CUBMA,Columbia,Bayesian Model Averaging,master,2016/2017
+CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,Columbia,Ensemble Adjustment Kalman Filter SEIRS,master,2016/2017
+CU-EAKFC_SIRS,CU_EAKFC_SIRS,Columbia,Ensemble Adjustment Kalman Filter SIRS,master,2016/2017
+CU-EKF_SEIRS,CU_EKF_SEIRS,Columbia,Ensemble Kalman Filter SEIRS,master,2016/2017
+CU-EKF_SIRS,CU_EKF_SIRS,Columbia,Ensemble Kalman Filter SIRS,master,2016/2017
+CU-RHF_SEIRS,CU_RHF_SEIRS,Columbia,Rank Histogram Filter SEIRS,master,2016/2017
+CU-RHF_SIRS,CU_RHF_SIRS,Columbia,Rank Histogram Filter SIRS,master,2016/2017
+Delphi-Uniform,Delphi_Uniform,Delphi,Uniform Distribution,master,2016/2017
+ReichLab-KCDE,ReichLab_kcde,ReichLab,Kernel Conditional Density Estimation,master,2016/2017
+ReichLab-KDE,ReichLab_kde,ReichLab,Kernel Density Estimation,master,2016/2017
+ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,ReichLab,SARIMA model without seasonal differencing,master,2016/2017
+ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,ReichLab,SARIMA model with seasonal differencing,master,2016/2017
+Delphi-BasisRegression,Delphi_BasisRegression_PackageDefaults,Delphi,"Basis Regression (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-DeltaDensity1,Delphi_DeltaDensity_PackageDefaults,Delphi,"Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-EmpiricalBayes1,Delphi_EmpiricalBayes_Cond4,Delphi,"Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",first-papers,2016/2017
+Delphi-EmpiricalBayes2,Delphi_EmpiricalBayes_PackageDefaults,Delphi,"Empirical Bayes (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures_PackageDefaults,Delphi,"Empirical Futures (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories_PackageDefaults,Delphi,"Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity_PackageDefaults,Delphi,"Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",first-papers,2016/2017
+Delphi-Stat,Delphi_Stat_FewerComponentsNoBackcastNoNowcast,Delphi,"Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",first-papers,2016/2017
+LANL-DBM,LANL_DBM,Los Alamos,"Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",first-papers,2016/2017
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2016/2017
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2016/2017
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2016/2017
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2016/2017
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2016/2017
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2016/2017
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2016/2017
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2016/2017
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2016/2017
+Delphi-BasisRegression,Delphi_BasisRegression,Delphi,"Basis Regression (epiforecast package defaults, 2018/2019 version)",master,2017/2018
+Delphi-EmpiricalFuture,Delphi_EmpiricalFutures,Delphi,"Empirical Futures (epiforecast package defaults, 2018/2019 version)",master,2017/2018
+Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,Delphi,"Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",master,2017/2018
+Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,Delphi,"Delta Density (epiforecast package defaults, 2018/2019 version)",master,2017/2018
+Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,Delphi,"Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",master,2017/2018
+LANL-DBMplus,LANL_DBMplus,Los Alamos,Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts,master,2017/2018
+Protea Analytics-Cheetah,Protea_Cheetah,Protea,Cheetah (Ensemble of dynamic harmonic model and historical averages),master,2017/2018
+Protea Analytics-Kudu,Protea_Kudu,Protea,Kudu (Subtype weighted historical average model),master,2017/2018
+Protea Analytics-Springbok,Protea_Springbok,Protea,Springbok (Dynamic Harmonic Model with ARIMA errors),master,2017/2018

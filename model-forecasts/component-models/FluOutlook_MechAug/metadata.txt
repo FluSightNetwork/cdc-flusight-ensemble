@@ -1,0 +1,14 @@
+team_name: FluOutlook
+team_members: Alessandro Vespignani, Qian Zhang, Xinyue Xiong, Mauricio Santillana, Fred Lu.
+model_name: Augmented Mechanistic GLEAM Ensemble
+model_abbr: MechAug
+anonymity: named
+data_source1: ILI Net
+data_source2: Athena Health
+data_source3: FluNearYou
+data_source4: Twitter
+data_source5: Population
+data_source6: Google Trends
+this_model_is_an_ensemble: TRUE
+methods: >-
+  This forecasting method is a combination of state of the art Machine Learning algorithm and a mechanistic model based on GLEAM, an epidemic stochastic generative model. At the begining of the flu season, GLEAM seeded by four different data sources (Athena, FluNearYou, Twitter, Population) generates four different forecasts for the flu profile. At each week along the flu season, the weekly ILI Net data augmented by the Machine Learning forecast is utilized in GLEAM to provide adaptive weekly forecast. The four weekly forecasts are combined by Bayesian Model Averaging to form the final forecast.

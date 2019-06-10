@@ -17,6 +17,11 @@ if [[ "$TRAVIS_BRANCH" != "master" ]]; then
     exit 0
 fi
 
+if [[ "$TRAVIS_COMMIT_MESSAGE" != *"trigger build"* ]]; then
+    echo "Do not trigger build. Exiting..."
+    exit 0
+fi
+
 # Save some useful information
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
@@ -36,6 +41,9 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
+# Deleting the private key so that we don't accidentally push it back
+rm deploy_key
+
 if [[ "$TRAVIS_COMMIT_MESSAGE" == "[TRAVIS] Generate scores" ]]; then
     source ./travis/score.sh
 fi
@@ -47,5 +55,6 @@ elif [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then
 fi
 
 source ./travis/viz.sh
+
 
 ssh-agent -k

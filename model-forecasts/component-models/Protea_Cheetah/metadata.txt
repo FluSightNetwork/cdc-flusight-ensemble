@@ -1,0 +1,25 @@
+team_name: Protea
+team_members: 'Craig J. McGowan (contact), Alysse J. Kowalski'
+model_name: Ensemble of dynamic harmonic model and historical averages
+model_abbr: Cheetah
+anonymity: named
+data_source1: ilinet
+data_source2: google trends
+data_source3: who-nrevss lab data
+this_model_is_an_ensemble: TRUE
+methods: >-
+  This model is a weighted ensemble between three component models. The first 
+  component is a seasonal average model constructed using Gaussian kernel
+  densities based on previously observed data from the 2001/2001 season onwards,
+  excluding the 2009/2010 pandemic season. The second component is the Protea
+  Kudu model, described in more detail there. The final component is the Protea
+  Springbok model, described in more detail there. Models are combined using
+  monthly target-type weights, and the weighting scheme was chosen using
+  leave-one-season-out cross validation in a similar  method to the FluSight
+  Network ensemble.  For prospective forecasts, only ILINet data known at the
+  time of the forecast are  used, as retrieved from the CMU-Epidata API. For
+  subtype percentages, the  backfilled data are not available, however we use
+  the cumulative percentage of  samples of each subtype at a given week of the
+  season rather than the weekly percentage,  which is less susceptible to
+  backfill effects as the season goes on. All code used in  estimation and
+  prediction is available at https://github.com/craigjmcgowan/FluForecast

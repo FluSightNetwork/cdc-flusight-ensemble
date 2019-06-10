@@ -10,8 +10,8 @@ const meta = require('./modules/meta')
 const models = require('./modules/models')
 const util = require('./modules/util')
 
-const truthFile = './scores/target-multivals-20172018.csv'
-const outputFile = './scores/scores-with-20172018.csv'
+const truthFile = './scores/target-multivals.csv'
+const outputFile = './scores/scores.csv'
 const errorBlacklistFile = './csv-blacklist.yaml'
 const errorLogFile = './csv-error.log'
 
