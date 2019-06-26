@@ -108,21 +108,15 @@ Willow Crawford-Crudell$^7$, Graham Casey Gibson$^1$, Evan Moore$^1$, Rebecca Si
 \clearpage
 
 \begin{abstract}
-
-\noindent {\bf Background}\\
 Seasonal influenza results in substantial annual morbidity and mortality in the United States and worldwide.
 Accurate forecasts of key features of influenza epidemics, such as the timing and severity of the peak incidence in a given season, can inform public health response to outbreaks.
 As part of ongoing efforts to incorporate data and advanced analytical methods into public health decision-making, the United States Centers for Disease Control and Prevention (CDC) has organized seasonal influenza forecasting challenges since the 2013/2014 season. 
 In the 2017/2018 season, 22 teams participated. 
-
-\noindent {\bf Methods and Findings}\\
 A subset of four teams created a research consortium called the FluSight Network in early 2017.
 During the 2017/2018 season they worked together to produce a collaborative multi-model ensemble that combined 21 separate component models into a single model using a machine learning technique called stacking.
 This approach creates a weighted average of predictive densities where the weight for each component is based on that component's forecast accuracy in past seasons.
 In the 2017/2018 influenza season, one of the largest seasonal outbreaks in the last 15 years, this multi-model ensemble performed better on average than all individual component models and placed second overall in the CDC challenge.
 It also outperformed the baseline multi-model ensemble created by the CDC that took a simple average of all models submitted to the forecasting challenge.
-
-\noindent {\bf Conclusions}\\
 This project shows that collaborative efforts between research teams to develop ensemble forecasting approaches can bring measurable improvements in forecast accuracy and important reductions in the variability of performance from year to year.
 Efforts such as this, that emphasize real-time testing and evaluation of forecasting models and facilitate the close collaboration between public health officials and modeling researchers, are essential to improving our understanding of how best to use forecasts to improve public health response to seasonal and emerging epidemic threats.
 \end{abstract}
@@ -148,6 +142,12 @@ Efforts such as this, that emphasize real-time testing and evaluation of forecas
 %     \item Formation of FluSight Network
 %     \item Overview of goals, methods, etc.
 % \end{itemize}
+
+\section*{Author Summary}
+Seasonal influenza outbreaks cause millions of infections and tens of thousands of deaths in the United States each year. Forecasting the track of an influenza season can help public health officials, business leaders, and the general public decide how to respond to an ongoing or emerging outbreak. Our team assembled over 20 unique forecasting models for seasonal influenza and combined them together into a single ``ensemble'' model. We made predictions of the 2017/2018 influenza season, each week sending real-time forecasts to the US Centers for Disease Control and Prevention (CDC). 
+In the 2017/2018 influenza season, one of the largest seasonal outbreaks in the last 15 years, our ensemble model performed better on average than all individual forecast models in the ensemble. 
+Based on results from this study, the CDC used forecasts from our ensemble model in public communication and internal reports in the subsequent 2018/2019 influenza season.
+
 
 \section*{Introduction}
 Seasonal influenza results in a substantial annual public health burden in the United States and worldwide.
@@ -204,125 +204,6 @@ This research is an important example of collaboration between government and ac
 \label{fig:overview-schematic}
 \end{center}
 \end{figure}
-
-\section*{Methods}
-
-\subsection*{Influenza Data}
-Forecasting targets for the CDC FluSight challenge are based on the U.S. Outpatient Influenza-like Illness Surveillance Network (ILINet). 
-ILINet is a syndromic surveillance system that publishes the weekly percentage of outpatient visits due to influenza-like illness, weighted based on state populations (wILI) from a network of more than 2,800 providers. 
-Estimates of wILI are reported weekly by the CDC's Influenza Division for the United States as a whole as well as for each of the 10 Health and Human Services (HHS) regions. 
-Reporting of `current' wILI is typically delayed by approximately one to two weeks from the calendar date of a doctor's office visit as data are collected and processed, and each weekly publication can also include revisions to prior reported values if new data become available. 
-Larger revisions have been shown to be associated with decreased forecast accuracy.\cite{reich2019collaborative}
-For the US and each HHS Region, CDC publishes an annual baseline level of ILI activity based on off-season ILI levels.\cite{surv2017} 
-
-\subsection*{Forecast Targets and Structure}
-As the goal was to submit our ensemble forecast in real-time to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
-A season typically consists of forecast files generated weekly for 33 weeks, starting with epidemic week 43 (EW43) of one calendar year and ending with EW18 of the following year.
-Every week in a year is classified into an ``MMWR week'' (ranging from 1 to 52 or 53, depending on the year) using a standard definition established by the National Notifiable Diseases Surveillance System.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018}
-Forecasts for the CDC FluSight challenge consist of seven targets: three seasonal targets and four short-term or `week-ahead' targets (Figure \ref{fig:overview-schematic}B). 
-The seasonal targets consist of season onset (defined as the first MMWR week where wILI is at or above baseline and remains above it for three consecutive weeks), season peak week (defined as the MMWR week of maximum wILI), and season peak percentage (defined as the maximum wILI value for the season). The short-term targets consist of forecasts for wILI values 1, 2, 3, and 4 weeks ahead of the most recently published data. With the two-week reporting delay in the publication of ILINet, these short-term forecasts are for the level of wILI occurring 1 week prior to the week the forecast is made, the current week, and the two weeks after the forecast is made (Figure \ref{fig:overview-schematic}B). Forecasts are created for all targets for the US as a whole and for each of the 10 HHS Regions (Figure \ref{fig:overview-schematic}A,C,D).
-
-For all targets, forecasts consist of probability distributions over bins of possible values for the target. For season onset and peak week, forecast bins consist of individual weeks within the influenza season, with an additional bin for onset week corresponding to a forecast of no onset. For short-term targets and peak intensity, forecast bins consist of levels of observed wILI rounded to the nearest 0.1\% (the level of resolution for ILINet publicly reported by the CDC) up to 13\%. Formally, the bins are defined as $[0.00, 0.05),\ [0.05, 0.15),\ \dots,\ [12.85, 12.95),\ [12.95, 100]$. 
-
-The CDC has developed a structured format for weekly influenza forecasts. All forecasts for this project used those data standards for all forecasts and this facilitated collaboration among the teams.
-
-\subsection*{Forecast Evaluation}
-Submitted forecasts were evaluated using the modified log score used by the CDC in their forecasting challenge, which provides a simultaneous measure of forecast accuracy and precision. The log score for a probabalistic forecast $m$ is defined as $\log f_m(z^*|\bf{x})$, where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for some target $Z$, conditional on some data $\bf{x}$ and $z^*$ is the observed value of the target $Z$. 
-
-While a true log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. In practice, and following CDC scoring convention, we truncate modified log scores to be no lower than -10. We refer to these modified log scores as simply log scores hereafter.
-
-Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Each model $m$ has an associated predictive density for each combination of region ($r$), target ($t$), season ($s$), and week ($w$). Each of these densities has an accompanying scalar log score, which could be represented as $\log f_{m,r,t,s,w}(z^*_{r,t,s,w}|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
-
-To enhance interpretability, we report exponentiated average log scores which are the geometric mean of probability a model assigned to the value(s) eventually deemed to be accurate. In this manuscript, we refer to these as ``average forecast scores''. As an example, the average forecast score for model $m$ in season $s$ (as shown in Figure \ref{fig:ensemble-model-comparison}), is computed as 
-
-\begin{equation}
-S_{m,\cdot,\cdot,s,\cdot} = \exp \left ( \frac{1}{N} \sum_{r,t,w} \log f_{m,r,t,s,w}(z^*_{r,t,s,w}|{\bf x}) \right ) 
-  =  \left ( \prod_{r,t,w}  f_{m,r,t,s,w}(z^*_{r,t,s,w}|{\bf x}) \right ) ^{1/N}. 
-\end{equation}
-
-As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) of point predictions as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,t}$ for target $t$, averaging over all weeks $w$ in the $s=$2017/2018 season and all regions $r$, as $RMSE_{m,t} = \sqrt{\frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})^2}{N}}$, where $\hat z_{m,r,t,w}$ is the point prediction of model $m$ for observed value $z^*_{r,t,w}$. Average bias is calculated as $bias_{m,t} = \frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})}{N}$
-
-\subsection*{Ensemble components}
-To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. These models and their performance are evaluated in separate work.\cite{reich2019collaborative} Teams constructed their forecasts in a prospective fashion, using only data that were available at the time of the forecast. For some data sources (e.g., wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making best efforts to only use data available at the time forecasts would have been made.
-
-For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018} If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances where explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
-
-Teams utilized a variety of methods and modeling approaches in the construction of their submissions (Supplemental Table 1). Seven of the models used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data.  
-
-Additionally, we obtained the predictive distributions from the CDC-created ``unweighted average'' model. This ensemble combined all forecast models received by the CDC in real-time in the 2015/2016 (14 models), 2016/2017 (28 models), and 2017/2018 (28 models) seasons.\cite{McGowan2018} These included models that are not part of the collaborative ensemble effort described in this manuscript, although some variations on the components presented here were also submitted to the CDC. Including this model allowed us to compare our ensemble accuracy to the model used by the CDC in real-time during these three seasons.
-
-It is important to distinguish ensemble components from standalone forecasting models.  
-Standalone models are optimized to be as accurate as possible on their own by, among other things, using proper smoothing.
-Ensemble components might be designed to be accurate on their own, or else they may be included merely to complement weak spots in other components, i.e. to reduce the ensemble's variance.  
-Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose (Supplemental Table 1).  
-Such components may perform poorly on their own, yet their contribution to overall ensemble accuracy may still be significant.
-
-It should be noted that ensemble weights are not a measure of ensemble components' standalone accuracy nor do they measure the overall contribution of a particular model to the ensemble accuracy.
-For example, consider a setting where a component that is identical (or highly similar) to an existing ensemble component with weight $\pi^*$ is added to a given ensemble. 
-The accuracy of the original ensemble can be maintained in a number of ways, including (a) assigning each copy a weight of $\pi^*/2$, or (b) assigning the first copy a weight of $\pi^*$ and the second copy a weight of $0$. 
-In both of these weightings, at least one high accuracy ensemble component would be assigned significantly lower weight due to the presence of another identical or similar component.
-In fact, we saw this in our results since the {\tt Delphi-Stat} model was the top-performing component model but was a linear combination of other Delphi models.
-It received zero weight in all of our ensemble specifications.
-Additionally, inclusion of components with small weights can have a large impact on an ensemble's forecast accuracy.
-
-
-\subsection*{Ensemble Nomenclature}
-
-There are several different ways that the term ensemble has been used in practice. 
-In this paper, we use the phrases `multi-model ensemble' or `ensemble model' interchangably to refer to models that represent mixtures of separate component models. 
-However, a clear taxonomy of ensemble modeling might distinguish three distinct tiers of ensemble models. 
-First, single-model ensemble methodologies can be used to fit models and make predictions. 
-Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Supplemental Table 1).
-Second, multi-model ensembles combine component models through techniques such as model stacking (see Section \ref{sec:stacking}).
-Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Supplemental Table 1).
-Third, the term superensemble has been used for models that combine components that are themselves ensembles (either multi-model or single-model)\cite{krishnamurti1999improved,Yamana2016}.
-Since not all of the components in our approach are ensembles themselves, we chose the term multi-model ensemble to refer to our approach.
-
-\subsection*{Ensemble Construction} \label{sec:stacking}
-
-All ensemble models were built using a method that combines component predictive distributions or densities using weighted averages. In the literature, this approach has been called stacking\cite{Wolpert1992} or weighted density ensembles\cite{Ray2018}, and is similar to methods used in Bayesian model averaging\cite{Raftery2005}. Let $f_c(z_{t,r,w})$ represent the predictive density of ensemble component $c$ for the value of the target $Z_{t,r,w}$, where $t$ indexes the particular target, $r$ indexes the region, and $w$ indexes the week. We combine these components together into a multi-model ensemble with predictive density $f(z_{t,r,w})$ as follows:
-
-\begin{equation}
-f(z_{t,r,w})  = \sum^C_{c = 1} \pi_{c,t,r} f_c(z_{t,r,w})
-\label{eq:enseq}
-\end{equation}
-where $\pi_{c, t, r}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(z_{t,r,w})$ remains a valid probability distribution. 
-
-A total of five ensemble weighting schemes were considered, with varying complexity and number of estimated weights (Supplemental Table 1).
-\begin{itemize}
-\item 
-Equal Weight ({\tt FSNetwork-EW}): This model consisted of assigning all components the same weight regardless of performance and is equivalent to an equally weighted probability density mixture of the components: $\pi_{c,t,r} = 1/C$. 
-
-\item
-Constant Weight model ({\tt FSNetwork-CW}): The weights vary across components but have the same value for all targets and regions, for a total of 21 weights: $\pi_{c,t,r} = \pi_c$. For purposes of statistical estimation, we say that the degrees of freedom (df) is $(21-1)=20$. For each set of weights, once 20 weights are estimated the 21st is determined since they must add up to 1.
-
-\item
-Target Type Weight model ({\tt FSNetwork-TTW}): Weights are estimated separately for our two target-types ($tt$), short-term and seasonal targets, with no variation across regions. This results in a total of 42 weights (df=40): $\pi_{c,t,r} = \pi_{c,tt}$. 
-
-\item
-Target Weight model ({\tt FSNetwork-TW}): The weights are estimated separately for each of the seven targets for each component with no variation across regions, resulting in 147 weights (df=140): $\pi_{c,t,r} = \pi_{c,t}$.
-
-\item
-Target-Region Weight model ({\tt FSNetwork-TRW}): The most complex model considered, this model estiamted weights separately for each component-target-region combination, resulting in 1617 unique weights (df=1540): $\pi_{c,t,r} = \pi_{c,t,r}$.
-
-\end{itemize}
-
-Weights were estimated using the EM algorithm (see Supplement). Weights for components were trained using a leave-one-season-out cross-validation approach on component forecasts from the 2010/2011 through 2016/2017 seasons. Given the limited number of seasons available for cross-validation, we used component model forecast scores from all other seasons as training data to estimate weights for a given test season, even if the training season occured chronologically after the test season of interest. 
-
-\subsection*{Ensemble evaluation}
-
-Based on the results of the cross-validation study, we selected one ensemble model as the official FluSight Network entry to the CDC's 2017/2018 influenza forecasting challenge.
-The criteria for this choice were pre-specified in September of 2017, prior to conducting the cross-validation experiments.\cite{Reich2017github} 
-Component weights for the {\tt FSNetwork-TTW} model were estimated using all seven seasons of component model forecasts. In real-time over the course of the 2017/2018 influenza season, participating teams submitted weekly forecasts from each component, which were combined using the estimated weights into the FluSight Network model and submitted to the CDC. The component weights for the submitted model remained unchanged throughout the course of the season.
-
-\subsection*{Reproducibility and data availability}
-
-To maximize the reproducibility and data availability for this project, the data and code for the entire project are publicly available.
-The project is available on GitHub\cite{fsngithub2018}, with a permanent repository stored on Zenodo\cite{fsnzenodo2018}.
-Code for specific models are either publicly available or available upon request from the modeling teams, with more model-specific details available at the related citations (see Supplemental Table 1).
-Retrospective and real-time forecasts from the FluSight Network may be interactively browsed on the website \url{http://flusightnetwork.io}.
-Additionally, this manuscript was dynamically generated using R version 3.6.0 (2019-04-26), Sweave, knitr, and make.
-These tools enable the intermingling of manuscript text with R code that run the central analyses, automatically regenerate parts of the analysis that have changed, and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
 
 
 \section*{Results}
@@ -593,6 +474,125 @@ This will facilitate reproducibility and archiving of single-model forecasts, th
 % In addition to the US, the authors are aware of similar formal efforts to integrate forecasting with public health officials in Australia, Thailand, Brazil, and at the WHO.
 Efforts such as this, that emphasize real-time testing and evaluation of forecasting models and facilitate close collaboration between public health officials and modeling researchers, are critical to improving our understanding of how best to use forecasts to improve public health response to seasonal and emerging epidemic threats.
 
+\section*{Materials and Methods}
+
+\subsection*{Influenza Data}
+Forecasting targets for the CDC FluSight challenge are based on the U.S. Outpatient Influenza-like Illness Surveillance Network (ILINet). 
+ILINet is a syndromic surveillance system that publishes the weekly percentage of outpatient visits due to influenza-like illness, weighted based on state populations (wILI) from a network of more than 2,800 providers. 
+Estimates of wILI are reported weekly by the CDC's Influenza Division for the United States as a whole as well as for each of the 10 Health and Human Services (HHS) regions. 
+Reporting of `current' wILI is typically delayed by approximately one to two weeks from the calendar date of a doctor's office visit as data are collected and processed, and each weekly publication can also include revisions to prior reported values if new data become available. 
+Larger revisions have been shown to be associated with decreased forecast accuracy.\cite{reich2019collaborative}
+For the US and each HHS Region, CDC publishes an annual baseline level of ILI activity based on off-season ILI levels.\cite{surv2017} 
+
+\subsection*{Forecast Targets and Structure}
+As the goal was to submit our ensemble forecast in real-time to the CDC FluSight forecasting challenge, we adhered to guidelines and formats set forth by the challenge in determining forecast format.
+A season typically consists of forecast files generated weekly for 33 weeks, starting with epidemic week 43 (EW43) of one calendar year and ending with EW18 of the following year.
+Every week in a year is classified into an ``MMWR week'' (ranging from 1 to 52 or 53, depending on the year) using a standard definition established by the National Notifiable Diseases Surveillance System.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018}
+Forecasts for the CDC FluSight challenge consist of seven targets: three seasonal targets and four short-term or `week-ahead' targets (Figure \ref{fig:overview-schematic}B). 
+The seasonal targets consist of season onset (defined as the first MMWR week where wILI is at or above baseline and remains above it for three consecutive weeks), season peak week (defined as the MMWR week of maximum wILI), and season peak percentage (defined as the maximum wILI value for the season). The short-term targets consist of forecasts for wILI values 1, 2, 3, and 4 weeks ahead of the most recently published data. With the two-week reporting delay in the publication of ILINet, these short-term forecasts are for the level of wILI occurring 1 week prior to the week the forecast is made, the current week, and the two weeks after the forecast is made (Figure \ref{fig:overview-schematic}B). Forecasts are created for all targets for the US as a whole and for each of the 10 HHS Regions (Figure \ref{fig:overview-schematic}A,C,D).
+
+For all targets, forecasts consist of probability distributions over bins of possible values for the target. For season onset and peak week, forecast bins consist of individual weeks within the influenza season, with an additional bin for onset week corresponding to a forecast of no onset. For short-term targets and peak intensity, forecast bins consist of levels of observed wILI rounded to the nearest 0.1\% (the level of resolution for ILINet publicly reported by the CDC) up to 13\%. Formally, the bins are defined as $[0.00, 0.05),\ [0.05, 0.15),\ \dots,\ [12.85, 12.95),\ [12.95, 100]$. 
+
+The CDC has developed a structured format for weekly influenza forecasts. All forecasts for this project used those data standards for all forecasts and this facilitated collaboration among the teams.
+
+\subsection*{Forecast Evaluation}
+Submitted forecasts were evaluated using the modified log score used by the CDC in their forecasting challenge, which provides a simultaneous measure of forecast accuracy and precision. The log score for a probabalistic forecast $m$ is defined as $\log f_m(z^*|\bf{x})$, where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for some target $Z$, conditional on some data $\bf{x}$ and $z^*$ is the observed value of the target $Z$. 
+
+While a true log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. In practice, and following CDC scoring convention, we truncate modified log scores to be no lower than -10. We refer to these modified log scores as simply log scores hereafter.
+
+Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Each model $m$ has an associated predictive density for each combination of region ($r$), target ($t$), season ($s$), and week ($w$). Each of these densities has an accompanying scalar log score, which could be represented as $\log f_{m,r,t,s,w}(z^*_{r,t,s,w}|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
+
+To enhance interpretability, we report exponentiated average log scores which are the geometric mean of probability a model assigned to the value(s) eventually deemed to be accurate. In this manuscript, we refer to these as ``average forecast scores''. As an example, the average forecast score for model $m$ in season $s$ (as shown in Figure \ref{fig:ensemble-model-comparison}), is computed as 
+
+\begin{equation}
+S_{m,\cdot,\cdot,s,\cdot} = \exp \left ( \frac{1}{N} \sum_{r,t,w} \log f_{m,r,t,s,w}(z^*_{r,t,s,w}|{\bf x}) \right ) 
+  =  \left ( \prod_{r,t,w}  f_{m,r,t,s,w}(z^*_{r,t,s,w}|{\bf x}) \right ) ^{1/N}. 
+\end{equation}
+
+As other forecasting efforts have used mean square error (MSE) or root mean square error (RMSE) of point predictions as an evaluation method, we additionally evaluated the prospective forecasts received during the 2017-2018 season using RMSE. The submitted point forecast was used to score each component, and a point forecast was generated for each FSNetwork model by taking the median of the predicted distribution. For each model $m$, we calculated $RMSE_{m,t}$ for target $t$, averaging over all weeks $w$ in the $s=$2017/2018 season and all regions $r$, as $RMSE_{m,t} = \sqrt{\frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})^2}{N}}$, where $\hat z_{m,r,t,w}$ is the point prediction of model $m$ for observed value $z^*_{r,t,w}$. Average bias is calculated as $bias_{m,t} = \frac{\sum_{r,w}(\hat z_{m,r,t,w} - z^*_{r,t,w})}{N}$
+
+\subsection*{Ensemble components}
+To provide training data for the ensemble, four teams submitted between 1 and 9 models each, for a total of 21 ensemble components. Teams submitted out-of-sample forecasts for the 2010/2011 through 2016/2017 influenza seasons. These models and their performance are evaluated in separate work.\cite{reich2019collaborative} Teams constructed their forecasts in a prospective fashion, using only data that were available at the time of the forecast. For some data sources (e.g., wILI prior to the 2014/2015 influenza season), data as they were published at the time were not available. In such cases, teams were still allowed to use those data sources while making best efforts to only use data available at the time forecasts would have been made.
+
+For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018} If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances where explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
+
+Teams utilized a variety of methods and modeling approaches in the construction of their submissions (Supplemental Table 1). Seven of the models used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data.  
+
+Additionally, we obtained the predictive distributions from the CDC-created ``unweighted average'' model. This ensemble combined all forecast models received by the CDC in real-time in the 2015/2016 (14 models), 2016/2017 (28 models), and 2017/2018 (28 models) seasons.\cite{McGowan2018} These included models that are not part of the collaborative ensemble effort described in this manuscript, although some variations on the components presented here were also submitted to the CDC. Including this model allowed us to compare our ensemble accuracy to the model used by the CDC in real-time during these three seasons.
+
+It is important to distinguish ensemble components from standalone forecasting models.  
+Standalone models are optimized to be as accurate as possible on their own by, among other things, using proper smoothing.
+Ensemble components might be designed to be accurate on their own, or else they may be included merely to complement weak spots in other components, i.e. to reduce the ensemble's variance.  
+Because we had sufficient cross-validation data to estimate ensemble weights for several dozen components, some groups contributed non-smoothed ``complementing'' components for that purpose (Supplemental Table 1).  
+Such components may perform poorly on their own, yet their contribution to overall ensemble accuracy may still be significant.
+
+It should be noted that ensemble weights are not a measure of ensemble components' standalone accuracy nor do they measure the overall contribution of a particular model to the ensemble accuracy.
+For example, consider a setting where a component that is identical (or highly similar) to an existing ensemble component with weight $\pi^*$ is added to a given ensemble. 
+The accuracy of the original ensemble can be maintained in a number of ways, including (a) assigning each copy a weight of $\pi^*/2$, or (b) assigning the first copy a weight of $\pi^*$ and the second copy a weight of $0$. 
+In both of these weightings, at least one high accuracy ensemble component would be assigned significantly lower weight due to the presence of another identical or similar component.
+In fact, we saw this in our results since the {\tt Delphi-Stat} model was the top-performing component model but was a linear combination of other Delphi models.
+It received zero weight in all of our ensemble specifications.
+Additionally, inclusion of components with small weights can have a large impact on an ensemble's forecast accuracy.
+
+
+\subsection*{Ensemble Nomenclature}
+
+There are several different ways that the term ensemble has been used in practice. 
+In this paper, we use the phrases `multi-model ensemble' or `ensemble model' interchangably to refer to models that represent mixtures of separate component models. 
+However, a clear taxonomy of ensemble modeling might distinguish three distinct tiers of ensemble models. 
+First, single-model ensemble methodologies can be used to fit models and make predictions. 
+Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Supplemental Table 1).
+Second, multi-model ensembles combine component models through techniques such as model stacking (see Section \ref{sec:stacking}).
+Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Supplemental Table 1).
+Third, the term superensemble has been used for models that combine components that are themselves ensembles (either multi-model or single-model)\cite{krishnamurti1999improved,Yamana2016}.
+Since not all of the components in our approach are ensembles themselves, we chose the term multi-model ensemble to refer to our approach.
+
+\subsection*{Ensemble Construction} \label{sec:stacking}
+
+All ensemble models were built using a method that combines component predictive distributions or densities using weighted averages. In the literature, this approach has been called stacking\cite{Wolpert1992} or weighted density ensembles\cite{Ray2018}, and is similar to methods used in Bayesian model averaging\cite{Raftery2005}. Let $f_c(z_{t,r,w})$ represent the predictive density of ensemble component $c$ for the value of the target $Z_{t,r,w}$, where $t$ indexes the particular target, $r$ indexes the region, and $w$ indexes the week. We combine these components together into a multi-model ensemble with predictive density $f(z_{t,r,w})$ as follows:
+
+\begin{equation}
+f(z_{t,r,w})  = \sum^C_{c = 1} \pi_{c,t,r} f_c(z_{t,r,w})
+\label{eq:enseq}
+\end{equation}
+where $\pi_{c, t, r}$ is the weight assigned to component $c$ for predictions of target $t$ in region $r$. We require $\sum^C_{c = 1} \pi_{c,t,r} = 1$ and thereby ensure that $f(z_{t,r,w})$ remains a valid probability distribution. 
+
+A total of five ensemble weighting schemes were considered, with varying complexity and number of estimated weights (Supplemental Table 1).
+\begin{itemize}
+\item 
+Equal Weight ({\tt FSNetwork-EW}): This model consisted of assigning all components the same weight regardless of performance and is equivalent to an equally weighted probability density mixture of the components: $\pi_{c,t,r} = 1/C$. 
+
+\item
+Constant Weight model ({\tt FSNetwork-CW}): The weights vary across components but have the same value for all targets and regions, for a total of 21 weights: $\pi_{c,t,r} = \pi_c$. For purposes of statistical estimation, we say that the degrees of freedom (df) is $(21-1)=20$. For each set of weights, once 20 weights are estimated the 21st is determined since they must add up to 1.
+
+\item
+Target Type Weight model ({\tt FSNetwork-TTW}): Weights are estimated separately for our two target-types ($tt$), short-term and seasonal targets, with no variation across regions. This results in a total of 42 weights (df=40): $\pi_{c,t,r} = \pi_{c,tt}$. 
+
+\item
+Target Weight model ({\tt FSNetwork-TW}): The weights are estimated separately for each of the seven targets for each component with no variation across regions, resulting in 147 weights (df=140): $\pi_{c,t,r} = \pi_{c,t}$.
+
+\item
+Target-Region Weight model ({\tt FSNetwork-TRW}): The most complex model considered, this model estiamted weights separately for each component-target-region combination, resulting in 1617 unique weights (df=1540): $\pi_{c,t,r} = \pi_{c,t,r}$.
+
+\end{itemize}
+
+Weights were estimated using the EM algorithm (see Supplement). Weights for components were trained using a leave-one-season-out cross-validation approach on component forecasts from the 2010/2011 through 2016/2017 seasons. Given the limited number of seasons available for cross-validation, we used component model forecast scores from all other seasons as training data to estimate weights for a given test season, even if the training season occured chronologically after the test season of interest. 
+
+\subsection*{Ensemble evaluation}
+
+Based on the results of the cross-validation study, we selected one ensemble model as the official FluSight Network entry to the CDC's 2017/2018 influenza forecasting challenge.
+The criteria for this choice were pre-specified in September of 2017, prior to conducting the cross-validation experiments.\cite{Reich2017github} 
+Component weights for the {\tt FSNetwork-TTW} model were estimated using all seven seasons of component model forecasts. In real-time over the course of the 2017/2018 influenza season, participating teams submitted weekly forecasts from each component, which were combined using the estimated weights into the FluSight Network model and submitted to the CDC. The component weights for the submitted model remained unchanged throughout the course of the season.
+
+\subsection*{Reproducibility and data availability}
+
+To maximize the reproducibility and data availability for this project, the data and code for the entire project are publicly available.
+The project is available on GitHub\cite{fsngithub2018}, with a permanent repository stored on Zenodo\cite{fsnzenodo2018}.
+Code for specific models are either publicly available or available upon request from the modeling teams, with more model-specific details available at the related citations (see Supplemental Table 1).
+Retrospective and real-time forecasts from the FluSight Network may be interactively browsed on the website \url{http://flusightnetwork.io}.
+Additionally, this manuscript was dynamically generated using R version 3.6.0 (2019-04-26), Sweave, knitr, and make.
+These tools enable the intermingling of manuscript text with R code that run the central analyses, automatically regenerate parts of the analysis that have changed, and minimize the chance for errors in transcribing or translating results.\cite{Xie2015,RCore2017}.
+
 
 \section*{Acknowledgments}
 The findings and conclusions in this report are those of the authors and do not necessarily represent the official position of the Centers for Disease Control and Prevention, Defense Advanced Research Projects Agency, Defense Threat Reduction Agency, the National Institutes of Health, National Institute for General Medical Sciences, National Science Foundation, or Uptake Technologies.
@@ -605,5 +605,10 @@ N.G.R., C.J.M., L.C.B., S.K., D.O., E.L.R., A.T., T.K.Y., M.B, M.A.J, R.R., J.S.
 
 \bibliographystyle{plos2015}
 \bibliography{../flusightnetwork.bib}
+
+\section*{Supporting Information Legends}
+
+{\bf S1 Text: Supplementary Methods and Results.}
+
 
 \end{document}
