@@ -1,0 +1,129 @@
+\documentclass{article}
+
+\begin{document}
+
+<<setup>>=
+library(tidyverse)
+library(gridExtra)
+theme_set(theme_minimal())
+specify_decimal <- function(x, k=2) trimws(format(round(x, k), nsmall=k))
+@
+
+<<generate-scores>>=
+scores <- read_csv("../../scores/scores.csv")
+models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
+targets <- read_csv("../../scores/target-multivals.csv")
+
+complete_models <- c(models$`model-id`[models$complete==TRUE], "UTAustin-edm")
+compartment_models <- c("CU-EAKFC_SEIRS", "CU-EAKFC_SIRS", "CU-EKF_SEIRS", 
+    "CU-EKF_SIRS", "CU-RHF_SEIRS", "CU-RHF_SIRS", "LANL-DBM")
+
+
+## define column with scores of interest
+SCORE_COL <- quo(`Multi bin score`)
+
+## Create data.frame of boundary weeks of scores to keep for each target/season
+all_target_bounds <- read_csv("data/all-target-bounds.csv")
+
+## Remove scores that fall outside of evaluation period for a given target/season
+scores_trimmed <- scores %>% 
+    dplyr::left_join(all_target_bounds, by = c("Season", "Target", "Location")) %>%
+    dplyr::filter(`Model Week` >= start_week_seq, `Model Week` <= end_week_seq)
+
+## truncate lowest possible scores to -10, define target-type variable
+scores_adj <- scores_trimmed %>%
+    filter(Model %in% complete_models) %>%
+    ## if NA, NaN or <-10, set score to -10
+    mutate(multibin_score_adj = dplyr::if_else(is.nan(!!SCORE_COL) | is.na(!!SCORE_COL) , 
+        -10, 
+        !!SCORE_COL),
+        singlebin_score_adj = dplyr::if_else(is.nan(Score) | is.na(Score) , 
+        -10, 
+        Score),
+        target_type = dplyr::if_else(Target %in% c("Season onset", "Season peak week", "Season peak percentage"),
+            "seasonal", "k-week-ahead")) %>%
+    mutate(
+        multibin_score_adj = dplyr::if_else(multibin_score_adj < -10 , -10, multibin_score_adj),
+        singlebin_score_adj = dplyr::if_else(singlebin_score_adj < -10 , -10, singlebin_score_adj),
+        Location = factor(Location, levels=c("US National", paste("HHS Region", 1:10))),
+        model_type = ifelse(Model %in% compartment_models, "compartment_model", "stat_model"),
+        stat_model = ifelse(Model %in% compartment_models, 0, 1),
+        Model = reorder(Model, multibin_score_adj),
+        #Season = reorder(Season, score_adj),
+        Location = reorder(Location, multibin_score_adj)
+        ) 
+
+scores_by_model_tt <- scores_adj %>%
+    group_by(Model, target_type) %>%
+    summarize(
+        multibin = mean(multibin_score_adj),
+        singlebin = mean(singlebin_score_adj)
+    ) %>%
+    ungroup() %>%
+    gather(key = "bintype", value = "score", -c(Model, target_type)) %>%
+    group_by(target_type, bintype) %>%
+    mutate(
+        rank = rank(desc(score)),
+    )%>%
+    ungroup() 
+
+@
+
+
+<<>>=
+wkahead_scores <- scores_by_model_tt %>%
+    filter(target_type=="k-week-ahead") %>% 
+    group_by(bintype) %>%
+    mutate(
+        rank = rank(desc(score)),
+        pct_lower_than_best = -(score-max(score))/max(score)*100
+        ) %>%
+    arrange(rank) %>%
+    ungroup()
+
+wkahead_scores$Model <- factor(
+    wkahead_scores$Model, 
+    levels = rev(as.character(wkahead_scores$Model[wkahead_scores$bintype=="multibin"])),
+    ordered = TRUE)
+    
+wkahead_plot <- ggplot(wkahead_scores, aes(y=Model, x=bintype)) +
+    geom_tile(aes(fill=pct_lower_than_best)) +
+    geom_text(aes(label=specify_decimal(score)))+
+    scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
+    theme(legend.position = "none") +
+    xlab("average log score") +
+    ggtitle("week-ahead target accuracy")
+@
+
+
+<<>>=
+seasonal_scores <- scores_by_model_tt %>%
+    filter(target_type=="seasonal") %>% 
+    group_by(bintype) %>%
+    mutate(
+        rank = rank(desc(score)),
+        pct_lower_than_best = -(score-max(score))/max(score)*100
+        ) %>%
+    arrange(rank) %>%
+    ungroup()
+
+seasonal_scores$Model <- factor(
+    seasonal_scores$Model, 
+    levels = rev(as.character(seasonal_scores$Model[seasonal_scores$bintype=="multibin"])),
+    ordered = TRUE)
+    
+seasonal_plot <- ggplot(seasonal_scores, aes(y=Model, x=bintype)) +
+    geom_tile(aes(fill=pct_lower_than_best)) +
+    geom_text(aes(label=specify_decimal(score)))+
+    scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
+    xlab("average log score") + ylab(element_blank()) +
+    ggtitle("seasonal target accuracy")
+@
+
+<<>>=
+lay <- matrix(c(1,1,2,2,2),nrow=1)
+grid.arrange(wkahead_plot, seasonal_plot, nrow=1, layout_matrix=lay)
+@
+
+
+\end{document}
