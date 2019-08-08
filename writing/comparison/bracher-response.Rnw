@@ -91,8 +91,9 @@ wkahead_plot <- ggplot(wkahead_scores, aes(y=Model, x=bintype)) +
     geom_text(aes(label=specify_decimal(score)))+
     scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
     theme(legend.position = "none") +
-    xlab("average log score") +
-    ggtitle("week-ahead target accuracy")
+    xlab("average log score") + ylab("Component model") +
+    labs(title="week-ahead target accuracy", tag="A") +
+  theme(plot.tag = element_text(size = 24))
 @
 
 
@@ -117,7 +118,8 @@ seasonal_plot <- ggplot(seasonal_scores, aes(y=Model, x=bintype)) +
     geom_text(aes(label=specify_decimal(score)))+
     scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
     xlab("average log score") + ylab(element_blank()) +
-    ggtitle("seasonal target accuracy")
+    labs(title="seasonal target accuracy", tag="B") +
+    theme(plot.tag = element_text(size = 24))
 @
 
 <<>>=
