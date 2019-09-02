@@ -248,7 +248,7 @@ As such, higher values, on a scale of 0 to 1, indicate more accurate models.
 
 %\subsubsection*{Target-type weights achived highest cross-validated scores}
 We pre-specified five candidate ensemble approaches prior to any systematic evaluation of ensemble component performance in previous seasons and prior to the 2017/2018 season (Supplemental Table 1).\cite{Reich2017github} 
-The pre-specified ensemble aproaches all relied on taking weighted averages of the component models using a predictve density stacking approach (see Methods).
+The pre-specified ensemble approaches all relied on taking weighted averages of the component models, including a seasonal baseline component, using a predictive density stacking approach (see Methods).
 They ranged in complexity from simple (every component is assigned a single weight) to more complex (components have different weights depending on the target and region being forecasted, see Methods).
 The FSNetwork Target-Type Weights ({\tt FSNetwork-TTW}) ensemble model, a medium-complexity approach, outperformed all other multi-model ensembles and components in the training phase by a slim margin (Figure \ref{fig:ensemble-model-comparison}). 
 The {\tt FSNetwork-TTW} model built weighted model averages using 40 estimated weights, one for each model and target-type (week-ahead and seasonal) combination (Figure \ref{fig:ttweights}).
@@ -317,6 +317,7 @@ as well as the highest average score in the 2017/2018 test season
 (0.337).
 % The {\tt top_models[1]} model tied  with the  {\tt top_models[2]} model with a score of specify_decimal(exp(top_scores[1]),2). 
 This strong and consistent performance by the chosen {\tt FSNetwork-TTW} ensemble model is noteworthy given that our team identified this model prospectively, before the season began, essentially wagering that this ensemble model would have the best performance of any model in the 2017/2018 season, which it did.
+The {\tt FSNetwork-TTW} model consistently outperformed a simpler ensemble model and the seasonal average model across all weeks of the 2017/2018 season (see Appendix).
 %This model was chosen before the 2017/2018 season began, without the benefit of hindsight after the season ends.
 %The {\tt top_models[2]}, {\tt top_models[3]}, and {\tt top_models[4]} models achieved scores of specify_decimal(exp(top_scores[2]),2), specify_decimal(exp(top_scores[3]),2), and  specify_decimal(exp(top_scores[4]),2), respectively.
 
@@ -338,7 +339,7 @@ While our ensemble model did not always have the best score in each target-regio
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/season-average-results-1} \caption{Overall test and training phase performance scores for selected models. Displayed scores are averaged across targets, regions, and weeks, and plotted separately for selected models. Models shown include the {\tt FSNetwork-TTW} model, the top performing model from each team during the training phase and, for the last two training seasons and the test season, the unweighted average of all FluSight models received by CDC. Model ranks within each row are indicated by color of each cell (darker colors indicates higher rank and more accurate forecasts) and the forecast score (rounded to two decimal places) is printed in each cell. Note that a component's standalone accuracy does not necessarily correlate to its contribution to the overall ensemble accuracy.  See discussion at end of Section \ref{subsec:comp-models}.}\label{fig:season-average-results}
+\includegraphics[width=\maxwidth]{figure/season-average-results-1} \caption[Overall test and training phase performance scores for selected models]{Overall test and training phase performance scores for selected models. Displayed scores are averaged across targets, regions, and weeks, and plotted separately for selected models. Models shown include the {\tt FSNetwork-TTW} model, the top performing model from each team during the training phase and, for the last two training seasons and the test season, the unweighted average of all FluSight models received by CDC. Model ranks within each row are indicated by color of each cell (darker colors indicates higher rank and more accurate forecasts) and the forecast score (rounded to two decimal places) is printed in each cell. Note that a component's standalone accuracy does not necessarily correlate to its contribution to the overall ensemble accuracy.  See discussion in the Ensemble Components subsection of the Methods.}\label{fig:season-average-results}
 \end{figure}
 
 
@@ -363,19 +364,25 @@ While our ensemble model did not always have the best score in each target-regio
 \end{knitrout}
  
  
-Despite being optimized for high forecast score values, the {\tt FSNetwork-TTW} showed robust performance in the 2017/2018 season across other performance metrics that measure forecast calibration and accuracy.
-% Its root mean squared error was XX XX [add rank raster?] (See Appendix).
-% ADD BIAS!!
-Overall, the {\tt FSNetwork-TTW} model ranked second among selected models in both RMSE and average bias, behind the {\tt LANL-DBM} model (see Appendix), suggesting that using separate weighting schemes for point estimates and predictive distribution may be valuable.
-According to the probability integral transform metric\cite{angus1994probability,diebold1997evaluating}, the {\tt FSNetwork-TTW} model was well-calibrated for all four week-ahead targets (see Appendix).
-It was slightly less well-calibrated for peak performance, and showed indications of having too narrow predictive distributions over the 2017/2018 season.
-Over the entire training period prior to the 2017/2018 season, the {\tt FSNetwork-TTW} model calibration results suggested that in general the model was a bit conservative, with often a too wide predictive distribution (see Appendix).
-
 
 % Using RMSE as a performance metric, the ensemble performance was similarly strong (Figure \ref{fig:rmse}). Of the FSNetwork ensembles, the {\tt FSNetwork-EW} ensemble that assigned the same weight to all components generally had the lowest RMSE, though the other FSNetwork models had similar performance for all targets. Almost all components had better performance than the {\tt ReichLab-KDE} model and, compared to the log score, there was less relative variability between the different models. Even though the ensembles were not constructed to optimize RMSE, the strong performance of the ensemble models further validates the ensemble approach.
 
 
 
+
+
+Despite being optimized for high forecast score values, the {\tt FSNetwork-TTW} showed robust performance in the 2017/2018 season across other performance metrics that measure forecast calibration and accuracy.
+Overall, the {\tt FSNetwork-TTW} model ranked second among selected models in both RMSE and average bias, behind the {\tt LANL-DBM} model (see Appendix).
+For example, during the scoring period of interest across all regions in the 2017/2018 season, the {\tt FSNetwork-TTW} model's point estimates for season onset were on average less than half a week above the true value (average bias =
+0.38
+week) and for 1-week ahead ILI the estimates were underestimated by less than one-quarter of a percentage point (average bias =
+-0.23
+ILI\%).
+
+
+According to the probability integral transform metric\cite{angus1994probability,diebold1997evaluating}, the {\tt FSNetwork-TTW} model was well-calibrated for all four week-ahead targets (see Appendix).
+It was slightly less well-calibrated for peak performance, and showed indications of having too narrow predictive distributions over the 2017/2018 season.
+Over the entire training period prior to the 2017/2018 season, the {\tt FSNetwork-TTW} model calibration results suggested that in general the model was a bit conservative, with often a too wide predictive distribution (see Appendix).
 
 
 % The model accuracy patterns observed in the cross-validation phase was largely preserved in the real-time phase.
@@ -452,13 +459,22 @@ The inclusion of mutiple forecasting approaches and use of past performance in d
 While the multi-model ensemble approach described here works well for seasonal pathogens with multiple seasons of retrospective data available, it would be more limited in an emerging pandemic scenario.
 In these settings, there may not be any historical data on how models have performed nor reliable real-time data to train on.
 However, adaptive weighting approaches that dynamically update the weights over the course of a season or epidemic could remove the requirement that all models have a substantial track-record of performance. 
-Preliminary work on adaptive weighting has shown some promise, though such approaches still rely on accurately reported real-time data.
+Preliminary work on adaptive weighting has shown some promise, though such approaches still rely on accurately reported real-time data.\cite{mcandrew2019adaptively}
 Furthermore, a simple average of forecasts remains available in such situations and, as illustrated by the relatively strong performance of the FluSight Network Equal Weights model and the CDC's unweighted FluSight ensemble, can still offer advantages over individual models.
 
 One risk of complex ensemble approaches is that they may be ``overfit'' to the data, resulting in models that place too much emphasis on one approach in a particular scenario or setting.
 This is a particular concern in applications such as this one, where the number of observations is fairly limited (hundreds to thousands of observations instead of hundreds of thousands).
 Against this backdrop, the relative simplicity of the FluSight Network Target-Type weights model is a strength, as there is less danger of these models being overfit to the data.
 Additionally, approaches that use regularization or penalization to reduce the number of effective parameters estimated by a particular model have been shown to have some practical utility in similar settings and may also have a role to play in future ensembles for infectious disease forecasting.\cite{Ray2018}
+
+Formally measuring the quality of forecasts is challenging and the choice of metric can impact how models are constructed.
+Following the FluSight Challenge guidelines, we used a probabilistic measure of forecast accuracy, the modified log score, as our primary tool for evaluating forecast accuracy.
+We also assessed point estimate accuracy as a secondary measure (see Appendix). 
+It has been shown that the modified log score used by the CDC is improper and could incentivize forecasting teams to present slightly modified forecasts if their goal was only to achieve the highest score possible.\cite{Gneiting2007,bracher2019score}
+Forecasts in the FluSight Network have not been intentionally modified to achieve higher scores.\cite{reich2019reply} 
+However, most models have been optimized forecasts for the proper log-score while other models, including the FluSight Network ensembles, have been fitted to optimize the modified log score. 
+By using proper scoring rules (such as the original log-score) to evaluate forecasts, practitioners ensure that all forecasts were made with the same goal in mind. 
+In the case of the FluSight Network forecasts, the CDC has prioritized accuracy in a probabilistic sense over point-estimate accuracy.
 
 Even though we have shown the value in building collaborations between research teams to develop ensemble forecasts, these efforts largely rely on bespoke technological solutions.
 This challenge is not specific to infectious disease forecasting, but covers many areas of quantitative science.
@@ -498,7 +514,7 @@ The CDC has developed a structured format for weekly influenza forecasts. All fo
 \subsection*{Forecast Evaluation}
 Submitted forecasts were evaluated using the modified log score used by the CDC in their forecasting challenge, which provides a simultaneous measure of forecast accuracy and precision. The log score for a probabalistic forecast $m$ is defined as $\log f_m(z^*|\bf{x})$, where $f_m(z|\bf{x})$ is the predicted density function from model $m$ for some target $Z$, conditional on some data $\bf{x}$ and $z^*$ is the observed value of the target $Z$. 
 
-While a true log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. In practice, and following CDC scoring convention, we truncate modified log scores to be no lower than -10. We refer to these modified log scores as simply log scores hereafter.
+While a proper log score only evaluates the probability assigned to the exact observed value $z^*$, the CDC uses a modified log score that classifies additional values as ``accurate``. For predictions of season onset and peak week, probabilities assigned to the week before and after the observed week are included as correct, so the modified log score becomes $\log \int_{z^* -1}^{z^* + 1} f_m(z|{\bf{x}})dz$. For season peak percentage and the short-term forecasts, probabilities assigned to wILI values within 0.5 units of the observed values are included as correct, so the modified log score becomes $\log \int_{z^* -.5}^{z^* + .5} f_m(z|{\bf{x}})dz$. In practice, and following CDC scoring convention, we truncate modified log scores to be no lower than -10. We refer to these modified log scores as simply log scores hereafter.
 
 Individual log scores can be averaged across different combinations of forecast regions, target, weeks, or seasons. Each model $m$ has an associated predictive density for each combination of region ($r$), target ($t$), season ($s$), and week ($w$). Each of these densities has an accompanying scalar log score, which could be represented as $\log f_{m,r,t,s,w}(z^*_{r,t,s,w}|\bf{x})$. These individual log scores can be averaged across combinations of regions, targets, seasons, and weeks to compare model performance.
 
@@ -516,7 +532,7 @@ To provide training data for the ensemble, four teams submitted between 1 and 9 
 
 For each influenza season, teams submitted weekly forecasts from epidemic week 40 (EW40) of the first year through EW20 of the following year, using standard CDC definitions for epidemic week.\cite{NewMexicoDepartmentofHealth,Niemi2015,Tushar2018} If a season contained EW53, forecasts were submitted for that week as well. In total, teams submitted 233 individual forecast files representing forecasts across the seven influenza seasons. Once submitted, the forecast files were not updated except in four instances where explicit programming bugs had resulted in numerical issues in the forecast. Teams were explicitly discouraged from re-tuning or adjusting their models for different prior seasons to avoid issues with over-fitting.
 
-Teams utilized a variety of methods and modeling approaches in the construction of their submissions (Supplemental Table 1). Seven of the models used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other models used more statistical approaches to directly model the observed wILI curve. Six of the models explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data.  
+Teams utilized a variety of methods and modeling approaches in the construction of their component model submissions (Supplemental Table 1). Seven of the components used a compartmental structure (i.e. Susceptible-Infectious-Recovered) to model the disease transmission process, while other components used more statistical approaches to directly model the observed wILI curve. Six of the components explicitly incorporated additional data sources beyond previous wILI data, including weather data and Google search data. One component was constructed to represent a seasonal baseline based on historical data only.
 
 Additionally, we obtained the predictive distributions from the CDC-created ``unweighted average'' model. This ensemble combined all forecast models received by the CDC in real-time in the 2015/2016 (14 models), 2016/2017 (28 models), and 2017/2018 (28 models) seasons.\cite{McGowan2018} These included models that are not part of the collaborative ensemble effort described in this manuscript, although some variations on the components presented here were also submitted to the CDC. Including this model allowed us to compare our ensemble accuracy to the model used by the CDC in real-time during these three seasons.
 
@@ -542,7 +558,7 @@ In this paper, we use the phrases `multi-model ensemble' or `ensemble model' int
 However, a clear taxonomy of ensemble modeling might distinguish three distinct tiers of ensemble models. 
 First, single-model ensemble methodologies can be used to fit models and make predictions. 
 Examples of these approaches include the component models from Columbia University that use, e.g. Ensemble Average Kalman Filtering, to take weighted averages of model realizations to form predictive distributions (Supplemental Table 1).
-Second, multi-model ensembles combine component models through techniques such as model stacking (see Section \ref{sec:stacking}).
+Second, multi-model ensembles combine component models through techniques such as model stacking (see Methods).
 Among the models described in this work, one component model ({\tt Delphi-Stat}) is a multi-model ensemble and all of the FluSight Network models are also multi-model ensembles (Supplemental Table 1).
 Third, the term superensemble has been used for models that combine components that are themselves ensembles (either multi-model or single-model)\cite{krishnamurti1999improved,Yamana2016}.
 Since not all of the components in our approach are ensembles themselves, we chose the term multi-model ensemble to refer to our approach.
@@ -609,6 +625,12 @@ N.G.R., C.J.M., L.C.B., S.K., D.O., E.L.R., A.T., T.K.Y., M.B, M.A.J, R.R., J.S.
 \section*{Supporting Information Legends}
 
 {\bf S1 Text: Supplementary Methods and Results.}
+
+
+
+
+
+
 
 
 \end{document}

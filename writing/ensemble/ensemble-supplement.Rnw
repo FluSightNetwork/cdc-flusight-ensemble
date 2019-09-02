@@ -325,7 +325,7 @@ The models appeared to be slightly better calibrated for shorter forecast horizo
 Forecasts for the peak percentage were less well calibrated, with more forecasts than expected occuring in both low and high tails of the predictive distribution.
 
 Across all training seasons, the {\tt FSNetwork-TTW} model showed some lack of calibration for all targets considered (Figure \ref{fig:pit-2017-2018}).
-In particular, the predictive distributions appeared to be too wide, with eventually observed values falling in the central region of the distribution more than expected. 
+In particular, the predictive distributions appeared to be too wide, with eventually observed values falling in the central region of the distribution more than expected.  
 A slight negative bias is evident as well, from the skewness of the PIT figures, with the observed values more likely to fall under the median of the distribution for 2-, 3-, and 4-week-ahead forecasts.
 However, these forecasts were evaluated on only seven seasons worth of data, and given that the forecasts were better calibrated in a larger-than-usual season such as 2017/2018 (Figure \ref{fig:pit-all-seasons}) suggests that the model in the training phase may have been appropriately allowing for the possibility of such a large season.
 
@@ -347,6 +347,34 @@ See Figure \ref{fig:updated-weights}.
 \end{figure}
 
 \clearpage
+
+\section{Comparison of ensemble model performance in testing and training phases}
+
+To compare the training and test phase performance of the ensemble models, we plotted their relative performance (Figure \ref{fig:ensemble-test-train}). This shows that the {\tt FSNetwork-TTW} model had the highest overall score in both the training and test phase.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics{figure/ensemble-test-train-comparison-1.pdf}
+\caption{Overall test and training phase performance scores for the five ensemble models. Displayed scores are averaged across targets, regions, and weeks, and plotted separately for selected models. Model ranks within each row are indicated by color of each cell (darker colors indicates higher rank and more accurate forecasts) and the forecast score (rounded to three decimal places) is printed in each cell.}
+\label{fig:ensemble-test-train}
+\end{center}
+\end{figure}
+
+
+\section{Forecast accuracy across the 2017/2018 test season}
+
+We compared the average weekly accuracy of three models --{\tt FSNetwork-TTW}, {\tt FSNetwork-EW}, and {\tt ReichLab-KDE}-- over time in the 2017/2018 test season (Figure \ref{fig:weekly-accuracy}). This comparison showed that a performance-weighted ensemble, {\tt FSNetwork-TTW}, consistently outperformed an equally weighted ensemble, {\tt FSNetwork-EW}, by a small margin and a seasonal average model, {\tt ReichLab-KDE}, by a larger margin. Accuracy for week-ahead targets was substantially lower in the middle of the season.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\linewidth]{figure/scores-by-week-1.pdf} 
+\caption{Forecast scores averaged across all regions for three selected models in the 2017/2018 test season. The x-axis shows the epidemic week (EW) of the season. Season onset scores were truncated after onset had been reached in all season. A vertical dashed line indicates January 1, 2018.}
+\label{fig:weekly-accuracy}
+\end{center}
+\end{figure}
+
+\clearpage
+
 
 \section{EM Algorithm for Weighted Density Ensembles}
 
