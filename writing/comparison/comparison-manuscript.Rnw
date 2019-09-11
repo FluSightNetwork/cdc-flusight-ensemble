@@ -94,7 +94,7 @@ scores <- read_csv("../../scores/scores.csv")
 models <- read_csv("../../model-forecasts/component-models/model-id-map.csv")
 targets <- read_csv("../../scores/target-multivals.csv")
 
-complete_models <- c(models$`model-id`[models$complete=="true"], "UTAustin-edm")
+complete_models <- c(models$`model-id`[models$complete==TRUE], "UTAustin-edm")
 compartment_models <- c("CU-EAKFC_SEIRS", "CU-EAKFC_SIRS", "CU-EKF_SEIRS", 
     "CU-EKF_SIRS", "CU-RHF_SEIRS", "CU-RHF_SIRS", "LANL-DBM")
 
