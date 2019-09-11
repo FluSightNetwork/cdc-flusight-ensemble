@@ -183,7 +183,7 @@ To compare the training and test phase performance of the ensemble models, we pl
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics{figure/ensemble-test-train-comparison-1.pdf}
-\caption{Overall test and training phase performance scores for the five ensemble models. Displayed scores are averaged across targets, regions, and weeks, and plotted separately for selected models. Model ranks within each row are indicated by color of each cell (darker colors indicates higher rank and more accurate forecasts) and the forecast score (rounded to three decimal places) is printed in each cell.}
+\caption{Overall test and training phase performance scores for the five ensemble models. Displayed scores are averaged across targets, regions, and weeks, and plotted separately for selected models. Model ranks within each row are indicated by color of each cell (darker colors indicate higher rank and more accurate forecasts) and the forecast score (rounded to three decimal places) is printed in each cell.}
 \label{fig:ensemble-test-train}
 \end{center}
 \end{figure}
@@ -196,7 +196,7 @@ We compared the average weekly accuracy of three models --{\tt FSNetwork-TTW}, {
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=\linewidth]{figure/scores-by-week-1.pdf} 
-\caption{Forecast scores averaged across all regions for three selected models in the 2017/2018 test season. The x-axis shows the epidemic week (EW) of the season. Season onset scores were truncated after onset had been reached in all season. A vertical dashed line indicates January 1, 2018.}
+\caption{Forecast scores averaged across all regions for three selected models in the 2017/2018 test season. The x-axis shows the epidemic week (EW) of the season. Scores are only shown for scored weeks according to FluSight guidelines (see Methods in original manuscript). Therefore, season onset scores are truncated six weeks after the last season onset occurred. A vertical dashed line indicates January 1, 2018.}
 \label{fig:weekly-accuracy}
 \end{center}
 \end{figure}
@@ -219,16 +219,16 @@ This is the ``E step''. Then, based on these guesses, we can update our estimate
 
 The ``E step'' of the EM algorithm we can think of as determining, for each component  $c$, the expected number of times for each of our observed $N$ datapoints that component $c$ was chosen as the contributor to $f(z)$:
 \begin{eqnarray}
-{\mathbf E}[ {\mbox model}_c |data ] % & = & \sum_i Pr(Model_c | z_i^*) \\ 
+{\mathbf E}[ model_c |data ] % & = & \sum_i Pr(Model_c | z_i^*) \\ 
  %& = & \sum_i \frac{Pr(Model_c, z_i^*)}{Pr(z_i^*)} \\ 
  %& = & \sum_i \frac{Pr(Model_c) Pr(z_i^*|model_c)}{f(z_i^*)} \\ 
  & = & \sum_i \frac{\pi_c f_c(z_i^*)}{f(z_i^*)} 
 \end{eqnarray}
-Heuristically, we can think of the expression $f_c(z)$ equivalently as $Pr(z| model c)$ or in words the likelihood of seeing the value $z$ given that component $c$ is the ``chosen'' model. 
+Heuristically, we can think of the expression $f_c(z)$ equivalently as $Pr(z| model_c)$ or in words the likelihood of seeing the value $z$ given that component $c$ is the ``chosen'' model. 
 
 The ``M step'' of the EM algorithm simply calculates, conditional on the ``complete data'', i.e. the $z^*_i$ and the estimated number of times each component was chosen, the fraction of times each method was chosen. Therefore, if we simply divide the quantity from the ``E-step'' by $N$, our total number of observations, we obtain a new estimate of this probability: 
 \begin{eqnarray}
-\pi_c^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ {\mbox model}_c |data ] \\
+\pi_c^{(k+1)} & = & \frac{1}{N} {\mathbf E}[ model_c |data ] \\
 & = & \frac{1}{N} \sum_i \frac{\pi^{(k)}_c f_c(z_i^*)}{f(z_i^*)} 
 \end{eqnarray}
 
