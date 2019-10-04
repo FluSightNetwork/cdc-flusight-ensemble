@@ -13,9 +13,9 @@ if (!dir.exists(epidata.cache.dir)) {
 fluview.baseline.info = fetchUpdatingResource(
   function() {
     LICENSE=RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/LICENSE")
-    ## wILI_Baseline=read.csv(textConnection(RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv")), row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
+    wILI_Baseline=read.csv(textConnection(RCurl::getURL("https://raw.githubusercontent.com/cdcepi/FluSight-forecasts/master/wILI_Baseline.csv")), row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
     ## xxx extra comma in current file (2018-10-17) misaligns data! use fixup file for now & force cache invalidation:
-    wILI_Baseline=read.csv("wILI_Baseline_fixup.csv", row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
+    ## wILI_Baseline=read.csv("wILI_Baseline_fixup.csv", row.names=1L, check.names=FALSE, stringsAsFactors=FALSE)
     cat("LICENSE for wILI_Baseline.csv:")
     cat(LICENSE)
     return (list(
@@ -98,7 +98,7 @@ flusight2016_settings = function(forecast.epiweek, forecast.Location) {
 }
 
 ## Set weeks & locations & targets for which to perform calculations:
-input.epiweeks = 2010:2017 %>>%
+input.epiweeks = 2010:2018 %>>% ## last year needs to be incremented when calculating for the most recent year
   epiforecast::DatesOfSeason(40L,0L,3L) %>>%
   dplyr::combine() %>>%
   epiforecast::DateToYearWeekWdayDF(0L,3L) %>>%
