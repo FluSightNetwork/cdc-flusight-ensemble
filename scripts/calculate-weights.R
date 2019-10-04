@@ -8,7 +8,7 @@ library("cdcfluview")
 source("make-equal-weights.R")
 
 ## set column to use for calculating weights
-SCORE_COL <- quo(`Multi bin score`)
+SCORE_COL <- quo(`Score`)
 
 ## Set up parallel:
 options(mc.cores=parallel::detectCores()-1L)
@@ -226,5 +226,5 @@ for (weighting.scheme.i in seq_along(weighting.scheme.partial.indexer.lists)) {
   }
   ## print weight df and write to csv file:
   print(combined.weight.df)
-  write.csv(combined.weight.df, file.path("..","weights",paste0(weighting.scheme.name,"-weights.csv")), row.names = FALSE, quote=FALSE)
+  write.csv(combined.weight.df, file.path("..","weights",paste0(weighting.scheme.name,"-weights-unibin.csv")), row.names = FALSE, quote=FALSE)
 }

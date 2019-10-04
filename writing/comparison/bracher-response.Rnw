@@ -41,7 +41,10 @@ scores_adj <- scores_trimmed %>%
         -10, 
         Score),
         target_type = dplyr::if_else(Target %in% c("Season onset", "Season peak week", "Season peak percentage"),
-            "seasonal", "k-week-ahead")) %>%
+            "seasonal", "k-week-ahead"),
+        target_unit = dplyr::if_else(Target %in% c("Season onset", "Season peak week"),
+            "week", "incidence")
+      ) %>%
     mutate(
         multibin_score_adj = dplyr::if_else(multibin_score_adj < -10 , -10, multibin_score_adj),
         singlebin_score_adj = dplyr::if_else(singlebin_score_adj < -10 , -10, singlebin_score_adj),
@@ -125,6 +128,102 @@ seasonal_plot <- ggplot(seasonal_scores, aes(y=Model, x=bintype)) +
 <<>>=
 lay <- matrix(c(1,1,2,2,2),nrow=1)
 grid.arrange(wkahead_plot, seasonal_plot, nrow=1, layout_matrix=lay)
+@
+
+
+<<updated-plot>>=
+
+## separating by incidence vs. week
+## also, trying line plot
+
+scores_by_model_unit <- scores_adj %>%
+  group_by(Model, target_unit) %>%
+  summarize(
+    multibin = mean(multibin_score_adj),
+    singlebin = mean(singlebin_score_adj)
+  ) %>%
+  ungroup() %>%
+  gather(key = "bintype", value = "score", -c(Model, target_unit)) %>%
+  group_by(target_unit, bintype) %>%
+  mutate(score_scaled = -score/max(score)) %>%
+  ungroup() %>%
+  group_by(target_unit, bintype) %>%
+  mutate(
+    rank = rank(desc(score))
+  )%>%
+  ungroup() 
+
+ggplot(scores_by_model_unit, aes(x=rev(Model), y=score)) +
+  geom_point(aes(color=bintype, shape=bintype)) +
+  facet_grid(.~target_unit)
+
+ggplot(scores_by_model_unit, aes(x=rev(Model), y=score_scaled)) +
+  geom_point(aes(color=bintype, shape=bintype)) +
+  facet_grid(.~target_unit) +
+  xlab(NULL) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+@
+
+
+Updated published plot to facet by target_unit instead
+<<>>=
+week_scores <- scores_by_model_unit %>%
+    filter(target_unit=="week") %>% 
+    group_by(bintype) %>%
+    mutate(
+        rank = rank(desc(score)),
+        pct_lower_than_best = -(score-max(score))/max(score)*100
+        ) %>%
+    arrange(rank) %>%
+    ungroup()
+
+week_scores$Model <- factor(
+    week_scores$Model, 
+    levels = rev(as.character(week_scores$Model[week_scores$bintype=="multibin"])),
+    ordered = TRUE)
+    
+week_plot <- ggplot(week_scores, aes(y=Model, x=bintype)) +
+    geom_tile(aes(fill=pct_lower_than_best)) +
+    geom_text(aes(label=specify_decimal(score)))+
+    scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
+    theme(legend.position = "none") +
+    xlab("average log score") + ylab("Component model") +
+    labs(title="week-target accuracy", tag="A") +
+  theme(plot.tag = element_text(size = 24))
+@
+
+
+<<>>=
+incidence_scores <- scores_by_model_unit %>%
+    filter(target_unit=="incidence") %>% 
+    group_by(bintype) %>%
+    mutate(
+        rank = rank(desc(score)),
+        pct_lower_than_best = -(score-max(score))/max(score)*100
+        ) %>%
+    arrange(rank) %>%
+    ungroup()
+
+incidence_scores$Model <- factor(
+    incidence_scores$Model, 
+    levels = rev(as.character(incidence_scores$Model[incidence_scores$bintype=="multibin"])),
+    ordered = TRUE)
+    
+incidence_plot <- ggplot(incidence_scores, aes(y=Model, x=bintype)) +
+    geom_tile(aes(fill=pct_lower_than_best)) +
+    geom_text(aes(label=specify_decimal(score)))+
+    scale_fill_gradient(high="#f7fcf0", low="#0868ac", name="% lower than best model") +
+    xlab("average log score") + ylab(element_blank()) +
+    labs(title="incidence-target accuracy", tag="B") +
+    theme(plot.tag = element_text(size = 24))
+@
+
+<<>>=
+lay <- matrix(c(1,1,2,2,2),nrow=1)
+grid.arrange(week_plot, incidence_plot, nrow=1, layout_matrix=lay)
 @
 
 
