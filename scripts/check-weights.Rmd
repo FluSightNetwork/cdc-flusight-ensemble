@@ -25,8 +25,8 @@ ggplot(constant_weights, aes(x=as.numeric(season), y=weight, color=component_mod
     geom_line() + 
     geom_dl(aes(label = component_model_id), method="last.points", cex=.8) +
     scale_x_continuous(
-        limits=c(1, 10), breaks=1:7,
-        labels = paste0(2010:2016, "/", 2011:2017),
+        limits=c(1, 10), breaks=1:9,
+        labels = paste0(2010:2018, "/", 2011:2019),
         name=NULL) + 
     scale_colour_discrete(guide = 'none') +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
@@ -57,8 +57,8 @@ ggplot(target_type_weights, aes(x=as.numeric(season), y=weight, color=component_
     geom_line() + 
     geom_dl(aes(label = component_model_id), method="last.points", cex=.8) +
     scale_x_continuous(
-        limits=c(1, 10), breaks=1:7,
-        labels = paste0(2010:2016, "/", 2011:2017),
+        limits=c(1, 10), breaks=1:9,
+        labels = paste0(2010:2018, "/", 2011:2019),
         name=NULL) + 
     scale_colour_discrete(guide = 'none') +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
