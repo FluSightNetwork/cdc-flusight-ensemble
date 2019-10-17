@@ -21,17 +21,18 @@ methods: >-
   covariates. Final CV model scores  were examined and the top performing model
   structure was chosen for each location. Forecasts are simulated from iterating
   one-step-ahead preditions for the remainder of the season, and the occurence 
-  of seasonal targets is calculated from these predictions. Observed values 
-  for the current season in the simulation are adjusted for backfill by sampling
+  of seasonal targets is calculated from these predictions. Observed values  for
+  the current season in the simulation are adjusted for backfill by sampling
   from a distribution of prior observed outcomes for that lag/week combination.
-  Predicted probabilities are calculated from the observed values across multiple
-  simulations. For making prospective predictions, models were fit using only 
-  data from prior seasons, and forecasts were made using data that would have 
-  been available at the time of the forecast. In the case of covariates, predicted
-  values of the covariates based on prior data were used to generate forecasts. 
-  For Google Trends data, no information on backfill is available and the data 
-  are assumed to be free of backfill. For influenza subtypes, no information on 
-  backfill is available, so we use cumulative percentages of each influenza subtype
-  up to a given week in  the season, which is less susceptible to backfill 
-  effects than weekly measures.  All code used in estimation and prediction is 
-  available at https://github.com/craigjmcgowan/FluForecast
+  Predicted probabilities are calculated from the observed values across
+  multiple simulations. For making prospective predictions, models were fit
+  using only  data from prior seasons, and forecasts were made using data that
+  would have  been available at the time of the forecast. In the case of
+  covariates, predicted values of the covariates based on prior data were used
+  to generate forecasts.  For Google Trends data, no information on backfill is
+  available and the data  are assumed to be free of backfill. For influenza
+  subtypes, no information on  backfill is available, so we use cumulative
+  percentages of each influenza subtype up to a given week in  the season, which
+  is less susceptible to backfill  effects than weekly measures.  All code used
+  in estimation and prediction is  available at
+  https://github.com/craigjmcgowan/FluForecast
