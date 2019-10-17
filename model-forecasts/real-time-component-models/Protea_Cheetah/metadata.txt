@@ -18,8 +18,8 @@ methods: >-
   leave-one-season-out cross validation in a similar method to the FluSight
   Network ensemble.  For prospective forecasts, only ILINet data known at the
   time of the forecast areused, as retrieved from the CMU-Epidata API. For
-  subtype percentages, the backfilled data are not available, however we use
-  the cumulative percentage of samples of each subtype at a given week of the
-  season rather than the weekly percentage, which is less susceptible to
-  backfill effects as the season goes on. All code used in estimation and
-  prediction is available at https://github.com/craigjmcgowan/FluForecast
+  subtype percentages, the backfilled data are not available, however we use the
+  cumulative percentage of samples of each subtype at a given week of the season
+  rather than the weekly percentage, which is less susceptible to backfill
+  effects as the season goes on. All code used in estimation and prediction is
+  available at https://github.com/craigjmcgowan/FluForecast

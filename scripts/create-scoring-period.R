@@ -2,7 +2,7 @@
 # Function to create scoring period for each season
 create_scoring_period <- function(
     baselinefile = "../baselines/wILI_Baseline.csv",
-    scoresfile = "../scores/target-multivals-20172018.csv") {
+    scoresfile = "../scores/target-multivals.csv") {
   require(cdcfluview)
   require(dplyr)
   
