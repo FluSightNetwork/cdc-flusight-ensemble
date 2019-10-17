@@ -56,5 +56,4 @@ fi
 
 source ./travis/viz.sh
 
-
 ssh-agent -k
