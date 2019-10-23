@@ -18,8 +18,9 @@ theme_set(theme_minimal())
 ```{r}
 scores <- read_csv("../scores/scores.csv")
 models <- read_csv("../model-forecasts/component-models/model-id-map.csv")
-complete_models <- c(models$`model-id`[models$complete=="true"], 
-    paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
+complete_models <- c(models$`model-id`[models$complete=="true"],
+                     "UTAustin-edm",
+                     paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
 
 ## define column with scores of interest
 SCORE_COL <- quo(`Multi bin score`)

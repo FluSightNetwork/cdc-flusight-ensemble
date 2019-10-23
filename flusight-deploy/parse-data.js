@@ -1,4 +1,4 @@
-const yaml = require('js-yaml')
+const yaml = require('js-yaml') 
 const fs = require('fs-extra')
 const path = require('path')
 const models = require('../scripts/modules/models')
@@ -8,6 +8,7 @@ const parseMetadata = (modelDir) => {
   // Return a flusight compatible metadata object
   let rootMetadata = models.getModelMetadata(modelDir)
   let desc = rootMetadata.methods
+  console.log(modelDir)
   let descMaxLen = 150
   if (desc.length > descMaxLen) {
     desc = desc.slice(0, descMaxLen) + '...'

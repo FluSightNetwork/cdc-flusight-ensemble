@@ -7,7 +7,8 @@ echo "> Building visualizer"
 git checkout gh-pages || git checkout --orphan gh-pages
 cd ./flusight-deploy
 bash ./0-init-flusight.sh
-bash ./1-build-flusight.sh
+bash ./1-patch-flusight.sh
+bash ./2-build-flusight.sh
 cd .. # in repo root now
 
 # Remove CSVs

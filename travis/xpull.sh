@@ -21,6 +21,9 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
+# Deleting the private key so that we don't accidentally push it back
+rm deploy_key
+
 echo "This is a trigger from another repository."
 npm install -g "reichlab/xpull"
 xpull --repo "reichlab/2017-2018-cdc-flu-contest" --message "[TRAVIS] Xpulled files from travis"

@@ -4,21 +4,18 @@ dist: trusty
 git:
   depth: 1
 
-addons:
-  apt:
-    sources:
-      - sourceline: "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"
-      - sourceline: "ppa:ubuntugis/ubuntugis-unstable"
-      - sourceline: "ppa:fish-shell/release-2"
-    packages:
-      - libv8-3.14-dev
-      - r-base
-      - r-base-dev
-      - libudunits2-dev
-      - libgdal-dev
-      - libgeos-dev
-      - libproj-dev
-      - fish
+before_install:
+  # Key for cran trusty ppa
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9
+
+  # Add repositories
+  - echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" | sudo tee -a /etc/apt/sources.list
+  - sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
+  - sudo add-apt-repository -y ppa:fish-shell/release-2
+  - sudo apt-get update -qq
+
+  # Dependencies
+  - sudo apt-get install libv8-3.14-dev r-base r-base-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev fish -y
 
 node_js:
   - 7
@@ -27,6 +24,6 @@ cache: yarn
 
 env:
   global:
-  - ENCRYPTION_LABEL: "ae5ecd417952"
+  - ENCRYPTION_LABEL: dce9ae5740a9
 
 script: bash ./travis-main.sh

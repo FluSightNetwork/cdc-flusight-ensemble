@@ -1,5 +1,4 @@
 // Statcounter code for Flusightnetwork.io http://flusightnetwork.io/
-
 global.sc_project = 11696421
 global.sc_invisible = 1
 global.sc_security = "0fef7288"

@@ -1,0 +1,28 @@
+team_name: UA
+team_members: Hannah Biegel and Joceline Lega
+model_name: Epidemic Cosine
+model_abbr: EpiCos
+anonymity: named
+data_source1: ILINet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >
+  EpiCos is an ODE model developed to match the historical trends in wILI.  To
+  combine the wILI with the model during the season, a variational data
+  assimilation  method is used (sometimes called 4D-Var) to fit model parameters
+  and initial  condition of the differential equation. For the data assimilation
+  piece of EpiCos, a  prior distribution of the parameters is estimated by
+  fitting the model to historical  data available by the time of the first
+  forecast of the season, i.e. EW 40. Through  the Delphi API the furthest back
+  we were able to obtain the historical wILI data from  EW 40 of 1997 through EW
+  20 of 2008 was issued on EW 52 of 2013 (this does not  strictly abide by the
+  backfill availability, but is likely that these values do not  differ much
+  from data that would have been available in 2010). Aside from these weeks, 
+  wILI historical data was only used that was issued by the forecast date. For
+  example,  to forecast the 2010-2011 season, priors were estimated using wILI
+  from EW 40 in 1997  through EW 40 in 2010, where the wILI for EW 40 of 2008
+  through EW 40 of 2010 were  only issued as recently as EW 40 in 2010. A
+  forecast for EW 50 in the 2010 season  would then only use wILI data from the
+  current season that had been issued by EW 50  in 2010.  From the 2014-15 flu
+  season onward, the backfill issue was fully adhered  to even during the
+  estimation of the prior distribution step.
