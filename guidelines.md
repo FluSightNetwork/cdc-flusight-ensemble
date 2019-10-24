@@ -92,7 +92,7 @@ Ensemble models will use the method of stacking probabilistic distributions to c
  1. TW: Weights estimated per model and target (_7M_).
  1. TRW-reg: Regularized weights estimated per model, target, and region (_77M_) 
 
-The equal weights (EW) candidate ensemble requires no estimation. The weights for the CW, TTW, and TW candidates will be estimated by the Expectation-Maximization (EM) algorithm and the TRW-reg candidate will be estimated using a Variational Inference (VI) algorithm that shrinks or "regularizes" the weights towards an equal weighted ensemble. Our implementation of the EM and VI algorithms are described in detail in [(McAndrew and Reich, 2019)](https://arxiv.org/abs/1908.01675). The weights will be estimated to maximize the single-bin log score [(Bracher, 2019)](https://www.pnas.org/content/116/42/20809).
+In each of the five candidate models, the weights will be estimated once at the beginning of the 2019/2020 season and will remain fixed all season long. The equal weights (EW) candidate ensemble requires no estimation. The weights for the CW, TTW, and TW candidates will be estimated by the Expectation-Maximization (EM) algorithm and the TRW-reg candidate will be estimated using a Variational Inference (VI) algorithm that shrinks or "regularizes" the weights towards an equal weighted ensemble. Our implementation of the EM and VI algorithms are described in detail in [(McAndrew and Reich, 2019)](https://arxiv.org/abs/1908.01675). The weights will be estimated to maximize the single-bin log score [(Bracher, 2019)](https://www.pnas.org/content/116/42/20809).
 
 ### Ensemble validation and comparison for CDC submission
 
