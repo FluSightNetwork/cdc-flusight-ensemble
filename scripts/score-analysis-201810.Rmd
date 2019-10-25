@@ -20,8 +20,8 @@ theme_set(theme_minimal())
 ```{r}
 scores <- read_csv("../scores/scores.csv")
 models <- read_csv("../model-forecasts/component-models/model-id-map.csv")
-complete_models <- c(models$`model-id`)# ) , models$`model-id`[models$`to-use`],
-                     #paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
+complete_models <- c(models$`model-id`,# ) , models$`model-id`[models$`to-use`],
+                     paste0("FSNetwork-", c("TW", "TTW", "SRTRW", "EW", "CW")))
 
 ## define column with scores of interest
 SCORE_COL <- quo(`Score`)
@@ -200,7 +200,7 @@ ggplot(filter(scores_by_target_season_region, Target=="Season onset"),
 
 ```{r}
 M <- 21
-FSN_labels <- c("EW", "CW", "TTW", "TW", "TRW")
+FSN_labels <- c("EW", "CW", "TTW", "TW", "SRTRW")
 FSN_levels <- paste0("FSNetwork-", FSN_labels)
 FNS_df <- M*c(0, 1, 2, 7, 77)
 max_avg_scores_target <- scores_by_target %>%
