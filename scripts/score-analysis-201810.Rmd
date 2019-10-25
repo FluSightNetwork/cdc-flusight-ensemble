@@ -298,7 +298,7 @@ ggplot(filter(scores_by_week_season, Target=="Season onset"),
 
 ```{r}
 library(ggridges)
-top_models <- c("FluOutlook-MechAug","FluOutlook-Mech","LANL-DBMplus", "Protea-Springbok","Delphi-DeltaDensity1", "ReichLab-KCDE", "ReichLab-SARIMA1", "CU-EAKFC_SEIRS")
+top_models <- c("FluOutlook-MechAug","FluOutlook-Mech","LANL-DBMplus", "Protea-Springbok","Delphi-DeltaDensity1", "ReichLab-KCDE_NB", "ReichLab-SARIMA1", "CU-EAKFC_SEIRS")
 ggplot(filter(scores_adj, Model%in%top_models)) +
   geom_violin(aes(y=score_adj, x=Model)) +
   theme(axis.text.x=element_text(angle=45, hjust=1)) +
@@ -314,6 +314,7 @@ ggplot(filter(scores_adj, Model%in%top_models)) +
 
 ggplot(filter(scores_adj, Model%in%top_models)) +
   geom_violin(aes(y=-Score, x=Model)) + scale_y_log10() +
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
   facet_wrap(.~Target)
 
 ggplot(filter(scores_adj, Model%in%top_models)) +
