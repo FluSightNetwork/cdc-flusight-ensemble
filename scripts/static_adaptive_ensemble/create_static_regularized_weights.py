@@ -92,4 +92,4 @@ if __name__ == "__main__":
                     data['target'].append(target)
                     data['weight'].append(float(pi))
     data = pd.DataFrame(data)
-    data.to_csv('../../weights/static-regularized-ensemble_Target-Region.csv',index=False)
+    data.to_csv('../../weights/static-regularized-target-region-weights.csv',index=False)
