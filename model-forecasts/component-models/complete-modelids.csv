@@ -21,6 +21,7 @@ season,model-id,model-dir
 2010/2011,Protea-Kudu,Protea_Kudu
 2010/2011,Protea-Springbok,Protea_Springbok
 2010/2011,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2010/2011,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2010/2011,ReichLab-KDE,ReichLab_kde
 2010/2011,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2010/2011,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -47,6 +48,7 @@ season,model-id,model-dir
 2011/2012,Protea-Kudu,Protea_Kudu
 2011/2012,Protea-Springbok,Protea_Springbok
 2011/2012,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2011/2012,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2011/2012,ReichLab-KDE,ReichLab_kde
 2011/2012,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2011/2012,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -73,6 +75,7 @@ season,model-id,model-dir
 2012/2013,Protea-Kudu,Protea_Kudu
 2012/2013,Protea-Springbok,Protea_Springbok
 2012/2013,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2012/2013,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2012/2013,ReichLab-KDE,ReichLab_kde
 2012/2013,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2012/2013,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -99,6 +102,7 @@ season,model-id,model-dir
 2013/2014,Protea-Kudu,Protea_Kudu
 2013/2014,Protea-Springbok,Protea_Springbok
 2013/2014,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2013/2014,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2013/2014,ReichLab-KDE,ReichLab_kde
 2013/2014,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2013/2014,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -125,6 +129,7 @@ season,model-id,model-dir
 2014/2015,Protea-Kudu,Protea_Kudu
 2014/2015,Protea-Springbok,Protea_Springbok
 2014/2015,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2014/2015,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2014/2015,ReichLab-KDE,ReichLab_kde
 2014/2015,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2014/2015,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -151,6 +156,7 @@ season,model-id,model-dir
 2015/2016,Protea-Kudu,Protea_Kudu
 2015/2016,Protea-Springbok,Protea_Springbok
 2015/2016,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2015/2016,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2015/2016,ReichLab-KDE,ReichLab_kde
 2015/2016,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2015/2016,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -177,6 +183,7 @@ season,model-id,model-dir
 2016/2017,Protea-Kudu,Protea_Kudu
 2016/2017,Protea-Springbok,Protea_Springbok
 2016/2017,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2016/2017,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2016/2017,ReichLab-KDE,ReichLab_kde
 2016/2017,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2016/2017,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
@@ -191,6 +198,7 @@ season,model-id,model-dir
 2017/2018,Protea-Kudu,Protea_Kudu
 2017/2018,Protea-Springbok,Protea_Springbok
 2017/2018,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2017/2018,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2017/2018,UA-EpiCos,UA_EpiCos
 2018/2019,CU-BMA,CUBMA
 2018/2019,FluOutlook-Mech,FluOutlook_Mech
@@ -202,5 +210,6 @@ season,model-id,model-dir
 2018/2019,Protea-Kudu,Protea_Kudu
 2018/2019,Protea-Springbok,Protea_Springbok
 2018/2019,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2018/2019,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2018/2019,ReichLab-KDE,ReichLab_kde
 2018/2019,UA-EpiCos,UA_EpiCos
