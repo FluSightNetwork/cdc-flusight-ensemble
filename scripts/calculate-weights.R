@@ -5,7 +5,7 @@ library("cdcfluview")
 ## devtools::install_github("cmu-delphi/epiforecast-R", subdir="epiforecast")
 
 ## make equal weights file separately
-# source("make-equal-weights.R")
+source("make-equal-weights.R")
 
 ## set column to use for calculating weights
 SCORE_COL <- quo(`Score`)
