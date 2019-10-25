@@ -39,8 +39,8 @@ def removeNALogScores(d):
     modelNames = logScoreData.columns 
     modelPis = {name:0. for name in modelNames}
 
-    logScoreDataNoNA  = logScoreData.dropna(1)
-    modelNamesNoNA = logScoreDataNoNA.columns
+    logScoreDataNoNA  = logScoreData.fillna(-10.0)
+    modelNamesNoNA    = logScoreDataNoNA.columns
     return logScoreDataNoNA,modelNamesNoNA
 
 def capLogScoresAtNeg10(d):
@@ -64,11 +64,14 @@ if __name__ == "__main__":
 
     numberOfModels = countNumberOfUniqueModels(singleBinLogScores)
     seasons,regions,targets = produceUniqueListOfSeasonsRegionsAndTargets(singleBinLogScores)
+    seasons = list(seasons)
+    seasons.append("2019/2020")
 
     priorPercent = 0.10 # HARD-CODED
     
     data = {'component_model_id':[],'season':[],'location':[],'target':[],'weight':[]}
-    for season in seasons+['2019/2020']:
+    
+    for season in seasons:
         testData = removeSeason(singleBinLogScores,season)
 
         for region in regions:
@@ -78,6 +81,7 @@ if __name__ == "__main__":
                 
                 regionTargetData= subsetTestSet2SpecificRegionTarget(testData,region,target)
                 regionTargetData   = capLogScoresAtNeg10(regionTargetData) 
+
                 logScoreData     = keepLogScoresAndTranspose(regionTargetData) 
                 
                 logScoreData, modelNames = removeNALogScores(logScoreData)
