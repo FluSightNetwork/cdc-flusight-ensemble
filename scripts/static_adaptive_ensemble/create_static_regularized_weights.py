@@ -25,6 +25,13 @@ def removeSeason(d,s):
 def subsetTestSet2SpecificRegionTarget(d,r,t):
     return d.loc[(d.Target==t) & (d.Location==r),:]
 
+def clip2TargetBounds(d,bounds):
+    d = d.merge( bounds
+                 ,left_on=['Season','Location','Target']
+                 ,right_on=['Season','Location','Target'])
+    d = d.loc[ (d['Model Week'] >= d['start_week_seq']) & (d['Model Week'] <= d['end_week_seq']),:]
+    return d
+
 def keepLogScoresAndTranspose(d):
     d = d.reset_index()
     d = pd.pivot_table(data = d
@@ -62,6 +69,8 @@ if __name__ == "__main__":
     singleBinLogScores = pd.read_csv('../../scores/scores.csv')
     singleBinLogScores = removeEnsembleModels(singleBinLogScores)
 
+    targetBounds = pd.read_csv('./all-target-bounds.csv')
+
     numberOfModels = countNumberOfUniqueModels(singleBinLogScores)
     seasons,regions,targets = produceUniqueListOfSeasonsRegionsAndTargets(singleBinLogScores)
     seasons = list(seasons)
@@ -76,10 +85,11 @@ if __name__ == "__main__":
 
         for region in regions:
             for target in targets:
-                sys.stdout.write('\r{:10s}-{:20s}-{:20s}\r'.format(season,region,target))
+                sys.stdout.write('\x1b[2K\r Holdout:{:s}-Region={:s}-Target={:s}'.format(season,region,target))
                 sys.stdout.flush()
                 
-                regionTargetData= subsetTestSet2SpecificRegionTarget(testData,region,target)
+                regionTargetData   = subsetTestSet2SpecificRegionTarget(testData,region,target)
+                regionTargetData   = clip2TargetBounds(regionTargetData,targetBounds)
                 regionTargetData   = capLogScoresAtNeg10(regionTargetData) 
 
                 logScoreData     = keepLogScoresAndTranspose(regionTargetData) 
