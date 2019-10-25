@@ -1,5 +1,5 @@
 model-id,model-dir,complete
-CU-BMA,CUBMA,false
+CU-BMA,CUBMA,true
 CU-EAKFC_SEIRS,CU_EAKFC_SEIRS,false
 CU-EAKFC_SIRS,CU_EAKFC_SIRS,false
 CU-EKF_SEIRS,CU_EKF_SEIRS,false
@@ -12,11 +12,17 @@ Delphi-EmpiricalTraj,Delphi_EmpiricalTrajectories,false
 Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity,false
 Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity,false
 Delphi-Uniform,Delphi_Uniform,false
+FluOutlook-Mech,FluOutlook_Mech,true
+FluOutlook-MechAug,FluOutlook_MechAug,true
+FluX-ARLR,FluX_ARLR,true
+FluX-FluX_LSTM,FluX_LSTM,true
 LANL-DBMplus,LANL_DBMplus,true
-Protea Analytics-Cheetah,Protea_Cheetah,true
-Protea Analytics-Kudu,Protea_Kudu,true
-Protea Analytics-Springbok,Protea_Springbok,true
-ReichLab-KCDE,ReichLab_kcde,false
+Protea-Cheetah,Protea_Cheetah,true
+Protea-Kudu,Protea_Kudu,true
+Protea-Springbok,Protea_Springbok,true
+ReichLab-KCDE_NB,ReichLab_kcde_backfill_none,true
+ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post-hoc,false
 ReichLab-KDE,ReichLab_kde,false
 ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE,false
 ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE,false
+UA-EpiCos,UA_EpiCos,true
