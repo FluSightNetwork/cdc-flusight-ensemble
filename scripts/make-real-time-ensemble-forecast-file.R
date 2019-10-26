@@ -96,7 +96,8 @@ for(j in 1:length(weight_files)){
          rep(1, nrow(tot_target_weights))
     ))
     if(!all_weights_sum_to_1)
-        stop(paste("Not all model weights sum to 1 for", weight_file[j]))
+    # Nutcha modified: change weight_file to weight_files
+        stop(paste("Not all model weights sum to 1 for", weight_files[j]))
 
     ## create, save ensemble file
     stacked_entry <- stack_forecasts(file_df, wt_subset)
