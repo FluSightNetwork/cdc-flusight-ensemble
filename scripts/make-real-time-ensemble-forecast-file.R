@@ -86,10 +86,15 @@ for(j in 1:length(weight_files)){
     tot_target_weights <- wt_subset %>%
         group_by_at(vars(weight_var_cols)) %>%
         summarize(total_weights = sum(weight))
-    all_weights_sum_to_1 <- base::all.equal(
-        tot_target_weights$total_weights,
-        rep(1, nrow(tot_target_weights))
-    )
+    # Nutcha modified the section commented out below to reflect all.equal change (no longer return T/F)
+    # all_weights_sum_to_1 <- base::all.equal(
+    #     tot_target_weights$total_weights,
+    #     rep(1, nrow(tot_target_weights))
+    # )
+    all_weights_sum_to_1 <- base::isTRUE(all.equal(
+         tot_target_weights$total_weights,
+         rep(1, nrow(tot_target_weights))
+    ))
     if(!all_weights_sum_to_1)
         stop(paste("Not all model weights sum to 1 for", weight_file[j]))
 
