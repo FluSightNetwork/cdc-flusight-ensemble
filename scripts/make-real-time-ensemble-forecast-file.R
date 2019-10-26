@@ -125,7 +125,6 @@ tw_submission_file <- paste0(
   "model-forecasts/submissions/target-based-weights/",
   "EW", str_pad(THIS_EW, 2, pad = "0"), "-", this_year, "-FSNetwork-", current_date, ".csv"
 )
-
 file.copy(tw_file, tw_submission_file, overwrite = TRUE)
 
 

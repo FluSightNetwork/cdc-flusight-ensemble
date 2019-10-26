@@ -1,0 +1,11 @@
+team_name: FSNetwork
+team_members: 'Nutcha Wattanachit, Thomas McAndrew, Nicholas G. Reich'
+model_name: static-regularized-target-region-weights
+model_abbr: SRTRW
+anonymity: named
+data_source1: other models
+data_source2: NULL
+this_model_is_an_ensemble: TRUE
+methods: >-
+  This is an ensemble of stacked entries from all component models. We use
+  a variational inference algorithm to shrink target-and-region specific weights towards an equal weighted average.
