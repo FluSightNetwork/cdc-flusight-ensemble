@@ -129,7 +129,7 @@ describe('CSV', function () {
   }, [])
 
   describe('should match the file name pattern', function () {
-    let pattern = /^EW[0-5][0-9]-20[0-1][0-9]-.*\.csv$/
+    let pattern = /^EW[0-5][0-9]-20[0-9][0-9]-.*\.csv$/
     csvFiles.forEach(function (csvFile) {
       it(csvFile, function () {
         pattern.test(path.basename(csvFile)).should.be.true
