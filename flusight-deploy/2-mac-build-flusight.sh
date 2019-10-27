@@ -45,4 +45,4 @@ sed -i "" 's/node build\/build.js/node --max_old_space_size=6000 build\/build.js
 yarn run build
 cp -r ./dist/* ../../ # Copy to repo root
 cd .. # in ./flusight-deploy
-#rm -rf ./flusight-master
+rm -rf ./flusight-master
