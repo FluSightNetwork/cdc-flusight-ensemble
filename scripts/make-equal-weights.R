@@ -4,7 +4,8 @@ library(dplyr)
 
 model_names <- read.csv("model-forecasts/component-models/model-id-map.csv",
     stringsAsFactors = FALSE)
-seasons <- paste0(2010:2018, "/", 2011:2019)
+# Nutcha modified to generate weights for 2019/2020
+seasons <- paste0(2010:2019, "/", 2011:2020)
 
 equal_weights <- expand.grid(
     component_model_id = model_names$model.id,

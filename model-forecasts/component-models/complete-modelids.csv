@@ -12,14 +12,20 @@ season,model-id,model-dir
 2010/2011,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2010/2011,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2010/2011,Delphi-Uniform,Delphi_Uniform
+2010/2011,FluOutlook-Mech,FluOutlook_Mech
+2010/2011,FluOutlook-MechAug,FluOutlook_MechAug
+2010/2011,FluX-ARLR,FluX_ARLR
+2010/2011,FluX-FluX_LSTM,FluX_LSTM
 2010/2011,LANL-DBMplus,LANL_DBMplus
-2010/2011,Protea Analytics-Cheetah,Protea_Cheetah
-2010/2011,Protea Analytics-Kudu,Protea_Kudu
-2010/2011,Protea Analytics-Springbok,Protea_Springbok
-2010/2011,ReichLab-KCDE,ReichLab_kcde
+2010/2011,Protea-Cheetah,Protea_Cheetah
+2010/2011,Protea-Kudu,Protea_Kudu
+2010/2011,Protea-Springbok,Protea_Springbok
+2010/2011,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2010/2011,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2010/2011,ReichLab-KDE,ReichLab_kde
 2010/2011,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2010/2011,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2010/2011,UA-EpiCos,UA_EpiCos
 2011/2012,CU-BMA,CUBMA
 2011/2012,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2011/2012,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -33,14 +39,20 @@ season,model-id,model-dir
 2011/2012,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2011/2012,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2011/2012,Delphi-Uniform,Delphi_Uniform
+2011/2012,FluOutlook-Mech,FluOutlook_Mech
+2011/2012,FluOutlook-MechAug,FluOutlook_MechAug
+2011/2012,FluX-ARLR,FluX_ARLR
+2011/2012,FluX-FluX_LSTM,FluX_LSTM
 2011/2012,LANL-DBMplus,LANL_DBMplus
-2011/2012,Protea Analytics-Cheetah,Protea_Cheetah
-2011/2012,Protea Analytics-Kudu,Protea_Kudu
-2011/2012,Protea Analytics-Springbok,Protea_Springbok
-2011/2012,ReichLab-KCDE,ReichLab_kcde
+2011/2012,Protea-Cheetah,Protea_Cheetah
+2011/2012,Protea-Kudu,Protea_Kudu
+2011/2012,Protea-Springbok,Protea_Springbok
+2011/2012,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2011/2012,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2011/2012,ReichLab-KDE,ReichLab_kde
 2011/2012,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2011/2012,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2011/2012,UA-EpiCos,UA_EpiCos
 2012/2013,CU-BMA,CUBMA
 2012/2013,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2012/2013,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -54,14 +66,20 @@ season,model-id,model-dir
 2012/2013,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2012/2013,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2012/2013,Delphi-Uniform,Delphi_Uniform
+2012/2013,FluOutlook-Mech,FluOutlook_Mech
+2012/2013,FluOutlook-MechAug,FluOutlook_MechAug
+2012/2013,FluX-ARLR,FluX_ARLR
+2012/2013,FluX-FluX_LSTM,FluX_LSTM
 2012/2013,LANL-DBMplus,LANL_DBMplus
-2012/2013,Protea Analytics-Cheetah,Protea_Cheetah
-2012/2013,Protea Analytics-Kudu,Protea_Kudu
-2012/2013,Protea Analytics-Springbok,Protea_Springbok
-2012/2013,ReichLab-KCDE,ReichLab_kcde
+2012/2013,Protea-Cheetah,Protea_Cheetah
+2012/2013,Protea-Kudu,Protea_Kudu
+2012/2013,Protea-Springbok,Protea_Springbok
+2012/2013,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2012/2013,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2012/2013,ReichLab-KDE,ReichLab_kde
 2012/2013,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2012/2013,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2012/2013,UA-EpiCos,UA_EpiCos
 2013/2014,CU-BMA,CUBMA
 2013/2014,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2013/2014,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -75,14 +93,20 @@ season,model-id,model-dir
 2013/2014,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2013/2014,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2013/2014,Delphi-Uniform,Delphi_Uniform
+2013/2014,FluOutlook-Mech,FluOutlook_Mech
+2013/2014,FluOutlook-MechAug,FluOutlook_MechAug
+2013/2014,FluX-ARLR,FluX_ARLR
+2013/2014,FluX-FluX_LSTM,FluX_LSTM
 2013/2014,LANL-DBMplus,LANL_DBMplus
-2013/2014,Protea Analytics-Cheetah,Protea_Cheetah
-2013/2014,Protea Analytics-Kudu,Protea_Kudu
-2013/2014,Protea Analytics-Springbok,Protea_Springbok
-2013/2014,ReichLab-KCDE,ReichLab_kcde
+2013/2014,Protea-Cheetah,Protea_Cheetah
+2013/2014,Protea-Kudu,Protea_Kudu
+2013/2014,Protea-Springbok,Protea_Springbok
+2013/2014,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2013/2014,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2013/2014,ReichLab-KDE,ReichLab_kde
 2013/2014,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2013/2014,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2013/2014,UA-EpiCos,UA_EpiCos
 2014/2015,CU-BMA,CUBMA
 2014/2015,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2014/2015,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -96,14 +120,20 @@ season,model-id,model-dir
 2014/2015,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2014/2015,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2014/2015,Delphi-Uniform,Delphi_Uniform
+2014/2015,FluOutlook-Mech,FluOutlook_Mech
+2014/2015,FluOutlook-MechAug,FluOutlook_MechAug
+2014/2015,FluX-ARLR,FluX_ARLR
+2014/2015,FluX-FluX_LSTM,FluX_LSTM
 2014/2015,LANL-DBMplus,LANL_DBMplus
-2014/2015,Protea Analytics-Cheetah,Protea_Cheetah
-2014/2015,Protea Analytics-Kudu,Protea_Kudu
-2014/2015,Protea Analytics-Springbok,Protea_Springbok
-2014/2015,ReichLab-KCDE,ReichLab_kcde
+2014/2015,Protea-Cheetah,Protea_Cheetah
+2014/2015,Protea-Kudu,Protea_Kudu
+2014/2015,Protea-Springbok,Protea_Springbok
+2014/2015,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2014/2015,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2014/2015,ReichLab-KDE,ReichLab_kde
 2014/2015,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2014/2015,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2014/2015,UA-EpiCos,UA_EpiCos
 2015/2016,CU-BMA,CUBMA
 2015/2016,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2015/2016,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -117,14 +147,20 @@ season,model-id,model-dir
 2015/2016,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2015/2016,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2015/2016,Delphi-Uniform,Delphi_Uniform
+2015/2016,FluOutlook-Mech,FluOutlook_Mech
+2015/2016,FluOutlook-MechAug,FluOutlook_MechAug
+2015/2016,FluX-ARLR,FluX_ARLR
+2015/2016,FluX-FluX_LSTM,FluX_LSTM
 2015/2016,LANL-DBMplus,LANL_DBMplus
-2015/2016,Protea Analytics-Cheetah,Protea_Cheetah
-2015/2016,Protea Analytics-Kudu,Protea_Kudu
-2015/2016,Protea Analytics-Springbok,Protea_Springbok
-2015/2016,ReichLab-KCDE,ReichLab_kcde
+2015/2016,Protea-Cheetah,Protea_Cheetah
+2015/2016,Protea-Kudu,Protea_Kudu
+2015/2016,Protea-Springbok,Protea_Springbok
+2015/2016,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2015/2016,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2015/2016,ReichLab-KDE,ReichLab_kde
 2015/2016,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2015/2016,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2015/2016,UA-EpiCos,UA_EpiCos
 2016/2017,CU-BMA,CUBMA
 2016/2017,CU-EAKFC_SEIRS,CU_EAKFC_SEIRS
 2016/2017,CU-EAKFC_SIRS,CU_EAKFC_SIRS
@@ -138,15 +174,42 @@ season,model-id,model-dir
 2016/2017,Delphi-DeltaDensity1,Delphi_ExtendedDeltaDensity
 2016/2017,Delphi-DeltaDensity2,Delphi_MarkovianDeltaDensity
 2016/2017,Delphi-Uniform,Delphi_Uniform
+2016/2017,FluOutlook-Mech,FluOutlook_Mech
+2016/2017,FluOutlook-MechAug,FluOutlook_MechAug
+2016/2017,FluX-ARLR,FluX_ARLR
+2016/2017,FluX-FluX_LSTM,FluX_LSTM
 2016/2017,LANL-DBMplus,LANL_DBMplus
-2016/2017,Protea Analytics-Cheetah,Protea_Cheetah
-2016/2017,Protea Analytics-Kudu,Protea_Kudu
-2016/2017,Protea Analytics-Springbok,Protea_Springbok
-2016/2017,ReichLab-KCDE,ReichLab_kcde
+2016/2017,Protea-Cheetah,Protea_Cheetah
+2016/2017,Protea-Kudu,Protea_Kudu
+2016/2017,Protea-Springbok,Protea_Springbok
+2016/2017,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2016/2017,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
 2016/2017,ReichLab-KDE,ReichLab_kde
 2016/2017,ReichLab-SARIMA1,ReichLab_sarima_seasonal_difference_FALSE
 2016/2017,ReichLab-SARIMA2,ReichLab_sarima_seasonal_difference_TRUE
+2016/2017,UA-EpiCos,UA_EpiCos
+2017/2018,CU-BMA,CUBMA
+2017/2018,FluOutlook-Mech,FluOutlook_Mech
+2017/2018,FluOutlook-MechAug,FluOutlook_MechAug
+2017/2018,FluX-ARLR,FluX_ARLR
+2017/2018,FluX-FluX_LSTM,FluX_LSTM
 2017/2018,LANL-DBMplus,LANL_DBMplus
-2017/2018,Protea Analytics-Cheetah,Protea_Cheetah
-2017/2018,Protea Analytics-Kudu,Protea_Kudu
-2017/2018,Protea Analytics-Springbok,Protea_Springbok
+2017/2018,Protea-Cheetah,Protea_Cheetah
+2017/2018,Protea-Kudu,Protea_Kudu
+2017/2018,Protea-Springbok,Protea_Springbok
+2017/2018,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2017/2018,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
+2017/2018,UA-EpiCos,UA_EpiCos
+2018/2019,CU-BMA,CUBMA
+2018/2019,FluOutlook-Mech,FluOutlook_Mech
+2018/2019,FluOutlook-MechAug,FluOutlook_MechAug
+2018/2019,FluX-ARLR,FluX_ARLR
+2018/2019,FluX-FluX_LSTM,FluX_LSTM
+2018/2019,LANL-DBMplus,LANL_DBMplus
+2018/2019,Protea-Cheetah,Protea_Cheetah
+2018/2019,Protea-Kudu,Protea_Kudu
+2018/2019,Protea-Springbok,Protea_Springbok
+2018/2019,ReichLab-KCDE_NB,ReichLab_kcde_backfill_none
+2018/2019,ReichLab-KCDE_PHB,ReichLab_kcde_backfill_post_hoc
+2018/2019,ReichLab-KDE,ReichLab_kde
+2018/2019,UA-EpiCos,UA_EpiCos

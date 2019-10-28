@@ -9,13 +9,13 @@ library(epiforecast) ## devtools::install_github("cmu-delphi/epiforecast-R", sub
 library(FluSight) ## devtools::install_github("jarad/FluSight")
 
 year_week_combos <- expand.grid(
-    year = as.character(2010:2017),
-    week = sprintf("%02d", c(1:19, 43:52)),
+    year = as.character(2010:2019),
+    week = sprintf("%02d", c(1:20, 40:52)),
     stringsAsFactors = FALSE
 ) %>%
     mutate(epiweek = as.integer(paste0(year, week))) %>%
     filter(epiweek >= 201040 &
-               epiweek <= 201719) %>%
+               epiweek <= 201919) %>%
     rbind(
         data.frame(year = "2014",
                    week = "53",
@@ -25,8 +25,8 @@ year_week_combos <- expand.grid(
     arrange(epiweek)
 
 all_methods <- c(
-  #"CUBMA",
-  #"CUEAKFC",
+  # "CUBMA",
+  # "CUEAKFC",
   "ReichLab_kde"#,
   #"ReichLab_kcde",
   #"ReichLab_sarima_seasonal_difference_TRUE",

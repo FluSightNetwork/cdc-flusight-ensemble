@@ -1,0 +1,13 @@
+team_name: FSNetwork
+team_members: 'Logan Brooks, Evan L. Ray, Nicholas G. Reich, Abhinav Tushar, Teresa Yamana'
+model_name: target-type-weights
+model_abbr: TTW
+anonymity: named
+data_source1: other models
+data_source2: NULL
+this_model_is_an_ensemble: TRUE
+methods: >-
+  This is an ensemble of stacked entries from all component models. We use
+  degenerate EM algorithm to estimate weights for each model that are specific
+  for each target-type (i.e. one set of weights for the weekly incidence
+  outcomes and another for the seasonal outcomes).

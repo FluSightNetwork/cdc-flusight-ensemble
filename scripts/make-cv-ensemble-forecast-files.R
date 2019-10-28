@@ -1,14 +1,14 @@
 ## script to generate CV ensemble files
 ## Oct 2018: updated by Nick Reich and Nutcha Wattanachit for 2018/2019 season
 
-CURRENT_SEASON <- "2018/2019"
+CURRENT_SEASON <- "2019/2020"
 
 
 ## devtools::install_github("jarad/FluSight")
 library(FluSight) 
 library(dplyr)
 library(doMC)
-registerDoMC(12)
+registerDoMC(3)
 
 source("scripts/stack_forecasts.R")
 

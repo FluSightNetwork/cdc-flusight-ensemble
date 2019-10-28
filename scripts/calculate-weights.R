@@ -8,7 +8,7 @@ library("cdcfluview")
 source("make-equal-weights.R")
 
 ## set column to use for calculating weights
-SCORE_COL <- quo(`Multi bin score`)
+SCORE_COL <- quo(`Score`)
 
 ## Set up parallel:
 options(mc.cores=parallel::detectCores()-1L)
@@ -23,8 +23,8 @@ target.types.list = list(
 weighting.scheme.partial.indexer.lists = list(
   "constant" = list(all=NULL, all=NULL),
   "target-type-based" = list(all=NULL, subsets=target.types.list),
-  "target-based" = list(all=NULL, each=NULL),
-  "target-and-region-based" = list(each=NULL, each=NULL)
+  "target-based" = list(all=NULL, each=NULL)#,
+  #"target-and-region-based" = list(each=NULL, each=NULL)
 )
 
 ## Read in & tweak scores.csv

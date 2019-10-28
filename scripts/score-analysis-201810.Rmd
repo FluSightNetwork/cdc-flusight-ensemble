@@ -1,7 +1,7 @@
 ---
 title: "Preliminary Model Score Analysis"
-author: "Nicholas G Reich, Tom McAndrew, Nutcha Wattanachit"
-date: "October 2018"
+author: "Nicholas G Reich, Nutcha Wattanachit"
+date: "October 2019"
 output:
   pdf_document: default
   html_document: default
@@ -21,10 +21,10 @@ theme_set(theme_minimal())
 scores <- read_csv("../scores/scores.csv")
 models <- read_csv("../model-forecasts/component-models/model-id-map.csv")
 complete_models <- c(models$`model-id`,# ) , models$`model-id`[models$`to-use`],
-                     paste0("FSNetwork-", c("TW", "TTW", "TRW", "EW", "CW")))
+                     paste0("FSNetwork-", c("TW", "TTW", "SRTRW", "EW", "CW")))
 
 ## define column with scores of interest
-SCORE_COL <- quo(`Multi bin score`)
+SCORE_COL <- quo(`Score`)
 
 ## Create data.frame of boundary weeks of scores to keep for each target/season
 source("create-scoring-period.R")
@@ -198,9 +198,9 @@ ggplot(filter(scores_by_target_season_region, Target=="Season onset"),
 ```
 
 
-```{r, eval=FALSE}
+```{r}
 M <- 21
-FSN_labels <- c("EW", "CW", "TTW", "TW", "TRW")
+FSN_labels <- c("EW", "CW", "TTW", "TW", "SRTRW")
 FSN_levels <- paste0("FSNetwork-", FSN_labels)
 FNS_df <- M*c(0, 1, 2, 7, 77)
 max_avg_scores_target <- scores_by_target %>%
@@ -229,7 +229,7 @@ ggplot(scores_by_target_season, aes(x=Model, y=exp(avg_score))) +
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 ensemble_scores <- scores_by_target_season %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
@@ -246,7 +246,7 @@ ggplot(ensemble_scores, aes(x=Model, y=avg_score)) +
     ggtitle("Average log-scores for ensemble models, by target and season")
 ```
 
-```{r}
+```{r, eval=FALSE}
 ensemble_scores_season <- scores_by_season %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
@@ -266,7 +266,7 @@ ggplot(ensemble_scores_season, aes(x=Model, y=exp(avg_score))) +
 ggplot(scores_by_season, aes(x=Model, y=avg_score)) +
     geom_point(alpha=.5, aes(color=Season)) + 
     geom_point(data=scores_by_model, shape="x", size=1, stroke=5)+
-    scale_color_brewer(palette="Dark2") +
+    scale_color_brewer(palette="Set1") +
     ylab("average log score") +
         theme(axis.text.x = element_text(
         angle = 90, hjust = 1, vjust = .5,
@@ -294,6 +294,32 @@ ggplot(filter(scores_by_week_season, Target=="Season onset"),
     geom_line(alpha=.5, aes(color=Model)) + 
     ylab("Forecast skill") +
     facet_wrap(~Season)
+```
+
+```{r}
+library(ggridges)
+top_models <- c("FluOutlook-MechAug","FluOutlook-Mech","LANL-DBMplus", "Protea-Springbok","Delphi-DeltaDensity1", "ReichLab-KCDE_NB", "ReichLab-SARIMA1", "CU-EAKFC_SEIRS")
+ggplot(filter(scores_adj, Model%in%top_models)) +
+  geom_violin(aes(y=score_adj, x=Model)) +
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  facet_wrap(.~Target)
+
+
+ggplot(filter(scores_adj, Model%in%top_models)) +
+  geom_boxplot(aes(y=score_adj, x=Model)) +
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  facet_wrap(.~Target)
+
+
+
+ggplot(filter(scores_adj, Model%in%top_models)) +
+  geom_violin(aes(y=-Score, x=Model)) + scale_y_log10() +
+  theme(axis.text.x=element_text(angle=45, hjust=1)) +
+  facet_wrap(.~Target)
+
+ggplot(filter(scores_adj, Model%in%top_models)) +
+  geom_density_ridges(aes(x=score_adj, y=Model)) + 
+  facet_wrap(.~Target)
 ```
 
 

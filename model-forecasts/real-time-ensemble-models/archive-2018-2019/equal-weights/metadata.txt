@@ -1,0 +1,11 @@
+team_name: FSNetwork
+team_members: 'Logan Brooks, Evan L. Ray, Nicholas G. Reich, Abhinav Tushar, Teresa Yamana'
+model_name: equal-weights
+model_abbr: EW
+anonymity: named
+data_source1: other models
+data_source2: NULL
+this_model_is_an_ensemble: TRUE
+methods: >-
+  This is an ensemble of stacked entries from all component models. We use equal
+  weights for each model.

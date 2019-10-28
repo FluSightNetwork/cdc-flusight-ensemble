@@ -17,7 +17,7 @@ args <- commandArgs(TRUE)
 
 source("scripts/stack_forecasts.R")
 
-THIS_SEASON <- "2018/2019"
+THIS_SEASON <- "2019/2020"
 THIS_EW <- as.numeric(args[1])
 cat(paste0("Generating ensemble files for week ", THIS_EW))
 
@@ -86,12 +86,18 @@ for(j in 1:length(weight_files)){
     tot_target_weights <- wt_subset %>%
         group_by_at(vars(weight_var_cols)) %>%
         summarize(total_weights = sum(weight))
-    all_weights_sum_to_1 <- base::all.equal(
-        tot_target_weights$total_weights,
-        rep(1, nrow(tot_target_weights))
-    )
+    # Nutcha modified the section commented out below to reflect all.equal change (no longer return T/F)
+    # all_weights_sum_to_1 <- base::all.equal(
+    #     tot_target_weights$total_weights,
+    #     rep(1, nrow(tot_target_weights))
+    # )
+    all_weights_sum_to_1 <- base::isTRUE(all.equal(
+         tot_target_weights$total_weights,
+         rep(1, nrow(tot_target_weights))
+    ))
     if(!all_weights_sum_to_1)
-        stop(paste("Not all model weights sum to 1 for", weight_file[j]))
+    # Nutcha modified: change weight_file to weight_files
+        stop(paste("Not all model weights sum to 1 for", weight_files[j]))
 
     ## create, save ensemble file
     stacked_entry <- stack_forecasts(file_df, wt_subset)
@@ -119,7 +125,6 @@ tw_submission_file <- paste0(
   "model-forecasts/submissions/target-based-weights/",
   "EW", str_pad(THIS_EW, 2, pad = "0"), "-", this_year, "-FSNetwork-", current_date, ".csv"
 )
-
 file.copy(tw_file, tw_submission_file, overwrite = TRUE)
 
 
@@ -136,11 +141,12 @@ for(reg in unique(d$location)){
     p_peakpct <- plot_peakper(d, region = reg) + ylim(0,1)
     p_peakwk <- plot_peakweek(d, region = reg) + ylim(0,1) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=.5, size=5))
-    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2018:2019, plot_current = TRUE) + 
+    # Nutcha modified years= 2018:2019 to years=2019:2020
+    p_1wk <- plot_weekahead(d, region = reg, wk = 1, ilimax=13, years = 2019:2020, plot_current = TRUE) + 
         ggtitle(paste(reg, ": 1 wk ahead")) + ylim(0,1)
-    p_2wk <- plot_weekahead(d, region = reg, wk = 2, ilimax=13, years = 2018:2019, plot_current = TRUE) + ylim(0,1)
-    p_3wk <- plot_weekahead(d, region = reg, wk = 3, ilimax=13, years = 2018:2019, plot_current = TRUE) + ylim(0,1)
-    p_4wk <- plot_weekahead(d, region = reg, wk = 4, ilimax=13, years = 2018:2019, plot_current = TRUE) + ylim(0,1)
+    p_2wk <- plot_weekahead(d, region = reg, wk = 2, ilimax=13, years = 2019:2020, plot_current = TRUE) + ylim(0,1)
+    p_3wk <- plot_weekahead(d, region = reg, wk = 3, ilimax=13, years = 2019:2020, plot_current = TRUE) + ylim(0,1)
+    p_4wk <- plot_weekahead(d, region = reg, wk = 4, ilimax=13, years = 2019:2020, plot_current = TRUE) + ylim(0,1)
     grid.arrange(p_1wk, p_2wk, p_3wk, p_4wk, p_onset, p_peakpct, p_peakwk, ncol=4)
 }
 dev.off()

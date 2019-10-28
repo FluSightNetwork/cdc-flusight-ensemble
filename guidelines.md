@@ -1,11 +1,11 @@
 # Guidelines for the participating in the FluSight Network ensemble 
-updated 21 August 2019 for the 2019-2020 season
+updated 24 October 2019 for the 2019-2020 season
 
 ## Overview of CDC FluSight
 Starting in the 2013-2014 influenza season, the CDC has run the "Forecast the Influenza Season Collaborative Challenge" (a.k.a. FluSight) each influenza season, soliciting weekly forecasts for specific influenza season metrics from teams across the world. These forecasts are displayed together on [a website](https://predict.phiresearchlab.org/post/57f3f440123b0f563ece2576) during the season and are evaluated for accuracy after the season is over. 
 
 ## Ensemble prediction for 2019-2020 season
-Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. Beginning in the 2015-2016 influenza season, the CDC created a simple weighted average ensemble of the submissios to the challenge. In the 2016-2017 season, this model was one of the top performing models among all of those submitted. In the  2017-2018 and 2018/2019 influenza seasons, the FluSight Network created, validated, and implemented a collaborative ensemble model that was submitted to the CDC on a weekly basis. This model was based on a subset of all models submitted to the CDC. Any team that submitted a complete set of "submission files" from past years had their models included in the collaborative ensemble. (See details on submissions below.) This model was one of the top-performing forecasting models overall in both seasons. This model is used by the CDC and reported on [the official CDC FluSight website](https://www.cdc.gov/flu/weekly/flusight/index.html).
+Seen as one of the most powerful and flexible prediction approaches available, ensemble methods combine predictions from different models into a single prediction. Beginning in the 2015-2016 influenza season, the CDC created a simple weighted average ensemble of the submissios to the challenge. In the 2016-2017 season, this model was one of the top performing models among all of those submitted. In the  2017-2018 and 2018/2019 influenza seasons, the FluSight Network created, validated, and implemented a collaborative ensemble model that was submitted to the CDC on a weekly basis. This model was based on a subset of all models submitted to the CDC. Details about this collaborative effort are available in two publications: [one describing the component models](https://www.pnas.org/content/116/8/3146) and [one describing the ensemble effort](https://www.biorxiv.org/content/10.1101/566604v1). Any team that submitted a complete set of "submission files" from past years had their models included in the collaborative ensemble. (See details on submissions below.) This model was one of the top-performing forecasting models overall in both seasons. This model is used by the CDC and reported on [the official CDC FluSight website](https://www.cdc.gov/flu/weekly/flusight/index.html).
 
 This document details the steps to take to participate in the collaborative ensemble for the 2019-2020 season and details how the ensemble will be implemented for this season.
 
@@ -13,14 +13,12 @@ This document details the steps to take to participate in the collaborative ense
 
  - late August 2019: guidelines for 2019-2020 season finalized
  - October 15 2019: final deadline for providing historical out-of-sample forecasts to ensemble organizers for inclusion in the 2019-2020 collaborative ensemble
- - November 4 (?) 2018: first real-time forecasts due to CDC
- - May XX 2019: last real-time forecasts due to CDC
+ - October 28 2019: first real-time forecasts due to CDC
+ - May 11 2020: last real-time forecasts due to CDC
 
 ## Planned FluSight Network models
 
 The FluSight Network will submit in 2019-2020 a multi-model ensemble based on historical performance as it has in past years. This model will be referred to as the "FSN" model. 
-
-Additionally, a pilot version of an adaptive multi-model ensemble, where the model weights change throughout the season, will be developed and submitted to CDC as a separate submission. The methods used for this adaptive ensemble are documented in [this preprint](https://arxiv.org/abs/1908.01675). This model will be referred to as "FSN-adaptive".
 
 ## Parties involved
 
@@ -82,24 +80,23 @@ Specific guidelines for using data with revisions:
 
 
 ## Building the collaborative ensemble
-The ensemble organizers, upon receiving the finalized forecast submissions in October 2019, will conduct a small, structured cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one ensemble specification, chosen based on cross-validated performance in previous seasons, to submit to the CDC for the 2019-2020 forecasting challenge. This ensemble will be chosen prior to the first submission on November 4, 2019. It will remain constant throughout the entire season. No new component models will be added to the ensemble during the course of the season.
+The ensemble organizers, upon receiving the finalized forecast submissions in October 2019, will conduct a small, structured cross-validation study to examine the prediction error of small number of pre-specified ensemble models. The study will involve choosing one ensemble specification, chosen based on cross-validated performance in previous seasons, to submit to the CDC for the 2019-2020 forecasting challenge. This ensemble will be chosen prior to the first submission on October 28, 2019. It will remain constant throughout the entire season. No new component models will be added to the ensemble during the course of the season.
 
 ### Model specifications considered for submission to CDC
 
-Ensemble models will use the method of stacking probabilistic distributions to create the collaborative ensemble, as described for example by [Ray and Reich (2018)](https://doi.org/10.1371/journal.pcbi.1005910) and by [Reich et al (2019)](https://www.biorxiv.org/content/10.1101/566604v1). Let the number of component models be represented by $M$. The following weighting parameterizations will be evaluated (number of weight parameters to be estimated is in parentheses):
+Ensemble models will use the method of stacking probabilistic distributions to create the collaborative ensemble, as described for example by [Ray and Reich (2018)](https://doi.org/10.1371/journal.pcbi.1005910) and by [Reich et al (2019)](https://www.biorxiv.org/content/10.1101/566604v1). Let the number of component models be represented by $M$. The following weighting parameterizations will be evaluated (the total number of weights is shown in parentheses):
 
- - Equal weights for all models (0).
- - Weights estimated per model (_M_). 
- - Weights estimated per model and target-type (_2M_, one set of weights for seasonal targets, another for weekly incidence).
- - Weights estimated per model and target (_7M_).
- 
-If time permits additional exploration, we may additionally explore weights by model, target-type, and region (_22M_), with a possible constraint of only including the top 5 models in the ensemble.
+ 1. EW: Equal weights for all models (0).
+ 1. CW: Constant weights estimated per model (_M_). 
+ 1. TTW: Weights estimated per model and target-type (_2M_, one set of weights for seasonal targets, another for weekly incidence).
+ 1. TW: Weights estimated per model and target (_7M_).
+ 1. TRW-reg: Regularized weights estimated per model, target, and region (_77M_) 
+
+In each of the five candidate models, the weights will be estimated once at the beginning of the 2019/2020 season and will remain fixed all season long. The equal weights (EW) candidate ensemble requires no estimation. The weights for the CW, TTW, and TW candidates will be estimated by the Expectation-Maximization (EM) algorithm and the TRW-reg candidate will be estimated using a Variational Inference (VI) algorithm that shrinks or "regularizes" the weights towards an equal weighted ensemble. Our implementation of the EM and VI algorithms are described in detail in [(McAndrew and Reich, 2019)](https://arxiv.org/abs/1908.01675). The weights will be estimated to maximize the single-bin log score [(Bracher, 2019)](https://www.pnas.org/content/116/42/20809).
 
 ### Ensemble validation and comparison for CDC submission
 
-We will have nine years of data available for training and testing to choose a "best" ensemble specification. We will use leave-one-season-out cross-validation in all of the seven seasons on all ensemble specifications. Since we are only going to be looking at a very slim and simple list of ensemble specifications (nothing more than model/target combos), the risk of overfitting is smaller than it might be had we chosen some of the more heavily parameterized models. Therefore, we will not use separate testing and training phases for the ensemble model. The model with the highest average log-score across all regions, seasons, and targets will be selected as the ensemble specification to be submitted to the CDC.
-
-<!--If up to two models perform significantly worse during this time (using permutation test framework described below) then they will be discarded before the testing phase. Therefore, no fewer than two models will be carried forward into the testing phase. -->
+We will have nine years of data available for training and testing to choose a "best" ensemble specification. We will use leave-one-season-out cross-validation in all of the seven seasons on all ensemble specifications. Since we are only going to be looking at a simple list of five ensemble specifications, the risk of overfitting is smaller than it might be had we chosen some of the more heavily parameterized models. Therefore, we will not use separate testing and training phases for the ensemble model. The model with the highest average single-bin log-score across all regions, seasons, and targets will be selected as the ensemble specification to be submitted to the CDC.
 
 ### Pre-specified analyses of ensemble performance
 
