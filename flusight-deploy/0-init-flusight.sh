@@ -10,7 +10,7 @@ rm ./master.zip
 
 # Parse data model data files to flusight format
 yarn
-#yarn run parse-data # one time fix to exclude a couple seasons
+yarn run parse-data
 # Replace already present data
 rm -rf ./flusight-master/data
 mv ./data ./flusight-master
