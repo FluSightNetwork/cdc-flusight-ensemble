@@ -17,6 +17,8 @@ before_install:
   # Dependencies
   - sudo apt-get install libv8-3.14-dev r-base r-base-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev fish -y
 
+install: travis_wait 30 mvn install # allows up to 30 minutes to parse a season
+
 node_js:
   - 7
 
