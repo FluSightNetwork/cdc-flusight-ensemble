@@ -1,0 +1,6 @@
+name: Delphi - Markovian Delta Density (epiforecast package defaults)
+description: >-
+  Uses kernel conditional density estimation (using training seasons) to model
+  the change in wILI from each time t to time t+1, conditioned on wILI at t...
+url: >-
+  https://github.com/FluSightNetwork/cdc-flusight-ensemble/blob/master/model-forecasts/component-models/Delphi_MarkovianDeltaDensity/metadata.txt
