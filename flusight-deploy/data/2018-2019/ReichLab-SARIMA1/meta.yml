@@ -1,6 +1,0 @@
-name: ReichLab - SARIMA model without seasonal differencing
-description: >-
-  A seasonal ARIMA model is fit using the auto.arima function in the forecast
-  package for R.  The data are log-transformed and any infinite or missing v...
-url: >-
-  https://github.com/FluSightNetwork/cdc-flusight-ensemble/blob/master/model-forecasts/component-models/ReichLab_sarima_seasonal_difference_FALSE/metadata.txt
