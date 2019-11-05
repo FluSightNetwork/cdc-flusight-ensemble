@@ -50,7 +50,7 @@
 
 \usepackage{alltt}
 \usepackage[letterpaper, margin=1in]{geometry} % margin
-
+ 
 \title{Supplement (S1 Text) for\\``Accuracy of Real-Time Multi-Model Ensemble Forecasts for Seasonal Influenza in the U.S.''}
 
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -268,7 +268,7 @@ Below, we define one procedure to obtain a set of weights for the ensemble.
 And note that in Algorithm \ref{alg:DEM}, Step \ref{delta-step} it should always be the case that $\ell(t) \geq \ell(t-1)$.
 
 We note that this application of the EM algorithm is a very simple example of the standard EM, which in general does not guarantee a global maximum. 
-However, this particular log-likelihood function (a sum of logarithms of weighted sums) is a convex function of its parameters, the $\pi_c$, and convexity ensures that any local maximum is a global maximum.  
+However, this particular log-likelihood function (a sum of logarithms of weighted sums) is a convex function of its parameters, the $\pi_c$, and convexity ensures that any local maximum is a global maximum \cite{mcandrew2019adaptively}.  
 In particular, we can ensure that there is a global, finite maximum and that the EM finds it by including a uniform component and making the algorithm start with all nonzero weights.
 
 
