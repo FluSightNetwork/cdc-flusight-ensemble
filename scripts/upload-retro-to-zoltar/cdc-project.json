@@ -1,0 +1,2245 @@
+{
+  "name": "CDC Retrospective Forecasts",
+  "is_public": true,
+  "description": "Guidelines and forecasts for a collaborative U.S. influenza forecasting project.",
+  "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble",
+  "logo_url": "http://reichlab.io/assets/images/logo/nav-logo.png",
+  "core_data": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models",
+  "time_interval_type": "Week",
+  "visualization_y_label": "Weighted ILI (%)",
+  "locations": [
+    {
+      "name": "HHS Region 1"
+    },
+    {
+      "name": "HHS Region 2"
+    },
+    {
+      "name": "HHS Region 3"
+    },
+    {
+      "name": "HHS Region 4"
+    },
+    {
+      "name": "HHS Region 5"
+    },
+    {
+      "name": "HHS Region 6"
+    },
+    {
+      "name": "HHS Region 7"
+    },
+    {
+      "name": "HHS Region 8"
+    },
+    {
+      "name": "HHS Region 9"
+    },
+    {
+      "name": "HHS Region 10"
+    },
+    {
+      "name": "US National"
+    }
+  ],
+  "targets": [
+    {
+      "name": "Season onset",
+      "description": "The onset of the season is defined as the MMWR surveillance week (http://wwwn.cdc.gov/nndss/script/downloads.aspx)  when the percentage of visits for influenza-like illness (ILI) reported through ILINet reaches or  exceeds the baseline value for three consecutive weeks (updated 2016-2017  ILINet baseline values for the US and each HHS region will be available  at http://www.cdc.gov/flu/weekly/overview.htm the week of October 10, 2016).  Forecasted 'onset' week values should be for the first week of that three week period.",
+      "unit": "week",
+      "is_date": true,
+      "is_step_ahead": false,
+      "step_ahead_increment": 0,
+      "point_value_type": "text",
+      "prediction_types": [
+        "BinCat",
+        "Binary",
+        "SampleCat"
+      ]
+    },
+    {
+      "name": "Season peak week",
+      "description": "The peak week will be defined as the MMWR surveillance week that the weighted  ILINet percentage is the highest for the 2016-2017 influenza season.",
+      "unit": "week",
+      "is_date": true,
+      "is_step_ahead": false,
+      "step_ahead_increment": 0,
+      "point_value_type": "text",
+      "prediction_types": [
+        "BinCat",
+        "Binary",
+        "SampleCat"
+      ]
+    },
+    {
+      "name": "Season peak percentage",
+      "description": "The intensity will be defined as the highest numeric value that the weighted  ILINet percentage reaches during the 2016-2017 influenza season.",
+      "unit": "percent",
+      "is_date": false,
+      "is_step_ahead": false,
+      "step_ahead_increment": 0,
+      "point_value_type": "float",
+      "prediction_types": [
+        "BinLwr",
+        "Named",
+        "Point",
+        "Sample"
+      ],
+      "lwr": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9,
+        5.0,
+        5.1,
+        5.2,
+        5.3,
+        5.4,
+        5.5,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6.0,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        6.6,
+        6.7,
+        6.8,
+        6.9,
+        7.0,
+        7.1,
+        7.2,
+        7.3,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8.0,
+        8.1,
+        8.2,
+        8.3,
+        8.4,
+        8.5,
+        8.6,
+        8.7,
+        8.8,
+        8.9,
+        9.0,
+        9.1,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10.0,
+        10.1,
+        10.2,
+        10.3,
+        10.4,
+        10.5,
+        10.6,
+        10.7,
+        10.8,
+        10.9,
+        11.0,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.0,
+        12.1,
+        12.2,
+        12.3,
+        12.4,
+        12.5,
+        12.6,
+        12.7,
+        12.8,
+        12.9,
+        13.0
+      ]
+    },
+    {
+      "name": "1 wk ahead",
+      "description": "One- to four-week ahead forecasts will be defined as the weighted ILINet  percentage for the target week.",
+      "unit": "percent",
+      "is_date": false,
+      "is_step_ahead": true,
+      "step_ahead_increment": 1,
+      "point_value_type": "float",
+      "prediction_types": [
+        "BinLwr",
+        "Named",
+        "Point",
+        "Sample"
+      ],
+      "lwr": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9,
+        5.0,
+        5.1,
+        5.2,
+        5.3,
+        5.4,
+        5.5,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6.0,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        6.6,
+        6.7,
+        6.8,
+        6.9,
+        7.0,
+        7.1,
+        7.2,
+        7.3,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8.0,
+        8.1,
+        8.2,
+        8.3,
+        8.4,
+        8.5,
+        8.6,
+        8.7,
+        8.8,
+        8.9,
+        9.0,
+        9.1,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10.0,
+        10.1,
+        10.2,
+        10.3,
+        10.4,
+        10.5,
+        10.6,
+        10.7,
+        10.8,
+        10.9,
+        11.0,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.0,
+        12.1,
+        12.2,
+        12.3,
+        12.4,
+        12.5,
+        12.6,
+        12.7,
+        12.8,
+        12.9,
+        13.0
+      ]
+    },
+    {
+      "name": "2 wk ahead",
+      "description": "One- to four-week ahead forecasts will be defined as the weighted ILINet  percentage for the target week.",
+      "unit": "percent",
+      "is_date": false,
+      "is_step_ahead": true,
+      "step_ahead_increment": 2,
+      "point_value_type": "float",
+      "prediction_types": [
+        "BinLwr",
+        "Named",
+        "Point",
+        "Sample"
+      ],
+      "lwr": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9,
+        5.0,
+        5.1,
+        5.2,
+        5.3,
+        5.4,
+        5.5,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6.0,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        6.6,
+        6.7,
+        6.8,
+        6.9,
+        7.0,
+        7.1,
+        7.2,
+        7.3,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8.0,
+        8.1,
+        8.2,
+        8.3,
+        8.4,
+        8.5,
+        8.6,
+        8.7,
+        8.8,
+        8.9,
+        9.0,
+        9.1,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10.0,
+        10.1,
+        10.2,
+        10.3,
+        10.4,
+        10.5,
+        10.6,
+        10.7,
+        10.8,
+        10.9,
+        11.0,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.0,
+        12.1,
+        12.2,
+        12.3,
+        12.4,
+        12.5,
+        12.6,
+        12.7,
+        12.8,
+        12.9,
+        13.0
+      ]
+    },
+    {
+      "name": "3 wk ahead",
+      "description": "One- to four-week ahead forecasts will be defined as the weighted ILINet  percentage for the target week.",
+      "unit": "percent",
+      "is_date": false,
+      "is_step_ahead": true,
+      "step_ahead_increment": 3,
+      "point_value_type": "float",
+      "prediction_types": [
+        "BinLwr",
+        "Named",
+        "Point",
+        "Sample"
+      ],
+      "lwr": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9,
+        5.0,
+        5.1,
+        5.2,
+        5.3,
+        5.4,
+        5.5,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6.0,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        6.6,
+        6.7,
+        6.8,
+        6.9,
+        7.0,
+        7.1,
+        7.2,
+        7.3,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8.0,
+        8.1,
+        8.2,
+        8.3,
+        8.4,
+        8.5,
+        8.6,
+        8.7,
+        8.8,
+        8.9,
+        9.0,
+        9.1,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10.0,
+        10.1,
+        10.2,
+        10.3,
+        10.4,
+        10.5,
+        10.6,
+        10.7,
+        10.8,
+        10.9,
+        11.0,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.0,
+        12.1,
+        12.2,
+        12.3,
+        12.4,
+        12.5,
+        12.6,
+        12.7,
+        12.8,
+        12.9,
+        13.0
+      ]
+    },
+    {
+      "name": "4 wk ahead",
+      "description": "One- to four-week ahead forecasts will be defined as the weighted ILINet  percentage for the target week.",
+      "unit": "percent",
+      "is_date": false,
+      "is_step_ahead": true,
+      "step_ahead_increment": 4,
+      "point_value_type": "float",
+      "prediction_types": [
+        "BinLwr",
+        "Named",
+        "Point",
+        "Sample"
+      ],
+      "lwr": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9,
+        5.0,
+        5.1,
+        5.2,
+        5.3,
+        5.4,
+        5.5,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6.0,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        6.6,
+        6.7,
+        6.8,
+        6.9,
+        7.0,
+        7.1,
+        7.2,
+        7.3,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8.0,
+        8.1,
+        8.2,
+        8.3,
+        8.4,
+        8.5,
+        8.6,
+        8.7,
+        8.8,
+        8.9,
+        9.0,
+        9.1,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10.0,
+        10.1,
+        10.2,
+        10.3,
+        10.4,
+        10.5,
+        10.6,
+        10.7,
+        10.8,
+        10.9,
+        11.0,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.0,
+        12.1,
+        12.2,
+        12.3,
+        12.4,
+        12.5,
+        12.6,
+        12.7,
+        12.8,
+        12.9,
+        13.0
+      ]
+    }
+  ],
+  "timezeros": [
+    {
+      "timezero_date": "20101004",
+      "data_version_date": "20101018",
+      "is_season_start": true,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101011",
+      "data_version_date": "20101025",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101018",
+      "data_version_date": "20101101",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101025",
+      "data_version_date": "20101108",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101101",
+      "data_version_date": "20101115",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101108",
+      "data_version_date": "20101122",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101115",
+      "data_version_date": "20101129",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101122",
+      "data_version_date": "20101206",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101129",
+      "data_version_date": "20101213",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101206",
+      "data_version_date": "20101220",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101213",
+      "data_version_date": "20101227",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101220",
+      "data_version_date": "20110103",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20101227",
+      "data_version_date": "20110110",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110103",
+      "data_version_date": "20110117",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110103",
+      "data_version_date": "20110117",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110110",
+      "data_version_date": "20110124",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110117",
+      "data_version_date": "20110131",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110124",
+      "data_version_date": "20110207",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110131",
+      "data_version_date": "20110214",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110207",
+      "data_version_date": "20110221",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110214",
+      "data_version_date": "20110228",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110221",
+      "data_version_date": "20110307",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110228",
+      "data_version_date": "20110314",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110307",
+      "data_version_date": "20110321",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110314",
+      "data_version_date": "20110328",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110321",
+      "data_version_date": "20110404",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110328",
+      "data_version_date": "20110411",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110404",
+      "data_version_date": "20110418",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110411",
+      "data_version_date": "20110425",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110418",
+      "data_version_date": "20110502",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110425",
+      "data_version_date": "20110509",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110502",
+      "data_version_date": "20110516",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110509",
+      "data_version_date": "20110523",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20110516",
+      "data_version_date": "20110530",
+      "is_season_start": false,
+      "season_name": "2010-11"
+    },
+    {
+      "timezero_date": "20111003",
+      "data_version_date": "20111017",
+      "is_season_start": true,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111010",
+      "data_version_date": "20111024",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111017",
+      "data_version_date": "20111031",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111024",
+      "data_version_date": "20111107",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111031",
+      "data_version_date": "20111114",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111107",
+      "data_version_date": "20111121",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111114",
+      "data_version_date": "20111128",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111121",
+      "data_version_date": "20111205",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111128",
+      "data_version_date": "20111212",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111205",
+      "data_version_date": "20111219",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111212",
+      "data_version_date": "20111226",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111219",
+      "data_version_date": "20120102",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20111226",
+      "data_version_date": "20120109",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120102",
+      "data_version_date": "20120116",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120102",
+      "data_version_date": "20120116",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120109",
+      "data_version_date": "20120123",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120116",
+      "data_version_date": "20120130",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120123",
+      "data_version_date": "20120206",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120130",
+      "data_version_date": "20120213",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120206",
+      "data_version_date": "20120220",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120213",
+      "data_version_date": "20120227",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120220",
+      "data_version_date": "20120305",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120227",
+      "data_version_date": "20120312",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120305",
+      "data_version_date": "20120319",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120312",
+      "data_version_date": "20120326",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120319",
+      "data_version_date": "20120402",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120326",
+      "data_version_date": "20120409",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120402",
+      "data_version_date": "20120416",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120409",
+      "data_version_date": "20120423",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120416",
+      "data_version_date": "20120430",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120423",
+      "data_version_date": "20120507",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120430",
+      "data_version_date": "20120514",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120507",
+      "data_version_date": "20120521",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20120514",
+      "data_version_date": "20120528",
+      "is_season_start": false,
+      "season_name": "2011-12"
+    },
+    {
+      "timezero_date": "20121001",
+      "data_version_date": "20121015",
+      "is_season_start": true,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121008",
+      "data_version_date": "20121022",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121015",
+      "data_version_date": "20121029",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121022",
+      "data_version_date": "20121105",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121029",
+      "data_version_date": "20121112",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121105",
+      "data_version_date": "20121119",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121112",
+      "data_version_date": "20121126",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121119",
+      "data_version_date": "20121203",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121126",
+      "data_version_date": "20121210",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121203",
+      "data_version_date": "20121217",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121210",
+      "data_version_date": "20121224",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121217",
+      "data_version_date": "20121231",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121224",
+      "data_version_date": "20130107",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121231",
+      "data_version_date": "20130114",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20121231",
+      "data_version_date": "20130114",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130107",
+      "data_version_date": "20130121",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130114",
+      "data_version_date": "20130128",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130121",
+      "data_version_date": "20130204",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130128",
+      "data_version_date": "20130211",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130204",
+      "data_version_date": "20130218",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130211",
+      "data_version_date": "20130225",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130218",
+      "data_version_date": "20130304",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130225",
+      "data_version_date": "20130311",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130304",
+      "data_version_date": "20130318",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130311",
+      "data_version_date": "20130325",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130318",
+      "data_version_date": "20130401",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130325",
+      "data_version_date": "20130408",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130401",
+      "data_version_date": "20130415",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130408",
+      "data_version_date": "20130422",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130415",
+      "data_version_date": "20130429",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130422",
+      "data_version_date": "20130506",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130429",
+      "data_version_date": "20130513",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130506",
+      "data_version_date": "20130520",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130513",
+      "data_version_date": "20130527",
+      "is_season_start": false,
+      "season_name": "2012-13"
+    },
+    {
+      "timezero_date": "20130930",
+      "data_version_date": "20131014",
+      "is_season_start": true,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131007",
+      "data_version_date": "20131021",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131014",
+      "data_version_date": "20131028",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131021",
+      "data_version_date": "20131104",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131028",
+      "data_version_date": "20131111",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131104",
+      "data_version_date": "20131118",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131111",
+      "data_version_date": "20131125",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131118",
+      "data_version_date": "20131202",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131125",
+      "data_version_date": "20131209",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131202",
+      "data_version_date": "20131216",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131209",
+      "data_version_date": "20131223",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131216",
+      "data_version_date": "20131230",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131223",
+      "data_version_date": "20140106",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131230",
+      "data_version_date": "20140113",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20131230",
+      "data_version_date": "20140113",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140106",
+      "data_version_date": "20140120",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140113",
+      "data_version_date": "20140127",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140120",
+      "data_version_date": "20140203",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140127",
+      "data_version_date": "20140210",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140203",
+      "data_version_date": "20140217",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140210",
+      "data_version_date": "20140224",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140217",
+      "data_version_date": "20140303",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140224",
+      "data_version_date": "20140310",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140303",
+      "data_version_date": "20140317",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140310",
+      "data_version_date": "20140324",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140317",
+      "data_version_date": "20140331",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140324",
+      "data_version_date": "20140407",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140331",
+      "data_version_date": "20140414",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140407",
+      "data_version_date": "20140421",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140414",
+      "data_version_date": "20140428",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140421",
+      "data_version_date": "20140505",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140428",
+      "data_version_date": "20140512",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140505",
+      "data_version_date": "20140519",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140512",
+      "data_version_date": "20140526",
+      "is_season_start": false,
+      "season_name": "2013-14"
+    },
+    {
+      "timezero_date": "20140929",
+      "data_version_date": "20141013",
+      "is_season_start": true,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141006",
+      "data_version_date": "20141020",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141013",
+      "data_version_date": "20141027",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141020",
+      "data_version_date": "20141103",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141027",
+      "data_version_date": "20141110",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141103",
+      "data_version_date": "20141117",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141110",
+      "data_version_date": "20141124",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141117",
+      "data_version_date": "20141201",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141124",
+      "data_version_date": "20141208",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141201",
+      "data_version_date": "20141215",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141208",
+      "data_version_date": "20141222",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141215",
+      "data_version_date": "20141229",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141222",
+      "data_version_date": "20150105",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20141229",
+      "data_version_date": "20150112",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150105",
+      "data_version_date": "20150119",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150112",
+      "data_version_date": "20150126",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150119",
+      "data_version_date": "20150202",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150126",
+      "data_version_date": "20150209",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150202",
+      "data_version_date": "20150216",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150209",
+      "data_version_date": "20150223",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150216",
+      "data_version_date": "20150302",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150223",
+      "data_version_date": "20150309",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150302",
+      "data_version_date": "20150316",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150309",
+      "data_version_date": "20150323",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150316",
+      "data_version_date": "20150330",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150323",
+      "data_version_date": "20150406",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150330",
+      "data_version_date": "20150413",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150406",
+      "data_version_date": "20150420",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150413",
+      "data_version_date": "20150427",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150420",
+      "data_version_date": "20150504",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150427",
+      "data_version_date": "20150511",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150504",
+      "data_version_date": "20150518",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150511",
+      "data_version_date": "20150525",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20150518",
+      "data_version_date": "20150601",
+      "is_season_start": false,
+      "season_name": "2014-15"
+    },
+    {
+      "timezero_date": "20151005",
+      "data_version_date": "20151019",
+      "is_season_start": true,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151012",
+      "data_version_date": "20151026",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151019",
+      "data_version_date": "20151102",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151026",
+      "data_version_date": "20151109",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151102",
+      "data_version_date": "20151116",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151109",
+      "data_version_date": "20151123",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151116",
+      "data_version_date": "20151130",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151123",
+      "data_version_date": "20151207",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151130",
+      "data_version_date": "20151214",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151207",
+      "data_version_date": "20151221",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151214",
+      "data_version_date": "20151228",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151221",
+      "data_version_date": "20160104",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20151228",
+      "data_version_date": "20160111",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160104",
+      "data_version_date": "20160118",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160104",
+      "data_version_date": "20160118",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160111",
+      "data_version_date": "20160125",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160118",
+      "data_version_date": "20160201",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160125",
+      "data_version_date": "20160208",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160201",
+      "data_version_date": "20160215",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160208",
+      "data_version_date": "20160222",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160215",
+      "data_version_date": "20160229",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160222",
+      "data_version_date": "20160307",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160229",
+      "data_version_date": "20160314",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160307",
+      "data_version_date": "20160321",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160314",
+      "data_version_date": "20160328",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160321",
+      "data_version_date": "20160404",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160328",
+      "data_version_date": "20160411",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160404",
+      "data_version_date": "20160418",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160411",
+      "data_version_date": "20160425",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160418",
+      "data_version_date": "20160502",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160425",
+      "data_version_date": "20160509",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160502",
+      "data_version_date": "20160516",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160509",
+      "data_version_date": "20160523",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20160516",
+      "data_version_date": "20160530",
+      "is_season_start": false,
+      "season_name": "2015-16"
+    },
+    {
+      "timezero_date": "20161003",
+      "data_version_date": "20161017",
+      "is_season_start": true,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161010",
+      "data_version_date": "20161024",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161017",
+      "data_version_date": "20161031",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161024",
+      "data_version_date": "20161107",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161031",
+      "data_version_date": "20161114",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161107",
+      "data_version_date": "20161121",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161114",
+      "data_version_date": "20161128",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161121",
+      "data_version_date": "20161205",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161128",
+      "data_version_date": "20161212",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161205",
+      "data_version_date": "20161219",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161212",
+      "data_version_date": "20161226",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161219",
+      "data_version_date": "20170102",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20161226",
+      "data_version_date": "20170109",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170102",
+      "data_version_date": "20170116",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170102",
+      "data_version_date": "20170116",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170109",
+      "data_version_date": "20170123",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170116",
+      "data_version_date": "20170130",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170123",
+      "data_version_date": "20170206",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170130",
+      "data_version_date": "20170213",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170206",
+      "data_version_date": "20170220",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170213",
+      "data_version_date": "20170227",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170220",
+      "data_version_date": "20170306",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170227",
+      "data_version_date": "20170313",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170306",
+      "data_version_date": "20170320",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170313",
+      "data_version_date": "20170327",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170320",
+      "data_version_date": "20170403",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170327",
+      "data_version_date": "20170410",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170403",
+      "data_version_date": "20170417",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170410",
+      "data_version_date": "20170424",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170417",
+      "data_version_date": "20170501",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170424",
+      "data_version_date": "20170508",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170501",
+      "data_version_date": "20170515",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170508",
+      "data_version_date": "20170522",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    },
+    {
+      "timezero_date": "20170515",
+      "data_version_date": "20170529",
+      "is_season_start": false,
+      "season_name": "2016-17"
+    }
+  ]
+}
