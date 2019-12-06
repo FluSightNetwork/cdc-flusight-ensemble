@@ -6,6 +6,7 @@ anonymity: named
 data_source1: ILI Net
 data_source2: Google Health Trends API
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2017-18
 methods: >-
   EAKFC.  Model-inference ensemble forecast using a SEIRS compartmental model
   coupled with Ensemble Adjustment Kalman Filter state space estimation and

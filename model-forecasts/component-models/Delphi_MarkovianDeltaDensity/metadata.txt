@@ -8,6 +8,7 @@ anonymity: named
 data_source1: ILINet
 data_source2: ILI-Nearby
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2018-19
 methods: >-
   Uses kernel conditional density estimation (using training seasons) to model
   the change in wILI from each time t to time t+1, conditioned on wILI at time

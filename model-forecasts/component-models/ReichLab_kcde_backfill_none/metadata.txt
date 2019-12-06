@@ -6,6 +6,7 @@ anonymity: named
 data_source1: ilinet
 data_source2: NULL
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2019-20
 methods: >-
   Used leave-one-season-out cross-validation in the training phase to estimate
   1) parameters of kernel conditional density estimation (KCDE) models for

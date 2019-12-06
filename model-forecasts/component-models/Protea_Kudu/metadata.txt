@@ -6,6 +6,7 @@ anonymity: named
 data_source1: ilinet
 data_source2: who-nrevss lab data
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2018-19
 methods: >-
   This model is an influenza subtype-specific historical average model.
   Separate  Gaussian kernel densities for H1 and H3 behavior are calculated from

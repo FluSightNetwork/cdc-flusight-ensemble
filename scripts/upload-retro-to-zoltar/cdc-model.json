@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Bayesian Model Averaging",
+    "abbreviation": "CUBMA",
+    "team_name": "Columbia",
+    "description": "Bayesian Model Averaging",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CUBMA",
+    "aux_data_url": null
+  },
+  {
+    "name": "Ensemble Adjustment Kalman Filter SEIRS",
+    "abbreviation": "CU_EAKFC_SEIRS",
+    "team_name": "Columbia",
+    "description": "Ensemble Adjustment Kalman Filter SEIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_EAKFC_SEIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Ensemble Adjustment Kalman Filter SIRS",
+    "abbreviation": "CU_EAKFC_SIRS",
+    "team_name": "Columbia",
+    "description": "Ensemble Adjustment Kalman Filter SIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_EAKFC_SIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Ensemble Kalman Filter SEIRS",
+    "abbreviation": "CU_EKF_SEIRS",
+    "team_name": "Columbia",
+    "description": "Ensemble Kalman Filter SEIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_EKF_SEIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Ensemble Kalman Filter SIRS",
+    "abbreviation": "CU_EKF_SIRS",
+    "team_name": "Columbia",
+    "description": "Ensemble Kalman Filter SIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_EKF_SIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Rank Histogram Filter SEIRS",
+    "abbreviation": "CU_RHF_SEIRS",
+    "team_name": "Columbia",
+    "description": "Rank Histogram Filter SEIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_RHF_SEIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Rank Histogram Filter SIRS",
+    "abbreviation": "CU_RHF_SIRS",
+    "team_name": "Columbia",
+    "description": "Rank Histogram Filter SIRS",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/CU_RHF_SIRS",
+    "aux_data_url": null
+  },
+  {
+    "name": "Uniform Distribution",
+    "abbreviation": "Delphi_Uniform",
+    "team_name": "Delphi",
+    "description": "Uniform Distribution",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_Uniform",
+    "aux_data_url": null
+  },
+  {
+    "name": "Kernel Conditional Density Estimation",
+    "abbreviation": "ReichLab_kcde",
+    "team_name": "ReichLab",
+    "description": "Kernel Conditional Density Estimation",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/ReichLab_kcde",
+    "aux_data_url": null
+  },
+  {
+    "name": "Kernel Density Estimation",
+    "abbreviation": "ReichLab_kde",
+    "team_name": "ReichLab",
+    "description": "Kernel Density Estimation",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/ReichLab_kde",
+    "aux_data_url": null
+  },
+  {
+    "name": "SARIMA model without seasonal differencing",
+    "abbreviation": "ReichLab_sarima_seasonal_difference_FALSE",
+    "team_name": "ReichLab",
+    "description": "SARIMA model without seasonal differencing",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/ReichLab_sarima_seasonal_difference_FALSE",
+    "aux_data_url": null
+  },
+  {
+    "name": "SARIMA model with seasonal differencing",
+    "abbreviation": "ReichLab_sarima_seasonal_difference_TRUE",
+    "team_name": "ReichLab",
+    "description": "SARIMA model with seasonal differencing",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/ReichLab_sarima_seasonal_difference_TRUE",
+    "aux_data_url": null
+  },
+  {
+    "name": "Basis Regression (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_BasisRegression_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Basis Regression (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_BasisRegression_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Delta Density (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_DeltaDensity_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Delta Density (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_DeltaDensity_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",
+    "abbreviation": "Delphi_EmpiricalBayes_Cond4",
+    "team_name": "Delphi",
+    "description": "Empirical Bayes (conditioning on past four weeks only, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalBayes_Cond4",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Bayes (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_EmpiricalBayes_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Empirical Bayes (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalBayes_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Futures (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_EmpiricalFutures_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Empirical Futures (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalFutures_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_EmpiricalTrajectories_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Empirical Trajectories (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalTrajectories_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",
+    "abbreviation": "Delphi_MarkovianDeltaDensity_PackageDefaults",
+    "team_name": "Delphi",
+    "description": "Markovian Delta Density (epiforecast package defaults, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_MarkovianDeltaDensity_PackageDefaults",
+    "aux_data_url": null
+  },
+  {
+    "name": "Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",
+    "abbreviation": "Delphi_Stat_FewerComponentsNoBackcastNoNowcast",
+    "team_name": "Delphi",
+    "description": "Statistical Ensemble (using the eight submitted components, with no backcasting or nowcasting, 2017/2018 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_Stat_FewerComponentsNoBackcastNoNowcast",
+    "aux_data_url": null
+  },
+  {
+    "name": "Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",
+    "abbreviation": "LANL_DBM",
+    "team_name": "Los Alamos",
+    "description": "Dynamic Bayesian Model with a hierarchical discrepancy, 2017/2018 version",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/LANL_DBM",
+    "aux_data_url": null
+  },
+  {
+    "name": "Basis Regression (epiforecast package defaults, 2018/2019 version)",
+    "abbreviation": "Delphi_BasisRegression",
+    "team_name": "Delphi",
+    "description": "Basis Regression (epiforecast package defaults, 2018/2019 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_BasisRegression",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Futures (epiforecast package defaults, 2018/2019 version)",
+    "abbreviation": "Delphi_EmpiricalFutures",
+    "team_name": "Delphi",
+    "description": "Empirical Futures (epiforecast package defaults, 2018/2019 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalFutures",
+    "aux_data_url": null
+  },
+  {
+    "name": "Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",
+    "abbreviation": "Delphi_EmpiricalTrajectories",
+    "team_name": "Delphi",
+    "description": "Empirical Trajectories (epiforecast package defaults, 2018/2019 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_EmpiricalTrajectories",
+    "aux_data_url": null
+  },
+  {
+    "name": "Delta Density (epiforecast package defaults, 2018/2019 version)",
+    "abbreviation": "Delphi_ExtendedDeltaDensity",
+    "team_name": "Delphi",
+    "description": "Delta Density (epiforecast package defaults, 2018/2019 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_ExtendedDeltaDensity",
+    "aux_data_url": null
+  },
+  {
+    "name": "Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",
+    "abbreviation": "Delphi_MarkovianDeltaDensity",
+    "team_name": "Delphi",
+    "description": "Markovian Delta Density (epiforecast package defaults, 2018/2019 version)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Delphi_MarkovianDeltaDensity",
+    "aux_data_url": null
+  },
+  {
+    "name": "Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts",
+    "abbreviation": "LANL_DBMplus",
+    "team_name": "Los Alamos",
+    "description": "Dynamic Bayesian Model with a hierarchical discrepancy + Google-based nowcasts",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/LANL_DBMplus",
+    "aux_data_url": null
+  },
+  {
+    "name": "Cheetah (Ensemble of dynamic harmonic model and historical averages)",
+    "abbreviation": "Protea_Cheetah",
+    "team_name": "Protea",
+    "description": "Cheetah (Ensemble of dynamic harmonic model and historical averages)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Protea_Cheetah",
+    "aux_data_url": null
+  },
+  {
+    "name": "Kudu (Subtype weighted historical average model)",
+    "abbreviation": "Protea_Kudu",
+    "team_name": "Protea",
+    "description": "Kudu (Subtype weighted historical average model)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Protea_Kudu",
+    "aux_data_url": null
+  },
+  {
+    "name": "Springbok (Dynamic Harmonic Model with ARIMA errors)",
+    "abbreviation": "Protea_Springbok",
+    "team_name": "Protea",
+    "description": "Springbok (Dynamic Harmonic Model with ARIMA errors)",
+    "home_url": "https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models/Protea_Springbok",
+    "aux_data_url": null
+  }
+]
