@@ -9,6 +9,7 @@ data_source3: FluNearYou
 data_source4: Twitter
 data_source5: Population
 this_model_is_an_ensemble: TRUE
+real_time_start_season: 2019-20
 methods: >-
   This forecasting method is a fully mechanistic model based on GLEAM, an
   epidemic stochastic generative model. At the begining of the flu season, GLEAM

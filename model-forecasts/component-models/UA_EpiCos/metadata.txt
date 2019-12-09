@@ -6,6 +6,7 @@ anonymity: named
 data_source1: ILINet
 data_source2: NULL
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2019-20
 methods: >
   EpiCos is an ODE model developed to match the historical trends in wILI.  To
   combine the wILI with the model during the season, a variational data
