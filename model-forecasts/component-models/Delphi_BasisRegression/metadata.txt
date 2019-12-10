@@ -8,6 +8,7 @@ anonymity: named
 data_source1: ILINet
 data_source2: ILI-Nearby
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2018-19
 methods: >-
   Constructs a set of "pseudo-trajectories" by splicing together (a) the
   observed part of the test season with (b) each training season's trajectory

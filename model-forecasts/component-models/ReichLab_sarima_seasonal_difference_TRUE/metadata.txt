@@ -6,6 +6,7 @@ anonymity: named
 data_source1: ilinet
 data_source2: NULL
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2017-18
 methods: >-
   A seasonal ARIMA model is fit using the auto.arima function in the forecast
   package for R.  The data are log-transformed, any infinite or missing values

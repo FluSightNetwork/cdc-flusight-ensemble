@@ -7,6 +7,7 @@ data_source1: ilinet
 data_source2: google trends
 data_source3: who-nrevss lab data
 this_model_is_an_ensemble: TRUE
+real_time_start_season: 2018-19
 methods: >-
   This model is a weighted ensemble between three component models. The first 
   component is a seasonal average model constructed using Gaussian kernel
