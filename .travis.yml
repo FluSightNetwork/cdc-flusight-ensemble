@@ -26,4 +26,4 @@ env:
   global:
   - ENCRYPTION_LABEL: dce9ae5740a9
 
-script: bash ./travis-main.sh
+script: travis_wait 70 bash ./travis-main.sh
