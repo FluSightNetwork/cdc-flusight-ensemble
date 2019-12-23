@@ -7,6 +7,7 @@ data_source1: ilinet
 data_source2: google trends
 data_source3: who-nrevss lab data
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2018-19
 methods: >-
   A dynamic harmonic regression model is fit separately for each region in 
   sequential steps, with Fourier terms to capture seasonality and multiple

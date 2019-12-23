@@ -1,0 +1,146 @@
+- name: CDC Retrospective Forecasts
+  is_public: true
+  description: >-
+    Guidelines and forecasts for a collaborative U.S. influenza forecasting project.
+  home_url: https://github.com/FluSightNetwork/cdc-flusight-ensemble
+  logo_url: http://reichlab.io/assets/images/logo/nav-logo.png
+  core_data: https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models
+  time_interval_type: Week
+  visualization_y_label: Weighted ILI (%)
+  locations:
+    - name: HHS Region 1
+    - name: HHS Region 2
+    - name: HHS Region 3
+    - name: HHS Region 4
+    - name: HHS Region 5
+    - name: HHS Region 6
+    - name: HHS Region 7
+    - name: HHS Region 8
+    - name: HHS Region 9
+    - name: HHS Region 10
+    - name: US National
+  targets: 
+    - name: Season onset
+      description: >-
+          The onset of the season is defined as the MMWR surveillance week (http://wwwn.cdc.gov/nndss/script/downloads.aspx) 
+          when the percentage of visits for influenza-like illness (ILI) reported through ILINet reaches or 
+          exceeds the baseline value for three consecutive weeks (updated 2016-2017 
+          ILINet baseline values for the US and each HHS region will be available 
+          at http://www.cdc.gov/flu/weekly/overview.htm the week of October 10, 2016). 
+          Forecasted 'onset' week values should be for the first week of that three week period.
+      unit: week
+      is_date: true
+      is_step_ahead: false
+      step_ahead_increment: 0
+      point_value_type: text
+      prediction_types:
+        - BinCat
+        - Binary
+        - SampleCat
+    - name: Season peak week
+      description: >-
+          The peak week will be defined as the MMWR surveillance week that the weighted 
+          ILINet percentage is the highest for the 2016-2017 influenza season.
+      unit: week
+      is_date: true
+      is_step_ahead: false
+      step_ahead_increment: 0
+      point_value_type: text
+      prediction_types:
+        - BinCat
+        - Binary
+        - SampleCat
+    - name: Season peak percentage
+      description: >-
+          The intensity will be defined as the highest numeric value that the weighted 
+          ILINet percentage reaches during the 2016-2017 influenza season.
+      unit: percent
+      is_date: false
+      is_step_ahead: false
+      step_ahead_increment: 0
+      point_value_type: float
+      prediction_types:
+        - BinLwr
+        - Named
+        - Point
+        - Sample
+      lwr: 
+        - start: 0
+        - end: 13
+        - step: 0.1
+    - name: 1 wk ahead
+      description: >-
+          One- to four-week ahead forecasts will be defined as the weighted ILINet 
+          percentage for the target week.
+      unit: percent
+      is_date: false
+      is_step_ahead: true
+      step_ahead_increment: 1
+      point_value_type: float
+      prediction_types:
+        - BinLwr
+        - Named
+        - Point
+        - Sample
+      lwr: 
+        - start: 0
+        - end: 13
+        - step: 0.1
+    - name: 2 wk ahead
+      description: >-
+          One- to four-week ahead forecasts will be defined as the weighted ILINet 
+          percentage for the target week.
+      unit: percent
+      is_date: false
+      is_step_ahead: true
+      step_ahead_increment: 2
+      point_value_type: float
+      prediction_types:
+        - BinLwr
+        - Named
+        - Point
+        - Sample
+      lwr: 
+        - start: 0
+        - end: 13
+        - step: 0.1
+    - name: 3 wk ahead
+      description: >-
+          One- to four-week ahead forecasts will be defined as the weighted ILINet 
+          percentage for the target week.
+      unit: percent
+      is_date: false
+      is_step_ahead: true
+      step_ahead_increment: 3
+      point_value_type: float
+      prediction_types:
+        - BinLwr
+        - Named
+        - Point
+        - Sample
+      lwr: 
+        - start: 0
+        - end: 13
+        - step: 0.1
+    - name: 4 wk ahead
+      description: >-
+          One- to four-week ahead forecasts will be defined as the weighted ILINet 
+          percentage for the target week.
+      unit: percent
+      is_date: false
+      is_step_ahead: true
+      step_ahead_increment: 4
+      point_value_type: float
+      prediction_types:
+        - BinLwr
+        - Named
+        - Point
+        - Sample
+      lwr: 
+        - start: 0
+        - end: 13
+        - step: 0.1
+  timezeros: 
+    - type: retrospective
+    - start: 2010
+    - end: 2018

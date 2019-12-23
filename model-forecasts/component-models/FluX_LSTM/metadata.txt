@@ -8,6 +8,7 @@ anonymity: named
 data_source1: ILINet
 data_source2: NULL
 this_model_is_an_ensemble: FALSE
+real_time_start_season: 2019-20
 methods: >-
   An LSTM based deep learning predictor which learns patterns from historical
   time series.  It models non-linear relationships between weekly data points

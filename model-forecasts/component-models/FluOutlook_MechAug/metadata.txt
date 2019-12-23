@@ -10,6 +10,7 @@ data_source4: Twitter
 data_source5: Population
 data_source6: Google Trends
 this_model_is_an_ensemble: TRUE
+real_time_start_season: 2019-20
 methods: >-
   This forecasting method is a combination of state of the art Machine Learning
   algorithm and a mechanistic model based on GLEAM, an epidemic stochastic
