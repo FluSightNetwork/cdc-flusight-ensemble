@@ -131,6 +131,34 @@ ggplot(scores_by_season, aes(x=Model, y=avg_score)) +
 ```
 
 ```{r, eval=FALSE}
+## figure highlighting the top 5 weighted models
+top_models <- c("LANL-DBMplus", "Protea-Springbok", "FluOutlook-MechAug", "Delphi-DeltaDensity1", "CU-EAKFC_SEIRS")
+comp_scores_by_season <- scores_by_season %>%
+  filter(!(Model %in% FSN_levels)) %>%
+  mutate(Model = reorder(Model, avg_score))
+comp_scores_by_model <- scores_by_model %>%
+  filter(!(Model %in% FSN_levels)) %>%
+  mutate(Model = reorder(Model, avg_score))
+
+ggplot(comp_scores_by_season, 
+  aes(x=Model, y=avg_score)) +
+  geom_point(alpha=.5, aes(color=Season)) + 
+  geom_point(data=comp_scores_by_model, shape="x", size=1, stroke=5)+
+  scale_color_brewer(palette="Set1") +
+  ylab("average log score") +
+  theme(axis.text.x = element_text(
+    angle = 90, hjust = 1, vjust = .5,
+    color=ifelse(
+      levels(comp_scores_by_season$Model)%in% top_models,
+      "red", 
+      "black"
+    ))
+  ) 
+
+```
+
+
+```{r, eval=FALSE}
 ensemble_scores_season <- scores_by_season %>% 
     filter(grepl("FSN", Model)) %>%
     mutate(Model = factor(Model, levels=FSN_levels, labels=FSN_labels))
