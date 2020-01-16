@@ -7,14 +7,21 @@ try:
     if path.exists('flusight-master/src/assets/data/history.json'):
         with open('flusight-master/src/assets/data/history.json', 'r') as f:
             data = json.load(f)
+
+            # Getting the list of seasons that is already downloaded, i.e. 2003-2014
             oldYears = []
             for season in data['nat']:
                 oldYears.append(season['season'])
             lst = glob.glob('flusight-master/src/assets/data/season-20*.json')
+            lst.sort()
             for year in lst:
                 year = year.strip('.json').split('season-')[1]
+
+                # Skipping seasons that are already downloaded, i.e. 2003-2014
                 if year in oldYears:
                     continue
+
+                # Add data from 2015 and onwards to history.json file to be loaded up by the site
                 with open('flusight-master/src/assets/data/season-'+year+'.json', 'r') as f2:
                     thisSeason = json.load(f2)
                     for key in data.keys():
