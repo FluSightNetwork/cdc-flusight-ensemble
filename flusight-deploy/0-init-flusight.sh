@@ -20,3 +20,4 @@ yarn
 yarn run parse
 yarn run test
 cd .. # in flusight-deploy now
+python get-new-history.py
