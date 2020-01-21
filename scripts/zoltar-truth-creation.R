@@ -3,11 +3,11 @@
 ## November 2019
 
 ## final desired product: CSV files with columns `timezero,location,target,value`
-## timezero should be in format YYYYMMDD
+## timezero should strings in the format "YYYY-MM-DD" 
 ## timezero should be the MONDAY of each EW
+## truth values for onset week and peak week should be strings in the format of "YYYY-MM-DD"
+## truth values for onset week and peak week should always be MONDAY of the corresponding EW
 ## should include EW40 of season 1 through EW20 of season 2
-## value for date targets should be a date in YYYYMMDD format
-
 ## one file for all EW in 2017/2018 - 2018/2019 targets
 ## one file for all EW in 2010/2011 - 2018/2019 targets
 
