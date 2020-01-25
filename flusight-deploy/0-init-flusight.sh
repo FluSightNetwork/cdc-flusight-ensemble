@@ -3,8 +3,7 @@
 # Script to download and setup flusight directory structure
 set -e
 
-# Download flusight master
-wget "https://github.com/reichlab/flusight/archive/master.zip"
+# Unzip flusight master
 unzip ./master.zip
 rm ./master.zip
 
