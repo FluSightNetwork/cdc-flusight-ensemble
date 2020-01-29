@@ -5,7 +5,6 @@ set -e
 
 # Unzip flusight master
 unzip ./master.zip
-rm ./master.zip
 
 # Parse data model data files to flusight format
 yarn
