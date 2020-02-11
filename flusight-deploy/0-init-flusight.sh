@@ -4,9 +4,10 @@
 set -e
 
 # Download flusight master
-wget "https://github.com/reichlab/flusight/archive/master.zip"
-unzip ./master.zip
-rm ./master.zip
+
+#wget "https://github.com/reichlab/flusight/archive/master.zip"
+#unzip ./master.zip
+#rm ./master.zip
 
 # Parse data model data files to flusight format
 yarn
@@ -19,5 +20,5 @@ cd ./flusight-master
 yarn
 yarn run parse
 yarn run test
+node ./scripts/get-history.js
 cd .. # in flusight-deploy now
-python get-new-history.py
