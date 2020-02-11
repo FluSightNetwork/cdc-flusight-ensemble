@@ -3,12 +3,6 @@
 # Script to download and setup flusight directory structure
 set -e
 
-# Download flusight master
-
-#wget "https://github.com/reichlab/flusight/archive/master.zip"
-#unzip ./master.zip
-#rm ./master.zip
-
 # Parse data model data files to flusight format
 yarn
 yarn run parse-data
