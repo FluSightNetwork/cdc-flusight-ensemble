@@ -7,8 +7,17 @@ const fs = require('fs-extra')
 
 const OUTPUT_FILE = './scripts/assets/history.json'
 
-// Download history for seasons 2003 to 2014
-let seasonIds = [...Array(17).keys()].map(i => 2003 + i)
+// Get the ending year of the current season. 
+// Example: for season 2019/2020, the ending year is 2020
+// Note: if the current month is July or later, it's considered the current season, otherwise it's the previous season.
+var today = new Date();
+var currentYear = today.getFullYear();
+var currentMonth = today.getMonth();
+var pad = currentMonth<6 ? 0 : 1;
+var numberOfSeasonsSince2003 = currentYear-2003 + pad;
+
+// Download history for seasons 2003 to the season before this current season
+let seasonIds = [...Array(numberOfSeasonsSince2003).keys()].map(i => 2003 + i)
 
 console.log(` Downloading historical data for the following seasons\n${seasonIds.join(', ')}`)
 
