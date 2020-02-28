@@ -20,9 +20,9 @@ h1 a {
   #map-intro.column.is-4
     // Title
     h1.title
-      | Real-time <b>Influenza Forecasts</b>
+      a(v-bind:href="branding.parentUrl") CDC FluSight Network
     h2.subtitle
-      | CDC FluSight Challenge
+      | Collaborative Ensemble
     hr
 
     #choropleth-container
@@ -42,7 +42,7 @@ export default {
     ChartsPanel
   },
   computed: {
-    ...mapGetters('switches', [
+...mapGetters(["branding"]),    ...mapGetters('switches', [
       'selectedRegion',
       'selectedSeason',
       'choroplethRelative'

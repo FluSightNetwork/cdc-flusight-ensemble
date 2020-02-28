@@ -11,11 +11,6 @@
     font-family: 'Source Sans Pro';
     font-weight: bold;
     font-size: 20px;
-    padding-left: 10px;
-    margin-left: 5px;
-    border-style: solid;
-    border-width: 0px;
-    border-left-width: 1px;
   }
 
   a {
@@ -60,12 +55,7 @@
       .nav-left
         span.nav-item.is-brand
           span.brand.title
-            a(
-              v-bind:href="branding.parentUrl"
-              target="_blank"
-            )
-              img(v-bind:src="branding.logo")
-            span.brand.title-text {{ branding.title }}
+            a.brand.title-text(v-bind:href="branding.parentUrl") {{ branding.title }}
 
       // Right side buttons
       #nav-menu.nav-right.nav-menu
@@ -80,10 +70,6 @@
               i.fa.fa-info
             span About
 
-          a.button.is-info.is-small(v-show="branding.tweetUrl", v-bind:href="branding.tweetUrl", target="_blank")
-            span.icon.is-small
-              i.fa.fa-twitter
-            span Tweet
 
           a.button.is-dark.is-small(
             v-bind:href="branding.sourceUrl"

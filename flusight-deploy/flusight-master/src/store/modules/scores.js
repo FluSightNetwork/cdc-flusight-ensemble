@@ -22,25 +22,25 @@ const state = {
   meta: [{
     id: 'absError',
     name: 'Mean Absolute Error',
-    url: 'https://github.com/reichlab/flusight/wiki/Scoring#1-absolute-error',
+    url: 'https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation',
     bestFunc: items => Math.min(...items.filter(d => d !== null)),
-    desc: `<a href='https://github.com/reichlab/flusight/wiki/Scoring#1-absolute-error' target='_blank'>
+    desc: `<a href='https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation' target='_blank'>
            Absolute error</a> is the absolute value of difference between the eventually
            observe value and point prediction.`
   }, {
     id: 'logScore',
     name: 'Mean Log Score (single bin)',
-    url: 'https://github.com/reichlab/flusight/wiki/Scoring#2-log-score-single-bin',
+    url: 'https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation',
     bestFunc: items => Math.max(...items.filter(d => d !== null)),
-    desc: `<a href='https://github.com/reichlab/flusight/wiki/Scoring#2-log-score-single-bin' target='_blank'>
+    desc: `<a href='https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation' target='_blank'>
            Single bin log-scores</a> are computed by taking natural log of predicted probability
            for the eventually observed value.`
   }, {
     id: 'logScoreMultiBin',
     name: 'Mean Log Score (multi bin)',
-    url: 'https://github.com/reichlab/flusight/wiki/Scoring#3-log-score-multi-bin',
+    url: 'https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation',
     bestFunc: items => Math.max(...items.filter(d => d !== null)),
-    desc: `<a href='https://github.com/reichlab/flusight/wiki/Scoring#3-log-score-multi-bin' target='_blank'>
+    desc: `<a href='https://github.com/FluSightNetwork/cdc-flusight-ensemble/wiki/Evaluation' target='_blank'>
            Multi bin log-scores</a> are computed by summing the predicted probabilities around
            a window of the eventually observed values. For the k-week-ahead
            targets, predictions within +/- 0.5 percentage points of the
