@@ -12,7 +12,7 @@ mv ./data ./flusight-master
 
 cd ./flusight-master
 yarn
+node ./scripts/get-history.js
 yarn run parse
 yarn run test
-node ./scripts/get-history.js
 cd .. # in flusight-deploy now
