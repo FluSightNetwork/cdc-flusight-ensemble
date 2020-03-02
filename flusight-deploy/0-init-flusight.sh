@@ -3,11 +3,6 @@
 # Script to download and setup flusight directory structure
 set -e
 
-# Download flusight master
-wget "https://github.com/reichlab/flusight/archive/master.zip"
-unzip ./master.zip
-rm ./master.zip
-
 # Parse data model data files to flusight format
 yarn
 yarn run parse-data
@@ -17,7 +12,7 @@ mv ./data ./flusight-master
 
 cd ./flusight-master
 yarn
+node ./scripts/get-history.js
 yarn run parse
 yarn run test
 cd .. # in flusight-deploy now
-python get-new-history.py
