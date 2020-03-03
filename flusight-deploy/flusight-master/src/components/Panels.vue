@@ -2,17 +2,14 @@
 h1 a {
   color: black;
 }
-
 .columns {
   .column {
     position: relative;
   }
 }
-
 #choropleth-container, #chart-container {
   background: white;
 }
-
 </style>
 
 <template lang="pug">
@@ -20,9 +17,9 @@ h1 a {
   #map-intro.column.is-4
     // Title
     h1.title
-      a(v-bind:href="branding.parentUrl") CDC FluSight Network
+      | Real-time <b>Influenza Forecasts</b>
     h2.subtitle
-      | Collaborative Ensemble
+      | CDC FluSight Challenge
     hr
 
     #choropleth-container
@@ -35,14 +32,13 @@ h1 a {
 import Choropleth from './Panels/Choropleth'
 import ChartsPanel from './Panels/ChartsPanel'
 import { mapGetters, mapActions } from 'vuex'
-
 export default {
   components: {
     Choropleth,
     ChartsPanel
   },
   computed: {
-...mapGetters(["branding"]),    ...mapGetters('switches', [
+    ...mapGetters('switches', [
       'selectedRegion',
       'selectedSeason',
       'choroplethRelative'
