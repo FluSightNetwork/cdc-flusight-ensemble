@@ -1,0 +1,11 @@
+team_name: CU
+team_members: 'J Shaman, T Yamana, S Kandula, S Pei, W Yang, H Morita'
+model_name: Rank Histogram Filter SEIRS
+model_abbr: RHF_SEIRS
+anonymity: named
+data_source1: ILI Net
+data_source2: Google Health Trends API
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Model-inference ensemble forecast using a SEIRS compartmental model coupled
+  with Rank Histogram Filter state space estimation.

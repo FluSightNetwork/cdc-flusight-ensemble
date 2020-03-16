@@ -1,0 +1,9 @@
+team_name: JohnDoe [10 character limit]
+team_members: John Q Doe, Jane S Doe
+model_name: A brief description of the model [100 character limit]
+model_abbr: JHU [15 character limit]
+anonymity: anonymous [could also be: named]
+data_source1: 
+data_source2: 
+this_model_is_an_ensemble: TRUE/FALSE
+methods: [1 paragraph overview of methodology: ensure OOS predictions are made according to the ensemble rules.]

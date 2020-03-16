@@ -1,0 +1,15 @@
+---
+title: 'Comparing Mechanistic and Statistical Models to Forecast Influenza in the U.S.'
+author: Nicholas G Reich, Logan Brooks, Craig McGowan, Sasikiran Kandula, sDave Osthus, Evan Ray, Roni Rosenfeld, Jeffrey Shaman, Abhinav Tushar, Teresa Yamana
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+Forecasts of infectious disease outbreaks can inform public health response to outbreaks. Close collaboration between public health policy-makers and quantitative modelers is necessary to ensure the forecasts have maximum impact and are appropriately communicated to the public and the broader public health community. 
+
+Infectious disease modeling has proven to be fertile ground for statisticians, mathematicians, and quantitative modelers for over a century. Yet there is not a consensus on a single best modeling approach or method for forecasting the dynamic patterns of infectious disease outbreaks, in both endemic and emergent settings. Mechanistic models consider the biological underpinnings of disease transmission, and are in practice are typically implemented as variants on the Susceptible-Infectious-Recovered (SIR) model. Phenomenological models ignore the biological underpinnings and theory of disease transmission and focus instead on using data-driven, empirical and statistical approahces to make the best forecasts possible of a given dataset, or phenomenon. Both approaches are commonly used and both have advantages and disadvantages in different settings.
+

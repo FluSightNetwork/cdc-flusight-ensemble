@@ -1,0 +1,11 @@
+team_name: CU
+team_members: 'J Shaman, T Yamana, S Kandula, S Pei, W Yang, H Morita'
+model_name: Ensemble Kalman Filter SIRS
+model_abbr: EKF_SIRS
+anonymity: named
+data_source1: ILI Net
+data_source2: Google Health Trends API
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Model-inference ensemble forecast using a SIRS compartmental model coupled
+  with Ensemble Kalman Filter state space estimation.

@@ -1,0 +1,26 @@
+# R dependencies for travis scripts in the repository
+# Install using `pkr in --file pkrfile --global`
+dplyr
+stringr
+jarad/FluSight
+ggplot2
+grid
+gridExtra
+lubridate
+broom
+cdcfluview
+cowplot
+directlabels
+doMC
+fiftystater
+knitr
+MMWRweek
+pipeR
+plotly
+plyr
+purrr
+readr
+tidyr
+tidyverse
+xtable
+mapproj

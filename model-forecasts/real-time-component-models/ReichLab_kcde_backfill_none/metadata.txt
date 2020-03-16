@@ -1,0 +1,20 @@
+team_name: ReichLab
+team_members: 'Evan L. Ray, Nicholas G. Reich'
+model_name: Kernel Conditional Density Estimation
+model_abbr: KCDE
+anonymity: named
+data_source1: ilinet
+data_source2: NULL
+this_model_is_an_ensemble: FALSE
+methods: >-
+  Used leave-one-season-out cross-validation in the training phase to estimate
+  1) parameters of kernel conditional density estimation (KCDE) models for
+  incidence h steps ahead, for h = 1, ..., 35; and 2) parameters of a copula C^H
+  modeling dependence structure across the next H weeks, for H = 2, ..., 35. 
+  Together, these yield a joint predictive distribution for incidence in all
+  remaining weeks of the season.  Appropriate integrals of this joint
+  distribution are calculated via Monte Carlo integration to obtain predictions
+  for the seasonal quantities.  For making prospective predictions for each
+  season, only data before the start of that season were used in fitting model
+  parameters.  All code used in estimation and prediction is available at
+  https://github.com/reichlab/2017-2018-cdc-flu-contest
