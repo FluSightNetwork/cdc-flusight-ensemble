@@ -5,7 +5,11 @@ const state = {
   show: true,
   data: [{
     title: 'Welcome to flusight',
-    content: `Click <strong>Next</strong> to proceed. Click
+    content: `For the 2019/2020 influenza season,<strong>forecasting efforts for ILI related to seasonal influenza were discontinued effective March 9, 2020</strong>.
+              New efforts to forecast ILI in the context of the emerging COVID-19 
+              outbreak <a href="https://github.com/cdcepi/COVID-19-ILI-forecasting">have begun</a>. The public record and visualization of the 
+              FluSight Network forecasts for the 2019/2020 season will remain displayed on this website.
+              <br>Click <strong>Next</strong> to proceed. Click
                 <strong>Finish</strong> to exit this demo.`,
     element: '',
     direction: ''
