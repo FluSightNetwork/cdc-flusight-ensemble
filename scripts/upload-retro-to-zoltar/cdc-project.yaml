@@ -7,7 +7,7 @@
   core_data: https://github.com/FluSightNetwork/cdc-flusight-ensemble/tree/master/model-forecasts/component-models
   time_interval_type: Week
   visualization_y_label: Weighted ILI (%)
-  locations:
+  units:
     - name: HHS Region 1
     - name: HHS Region 2
     - name: HHS Region 3
